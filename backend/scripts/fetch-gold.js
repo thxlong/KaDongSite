@@ -9,7 +9,7 @@
  *   node scripts/fetch-gold.js --cron # Start cron scheduler
  * 
  * Environment Variables:
- *   GOLD_FETCH_CRON - Cron expression (default: '0 */5 * * * *' = every 5 minutes)
+ *   GOLD_FETCH_CRON - Cron expression (default: '0 *\/5 * * * *' = every 5 minutes)
  *   DATABASE_URL    - PostgreSQL connection string
  */
 

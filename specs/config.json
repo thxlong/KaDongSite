@@ -1,0 +1,225 @@
+{
+  "version": "1.0.0",
+  "name": "Spec Kit Configuration",
+  "description": "Configuration for Spec Kit specification management system",
+  "lastUpdated": "2025-11-11",
+  
+  "templatePaths": {
+    "spec": "specs/templates/TEMPLATE_spec.md",
+    "plan": "specs/templates/TEMPLATE_plan.md",
+    "task": "specs/templates/TEMPLATE_task.md"
+  },
+  
+  "namingConventions": {
+    "specs": "{id}_{name}.spec",
+    "plans": "{spec_id}.plan",
+    "tasks": "{plan_id}_phase{X}_task{Y}.task",
+    "examples": {
+      "spec": "05_gold_prices.spec",
+      "plan": "05_gold_prices.plan",
+      "task": "05_gold_prices_phase3_task1.task"
+    }
+  },
+  
+  "directories": {
+    "specs": "specs/",
+    "plans": "specs/plans/",
+    "tasks": "specs/plans/tasks/",
+    "templates": "specs/templates/"
+  },
+  
+  "statusValues": {
+    "spec": [
+      "📝 Draft",
+      "🚧 In Progress",
+      "✅ Completed",
+      "❌ Cancelled"
+    ],
+    "plan": [
+      "📝 Planning",
+      "🚧 In Progress",
+      "✅ Completed",
+      "❌ Cancelled"
+    ],
+    "task": [
+      "📝 Todo",
+      "🚧 In Progress",
+      "✅ Done",
+      "❌ Blocked"
+    ]
+  },
+  
+  "priorityLevels": [
+    "🔴 Critical",
+    "🟠 High",
+    "🟡 Medium",
+    "🟢 Low"
+  ],
+  
+  "defaultSettings": {
+    "testCoverageTarget": 80,
+    "performanceTargetMs": 500,
+    "reviewFrequency": "weekly",
+    "archiveCompletedSpecs": false,
+    "autoUpdateProgress": true
+  },
+  
+  "validationRules": {
+    "spec": {
+      "requiredSections": [
+        "Overview",
+        "Goals",
+        "Acceptance Criteria",
+        "Technical Design",
+        "Testing Strategy"
+      ],
+      "minAcceptanceCriteria": 3,
+      "requiresSecuritySection": true
+    },
+    "plan": {
+      "requiredPhases": [
+        "Environment Setup",
+        "Database Design",
+        "Backend API",
+        "Frontend UI",
+        "Testing",
+        "Documentation",
+        "Deployment"
+      ],
+      "minTasksPerPhase": 2,
+      "requiresTimeline": true
+    },
+    "task": {
+      "requiredSections": [
+        "Objectives",
+        "Acceptance Criteria",
+        "Subtasks",
+        "Testing Plan"
+      ],
+      "maxEstimateHours": 16,
+      "requiresImplementationDetails": true
+    }
+  },
+  
+  "commands": {
+    "/specify": {
+      "description": "Create a new specification",
+      "usage": "/specify {feature_name}",
+      "template": "specs/templates/TEMPLATE_spec.md",
+      "output": "specs/{id}_{feature_name}.spec"
+    },
+    "/plan": {
+      "description": "Create an implementation plan for a spec",
+      "usage": "/plan {spec_id}",
+      "template": "specs/templates/TEMPLATE_plan.md",
+      "output": "specs/plans/{spec_id}.plan"
+    },
+    "/tasks": {
+      "description": "Break down a plan phase into tasks",
+      "usage": "/tasks {plan_id} {phase_number}",
+      "template": "specs/templates/TEMPLATE_task.md",
+      "output": "specs/plans/tasks/{plan_id}_phase{X}_task{Y}.task"
+    },
+    "/implement": {
+      "description": "Start implementing a task",
+      "usage": "/implement {task_id}",
+      "actions": [
+        "Mark task as 'In Progress'",
+        "Create feature status in docs/dev-notes/features/",
+        "Update plan progress",
+        "Track in project_manifest.json"
+      ]
+    }
+  },
+  
+  "integration": {
+    "devNotes": {
+      "featuresPath": "docs/dev-notes/features/",
+      "bugfixesPath": "docs/dev-notes/bugfixes/",
+      "commitsPath": "docs/dev-notes/commits/"
+    },
+    "documentation": {
+      "apiDocs": "docs/API_DOCUMENTATION.md",
+      "databaseSchema": "docs/DATABASE_SCHEMA.md",
+      "userGuide": "docs/USER_GUIDE.md"
+    },
+    "projectFiles": {
+      "manifest": "project_manifest.json",
+      "readme": "README.md",
+      "changelog": "CHANGELOG.md"
+    }
+  },
+  
+  "workflowSteps": [
+    {
+      "step": 1,
+      "command": "/specify",
+      "action": "Define WHAT to build",
+      "output": "Specification document"
+    },
+    {
+      "step": 2,
+      "command": "/plan",
+      "action": "Define HOW to build it",
+      "output": "Implementation plan with phases"
+    },
+    {
+      "step": 3,
+      "command": "/tasks",
+      "action": "Break down into actionable tasks",
+      "output": "Task breakdown files"
+    },
+    {
+      "step": 4,
+      "command": "/implement",
+      "action": "Execute and track progress",
+      "output": "Feature status and code"
+    }
+  ],
+  
+  "metrics": {
+    "velocity": {
+      "enabled": true,
+      "trackBy": "tasks",
+      "reportFrequency": "weekly"
+    },
+    "progress": {
+      "enabled": true,
+      "updateFrequency": "daily"
+    },
+    "coverage": {
+      "enabled": true,
+      "target": 80,
+      "reportIn": "plan"
+    }
+  },
+  
+  "aiInstructions": [
+    "When user requests new feature: Use /specify command to create spec",
+    "After spec approved: Use /plan command to create implementation plan",
+    "For complex phases: Use /tasks command to break down work",
+    "When starting implementation: Use /implement command to track progress",
+    "Always link specs → plans → tasks → implementation status",
+    "Update progress percentages in plans as tasks complete",
+    "Document technical decisions in plans with reasoning",
+    "Keep specs focused on WHAT, plans on HOW, tasks on execution details"
+  ],
+  
+  "examples": [
+    {
+      "feature": "Gold Prices",
+      "spec": "specs/05_gold_prices.spec",
+      "plan": "specs/plans/05_gold_prices.plan",
+      "status": "docs/dev-notes/features/gold-implementation-status.md",
+      "progress": "70%",
+      "notes": "Backend complete, frontend needs chart integration testing"
+    },
+    {
+      "feature": "Project Initialization",
+      "spec": "specs/01_init.spec",
+      "plan": "specs/plans/01_init.plan",
+      "status": "85% complete",
+      "notes": "7 phases, testing 30% done, deployment pending"
+    }
+  ]
+}

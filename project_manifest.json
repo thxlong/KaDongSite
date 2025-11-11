@@ -1,6 +1,8 @@
-// TASK: <Mô tả ngắn gọn task>
-// DETAIL: <Chi tiết yêu cầu, acceptance criteria>
-// LANG: VN (hoặc EN)
+/*PROMPT
+TASK: <Mô tả ngắn gọn task>
+DETAIL: <Chi tiết yêu cầu, acceptance criteria>
+LANG: VN (hoặc EN)
+*/
 
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -201,13 +203,56 @@
           "Follow naming conventions strictly for consistency"
         ]
       },
+      "specKit": {
+        "location": "specs/",
+        "purpose": "Manage feature specifications, implementation plans, and task breakdowns using structured workflow",
+        "structure": {
+          "specs/": "Feature specifications (.spec files)",
+          "plans/": "Implementation plans (.plan files)",
+          "templates/": "Reusable templates for specs, plans, and tasks",
+          "config.json": "Configuration and validation rules"
+        },
+        "namingConventions": {
+          "specs": "{id}_{feature_name}.spec",
+          "plans": "{spec_id}.plan",
+          "tasks": "{plan_id}_phase{X}_task{Y}.task"
+        },
+        "workflow": {
+          "step1": "Create specification with /specify command",
+          "step2": "Create implementation plan with /plan command",
+          "step3": "Break down into tasks with /tasks command",
+          "step4": "Execute and track with /implement command"
+        },
+        "commands": {
+          "/specify": "Create new specification document",
+          "/plan": "Create implementation plan for a spec",
+          "/tasks": "Break down plan phase into actionable tasks",
+          "/implement": "Start implementation and track progress"
+        },
+        "integration": {
+          "devNotes": "Links to docs/dev-notes/features/ for tracking",
+          "documentation": "Links to API docs, database schema, user guides",
+          "manifest": "Updates project_manifest.json with new features"
+        },
+        "aiInstructions": [
+          "When user requests new feature: Use /specify to create spec",
+          "After spec approved: Use /plan to create implementation plan",
+          "For complex phases: Use /tasks to break down work",
+          "When starting implementation: Use /implement to track progress",
+          "Always link specs → plans → tasks → implementation status",
+          "Update progress percentages in plans as tasks complete",
+          "Document technical decisions in plans with reasoning",
+          "Keep specs focused on WHAT, plans on HOW, tasks on execution"
+        ]
+      },
       "notes": [
         "All docs use .md extension for GitHub compatibility",
         "README.md serves as index/navigation hub",
         "File names use kebab-case in dev-notes, UPPER_SNAKE_CASE elsewhere",
         "No numbered prefixes (removed wiki structure)",
         "Each doc is self-contained with internal links",
-        "Dev-notes are temporary/working documents, main docs are permanent"
+        "Dev-notes are temporary/working documents, main docs are permanent",
+        "Spec Kit provides structured workflow for planning and tracking"
       ]
     }
   },
@@ -694,7 +739,7 @@
   "metadata": {
     "created": "2024-11-01",
     "lastUpdated": "2025-11-11",
-    "manifestVersion": "1.2.0",
+    "manifestVersion": "1.3.0",
     "generatedBy": "Senior AI Developer Assistant",
     "purpose": "Standardize development workflow and maintain consistency",
     "autoUpdate": {
@@ -702,6 +747,20 @@
       "instructions": "When adding new features, AI must automatically update this manifest with: (1) new tools in 'tools.available', (2) new DB tables in 'database.tables', (3) new API endpoints in 'api.endpoints', (4) new dependencies in 'dependencies' section, (5) update 'metadata.lastUpdated' and increment 'metadata.manifestVersion'"
     },
     "changes": {
+      "v1.3.0": {
+        "date": "2025-11-11",
+        "description": "Integrated Spec Kit specification management system",
+        "updates": [
+          "Created specs/ directory structure with plans/ and templates/ subdirectories",
+          "Created comprehensive templates: TEMPLATE_spec.md, TEMPLATE_plan.md, TEMPLATE_task.md",
+          "Created specs/README.md with complete workflow guide and command reference",
+          "Created specs/config.json with configuration, validation rules, and AI instructions",
+          "Created initial specs/01_init.spec documenting project initialization",
+          "Created specs/plans/01_init.plan with 7-phase implementation plan (85% complete)",
+          "Added specKit section in conventions.documentation with workflow and AI instructions",
+          "Integrated Spec Kit with dev-notes system for seamless tracking"
+        ]
+      },
       "v1.2.0": {
         "date": "2025-11-11",
         "description": "Added dev-notes folder structure for development tracking",
