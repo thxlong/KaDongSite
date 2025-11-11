@@ -1,0 +1,29 @@
+# Dev Notes Git Ignore Rules
+# 
+# This file defines what development notes should be tracked in git
+#
+# ✅ Keep in git (knowledge base):
+# - features/*-implementation-status.md
+# - bugfixes/fix-*.md
+# - README.md
+#
+# ❌ Ignore (temporary files):
+# - commits/* (after committing, info is in git history)
+# - *-wip.md (work in progress notes)
+# - *.tmp.md (temporary notes)
+
+# Ignore commit summaries (optional - can be kept for reference)
+# Uncomment if you want to exclude commit summaries from git
+# commits/
+
+# Ignore work-in-progress notes
+*-wip.md
+*.tmp.md
+*.draft.md
+
+# Ignore editor temporary files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~

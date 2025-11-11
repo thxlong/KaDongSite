@@ -21,6 +21,17 @@ Complete setup guide including:
 
 ---
 
+## 🛠️ Development Notes
+
+### [dev-notes/](dev-notes/)
+Development tracking documents (features, bugfixes, commits):
+- **[Features](dev-notes/features/)** - Implementation status and progress
+- **[Bug Fixes](dev-notes/bugfixes/)** - Root cause analysis and solutions
+- **[Commits](dev-notes/commits/)** - Detailed change summaries
+- **[Templates](dev-notes/)** - Templates for creating new dev notes
+
+---
+
 ## 🏗️ Architecture & Development
 
 ### 4. [PROJECT_STRUCTURE](PROJECT_STRUCTURE.md)

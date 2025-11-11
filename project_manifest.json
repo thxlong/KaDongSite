@@ -170,14 +170,44 @@
         "MAINTENANCE.md": "Maintenance and monitoring tasks",
         "CONTRIBUTING.md": "Contribution guidelines",
         "TROUBLESHOOTING.md": "Common issues and solutions",
-        "CHANGELOG.md": "Version history and release notes"
+        "CHANGELOG.md": "Version history and release notes",
+        "dev-notes/": "Development notes folder (features, bugfixes, commits)"
+      },
+      "devNotes": {
+        "location": "docs/dev-notes/",
+        "purpose": "Track implementation progress, bug fixes, and commit summaries during development",
+        "structure": {
+          "features/": "Feature implementation status and progress tracking",
+          "bugfixes/": "Bug fix documentation and root cause analysis",
+          "commits/": "Commit summaries and detailed change logs before committing",
+          "README.md": "Dev-notes folder guide and best practices"
+        },
+        "namingConventions": {
+          "features": "{feature-name}-implementation-status.md",
+          "bugfixes": "fix-{bug-description}.md",
+          "commits": "{feature-or-component}-commit.md"
+        },
+        "archivePolicy": {
+          "keepForever": ["features/*", "bugfixes/*"],
+          "canDelete": ["commits/* (after git commit)"],
+          "reasoning": "Features and bugfixes are knowledge base, commits are duplicated in git history"
+        },
+        "aiInstructions": [
+          "When implementing new feature: Create features/{feature-name}-implementation-status.md to track progress",
+          "When fixing bug: Create bugfixes/fix-{bug-description}.md with root cause analysis",
+          "Before committing: Create commits/{feature-name}-commit.md with changes summary",
+          "Never create status/summary files in project root - always use docs/dev-notes/",
+          "Update existing status files instead of creating duplicates",
+          "Follow naming conventions strictly for consistency"
+        ]
       },
       "notes": [
         "All docs use .md extension for GitHub compatibility",
         "README.md serves as index/navigation hub",
-        "File names use UPPER_SNAKE_CASE for consistency",
+        "File names use kebab-case in dev-notes, UPPER_SNAKE_CASE elsewhere",
         "No numbered prefixes (removed wiki structure)",
-        "Each doc is self-contained with internal links"
+        "Each doc is self-contained with internal links",
+        "Dev-notes are temporary/working documents, main docs are permanent"
       ]
     }
   },
@@ -664,12 +694,26 @@
   "metadata": {
     "created": "2024-11-01",
     "lastUpdated": "2025-11-11",
-    "manifestVersion": "1.1.0",
+    "manifestVersion": "1.2.0",
     "generatedBy": "Senior AI Developer Assistant",
     "purpose": "Standardize development workflow and maintain consistency",
     "autoUpdate": {
       "enabled": true,
       "instructions": "When adding new features, AI must automatically update this manifest with: (1) new tools in 'tools.available', (2) new DB tables in 'database.tables', (3) new API endpoints in 'api.endpoints', (4) new dependencies in 'dependencies' section, (5) update 'metadata.lastUpdated' and increment 'metadata.manifestVersion'"
+    },
+    "changes": {
+      "v1.2.0": {
+        "date": "2025-11-11",
+        "description": "Added dev-notes folder structure for development tracking",
+        "updates": [
+          "Created docs/dev-notes/ with features/, bugfixes/, commits/ subdirectories",
+          "Moved GOLD_IMPLEMENTATION_STATUS.md to dev-notes/features/",
+          "Moved COMMIT_SUMMARY.md to dev-notes/commits/",
+          "Moved FIX_UUID_VALIDATION_ERROR.md to dev-notes/bugfixes/",
+          "Added devNotes section in conventions.documentation with naming rules and AI instructions",
+          "Created dev-notes/README.md with usage guide and best practices"
+        ]
+      }
     }
   },
   
