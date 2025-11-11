@@ -739,7 +739,7 @@ LANG: VN
   "metadata": {
     "created": "2024-11-01",
     "lastUpdated": "2025-11-11",
-    "manifestVersion": "1.3.0",
+    "manifestVersion": "1.3.1",
     "generatedBy": "Senior AI Developer Assistant",
     "purpose": "Standardize development workflow and maintain consistency",
     "autoUpdate": {
@@ -747,6 +747,19 @@ LANG: VN
       "instructions": "When adding new features, AI must automatically update this manifest with: (1) new tools in 'tools.available', (2) new DB tables in 'database.tables', (3) new API endpoints in 'api.endpoints', (4) new dependencies in 'dependencies' section, (5) update 'metadata.lastUpdated' and increment 'metadata.manifestVersion'"
     },
     "changes": {
+      "v1.3.1": {
+        "date": "2025-11-11",
+        "description": "Created Weather Tool specification",
+        "updates": [
+          "Created specs/02_weather_tool.spec with comprehensive specification",
+          "Weather tool with OpenWeatherMap API integration planned",
+          "Weather-appropriate Framer Motion animations (sunny, rainy, cloudy, snowy, thunderstorm)",
+          "Geolocation, city search, favorite cities features",
+          "Database tables: favorite_cities, weather_cache",
+          "API endpoints: /api/weather/current, /api/weather/forecast, /api/weather/hourly, /api/weather/favorites",
+          "3-week implementation timeline planned"
+        ]
+      },
       "v1.3.0": {
         "date": "2025-11-11",
         "description": "Integrated Spec Kit specification management system",
