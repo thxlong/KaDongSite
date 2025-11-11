@@ -36,7 +36,13 @@ const GoldPricesTool = () => {
       const data = await response.json()
       
       if (data.success) {
-        setGoldPrices(data.data)
+        // Filter: Only show prices per lượng (37.5g), exclude per chỉ (3.75g)
+        const filteredPrices = data.data.filter(price => {
+          // Exclude PNJ_18K, GOLD_14K (per chỉ)
+          // Keep SJC_9999, SJC_24K, DOJI_24K (per lượng), XAU_USD (per oz)
+          return !['PNJ_18K', 'GOLD_14K', 'PNJ_24K'].includes(price.type)
+        })
+        setGoldPrices(filteredPrices)
         setLastUpdate(new Date())
         setError(null)
       } else {
@@ -54,8 +60,9 @@ const GoldPricesTool = () => {
     
     for (const type of types) {
       try {
+        // Increase limit to 100 for more data points in chart
         const response = await fetch(
-          `${API_BASE}/gold/history?type=${type}&period=${period}`
+          `${API_BASE}/gold/history?type=${type}&period=${period}&limit=100`
         )
         const result = await response.json()
         

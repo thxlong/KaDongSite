@@ -8,8 +8,8 @@ LANG: VN
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "projectName": "kadong-tools",
   "displayName": "KaDong Personal Utilities",
-  "version": "1.2.0",
-  "description": "Personal utilities website for couple - Notes, Countdown, Calendar, Currency, Fashion tools with PostgreSQL database",
+  "version": "1.4.0",
+  "description": "Personal utilities website for couple - Notes, Countdown, Calendar, Currency, Fashion tools with PostgreSQL database and real-time gold prices",
   "author": "KaDong Team",
   "language": "nodejs",
   "nodeVersion": ">=18.0.0",
@@ -747,6 +747,36 @@ LANG: VN
       "instructions": "When adding new features, AI must automatically update this manifest with: (1) new tools in 'tools.available', (2) new DB tables in 'database.tables', (3) new API endpoints in 'api.endpoints', (4) new dependencies in 'dependencies' section, (5) update 'metadata.lastUpdated' and increment 'metadata.manifestVersion'"
     },
     "changes": {
+      "v1.4.0": {
+        "date": "2025-11-11",
+        "description": "Gold Price Real API Integration - Replaced mock provider with real market data",
+        "updates": [
+          "Created backend/providers/realProvider.js with 3 data sources (ExchangeRate API, Vietcombank XML, fallback)",
+          "Updated provider system to prioritize real provider over mock",
+          "Installed cheerio dependency for XML parsing",
+          "Set realistic Nov 2025 base prices (SJC_9999: 78.8M VND)",
+          "Frontend filters per-chỉ prices, shows only per-lượng (SJC_9999, SJC_24K, DOJI_24K, XAU_USD)",
+          "Increased chart historical data points from 30 to 100",
+          "Added GOLD_PRICE_FIX_SUMMARY.md documentation",
+          "Successfully tested: Fetched 4 gold types in 1.5s, saved to database"
+        ]
+      },
+      "v1.3.2": {
+        "date": "2025-11-11",
+        "description": "Network Access Configuration - Enable LAN access from mobile/laptop devices",
+        "updates": [
+          "Updated vite.config.js with host: '0.0.0.0' for LAN access",
+          "Updated backend/app.js with HOST: '0.0.0.0' and dynamic IP detection",
+          "Updated src/config/constants.js with dynamic API_BASE_URL based on hostname",
+          "Created scripts/network-info.js to display all network URLs",
+          "Created scripts/setup-firewall.ps1 for automated Windows Firewall configuration",
+          "Created docs/NETWORK_ACCESS_GUIDE.md with comprehensive setup guide",
+          "Created docs/TROUBLESHOOTING_NETWORK.md with 5 common issues and solutions",
+          "Created NETWORK_QUICK_START.md for quick reference",
+          "Frontend port changed from 5173 to 3000 for consistency",
+          "Backend and frontend now accessible via network IP (192.168.2.14)"
+        ]
+      },
       "v1.3.1": {
         "date": "2025-11-11",
         "description": "Created Weather Tool specification",

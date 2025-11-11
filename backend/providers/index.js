@@ -6,6 +6,7 @@
  */
 
 import mockProvider from './mockProvider.js'
+import realProvider from './realProvider.js'
 // import sjcProvider from './sjcProvider.js'
 // import pnjProvider from './pnjProvider.js'
 // import dojiProvider from './dojiProvider.js'
@@ -16,7 +17,8 @@ import mockProvider from './mockProvider.js'
  * Add new providers here after implementation
  */
 export const providers = {
-  mock: mockProvider,
+  real: realProvider,  // ← Real market data provider
+  mock: mockProvider,  // Keep for testing
   // sjc: sjcProvider,
   // pnj: pnjProvider,
   // doji: dojiProvider,
