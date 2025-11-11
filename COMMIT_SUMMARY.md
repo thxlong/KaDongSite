@@ -130,6 +130,44 @@ Closes #[ISSUE_NUMBER]
 - Previous: 1.1.0
 - Current: **1.2.0**
 
+## Documentation Reorganization
+
+### 📁 Folder Structure Changes:
+- ✅ Removed `docs/wiki/` folder
+- ✅ Moved all files to `docs/` root
+- ✅ Renamed files from numbered format (`01_`, `02_`) to descriptive names
+- ✅ Converted to UPPER_SNAKE_CASE naming
+
+### 📝 File Mappings:
+```
+docs/wiki/01_Introduction.md          → docs/README.md
+docs/wiki/02_ProjectStructure.md      → docs/PROJECT_STRUCTURE.md
+docs/wiki/03_SetupAndInstallation.md  → docs/SETUP_INSTALLATION.md
+docs/wiki/04_DatabaseSchema.md        → docs/DATABASE_SCHEMA.md
+docs/wiki/05_API_Documentation.md     → docs/API_DOCUMENTATION.md
+docs/wiki/06_FrontendOverview.md      → docs/FRONTEND_GUIDE.md
+docs/wiki/07_DeploymentGuide.md       → docs/DEPLOYMENT_GUIDE.md
+docs/wiki/08_ContributionGuide.md     → docs/CONTRIBUTING.md
+docs/wiki/09_Troubleshooting.md       → docs/TROUBLESHOOTING.md
+docs/wiki/10_Changelog.md             → docs/CHANGELOG.md
+docs/wiki/11_Maintenance_Guide.md     → docs/MAINTENANCE.md
+docs/wiki/Home.md                     → (deleted - duplicate)
+```
+
+### ➕ New Files Created:
+- ✅ `docs/SHELL_COMMANDS_GUIDE.md` - PowerShell vs CMD reference
+- ✅ `docs/MIGRATION_SUMMARY.md` - localStorage → PostgreSQL details
+
+### 🔗 Main README Updated:
+- Added documentation section with quick links
+- Links to all major docs
+- Better navigation for users
+
+### 📋 project_manifest.json Updated:
+- Added `documentation` section
+- Documented new structure
+- Added notes about naming conventions
+
 ## Status
 ✅ **COMPLETED** - Ready for testing and deployment
 

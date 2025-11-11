@@ -68,25 +68,37 @@ cd ..
 
 ## 🎮 Chạy dự án
 
-### Chạy Frontend (Development):
+### ⚡ Cách khuyến nghị (npm scripts):
+
+#### Chạy Backend:
 ```bash
-# Mở terminal mới
+npm run dev:backend
+```
+Backend API sẽ chạy tại: **http://localhost:5000**
+
+#### Chạy Frontend:
+```bash
 npm run dev
 ```
 Frontend sẽ chạy tại: **http://localhost:3000**
 
-### Chạy Backend:
-```bash
-# Mở terminal mới
-cd backend
-npm start
-```
-Backend API sẽ chạy tại: **http://localhost:5000**
-
-### Chạy cả hai cùng lúc:
+#### Chạy cả hai cùng lúc:
 Mở 2 terminal riêng biệt:
-- Terminal 1: `npm run dev` (frontend)
-- Terminal 2: `cd backend && npm start` (backend)
+- **Terminal 1**: `npm run dev:backend` 
+- **Terminal 2**: `npm run dev`
+
+### 🗄️ Database Commands:
+```bash
+npm run db:setup    # Setup database (migrations + seeds)
+npm run db:migrate  # Run migrations only
+npm run db:seed     # Run seeds only  
+npm run db:test     # Test database connection
+```
+
+### ⚠️ Lưu ý cho PowerShell users:
+- **KHÔNG dùng**: `cd backend & npm run dev` (lỗi AmpersandNotAllowed)
+- **DÙNG**: `npm run dev:backend` hoặc `cd backend; npm run dev`
+- Xem chi tiết: [docs/SHELL_COMMANDS_GUIDE.md](docs/SHELL_COMMANDS_GUIDE.md)
 
 ## 📁 Cấu trúc dự án
 
@@ -287,7 +299,20 @@ Files sẽ được tạo trong thư mục `dist/`
 - [ ] Notification system
 - [ ] Multi-language support
 
-## 📝 License
+## � Documentation
+
+For detailed documentation, visit: **[docs/INDEX.md](docs/INDEX.md)**
+
+### Quick Links:
+- 🚀 [Setup & Installation](docs/SETUP_INSTALLATION.md)
+- 🔧 [Shell Commands Guide](docs/SHELL_COMMANDS_GUIDE.md) (Important for Windows!)
+- 📖 [API Documentation](docs/API_DOCUMENTATION.md)
+- 🗄️ [Database Schema](docs/DATABASE_SCHEMA.md)
+- 🔄 [Migration Summary](docs/MIGRATION_SUMMARY.md)
+- 🐛 [Troubleshooting](docs/TROUBLESHOOTING.md)
+- 🤝 [Contributing](docs/CONTRIBUTING.md)
+
+## �📝 License
 
 MIT License - Dự án cá nhân, sử dụng tự do!
 

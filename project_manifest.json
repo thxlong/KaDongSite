@@ -57,6 +57,57 @@
       "printWidth": 100
     }
   },
+
+  "shellCommands": {
+    "environment": "cross-platform",
+    "defaultShell": "PowerShell",
+    "compatibility": {
+      "windows": {
+        "shell": "PowerShell 5.1+",
+        "pathSeparator": "\\",
+        "cdCommand": "cd",
+        "chainOperator": ";",
+        "backgroundOperator": "Start-Job",
+        "notes": [
+          "PowerShell không cho phép & như cmd.exe",
+          "Dùng ; để chain commands",
+          "Dùng && trong npm scripts (npm tự xử lý cross-platform)"
+        ]
+      },
+      "linux": {
+        "shell": "bash",
+        "pathSeparator": "/",
+        "cdCommand": "cd",
+        "chainOperator": "&&",
+        "backgroundOperator": "&"
+      }
+    },
+    "runCommands": {
+      "frontend": {
+        "dev": "npm run dev",
+        "build": "npm run build",
+        "preview": "npm run preview"
+      },
+      "backend": {
+        "dev": "npm run dev:backend",
+        "start": "npm run start:backend",
+        "migrate": "npm run db:migrate",
+        "seed": "npm run db:seed",
+        "setup": "npm run db:setup"
+      },
+      "both": {
+        "dev": "Run in 2 terminals: Terminal 1: npm run dev:backend, Terminal 2: npm run dev",
+        "alternative": "Use VS Code tasks or concurrently package"
+      }
+    },
+    "correctExamples": [
+      "✓ cd backend; npm run dev (PowerShell)",
+      "✓ cd backend && npm run dev (npm scripts)",
+      "✓ npm run dev:backend (from root, uses package.json)",
+      "✗ cd /d backend & npm run dev (cmd.exe only)",
+      "✗ cd backend & npm run dev (fails in PowerShell)"
+    ]
+  },
   
   "conventions": {
     "idType": "uuid",
@@ -97,7 +148,33 @@
       "config": "backend/config/",
       "migrations": "backend/database/migrations/",
       "seeds": "backend/database/seeds/",
-      "tests": "backend/tests/"
+      "tests": "backend/tests/",
+      "docs": "docs/"
+    },
+    "documentation": {
+      "location": "docs/",
+      "structure": {
+        "README.md": "Main documentation index and navigation",
+        "SETUP_INSTALLATION.md": "Installation and setup guide",
+        "SHELL_COMMANDS_GUIDE.md": "PowerShell vs CMD commands reference",
+        "API_DOCUMENTATION.md": "Complete REST API reference",
+        "DATABASE_SCHEMA.md": "Database tables and relationships",
+        "PROJECT_STRUCTURE.md": "Project architecture and folders",
+        "FRONTEND_GUIDE.md": "React components and state management",
+        "MIGRATION_SUMMARY.md": "localStorage to PostgreSQL migration details",
+        "DEPLOYMENT_GUIDE.md": "Deployment instructions",
+        "MAINTENANCE.md": "Maintenance and monitoring tasks",
+        "CONTRIBUTING.md": "Contribution guidelines",
+        "TROUBLESHOOTING.md": "Common issues and solutions",
+        "CHANGELOG.md": "Version history and release notes"
+      },
+      "notes": [
+        "All docs use .md extension for GitHub compatibility",
+        "README.md serves as index/navigation hub",
+        "File names use UPPER_SNAKE_CASE for consistency",
+        "No numbered prefixes (removed wiki structure)",
+        "Each doc is self-contained with internal links"
+      ]
     }
   },
   
