@@ -35,6 +35,14 @@ const tools = [
     icon: DollarSign,
     color: 'from-pastel-mint to-pastel-purple',
     path: '/currency'
+  },
+  {
+    id: 'fashion',
+    title: 'Phối đồ',
+    description: 'Chọn màu và phối trang phục hoàn hảo',
+    icon: Sparkles,
+    color: 'from-pastel-pink to-pastel-purple',
+    path: '/fashion'
   }
 ]
 

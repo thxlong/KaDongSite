@@ -10,6 +10,7 @@ Website tiện ích cá nhân dễ thương với thiết kế hiện đại, d�
 - **📅 Lịch**: Xem lịch trình và sự kiện sắp tới
 - **📝 Ghi chú**: Lưu ý tưởng và việc cần làm với màu sắc tùy chỉnh
 - **💱 Chuyển đổi tiền tệ**: Tính toán và chuyển đổi 8 loại tiền tệ phổ biến
+- **👔 Phối đồ màu sắc**: Chọn và lưu trang phục với preview realtime
 
 ### 🎨 Đặc điểm thiết kế:
 

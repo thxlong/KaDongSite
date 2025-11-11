@@ -6,6 +6,7 @@ import {
   Clock, 
   StickyNote, 
   DollarSign,
+  Shirt,
   ChevronRight 
 } from 'lucide-react'
 
@@ -49,6 +50,14 @@ const tools = [
     icon: DollarSign,
     color: 'from-pastel-mint to-pastel-purple',
     description: 'Tính toán tiền tệ'
+  },
+  {
+    id: 'fashion',
+    name: 'Phối đồ',
+    path: '/fashion',
+    icon: Shirt,
+    color: 'from-pastel-pink to-pastel-purple',
+    description: 'Chọn màu trang phục'
   }
 ]
 
