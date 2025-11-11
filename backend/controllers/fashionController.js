@@ -1,9 +1,10 @@
 import pool from '../config/database.js'
+import { TEST_USER_ID } from '../config/constants.js'
 
-// GET all outfits for a user
+// GET all fashion outfits for a user
 export const getOutfits = async (req, res) => {
   try {
-    const userId = req.query.user_id || 'test-user-id' // TODO: Get from auth middleware
+    const userId = req.query.user_id || TEST_USER_ID // TODO: Get from auth middleware
     
     const result = await pool.query(
       `SELECT id, user_id, name, shirt_color, pants_color, shoes_color, 
@@ -33,7 +34,7 @@ export const getOutfits = async (req, res) => {
 export const getOutfitById = async (req, res) => {
   try {
     const { id } = req.params
-    const userId = req.query.user_id || 'test-user-id'
+    const userId = req.query.user_id || TEST_USER_ID
 
     const result = await pool.query(
       `SELECT id, user_id, name, shirt_color, pants_color, shoes_color,
@@ -68,7 +69,7 @@ export const getOutfitById = async (req, res) => {
 export const createOutfit = async (req, res) => {
   try {
     const { name, shirtColor, pantsColor, shoesColor, hatColor, bagColor } = req.body
-    const userId = req.body.user_id || 'test-user-id'
+    const userId = req.body.user_id || TEST_USER_ID
 
     // Validation
     if (!name || !shirtColor || !pantsColor || !shoesColor) {
@@ -137,7 +138,7 @@ export const updateOutfit = async (req, res) => {
   try {
     const { id } = req.params
     const { name, shirtColor, pantsColor, shoesColor, hatColor, bagColor } = req.body
-    const userId = req.body.user_id || 'test-user-id'
+    const userId = req.body.user_id || TEST_USER_ID
 
     // Check if outfit exists
     const existingOutfit = await pool.query(
@@ -248,7 +249,7 @@ export const updateOutfit = async (req, res) => {
 export const deleteOutfit = async (req, res) => {
   try {
     const { id } = req.params
-    const userId = req.query.user_id || 'test-user-id'
+    const userId = req.query.user_id || TEST_USER_ID
 
     const result = await pool.query(
       `UPDATE fashion_outfits

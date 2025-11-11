@@ -2,12 +2,13 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { StickyNote, Plus, Trash2, Edit2, Check, X } from 'lucide-react'
 
+const API_URL = 'http://localhost:5000/api/notes'
+const USER_ID = '00000000-0000-0000-0000-000000000001' // TODO: Get from auth context
+
 const NotesTool = () => {
-  const [notes, setNotes] = useState(() => {
-    const saved = localStorage.getItem('notes')
-    return saved ? JSON.parse(saved) : []
-  })
-  
+  const [notes, setNotes] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
   const [showForm, setShowForm] = useState(false)
   const [formData, setFormData] = useState({ title: '', content: '', color: 'pink' })
   const [editingId, setEditingId] = useState(null)
@@ -21,32 +22,67 @@ const NotesTool = () => {
     { name: 'cream', value: 'from-pastel-cream to-yellow-200', text: 'Kem' },
   ]
 
+  // Fetch notes from API
   useEffect(() => {
-    localStorage.setItem('notes', JSON.stringify(notes))
-  }, [notes])
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    if (editingId) {
-      setNotes(notes.map(n => 
-        n.id === editingId 
-          ? { ...formData, id: editingId, updatedAt: new Date().toISOString() } 
-          : n
-      ))
-      setEditingId(null)
-    } else {
-      setNotes([
-        ...notes, 
-        { 
-          ...formData, 
-          id: Date.now(), 
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString()
+    const fetchNotes = async () => {
+      try {
+        setLoading(true)
+        const response = await fetch(`${API_URL}?user_id=${USER_ID}`)
+        const result = await response.json()
+        
+        if (result.success) {
+          setNotes(result.data)
+        } else {
+          setError('Failed to load notes')
         }
-      ])
+      } catch (err) {
+        console.error('Error fetching notes:', err)
+        setError('Failed to connect to server')
+      } finally {
+        setLoading(false)
+      }
     }
-    setFormData({ title: '', content: '', color: 'pink' })
-    setShowForm(false)
+
+    fetchNotes()
+  }, [])
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    
+    try {
+      if (editingId) {
+        // Update existing note
+        const response = await fetch(`${API_URL}/${editingId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ...formData, user_id: USER_ID })
+        })
+        const result = await response.json()
+        
+        if (result.success) {
+          setNotes(notes.map(n => n.id === editingId ? result.data : n))
+        }
+        setEditingId(null)
+      } else {
+        // Create new note
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ...formData, user_id: USER_ID })
+        })
+        const result = await response.json()
+        
+        if (result.success) {
+          setNotes([result.data, ...notes])
+        }
+      }
+      
+      setFormData({ title: '', content: '', color: 'pink' })
+      setShowForm(false)
+    } catch (err) {
+      console.error('Error saving note:', err)
+      alert('Không thể lưu ghi chú. Vui lòng thử lại.')
+    }
   }
 
   const handleEdit = (note) => {
@@ -55,14 +91,53 @@ const NotesTool = () => {
     setShowForm(true)
   }
 
-  const handleDelete = (id) => {
-    if (confirm('Bạn có chắc muốn xóa ghi chú này?')) {
-      setNotes(notes.filter(n => n.id !== id))
+  const handleDelete = async (id) => {
+    if (!confirm('Bạn có chắc muốn xóa ghi chú này?')) return
+    
+    try {
+      const response = await fetch(`${API_URL}/${id}?user_id=${USER_ID}`, {
+        method: 'DELETE'
+      })
+      const result = await response.json()
+      
+      if (result.success) {
+        setNotes(notes.filter(n => n.id !== id))
+      }
+    } catch (err) {
+      console.error('Error deleting note:', err)
+      alert('Không thể xóa ghi chú. Vui lòng thử lại.')
     }
   }
 
   const getColorClass = (colorName) => {
     return colors.find(c => c.name === colorName)?.value || colors[0].value
+  }
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-yellow-500 mx-auto mb-4"></div>
+          <p className="text-gray-600 font-nunito">Đang tải ghi chú...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <p className="text-red-600 font-nunito mb-4">{error}</p>
+          <button 
+            onClick={() => window.location.reload()}
+            className="px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600"
+          >
+            Thử lại
+          </button>
+        </div>
+      </div>
+    )
   }
 
   return (

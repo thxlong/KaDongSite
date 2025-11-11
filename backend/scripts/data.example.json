@@ -1,0 +1,24 @@
+{
+  "notes": [
+    {
+      "id": 1234567890,
+      "title": "Example Note",
+      "content": "This is an example note content",
+      "color": "pink",
+      "pinned": false,
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
+    }
+  ],
+  "countdowns": [
+    {
+      "id": 1234567890,
+      "title": "Example Event",
+      "date": "2024-12-31",
+      "color": "from-pastel-pink to-pastel-purple",
+      "recurring": null,
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
+    }
+  ]
+}

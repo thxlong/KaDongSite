@@ -1,30 +1,48 @@
-// In-memory data store (replace with database later)
-let notes = []
-let noteIdCounter = 1
+import pool from '../config/database.js'
+import { TEST_USER_ID } from '../config/constants.js'
 
-// GET all notes
-export const getNotes = (req, res) => {
+// GET all notes for a user
+export const getNotes = async (req, res) => {
   try {
+    const userId = req.query.user_id || TEST_USER_ID // TODO: Get from auth middleware
+    
+    const result = await pool.query(
+      `SELECT id, user_id, title, content, color, pinned, created_at, updated_at
+       FROM notes
+       WHERE user_id = $1 AND deleted_at IS NULL
+       ORDER BY pinned DESC, created_at DESC`,
+      [userId]
+    )
+
     res.status(200).json({
       success: true,
-      count: notes.length,
-      data: notes
+      count: result.rows.length,
+      data: result.rows
     })
   } catch (error) {
+    console.error('Error fetching notes:', error)
     res.status(500).json({
       success: false,
-      error: error.message
+      error: 'Failed to fetch notes',
+      message: process.env.NODE_ENV === 'development' ? error.message : undefined
     })
   }
 }
 
 // GET note by ID
-export const getNoteById = (req, res) => {
+export const getNoteById = async (req, res) => {
   try {
     const { id } = req.params
-    const note = notes.find(n => n.id === parseInt(id))
-    
-    if (!note) {
+    const userId = req.query.user_id || TEST_USER_ID
+
+    const result = await pool.query(
+      `SELECT id, user_id, title, content, color, pinned, created_at, updated_at
+       FROM notes
+       WHERE id = $1 AND user_id = $2 AND deleted_at IS NULL`,
+      [id, userId]
+    )
+
+    if (result.rows.length === 0) {
       return res.status(404).json({
         success: false,
         error: 'Note not found'
@@ -33,21 +51,25 @@ export const getNoteById = (req, res) => {
 
     res.status(200).json({
       success: true,
-      data: note
+      data: result.rows[0]
     })
   } catch (error) {
+    console.error('Error fetching note:', error)
     res.status(500).json({
       success: false,
-      error: error.message
+      error: 'Failed to fetch note',
+      message: process.env.NODE_ENV === 'development' ? error.message : undefined
     })
   }
 }
 
 // POST create new note
-export const createNote = (req, res) => {
+export const createNote = async (req, res) => {
   try {
-    const { title, content, color } = req.body
+    const { title, content, color, pinned } = req.body
+    const userId = req.body.user_id || TEST_USER_ID
 
+    // Validation
     if (!title || !content) {
       return res.status(400).json({
         success: false,
@@ -55,88 +77,139 @@ export const createNote = (req, res) => {
       })
     }
 
-    const newNote = {
-      id: noteIdCounter++,
-      title,
-      content,
-      color: color || 'pink',
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
+    if (title.length > 255) {
+      return res.status(400).json({
+        success: false,
+        error: 'Title must be 255 characters or less'
+      })
     }
 
-    notes.push(newNote)
+    const result = await pool.query(
+      `INSERT INTO notes (user_id, title, content, color, pinned)
+       VALUES ($1, $2, $3, $4, $5)
+       RETURNING id, user_id, title, content, color, pinned, created_at, updated_at`,
+      [userId, title, content, color || 'pink', pinned || false]
+    )
 
     res.status(201).json({
       success: true,
-      data: newNote
+      data: result.rows[0]
     })
   } catch (error) {
+    console.error('Error creating note:', error)
     res.status(500).json({
       success: false,
-      error: error.message
+      error: 'Failed to create note',
+      message: process.env.NODE_ENV === 'development' ? error.message : undefined
     })
   }
 }
 
 // PUT update note
-export const updateNote = (req, res) => {
+export const updateNote = async (req, res) => {
   try {
     const { id } = req.params
-    const { title, content, color } = req.body
+    const { title, content, color, pinned } = req.body
+    const userId = req.body.user_id || TEST_USER_ID
 
-    const noteIndex = notes.findIndex(n => n.id === parseInt(id))
-    
-    if (noteIndex === -1) {
+    // Check if note exists
+    const existingNote = await pool.query(
+      'SELECT id FROM notes WHERE id = $1 AND user_id = $2 AND deleted_at IS NULL',
+      [id, userId]
+    )
+
+    if (existingNote.rows.length === 0) {
       return res.status(404).json({
         success: false,
         error: 'Note not found'
       })
     }
 
-    notes[noteIndex] = {
-      ...notes[noteIndex],
-      title: title || notes[noteIndex].title,
-      content: content || notes[noteIndex].content,
-      color: color || notes[noteIndex].color,
-      updatedAt: new Date().toISOString()
+    // Build dynamic update query
+    const updates = []
+    const values = []
+    let paramCounter = 1
+
+    if (title !== undefined) {
+      updates.push(`title = $${paramCounter++}`)
+      values.push(title)
     }
+    if (content !== undefined) {
+      updates.push(`content = $${paramCounter++}`)
+      values.push(content)
+    }
+    if (color !== undefined) {
+      updates.push(`color = $${paramCounter++}`)
+      values.push(color)
+    }
+    if (pinned !== undefined) {
+      updates.push(`pinned = $${paramCounter++}`)
+      values.push(pinned)
+    }
+
+    if (updates.length === 0) {
+      return res.status(400).json({
+        success: false,
+        error: 'No fields to update'
+      })
+    }
+
+    values.push(id, userId)
+
+    const result = await pool.query(
+      `UPDATE notes
+       SET ${updates.join(', ')}
+       WHERE id = $${paramCounter++} AND user_id = $${paramCounter++} AND deleted_at IS NULL
+       RETURNING id, user_id, title, content, color, pinned, created_at, updated_at`,
+      values
+    )
 
     res.status(200).json({
       success: true,
-      data: notes[noteIndex]
+      data: result.rows[0]
     })
   } catch (error) {
+    console.error('Error updating note:', error)
     res.status(500).json({
       success: false,
-      error: error.message
+      error: 'Failed to update note',
+      message: process.env.NODE_ENV === 'development' ? error.message : undefined
     })
   }
 }
 
-// DELETE note
-export const deleteNote = (req, res) => {
+// DELETE note (soft delete)
+export const deleteNote = async (req, res) => {
   try {
     const { id } = req.params
-    const noteIndex = notes.findIndex(n => n.id === parseInt(id))
-    
-    if (noteIndex === -1) {
+    const userId = req.query.user_id || TEST_USER_ID
+
+    const result = await pool.query(
+      `UPDATE notes
+       SET deleted_at = NOW()
+       WHERE id = $1 AND user_id = $2 AND deleted_at IS NULL
+       RETURNING id, title`,
+      [id, userId]
+    )
+
+    if (result.rows.length === 0) {
       return res.status(404).json({
         success: false,
         error: 'Note not found'
       })
     }
 
-    const deletedNote = notes.splice(noteIndex, 1)[0]
-
     res.status(200).json({
       success: true,
       message: 'Note deleted successfully',
-      data: deletedNote
+      data: result.rows[0]
     })
   } catch (error) {
+    console.error('Error deleting note:', error)
     res.status(500).json({
       success: false,
-      error: error.message
+      error: 'Failed to delete note',
+      message: process.env.NODE_ENV === 'development' ? error.message : undefined
     })
   }
 }
