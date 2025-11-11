@@ -8,6 +8,7 @@ import CountdownTool from './pages/CountdownTool'
 import CalendarTool from './pages/CalendarTool'
 import NotesTool from './pages/NotesTool'
 import CurrencyTool from './pages/CurrencyTool'
+import FashionTool from './pages/FashionTool'
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
                 <Route path="/calendar" element={<CalendarTool />} />
                 <Route path="/notes" element={<NotesTool />} />
                 <Route path="/currency" element={<CurrencyTool />} />
+                <Route path="/fashion" element={<FashionTool />} />
               </Routes>
             </AnimatePresence>
           </main>

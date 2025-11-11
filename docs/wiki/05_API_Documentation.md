@@ -880,9 +880,164 @@ KaDong API Collection
 │   ├── Create Event
 │   ├── Update Event
 │   └── Delete Event
-└── Tools
-    └── Get All Tools
+├── Tools
+│   └── Get All Tools
+└── Fashion
+    ├── Get All Outfits
+    ├── Get Single Outfit
+    ├── Create Outfit
+    ├── Update Outfit
+    └── Delete Outfit
 ```
+
+---
+
+## 5.13 Fashion Outfits API
+
+### Get All Outfits
+
+**Endpoint**: `GET /api/fashion`
+
+**Query Parameters**:
+- `user_id` (string, required): User ID
+
+**Response**:
+```json
+{
+  "success": true,
+  "count": 2,
+  "data": [
+    {
+      "id": "uuid-1234",
+      "user_id": "user-uuid",
+      "name": "Dạo phố cuối tuần",
+      "shirt_color": "blue",
+      "pants_color": "black",
+      "shoes_color": "white",
+      "hat_color": "red",
+      "bag_color": "brown",
+      "created_at": "2025-11-11T10:00:00Z",
+      "updated_at": "2025-11-11T10:00:00Z"
+    }
+  ]
+}
+```
+
+### Get Single Outfit
+
+**Endpoint**: `GET /api/fashion/:id`
+
+**Query Parameters**:
+- `user_id` (string, required): User ID
+
+**Response**:
+```json
+{
+  "success": true,
+  "data": {
+    "id": "uuid-1234",
+    "name": "Dạo phố cuối tuần",
+    "shirt_color": "blue",
+    "pants_color": "black",
+    "shoes_color": "white",
+    "hat_color": "red",
+    "bag_color": "brown"
+  }
+}
+```
+
+### Create Outfit
+
+**Endpoint**: `POST /api/fashion`
+
+**Request Body**:
+```json
+{
+  "user_id": "user-uuid",
+  "name": "Dạo phố cuối tuần",
+  "shirtColor": "blue",
+  "pantsColor": "black",
+  "shoesColor": "white",
+  "hatColor": "red",
+  "bagColor": "brown"
+}
+```
+
+**Valid Colors**: red, orange, yellow, green, blue, purple, brown, black, white, gray, pink, peach, cream, mint, sky
+
+**Validation Rules**:
+- `name`: Required, 1-100 characters
+- `shirtColor`: Required, must be valid color
+- `pantsColor`: Required, must be valid color
+- `shoesColor`: Required, must be valid color
+- `hatColor`: Optional, must be valid color if provided
+- `bagColor`: Optional, must be valid color if provided
+
+**Response** (201):
+```json
+{
+  "success": true,
+  "data": {
+    "id": "uuid-1234",
+    "name": "Dạo phố cuối tuần",
+    "shirt_color": "blue",
+    "pants_color": "black",
+    "shoes_color": "white",
+    "hat_color": "red",
+    "bag_color": "brown",
+    "created_at": "2025-11-11T10:00:00Z"
+  }
+}
+```
+
+### Update Outfit
+
+**Endpoint**: `PUT /api/fashion/:id`
+
+**Request Body** (all fields optional):
+```json
+{
+  "user_id": "user-uuid",
+  "name": "Updated Name",
+  "shirtColor": "purple",
+  "pantsColor": "gray"
+}
+```
+
+**Response** (200):
+```json
+{
+  "success": true,
+  "data": {
+    "id": "uuid-1234",
+    "name": "Updated Name",
+    "shirt_color": "purple",
+    "pants_color": "gray",
+    "updated_at": "2025-11-11T11:00:00Z"
+  }
+}
+```
+
+### Delete Outfit
+
+**Endpoint**: `DELETE /api/fashion/:id`
+
+**Query Parameters**:
+- `user_id` (string, required): User ID
+
+**Response** (200):
+```json
+{
+  "success": true,
+  "message": "Outfit deleted successfully",
+  "data": {
+    "id": "uuid-1234",
+    "name": "Dạo phố cuối tuần"
+  }
+}
+```
+
+**Note**: This is a soft delete. The outfit's `deleted_at` field is set to current timestamp.
 
 ---
 
@@ -913,6 +1068,35 @@ curl -X PUT \
 curl -X DELETE \
      -H "Authorization: Bearer YOUR_TOKEN" \
      http://localhost:5000/api/notes/note-uuid-1234
+```
+
+### Fashion Examples
+
+```bash
+# Get all outfits
+curl http://localhost:5000/api/fashion?user_id=test-user-id
+
+# Create outfit
+curl -X POST \
+     -H "Content-Type: application/json" \
+     -d '{
+       "user_id": "test-user-id",
+       "name": "Dạo phố",
+       "shirtColor": "blue",
+       "pantsColor": "black",
+       "shoesColor": "white"
+     }' \
+     http://localhost:5000/api/fashion
+
+# Update outfit
+curl -X PUT \
+     -H "Content-Type: application/json" \
+     -d '{"user_id":"test-user-id","name":"Updated"}' \
+     http://localhost:5000/api/fashion/uuid-1234
+
+# Delete outfit
+curl -X DELETE \
+     "http://localhost:5000/api/fashion/uuid-1234?user_id=test-user-id"
 ```
 
 ---

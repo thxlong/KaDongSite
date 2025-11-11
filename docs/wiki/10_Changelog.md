@@ -26,6 +26,8 @@ MAJOR.MINOR.PATCH
 - [ ] Collaborative notes (real-time)
 - [ ] Voice notes
 - [ ] File attachments
+- [ ] Weather forecast integration
+- [ ] Todo list with priorities
 
 ### 🔧 Planned Improvements
 - [ ] Performance optimization for large datasets
@@ -33,6 +35,86 @@ MAJOR.MINOR.PATCH
 - [ ] Multi-language support (Vietnamese/English)
 - [ ] Advanced search with filters
 - [ ] Keyboard shortcuts
+
+---
+
+## [1.1.0] - 2025-11-11
+
+### 🎨 Fashion Color Matcher Tool Added
+
+**New Feature**: Outfit color coordination tool with realtime preview
+
+---
+
+### ✨ New Features
+
+#### Fashion Outfit Tool
+- **Color Selection**: Choose colors for shirt, pants, shoes, hat, and bag
+  - 15 color options: red, orange, yellow, green, blue, purple, brown, black, white, gray, pink, peach, cream, mint, sky
+  - Intuitive color picker with visual feedback
+  - Required items: shirt, pants, shoes
+  - Optional items: hat, bag
+
+- **Realtime Preview**: SVG-based outfit visualization
+  - Animated character with selected colors
+  - Smooth transitions when changing colors
+  - Human figure with shirt, pants, shoes rendering
+  - Optional hat and bag accessories
+  - Color legend for easy reference
+
+- **Outfit Management**: Save and manage favorite outfits
+  - Create, read, update, delete (CRUD)
+  - Name each outfit (1-100 characters)
+  - Grid view of saved outfits
+  - Quick edit and delete actions
+  - Timestamp tracking
+
+- **Responsive Design**: Works on all devices
+  - Mobile-first approach
+  - Touch-friendly color picker
+  - Sticky preview on desktop
+  - Optimized for portrait/landscape
+
+#### Backend API
+- ✅ `/api/fashion` endpoints
+  - GET: Fetch all outfits for user
+  - POST: Create new outfit
+  - PUT: Update existing outfit
+  - DELETE: Soft delete outfit
+- ✅ Input validation (color whitelist, name length)
+- ✅ Parameterized SQL queries
+- ✅ Error handling and status codes
+
+#### Database
+- ✅ `fashion_outfits` table with UUID PK
+- ✅ Color validation via CHECK constraints
+- ✅ Indexes for user_id and created_at
+- ✅ Soft delete support
+- ✅ Auto-update trigger for updated_at
+
+#### Components
+- ✅ `ColorPicker.jsx` - Reusable color selection component
+- ✅ `OutfitPreview.jsx` - SVG outfit visualization
+- ✅ `FashionTool.jsx` - Main page with form and list
+- ✅ Framer Motion animations
+- ✅ PropTypes validation
+
+#### Tests
+- ✅ 15+ test cases for API endpoints
+- ✅ CRUD operation tests
+- ✅ Validation error tests
+- ✅ SQL injection prevention tests
+- ✅ Color validation tests
+- ✅ Supertest integration tests
+
+---
+
+### 🔧 Improvements
+- Updated project manifest with fashion tool metadata
+- Added fashion tool to sidebar navigation
+- Updated API documentation with fashion endpoints
+- Updated README with new feature
+- Enhanced Home page with 5th tool card
 
 ---
 

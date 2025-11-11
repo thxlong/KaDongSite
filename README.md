@@ -10,6 +10,7 @@ Website tiện ích cá nhân dễ thương với thiết kế hiện đại, d�
 - **📅 Lịch**: Xem lịch trình và sự kiện sắp tới
 - **📝 Ghi chú**: Lưu ý tưởng và việc cần làm với màu sắc tùy chỉnh
 - **💱 Chuyển đổi tiền tệ**: Tính toán và chuyển đổi 8 loại tiền tệ phổ biến
+- **👔 Phối đồ màu sắc**: Chọn và lưu trang phục với preview realtime
 
 ### 🎨 Đặc điểm thiết kế:
 
@@ -122,29 +123,126 @@ KaDongSite/
 └── README.md
 ```
 
+## �️ Database Setup
+
+### PostgreSQL Installation:
+1. Install PostgreSQL 18 or higher
+2. Create database:
+```bash
+psql -U postgres
+CREATE DATABASE kadong_tools;
+```
+
+3. Run migrations:
+```bash
+cd backend
+psql -U postgres -d kadong_tools -f database/migrations/001_up_initial_schema.sql
+psql -U postgres -d kadong_tools -f database/migrations/002_up_fashion_outfits.sql
+```
+
+4. Seed test user:
+```bash
+psql -U postgres -d kadong_tools -f database/seeds/001_test_user.sql
+```
+
+### Database Connection:
+Edit `backend/config/database.js` with your credentials:
+```javascript
+const pool = new Pool({
+  user: 'postgres',
+  password: 'your_password',
+  host: 'localhost',
+  port: 5432,
+  database: 'kadong_tools'
+})
+```
+
+## 📦 Data Migration from localStorage
+
+If you have existing data in browser localStorage, migrate it to the database:
+
+### Step 1: Export localStorage data
+1. Open browser DevTools (F12)
+2. Go to Console tab
+3. Run this command:
+```javascript
+console.log(JSON.stringify({
+  notes: JSON.parse(localStorage.getItem('notes') || '[]'),
+  countdowns: JSON.parse(localStorage.getItem('countdowns') || '[]')
+}))
+```
+4. Copy the output
+
+### Step 2: Save data
+Create `backend/scripts/data.json` and paste the copied data
+
+### Step 3: Run migration script
+```bash
+cd backend
+node scripts/migrate-localStorage.js
+```
+
+The script will:
+- Check for duplicates (skip existing records)
+- Migrate notes to `notes` table
+- Migrate countdowns to `countdown_events` table
+- Show detailed migration report
+
 ## 🔌 API Endpoints
 
 ### Base URL: `http://localhost:5000/api`
 
-#### 📌 Tools
-- `GET /tools` - Lấy danh sách công cụ
-- `GET /tools/:id` - Lấy thông tin công cụ
+**Note**: All endpoints require `user_id` parameter (query string for GET, body for POST/PUT/DELETE). Default test user: `00000000-0000-0000-0000-000000000001`
 
 #### 📌 Notes
-- `GET /notes` - Lấy tất cả ghi chú
-- `POST /notes` - Tạo ghi chú mới
-- `PUT /notes/:id` - Cập nhật ghi chú
-- `DELETE /notes/:id` - Xóa ghi chú
+- `GET /notes?user_id={uuid}` - Get all notes for user
+- `GET /notes/:id?user_id={uuid}` - Get specific note
+- `POST /notes` - Create new note
+  ```json
+  {
+    "user_id": "00000000-0000-0000-0000-000000000001",
+    "title": "My Note",
+    "content": "Note content",
+    "color": "pink",
+    "pinned": false
+  }
+  ```
+- `PUT /notes/:id` - Update note (same body as POST)
+- `DELETE /notes/:id?user_id={uuid}` - Soft delete note
 
-#### 📌 Events
-- `GET /events` - Lấy tất cả sự kiện
-- `POST /events` - Tạo sự kiện mới
-- `PUT /events/:id` - Cập nhật sự kiện
-- `DELETE /events/:id` - Xóa sự kiện
+#### 📌 Events (Countdowns)
+- `GET /events?user_id={uuid}` - Get all events for user
+- `GET /events/:id?user_id={uuid}` - Get specific event
+- `POST /events` - Create new event
+  ```json
+  {
+    "user_id": "00000000-0000-0000-0000-000000000001",
+    "title": "Anniversary",
+    "date": "2024-12-31",
+    "color": "from-pastel-pink to-pastel-purple",
+    "recurring": null
+  }
+  ```
+- `PUT /events/:id` - Update event (same body as POST)
+- `DELETE /events/:id?user_id={uuid}` - Soft delete event
 
-#### 📌 Feedback
-- `POST /feedback` - Gửi phản hồi
-- `GET /feedback` - Xem tất cả phản hồi
+#### 📌 Fashion Outfits
+- `GET /fashion?user_id={uuid}` - Get all outfits
+- `GET /fashion/:id?user_id={uuid}` - Get specific outfit
+- `POST /fashion` - Create outfit
+  ```json
+  {
+    "user_id": "00000000-0000-0000-0000-000000000001",
+    "name": "Summer Look",
+    "shirtColor": "yellow",
+    "pantsColor": "blue",
+    "shoesColor": "white",
+    "hatColor": "beige",
+    "bagColor": "brown"
+  }
+  ```
+- `PUT /fashion/:id` - Update outfit
+- `DELETE /fashion/:id?user_id={uuid}` - Soft delete outfit
 
 ## 🎨 Tùy chỉnh
 

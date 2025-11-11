@@ -1,0 +1,733 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "projectName": "kadong-tools",
+  "displayName": "KaDong Personal Utilities",
+  "version": "1.2.0",
+  "description": "Personal utilities website for couple - Notes, Countdown, Calendar, Currency, Fashion tools with PostgreSQL database",
+  "author": "KaDong Team",
+  "language": "nodejs",
+  "nodeVersion": ">=18.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/username/KaDongSite.git"
+  },
+  
+  "backend": {
+    "framework": "express",
+    "version": "4.18.2",
+    "entryPoint": "backend/app.js",
+    "port": 5000,
+    "db": "postgresql",
+    "dbVersion": ">=13.0",
+    "dbDriver": "pg",
+    "orm": "none",
+    "queryStyle": "raw-sql-parameterized"
+  },
+  
+  "frontend": {
+    "framework": "react",
+    "version": "18.2.0",
+    "buildTool": "vite",
+    "viteVersion": "5.0.8",
+    "entryPoint": "frontend/src/main.jsx",
+    "port": 5173,
+    "styling": "tailwind",
+    "tailwindVersion": "3.3.6",
+    "animation": "framer-motion",
+    "animationVersion": "10.16.16",
+    "router": "react-router-dom",
+    "routerVersion": "6.20.0",
+    "icons": "lucide-react",
+    "dateUtils": "date-fns",
+    "propTypes": "prop-types",
+    "propTypesVersion": "^15.8.1"
+  },
+  
+  "codeStyle": {
+    "lint": "eslint",
+    "lintConfig": ".eslintrc.json",
+    "prettier": true,
+    "prettierConfig": ".prettierrc",
+    "editorConfig": true,
+    "rules": {
+      "semi": false,
+      "singleQuote": true,
+      "tabWidth": 2,
+      "trailingComma": "es5",
+      "printWidth": 100
+    }
+  },
+  
+  "conventions": {
+    "idType": "uuid",
+    "idGeneration": "uuid_generate_v4()",
+    "dateFormat": "ISO 8601",
+    "timestampFormat": "TIMESTAMP",
+    "apiPrefix": "/api",
+    "apiVersion": "v1",
+    "softDelete": true,
+    "softDeleteField": "deleted_at",
+    "auditFields": {
+      "createdAt": "created_at",
+      "updatedAt": "updated_at",
+      "deletedAt": "deleted_at"
+    },
+    "naming": {
+      "routes": "kebab-case",
+      "files": "kebab-case",
+      "reactComponents": "PascalCase",
+      "reactPages": "PascalCase",
+      "variables": "camelCase",
+      "constants": "UPPER_SNAKE_CASE",
+      "functions": "camelCase",
+      "dbTables": "snake_case",
+      "dbColumns": "snake_case",
+      "dbIndexes": "idx_tablename_columnname",
+      "apiEndpoints": "kebab-case"
+    },
+    "fileStructure": {
+      "components": "frontend/src/components/",
+      "pages": "frontend/src/pages/",
+      "hooks": "frontend/src/hooks/",
+      "utils": "frontend/src/utils/",
+      "controllers": "backend/controllers/",
+      "routes": "backend/routes/",
+      "models": "backend/models/",
+      "middleware": "backend/middleware/",
+      "config": "backend/config/",
+      "migrations": "backend/database/migrations/",
+      "seeds": "backend/database/seeds/",
+      "tests": "backend/tests/"
+    }
+  },
+  
+  "database": {
+    "name": "kadong_tools",
+    "host": "localhost",
+    "port": 5432,
+    "poolSize": 20,
+    "idleTimeout": 30000,
+    "connectionTimeout": 2000,
+    "ssl": false,
+    "sslProduction": true,
+    "tables": [
+      "users",
+      "notes",
+      "countdown_events",
+      "tools",
+      "feedback",
+      "currency_rates",
+      "sessions",
+      "fashion_outfits"
+    ],
+    "primaryKey": "uuid",
+    "foreignKeyConstraints": true,
+    "cascadeRules": {
+      "users->notes": "CASCADE",
+      "users->countdown_events": "CASCADE",
+      "users->sessions": "CASCADE",
+      "users->feedback": "SET NULL",
+      "tools->notes": "SET NULL"
+    },
+    "indexes": {
+      "required": [
+        "users(email)",
+        "notes(user_id)",
+        "notes(created_at DESC)",
+        "countdown_events(user_id)",
+        "countdown_events(target_date)",
+        "sessions(token)",
+        "sessions(expires_at)"
+      ],
+      "gin": [
+        "users(preferences)",
+        "tools(config)",
+        "currency_rates(rates)"
+      ]
+    },
+    "triggers": [
+      "update_updated_at_column"
+    ]
+  },
+  
+  "api": {
+    "baseUrl": "http://localhost:5000",
+    "prefix": "/api",
+    "version": "v1",
+    "contentType": "application/json",
+    "cors": {
+      "enabled": true,
+      "origin": "http://localhost:5173",
+      "credentials": true
+    },
+    "rateLimit": {
+      "general": {
+        "windowMs": 900000,
+        "max": 100
+      },
+      "auth": {
+        "windowMs": 900000,
+        "max": 5
+      },
+      "writes": {
+        "windowMs": 3600000,
+        "max": 50
+      }
+    },
+    "endpoints": {
+      "auth": "/api/auth",
+      "notes": "/api/notes",
+      "events": "/api/events",
+      "tools": "/api/tools",
+      "feedback": "/api/feedback",
+      "currency": "/api/currency",
+      "users": "/api/users",
+      "fashion": "/api/fashion"
+    },
+    "responseFormat": {
+      "success": {
+        "success": true,
+        "data": "{}",
+        "message": "optional"
+      },
+      "error": {
+        "success": false,
+        "error": {
+          "code": "ERROR_CODE",
+          "message": "string",
+          "details": "optional"
+        }
+      }
+    },
+    "statusCodes": {
+      "200": "OK - Successful GET/PUT/DELETE",
+      "201": "Created - Successful POST",
+      "204": "No Content - Successful DELETE no body",
+      "400": "Bad Request - Invalid data",
+      "401": "Unauthorized - Auth required",
+      "403": "Forbidden - Not authorized",
+      "404": "Not Found - Resource missing",
+      "409": "Conflict - Duplicate resource",
+      "422": "Unprocessable Entity - Validation failed",
+      "500": "Internal Server Error"
+    }
+  },
+  
+  "tests": {
+    "unit": "jest",
+    "integration": "supertest",
+    "e2e": "cypress",
+    "coverageThreshold": 80,
+    "coverageReports": ["text", "html", "lcov"],
+    "testMatch": [
+      "**/__tests__/**/*.js",
+      "**/*.test.js",
+      "**/*.spec.js"
+    ],
+    "commands": {
+      "test": "npm test",
+      "testWatch": "npm run test:watch",
+      "testCoverage": "npm run test:coverage",
+      "testE2E": "npm run test:e2e"
+    },
+    "mockData": {
+      "users": 3,
+      "notes": 5,
+      "events": 4,
+      "tools": 5,
+      "feedback": 2,
+      "fashion_outfits": 3
+    }
+  },
+  
+  "security": {
+    "noHardcodedSecrets": true,
+    "useEnvVariables": true,
+    "envFile": ".env",
+    "envExample": ".env.example",
+    "auth": {
+      "strategy": "jwt",
+      "tokenType": "Bearer",
+      "tokenExpiry": "7d",
+      "refreshToken": false,
+      "passwordHash": "bcrypt",
+      "saltRounds": 10
+    },
+    "sqlInjectionPrevention": {
+      "method": "parameterized-queries",
+      "placeholder": "$1, $2, $3...",
+      "neverConcatenate": true
+    },
+    "xss": {
+      "sanitizeInput": true,
+      "escapeOutput": true
+    },
+    "csrf": {
+      "enabled": false,
+      "note": "Not needed for stateless JWT API"
+    },
+    "headers": {
+      "helmet": true,
+      "cors": true
+    },
+    "secrets": [
+      "SESSION_SECRET",
+      "JWT_SECRET",
+      "DB_PASSWORD",
+      "CURRENCY_API_KEY"
+    ],
+    "avoidInCode": [
+      "hardcoded passwords",
+      "console.log with sensitive data",
+      "unencrypted tokens",
+      "SQL string concatenation"
+    ]
+  },
+  
+  "deploy": {
+    "environments": {
+      "development": {
+        "frontendUrl": "http://localhost:5173",
+        "backendUrl": "http://localhost:5000",
+        "databaseUrl": "postgresql://localhost:5432/kadong_tools"
+      },
+      "production": {
+        "frontend": "vercel",
+        "backend": "railway",
+        "database": "supabase",
+        "frontendUrl": "https://kadong-tools.vercel.app",
+        "backendUrl": "https://api.kadong-tools.com",
+        "ssl": true,
+        "cdn": true
+      }
+    },
+    "ci": "github-actions",
+    "ciFile": ".github/workflows/deploy.yml",
+    "buildCommands": {
+      "frontend": [
+        "cd frontend",
+        "npm ci",
+        "npm run build"
+      ],
+      "backend": [
+        "cd backend",
+        "npm ci",
+        "npm run migrate:up"
+      ]
+    },
+    "migrations": {
+      "runBefore": "deployment",
+      "backupBefore": true,
+      "rollbackStrategy": "migrate:down"
+    },
+    "healthCheck": {
+      "endpoint": "/health",
+      "interval": "5m",
+      "timeout": "10s"
+    }
+  },
+  
+  "design": {
+    "theme": "pastel",
+    "colorPalette": {
+      "pink": "#FFD6E8",
+      "purple": "#E6D5F7",
+      "mint": "#C8F4E3",
+      "yellow": "#FFF4C9",
+      "blue": "#D4E9FF",
+      "peach": "#FFE5CC",
+      "cream": "#FFF8E7"
+    },
+    "typography": {
+      "heading": "Poppins",
+      "body": "Nunito",
+      "code": "Fira Code"
+    },
+    "spacing": {
+      "xs": "4px",
+      "sm": "8px",
+      "md": "16px",
+      "lg": "24px",
+      "xl": "32px",
+      "2xl": "48px"
+    },
+    "borderRadius": {
+      "sm": "6px",
+      "md": "8px",
+      "lg": "12px",
+      "xl": "16px",
+      "2xl": "24px",
+      "3xl": "32px",
+      "full": "9999px"
+    },
+    "designPrinciples": [
+      "Accessible (WCAG AA)",
+      "Scalable (Modular)",
+      "Modern (Latest tech)",
+      "Cute (Pastel & friendly)"
+    ]
+  },
+  
+  "documentation": {
+    "location": "docs/wiki/",
+    "format": "markdown",
+    "sections": [
+      "01_Introduction.md",
+      "02_ProjectStructure.md",
+      "03_SetupAndInstallation.md",
+      "04_DatabaseSchema.md",
+      "05_API_Documentation.md",
+      "06_FrontendOverview.md",
+      "07_DeploymentGuide.md",
+      "08_ContributionGuide.md",
+      "09_Troubleshooting.md",
+      "10_Changelog.md",
+      "11_Maintenance_Guide.md"
+    ],
+    "readme": "README.md",
+    "quickstart": "QUICKSTART.md",
+    "changelog": "docs/wiki/10_Changelog.md",
+    "apiDocs": "docs/wiki/05_API_Documentation.md",
+    "updateOn": [
+      "feature addition",
+      "breaking change",
+      "bug fix",
+      "API change"
+    ]
+  },
+  
+  "tools": {
+    "available": [
+      {
+        "name": "notes",
+        "displayName": "Notes Tool",
+        "icon": "StickyNote",
+        "route": "/notes",
+        "apiEndpoint": "/api/notes",
+        "dbTable": "notes",
+        "features": ["CRUD", "search", "color-coding", "pin", "soft-delete"]
+      },
+      {
+        "name": "countdown",
+        "displayName": "Countdown Tool",
+        "icon": "Clock",
+        "route": "/countdown",
+        "apiEndpoint": "/api/events",
+        "dbTable": "countdown_events",
+        "features": ["CRUD", "real-time-countdown", "past-events", "color-themes"]
+      },
+      {
+        "name": "calendar",
+        "displayName": "Calendar Tool",
+        "icon": "Calendar",
+        "route": "/calendar",
+        "apiEndpoint": "/api/events",
+        "dbTable": "countdown_events",
+        "features": ["month-view", "date-events", "navigation"]
+      },
+      {
+        "name": "currency",
+        "displayName": "Currency Tool",
+        "icon": "DollarSign",
+        "route": "/currency",
+        "apiEndpoint": "/api/currency",
+        "dbTable": "currency_rates",
+        "features": ["conversion", "multiple-currencies", "rate-display", "history"]
+      },
+      {
+        "name": "fashion",
+        "displayName": "Fashion Color Matcher Tool",
+        "icon": "Shirt",
+        "route": "/fashion",
+        "apiEndpoint": "/api/fashion",
+        "dbTable": "fashion_outfits",
+        "features": ["CRUD", "color-picker", "realtime-preview", "svg-rendering", "outfit-management"]
+      }
+    ],
+    "planned": [
+      "weather",
+      "todo-list",
+      "timer-pomodoro",
+      "voice-notes",
+      "file-attachments"
+    ]
+  },
+  
+  "scripts": {
+    "frontend": {
+      "dev": "vite",
+      "build": "vite build",
+      "preview": "vite preview",
+      "lint": "eslint src --ext .js,.jsx",
+      "format": "prettier --write \"src/**/*.{js,jsx,json,css,md}\""
+    },
+    "backend": {
+      "start": "node app.js",
+      "dev": "nodemon app.js",
+      "test": "jest",
+      "test:watch": "jest --watch",
+      "test:coverage": "jest --coverage",
+      "db:migrate:up": "node scripts/migrate.js up",
+      "db:migrate:down": "node scripts/migrate.js down",
+      "db:migrate:status": "node scripts/migrate.js status",
+      "db:seed": "node scripts/seed.js",
+      "db:test": "node scripts/test-db.js",
+      "db:setup": "npm run db:migrate:up && npm run db:seed",
+      "lint": "eslint . --ext .js",
+      "format": "prettier --write \"**/*.{js,json,md}\""
+    }
+  },
+  
+  "gitWorkflow": {
+    "branches": {
+      "main": "production",
+      "develop": "development",
+      "feature": "feature/*",
+      "fix": "fix/*",
+      "docs": "docs/*",
+      "refactor": "refactor/*",
+      "test": "test/*",
+      "chore": "chore/*"
+    },
+    "commitConvention": "conventional-commits",
+    "commitTypes": [
+      "feat: New feature",
+      "fix: Bug fix",
+      "docs: Documentation",
+      "style: Code formatting",
+      "refactor: Code refactoring",
+      "test: Tests",
+      "chore: Maintenance"
+    ],
+    "commitFormat": "type(scope): subject",
+    "prTemplate": ".github/pull_request_template.md",
+    "codeReview": {
+      "required": true,
+      "minApprovals": 1,
+      "checks": ["lint", "tests", "build"]
+    }
+  },
+  
+  "monitoring": {
+    "uptime": "uptimerobot",
+    "errors": "sentry",
+    "analytics": "none",
+    "logging": {
+      "backend": "winston",
+      "level": "info",
+      "levels": ["error", "warn", "info", "debug"],
+      "files": {
+        "error": "error.log",
+        "combined": "combined.log"
+      }
+    },
+    "metrics": {
+      "responseTime": true,
+      "databaseQueries": true,
+      "activeConnections": true
+    }
+  },
+  
+  "maintenance": {
+    "schedule": {
+      "daily": ["health-check", "log-review"],
+      "weekly": ["database-backup", "disk-space-check", "error-log-review"],
+      "monthly": ["vacuum-analyze", "update-dependencies", "security-audit", "performance-review"],
+      "quarterly": ["ssl-check", "backup-restoration-test", "archive-old-data", "docs-review"]
+    },
+    "backups": {
+      "frequency": "daily",
+      "retention": {
+        "daily": "7 days",
+        "weekly": "4 weeks",
+        "monthly": "12 months"
+      },
+      "location": "backups/",
+      "cloudBackup": "s3",
+      "automated": true
+    }
+  },
+  
+  "boundaries": {
+    "maxFileSizeKB": 500,
+    "maxFunctionLines": 50,
+    "maxComponentLines": 300,
+    "maxApiResponseSizeKB": 1000,
+    "maxDatabaseConnections": 20,
+    "maxConcurrentRequests": 100,
+    "requestTimeout": 30000,
+    "databaseQueryTimeout": 5000
+  },
+  
+  "compatibility": {
+    "browsers": [
+      "Chrome >= 90",
+      "Firefox >= 88",
+      "Safari >= 14",
+      "Edge >= 90"
+    ],
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0",
+    "postgresql": ">=13.0"
+  },
+  
+  "license": "MIT",
+  
+  "contacts": {
+    "maintainers": ["KaDong Team"],
+    "email": "support@kadong-tools.com",
+    "issues": "https://github.com/username/KaDongSite/issues",
+    "discussions": "https://github.com/username/KaDongSite/discussions"
+  },
+  
+  "metadata": {
+    "created": "2024-11-01",
+    "lastUpdated": "2025-11-11",
+    "manifestVersion": "1.1.0",
+    "generatedBy": "Senior AI Developer Assistant",
+    "purpose": "Standardize development workflow and maintain consistency",
+    "autoUpdate": {
+      "enabled": true,
+      "instructions": "When adding new features, AI must automatically update this manifest with: (1) new tools in 'tools.available', (2) new DB tables in 'database.tables', (3) new API endpoints in 'api.endpoints', (4) new dependencies in 'dependencies' section, (5) update 'metadata.lastUpdated' and increment 'metadata.manifestVersion'"
+    }
+  },
+  
+  "dependencies": {
+    "frontend": {
+      "required": [
+        "react@18.2.0",
+        "react-dom@18.2.0",
+        "react-router-dom@6.20.0",
+        "framer-motion@10.16.16",
+        "lucide-react@latest",
+        "date-fns@latest",
+        "prop-types@^15.8.1"
+      ],
+      "devDependencies": [
+        "@vitejs/plugin-react@4.2.1",
+        "vite@5.0.8",
+        "tailwindcss@3.3.6",
+        "postcss@latest",
+        "autoprefixer@latest",
+        "eslint@latest",
+        "prettier@latest"
+      ]
+    },
+    "backend": {
+      "required": [
+        "express@4.18.2",
+        "pg@8.11.3",
+        "dotenv@latest",
+        "cors@latest",
+        "body-parser@latest",
+        "bcrypt@latest",
+        "jsonwebtoken@latest"
+      ],
+      "devDependencies": [
+        "nodemon@latest",
+        "jest@latest",
+        "supertest@latest",
+        "eslint@latest",
+        "prettier@latest"
+      ]
+    }
+  },
+  
+  "aiWorkflow": {
+    "manifestUpdateRules": {
+      "whenAddingNewFeature": [
+        "1. Add tool metadata to 'tools.available' array with complete properties",
+        "2. Add database table name to 'database.tables' array if DB is used",
+        "3. Add API endpoint to 'api.endpoints' object if backend API created",
+        "4. Add new dependencies to 'dependencies.frontend.required' or 'dependencies.backend.required'",
+        "5. Update 'metadata.lastUpdated' to current date (YYYY-MM-DD)",
+        "6. Increment 'metadata.manifestVersion' (e.g., 1.1.0 -> 1.2.0 for new feature)"
+      ],
+      "whenFixingBug": [
+        "1. Update 'metadata.lastUpdated' to current date",
+        "2. Increment patch version (e.g., 1.1.0 -> 1.1.1)"
+      ],
+      "whenUpdatingDependencies": [
+        "1. Update version numbers in 'dependencies' section",
+        "2. Update 'metadata.lastUpdated' to current date",
+        "3. Note changes in 'metadata.changes' if significant"
+      ],
+      "mandatory": true,
+      "failIfNotUpdated": true
+    },
+    "changelogUpdateRules": {
+      "location": "docs/wiki/10_Changelog.md",
+      "format": "Keep a Changelog",
+      "versioning": "Semantic Versioning",
+      "whenAddingNewFeature": [
+        "Add new version section [X.Y.0] with date",
+        "List feature under '### ✨ New Features'",
+        "Include components, API endpoints, database changes",
+        "Add tests written",
+        "Note any breaking changes"
+      ],
+      "mandatory": true
+    },
+    "documentationUpdateRules": {
+      "whenAddingNewFeature": [
+        "Update 'docs/wiki/05_API_Documentation.md' with new API section",
+        "Update 'README.md' with feature in tools list",
+        "Update 'docs/wiki/04_DatabaseSchema.md' if new table added",
+        "Update 'docs/wiki/06_FrontendOverview.md' if new components added"
+      ],
+      "mandatory": true
+    },
+    "testingRules": {
+      "minimumCoverage": 80,
+      "requiredTests": [
+        "Unit tests for all CRUD operations",
+        "Integration tests for API endpoints",
+        "Validation error tests",
+        "Security tests (SQL injection, XSS)",
+        "Edge case tests"
+      ],
+      "testFileLocation": "backend/tests/[feature-name].test.js",
+      "mandatory": true
+    },
+    "securityChecklist": [
+      "✓ Parameterized SQL queries (never string concatenation)",
+      "✓ Input validation (whitelist approach)",
+      "✓ XSS prevention (React auto-escaping, no dangerouslySetInnerHTML)",
+      "✓ No hardcoded secrets (use .env)",
+      "✓ Soft delete implemented if applicable",
+      "✓ Error messages don't leak sensitive info",
+      "✓ CORS properly configured",
+      "✓ Rate limiting considered"
+    ],
+    "gitCommitRules": {
+      "convention": "Conventional Commits",
+      "format": "type(scope): subject",
+      "types": {
+        "feat": "New feature",
+        "fix": "Bug fix",
+        "docs": "Documentation only",
+        "style": "Code style (formatting, semicolons)",
+        "refactor": "Code refactoring",
+        "test": "Adding tests",
+        "chore": "Maintenance tasks"
+      },
+      "examples": [
+        "feat(fashion): add color matcher tool with realtime preview",
+        "fix(notes): resolve color picker not updating state",
+        "docs(api): update fashion endpoints documentation"
+      ]
+    },
+    "prTemplateRules": {
+      "location": ".github/pull_request_template.md",
+      "requiredSections": [
+        "Summary",
+        "Type of Change",
+        "What's Changed (Backend/Frontend/Tests/Docs)",
+        "Testing Checklist",
+        "Security Checklist",
+        "Files Changed count"
+      ],
+      "autoGenerate": true
+    }
+  }
+}

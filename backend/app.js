@@ -8,6 +8,7 @@ import toolsRoutes from './routes/tools.js'
 import notesRoutes from './routes/notes.js'
 import eventsRoutes from './routes/events.js'
 import feedbackRoutes from './routes/feedback.js'
+import fashionRoutes from './routes/fashion.js'
 
 // Load environment variables
 dotenv.config()
@@ -31,6 +32,7 @@ app.use('/api/tools', toolsRoutes)
 app.use('/api/notes', notesRoutes)
 app.use('/api/events', eventsRoutes)
 app.use('/api/feedback', feedbackRoutes)
+app.use('/api/fashion', fashionRoutes)
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
@@ -51,7 +53,8 @@ app.get('/', (req, res) => {
       tools: '/api/tools',
       notes: '/api/notes',
       events: '/api/events',
-      feedback: '/api/feedback'
+      feedback: '/api/feedback',
+      fashion: '/api/fashion'
     }
   })
 })

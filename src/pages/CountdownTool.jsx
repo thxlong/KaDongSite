@@ -4,19 +4,13 @@ import { Calendar, Heart, Plus, Trash2, Edit2 } from 'lucide-react'
 import { formatDistanceToNow, differenceInDays, parseISO } from 'date-fns'
 import { vi } from 'date-fns/locale'
 
+const API_URL = 'http://localhost:5000/api/events'
+const USER_ID = '00000000-0000-0000-0000-000000000001' // TODO: Get from auth context
+
 const CountdownTool = () => {
-  const [countdowns, setCountdowns] = useState(() => {
-    const saved = localStorage.getItem('countdowns')
-    return saved ? JSON.parse(saved) : [
-      {
-        id: 1,
-        title: 'Ngày yêu nhau',
-        date: '2020-01-01',
-        color: 'from-pastel-pink to-pastel-purple'
-      }
-    ]
-  })
-  
+  const [countdowns, setCountdowns] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
   const [showForm, setShowForm] = useState(false)
   const [formData, setFormData] = useState({ title: '', date: '', color: 'from-pastel-pink to-pastel-purple' })
   const [editingId, setEditingId] = useState(null)
@@ -28,33 +22,101 @@ const CountdownTool = () => {
     { name: 'Xanh-Tím', value: 'from-pastel-blue to-pastel-purple' },
   ]
 
+  // Fetch events from API
   useEffect(() => {
-    localStorage.setItem('countdowns', JSON.stringify(countdowns))
-  }, [countdowns])
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    if (editingId) {
-      setCountdowns(countdowns.map(c => 
-        c.id === editingId ? { ...formData, id: editingId } : c
-      ))
-      setEditingId(null)
-    } else {
-      setCountdowns([...countdowns, { ...formData, id: Date.now() }])
+    const fetchEvents = async () => {
+      try {
+        setLoading(true)
+        const response = await fetch(`${API_URL}?user_id=${USER_ID}`)
+        const result = await response.json()
+        
+        if (result.success) {
+          // Transform event_date to date for compatibility
+          const transformedData = result.data.map(event => ({
+            ...event,
+            date: event.event_date
+          }))
+          setCountdowns(transformedData)
+        } else {
+          setError('Failed to load events')
+        }
+      } catch (err) {
+        console.error('Error fetching events:', err)
+        setError('Failed to connect to server')
+      } finally {
+        setLoading(false)
+      }
     }
-    setFormData({ title: '', date: '', color: 'from-pastel-pink to-pastel-purple' })
-    setShowForm(false)
+
+    fetchEvents()
+  }, [])
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    
+    try {
+      if (editingId) {
+        // Update existing event
+        const response = await fetch(`${API_URL}/${editingId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ...formData, date: formData.date, user_id: USER_ID })
+        })
+        const result = await response.json()
+        
+        if (result.success) {
+          const transformed = { ...result.data, date: result.data.event_date }
+          setCountdowns(countdowns.map(c => c.id === editingId ? transformed : c))
+        }
+        setEditingId(null)
+      } else {
+        // Create new event
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ...formData, date: formData.date, user_id: USER_ID })
+        })
+        const result = await response.json()
+        
+        if (result.success) {
+          const transformed = { ...result.data, date: result.data.event_date }
+          setCountdowns([transformed, ...countdowns])
+        }
+      }
+      
+      setFormData({ title: '', date: '', color: 'from-pastel-pink to-pastel-purple' })
+      setShowForm(false)
+    } catch (err) {
+      console.error('Error saving event:', err)
+      alert('Không thể lưu sự kiện. Vui lòng thử lại.')
+    }
   }
 
   const handleEdit = (countdown) => {
-    setFormData({ title: countdown.title, date: countdown.date, color: countdown.color })
+    setFormData({ 
+      title: countdown.title, 
+      date: countdown.date || countdown.event_date, 
+      color: countdown.color 
+    })
     setEditingId(countdown.id)
     setShowForm(true)
   }
 
-  const handleDelete = (id) => {
-    if (confirm('Bạn có chắc muốn xóa sự kiện này?')) {
-      setCountdowns(countdowns.filter(c => c.id !== id))
+  const handleDelete = async (id) => {
+    if (!confirm('Bạn có chắc muốn xóa sự kiện này?')) return
+    
+    try {
+      const response = await fetch(`${API_URL}/${id}?user_id=${USER_ID}`, {
+        method: 'DELETE'
+      })
+      const result = await response.json()
+      
+      if (result.success) {
+        setCountdowns(countdowns.filter(c => c.id !== id))
+      }
+    } catch (err) {
+      console.error('Error deleting event:', err)
+      alert('Không thể xóa sự kiện. Vui lòng thử lại.')
     }
   }
 
@@ -62,6 +124,33 @@ const CountdownTool = () => {
     const targetDate = parseISO(date)
     const days = differenceInDays(new Date(), targetDate)
     return Math.abs(days)
+  }
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-pink-500 mx-auto mb-4"></div>
+          <p className="text-gray-600 font-nunito">Đang tải sự kiện...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <p className="text-red-600 font-nunito mb-4">{error}</p>
+          <button 
+            onClick={() => window.location.reload()}
+            className="px-4 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600"
+          >
+            Thử lại
+          </button>
+        </div>
+      </div>
+    )
   }
 
   return (
