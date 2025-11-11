@@ -12,18 +12,27 @@
     "db:migrate:status": "node scripts/migrate.js status",
     "db:seed": "node scripts/seed.js",
     "db:test": "node scripts/test-db.js",
-    "db:setup": "npm run db:migrate:up && npm run db:seed"
+    "db:setup": "npm run db:migrate:up && npm run db:seed",
+    "gold:fetch": "node scripts/fetch-gold.js",
+    "gold:fetch:cron": "node scripts/fetch-gold.js --cron",
+    "gold:migrate": "node scripts/migrate-gold-localstorage.js"
   },
-  "keywords": ["express", "api", "tools", "postgresql"],
+  "keywords": [
+    "express",
+    "api",
+    "tools",
+    "postgresql"
+  ],
   "author": "KaDong",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.18.2",
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.2",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
-    "body-parser": "^1.20.2",
-    "pg": "^8.11.3",
-    "bcrypt": "^5.1.1"
+    "express": "^4.18.2",
+    "node-cron": "^4.2.1",
+    "pg": "^8.11.3"
   },
   "devDependencies": {
     "nodemon": "^3.0.2"

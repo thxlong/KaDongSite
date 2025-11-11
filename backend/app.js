@@ -9,6 +9,7 @@ import notesRoutes from './routes/notes.js'
 import eventsRoutes from './routes/events.js'
 import feedbackRoutes from './routes/feedback.js'
 import fashionRoutes from './routes/fashion.js'
+import goldRoutes from './routes/gold.js'
 
 // Load environment variables
 dotenv.config()
@@ -33,6 +34,7 @@ app.use('/api/notes', notesRoutes)
 app.use('/api/events', eventsRoutes)
 app.use('/api/feedback', feedbackRoutes)
 app.use('/api/fashion', fashionRoutes)
+app.use('/api/gold', goldRoutes)
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {

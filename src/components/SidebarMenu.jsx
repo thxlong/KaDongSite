@@ -7,6 +7,7 @@ import {
   StickyNote, 
   DollarSign,
   Shirt,
+  TrendingUp,
   ChevronRight 
 } from 'lucide-react'
 
@@ -58,6 +59,14 @@ const tools = [
     icon: Shirt,
     color: 'from-pastel-pink to-pastel-purple',
     description: 'Chọn màu trang phục'
+  },
+  {
+    id: 'gold',
+    name: 'Giá vàng',
+    path: '/gold',
+    icon: TrendingUp,
+    color: 'from-yellow-300 to-yellow-500',
+    description: 'Xem giá vàng Việt Nam'
   }
 ]
 

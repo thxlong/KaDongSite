@@ -1,3 +1,7 @@
+// TASK: <Mô tả ngắn gọn task>
+// DETAIL: <Chi tiết yêu cầu, acceptance criteria>
+// LANG: VN (hoặc EN)
+
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "projectName": "kadong-tools",
