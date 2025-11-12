@@ -1,0 +1,1559 @@
+# Weather Tool - Implementation Plan
+
+**Plan ID:** `02_weather_tool`  
+**Spec:** `specs/02_weather_tool.spec`  
+**Version:** 1.0.0  
+**Status:** 📝 Planning  
+**Created:** 2025-11-12  
+**Last Updated:** 2025-11-12
+
+---
+
+## 📋 Overview
+
+**Feature:** Weather Forecast Tool with Framer Motion Animations  
+**Priority:** 🟡 Medium  
+**Overall Progress:** 0%
+
+**Objectives:**
+1. Tạo weather tool với animation tương thích điều kiện thời tiết (sunny, rainy, cloudy, snowy, thunderstorm)
+2. Tích hợp OpenWeatherMap API để lấy dữ liệu thời tiết real-time
+3. Hiển thị current weather + 7-day forecast với UI pastel dễ thương
+4. Implement geolocation auto-detect và search city
+5. Cho phép lưu favorite cities vào database
+6. Responsive design với smooth Framer Motion animations (60fps)
+
+**Success Criteria:**
+- [ ] Weather API integration hoạt động với cache 30 phút
+- [ ] 7 loại animation weather (Clear, Rain, Clouds, Snow, Thunderstorm, Foggy, Partly Cloudy)
+- [ ] Search city + geolocation working
+- [ ] Favorite cities save/load from database
+- [ ] Responsive trên mobile/tablet/desktop
+- [ ] Performance: API < 500ms (cached), Page load < 2s, Animation 60fps
+- [ ] Test coverage >= 80%
+- [ ] Security: API key protected, input validation, rate limiting
+
+---
+
+## 📅 Timeline
+
+**Estimated Duration:** 3 weeks (21 working days)  
+**Start Date:** 2025-11-12  
+**Target Completion:** 2025-12-03  
+**Actual Completion:** (TBD)
+
+### Key Milestones
+
+| Milestone | Target Date | Status | Completion Date |
+|-----------|-------------|--------|-----------------|
+| M1: Setup + Database | 2025-11-13 | ⏳ | - |
+| M2: Backend API Complete | 2025-11-18 | ⏳ | - |
+| M3: Frontend Core UI | 2025-11-25 | ⏳ | - |
+| M4: Animations Complete | 2025-11-28 | ⏳ | - |
+| M5: Testing + Deploy | 2025-12-03 | ⏳ | - |
+
+---
+
+## 📦 Phases
+
+### Phase 1: Environment Setup & API Configuration
+**Duration:** 2 days (2025-11-12 → 2025-11-13)  
+**Status:** 📝 Not Started  
+**Progress:** 0%
+
+#### Tasks
+- [ ] **Task 1.1:** Setup OpenWeatherMap API
+  - Tạo tài khoản OpenWeatherMap (free tier: 1000 calls/day)
+  - Lấy API key
+  - Test API với curl/Postman
+  - Verify endpoints: current weather, forecast, geolocation
+  
+- [ ] **Task 1.2:** Configure environment variables
+  - Thêm `OPENWEATHER_API_KEY` vào `.env`
+  - Thêm `WEATHER_CACHE_DURATION=1800` (30 minutes)
+  - Thêm `WEATHER_RATE_LIMIT=60` (60 requests/hour)
+  - Update `.env.example`
+
+- [ ] **Task 1.3:** Install dependencies
+  - Backend: `axios` cho API calls (đã có)
+  - Backend: `node-cron` cho auto-refresh (nếu cần)
+  - Frontend: `framer-motion` (đã có v10.16.16)
+  - Frontend: `lucide-react` (đã có - for weather icons)
+  - Verify `package.json` updated
+
+- [ ] **Task 1.4:** Create branch
+  - Branch name: `feature/02-weather-tool`
+  - Commit: `chore: setup weather tool environment`
+
+#### Deliverables
+- [ ] OpenWeatherMap API key working
+- [ ] Environment variables configured
+- [ ] Dependencies installed
+- [ ] Git branch created
+
+**Estimated Hours:** 4 hours  
+**Dependencies:** None
+
+---
+
+### Phase 2: Database Design & Migrations
+**Duration:** 2 days (2025-11-13 → 2025-11-14)  
+**Status:** 📝 Not Started  
+**Progress:** 0%
+
+#### Tasks
+- [ ] **Task 2.1:** Design database schema
+  - Review spec requirements
+  - Create ERD for `favorite_cities` table
+  - Create ERD for `weather_cache` table
+  - Plan indexes for performance
+
+- [ ] **Task 2.2:** Write migration 003_up_weather_tool.sql
+  ```sql
+  -- File: backend/database/migrations/003_up_weather_tool.sql
+  CREATE TABLE IF NOT EXISTS favorite_cities (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    city_name VARCHAR(255) NOT NULL,
+    country VARCHAR(100),
+    lat DECIMAL(10, 7) NOT NULL,
+    lon DECIMAL(10, 7) NOT NULL,
+    is_default BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT NOW(),
+    updated_at TIMESTAMP DEFAULT NOW(),
+    deleted_at TIMESTAMP
+  );
+  
+  CREATE INDEX idx_favorite_cities_user_id ON favorite_cities(user_id);
+  CREATE INDEX idx_favorite_cities_deleted_at ON favorite_cities(deleted_at);
+  
+  CREATE TABLE IF NOT EXISTS weather_cache (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    city_name VARCHAR(255) NOT NULL,
+    lat DECIMAL(10, 7) NOT NULL,
+    lon DECIMAL(10, 7) NOT NULL,
+    weather_data JSONB NOT NULL,
+    fetched_at TIMESTAMP DEFAULT NOW(),
+    expires_at TIMESTAMP NOT NULL,
+    created_at TIMESTAMP DEFAULT NOW()
+  );
+  
+  CREATE INDEX idx_weather_cache_location ON weather_cache(lat, lon);
+  CREATE INDEX idx_weather_cache_expires_at ON weather_cache(expires_at);
+  CREATE INDEX idx_weather_cache_city_name ON weather_cache(city_name);
+  CREATE GIN INDEX idx_weather_cache_data ON weather_cache USING GIN (weather_data);
+  
+  COMMENT ON TABLE favorite_cities IS 'User favorite cities for quick weather access';
+  COMMENT ON TABLE weather_cache IS 'Cache weather API responses to reduce external calls';
+  ```
+
+- [ ] **Task 2.3:** Write migration 003_down_weather_tool.sql
+  ```sql
+  DROP INDEX IF EXISTS idx_weather_cache_data;
+  DROP INDEX IF EXISTS idx_weather_cache_city_name;
+  DROP INDEX IF EXISTS idx_weather_cache_expires_at;
+  DROP INDEX IF EXISTS idx_weather_cache_location;
+  DROP INDEX IF EXISTS idx_favorite_cities_deleted_at;
+  DROP INDEX IF EXISTS idx_favorite_cities_user_id;
+  DROP TABLE IF EXISTS weather_cache;
+  DROP TABLE IF EXISTS favorite_cities;
+  ```
+
+- [ ] **Task 2.4:** Create seed data
+  ```sql
+  -- File: backend/database/seeds/003_weather_favorites.sql
+  -- Sample favorite cities (for testing)
+  INSERT INTO favorite_cities (user_id, city_name, country, lat, lon, is_default)
+  VALUES 
+    ((SELECT id FROM users WHERE email = 'test@example.com'), 'Hanoi', 'VN', 21.0285, 105.8542, true),
+    ((SELECT id FROM users WHERE email = 'test@example.com'), 'Ho Chi Minh City', 'VN', 10.8231, 106.6297, false),
+    ((SELECT id FROM users WHERE email = 'test@example.com'), 'Da Nang', 'VN', 16.0544, 108.2022, false);
+  ```
+
+- [ ] **Task 2.5:** Run migrations
+  - Test migration up: `node backend/database/runMigration.js 003_up_weather_tool`
+  - Verify tables created: `\d favorite_cities` `\d weather_cache`
+  - Test migration down (rollback)
+  - Re-run migration up
+  - Run seed data
+
+#### Deliverables
+- [ ] ERD diagram created
+- [ ] Migration files written (up + down)
+- [ ] Seed data created
+- [ ] Migrations tested successfully
+- [ ] Tables exist in database
+
+**Estimated Hours:** 6 hours  
+**Dependencies:** Phase 1 complete
+
+---
+
+### Phase 3: Backend API Development
+**Duration:** 5 days (2025-11-14 → 2025-11-18)  
+**Status:** 📝 Not Started  
+**Progress:** 0%
+
+#### Milestone 3.1: Weather Provider (OpenWeatherMap Integration)
+**Duration:** 2 days
+
+- [ ] **Task 3.1.1:** Create weatherProvider.js
+  ```javascript
+  // File: backend/providers/weatherProvider.js
+  import axios from 'axios'
+  
+  const API_KEY = process.env.OPENWEATHER_API_KEY
+  const BASE_URL = 'https://api.openweathermap.org/data/2.5'
+  
+  /**
+   * Fetch current weather by coordinates
+   */
+  export const getCurrentWeatherByCoords = async (lat, lon, units = 'metric') => {
+    try {
+      const response = await axios.get(`${BASE_URL}/weather`, {
+        params: { lat, lon, units, appid: API_KEY },
+        timeout: 5000
+      })
+      return response.data
+    } catch (error) {
+      console.error('OpenWeather API error:', error.message)
+      throw new Error('Failed to fetch current weather')
+    }
+  }
+  
+  /**
+   * Fetch current weather by city name
+   */
+  export const getCurrentWeatherByCity = async (city, units = 'metric') => {
+    try {
+      const response = await axios.get(`${BASE_URL}/weather`, {
+        params: { q: city, units, appid: API_KEY },
+        timeout: 5000
+      })
+      return response.data
+    } catch (error) {
+      if (error.response?.status === 404) {
+        throw new Error('City not found')
+      }
+      throw new Error('Failed to fetch weather')
+    }
+  }
+  
+  /**
+   * Fetch 7-day forecast
+   */
+  export const getForecast = async (lat, lon, units = 'metric') => {
+    try {
+      const response = await axios.get(`${BASE_URL}/forecast/daily`, {
+        params: { lat, lon, units, cnt: 7, appid: API_KEY },
+        timeout: 5000
+      })
+      return response.data
+    } catch (error) {
+      throw new Error('Failed to fetch forecast')
+    }
+  }
+  
+  /**
+   * Fetch hourly forecast
+   */
+  export const getHourlyForecast = async (lat, lon, units = 'metric') => {
+    try {
+      const response = await axios.get(`${BASE_URL}/forecast`, {
+        params: { lat, lon, units, appid: API_KEY },
+        timeout: 5000
+      })
+      // Return next 24 hours
+      return response.data.list.slice(0, 8)
+    } catch (error) {
+      throw new Error('Failed to fetch hourly forecast')
+    }
+  }
+  ```
+
+- [ ] **Task 3.1.2:** Add error handling và retry logic
+  - Handle API timeout (fallback to cache)
+  - Handle rate limit (429 status)
+  - Handle network errors
+  - Implement exponential backoff
+
+#### Milestone 3.2: Weather Controller
+**Duration:** 2 days
+
+- [ ] **Task 3.2.1:** Create weatherController.js - GET /api/weather/current
+  ```javascript
+  // File: backend/controllers/weatherController.js
+  import { query } from '../config/database.js'
+  import * as weatherProvider from '../providers/weatherProvider.js'
+  
+  const CACHE_DURATION = 30 * 60 * 1000 // 30 minutes
+  
+  /**
+   * GET /api/weather/current
+   * Get current weather (with cache)
+   */
+  export const getCurrentWeather = async (req, res) => {
+    try {
+      const { city, lat, lon, units = 'metric' } = req.query
+      
+      // Validation
+      if (!city && (!lat || !lon)) {
+        return res.status(400).json({
+          success: false,
+          error: { code: 'INVALID_INPUT', message: 'Provide city or lat/lon' }
+        })
+      }
+      
+      // Check cache first
+      let cacheKey = city || `${lat},${lon}`
+      const cached = await getCachedWeather(cacheKey)
+      if (cached) {
+        return res.json({
+          success: true,
+          data: cached.weather_data,
+          cached: true,
+          cachedAt: cached.fetched_at
+        })
+      }
+      
+      // Fetch from API
+      let weatherData
+      if (city) {
+        weatherData = await weatherProvider.getCurrentWeatherByCity(city, units)
+      } else {
+        weatherData = await weatherProvider.getCurrentWeatherByCoords(lat, lon, units)
+      }
+      
+      // Transform data
+      const transformed = {
+        location: {
+          name: weatherData.name,
+          country: weatherData.sys.country,
+          lat: weatherData.coord.lat,
+          lon: weatherData.coord.lon
+        },
+        current: {
+          temp: weatherData.main.temp,
+          feels_like: weatherData.main.feels_like,
+          temp_min: weatherData.main.temp_min,
+          temp_max: weatherData.main.temp_max,
+          humidity: weatherData.main.humidity,
+          pressure: weatherData.main.pressure,
+          wind_speed: weatherData.wind.speed,
+          wind_deg: weatherData.wind.deg,
+          visibility: weatherData.visibility,
+          weather: {
+            main: weatherData.weather[0].main,
+            description: weatherData.weather[0].description,
+            icon: weatherData.weather[0].icon
+          }
+        },
+        timestamp: new Date().toISOString()
+      }
+      
+      // Save to cache
+      await saveToCache(cacheKey, weatherData.coord.lat, weatherData.coord.lon, transformed)
+      
+      res.json({
+        success: true,
+        data: transformed,
+        cached: false
+      })
+    } catch (error) {
+      console.error('getCurrentWeather error:', error)
+      res.status(500).json({
+        success: false,
+        error: {
+          code: 'WEATHER_FETCH_ERROR',
+          message: error.message || 'Failed to fetch weather'
+        }
+      })
+    }
+  }
+  
+  /**
+   * Helper: Get cached weather
+   */
+  const getCachedWeather = async (cityName) => {
+    const result = await query(
+      `SELECT * FROM weather_cache 
+       WHERE city_name = $1 AND expires_at > NOW() 
+       ORDER BY fetched_at DESC LIMIT 1`,
+      [cityName]
+    )
+    return result.rows[0] || null
+  }
+  
+  /**
+   * Helper: Save to cache
+   */
+  const saveToCache = async (cityName, lat, lon, data) => {
+    const expiresAt = new Date(Date.now() + CACHE_DURATION)
+    await query(
+      `INSERT INTO weather_cache (city_name, lat, lon, weather_data, expires_at)
+       VALUES ($1, $2, $3, $4, $5)`,
+      [cityName, lat, lon, JSON.stringify(data), expiresAt]
+    )
+  }
+  ```
+
+- [ ] **Task 3.2.2:** Implement GET /api/weather/forecast
+  - Fetch 7-day forecast từ OpenWeatherMap
+  - Check cache (6 hours expiry)
+  - Transform response format
+  - Save to cache
+
+- [ ] **Task 3.2.3:** Implement GET /api/weather/hourly
+  - Fetch hourly forecast (24 hours)
+  - Cache 1 hour
+  - Return transformed data
+
+- [ ] **Task 3.2.4:** Implement GET /api/weather/favorites
+  - Query user's favorite cities from DB
+  - Filter by user_id
+  - Exclude soft-deleted
+  - Return list with weather data
+
+- [ ] **Task 3.2.5:** Implement POST /api/weather/favorites
+  - Validate input (city_name, lat, lon)
+  - Check duplicate
+  - Insert to favorite_cities table
+  - Return created record
+
+- [ ] **Task 3.2.6:** Implement DELETE /api/weather/favorites/:id
+  - Soft delete (set deleted_at)
+  - Verify ownership (user_id match)
+  - Return success
+
+#### Milestone 3.3: Routes
+**Duration:** 1 day
+
+- [ ] **Task 3.3.1:** Create weather.js routes
+  ```javascript
+  // File: backend/routes/weather.js
+  import express from 'express'
+  import * as weatherController from '../controllers/weatherController.js'
+  
+  const router = express.Router()
+  
+  // Weather endpoints
+  router.get('/current', weatherController.getCurrentWeather)
+  router.get('/forecast', weatherController.getForecast)
+  router.get('/hourly', weatherController.getHourlyForecast)
+  
+  // Favorites endpoints
+  router.get('/favorites', weatherController.getFavorites)
+  router.post('/favorites', weatherController.addFavorite)
+  router.delete('/favorites/:id', weatherController.deleteFavorite)
+  
+  export default router
+  ```
+
+- [ ] **Task 3.3.2:** Register routes in app.js
+  ```javascript
+  // backend/app.js
+  import weatherRoutes from './routes/weather.js'
+  app.use('/api/weather', weatherRoutes)
+  ```
+
+- [ ] **Task 3.3.3:** Test all endpoints với Postman/curl
+  - GET /api/weather/current?city=Hanoi
+  - GET /api/weather/current?lat=21.0285&lon=105.8542
+  - GET /api/weather/forecast?city=Hanoi
+  - GET /api/weather/hourly?lat=21.0285&lon=105.8542
+  - GET /api/weather/favorites?user_id={uuid}
+  - POST /api/weather/favorites (with body)
+  - DELETE /api/weather/favorites/{id}
+
+#### Deliverables
+- [ ] weatherProvider.js implemented (4 functions)
+- [ ] weatherController.js implemented (6 endpoints)
+- [ ] weather.js routes created
+- [ ] Routes registered in app.js
+- [ ] All endpoints tested manually
+- [ ] Error handling working
+- [ ] Cache mechanism operational
+
+**Estimated Hours:** 20 hours  
+**Dependencies:** Phase 2 complete
+
+---
+
+### Phase 4: Frontend UI Development
+**Duration:** 5 days (2025-11-18 → 2025-11-25)  
+**Status:** 📝 Not Started  
+**Progress:** 0%
+
+#### Milestone 4.1: Page Structure & Service
+**Duration:** 1 day
+
+- [ ] **Task 4.1.1:** Create weatherService.js
+  ```javascript
+  // File: src/services/weatherService.js
+  import axios from 'axios'
+  
+  const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api'
+  
+  export const getCurrentWeather = async ({ city, lat, lon, units = 'metric' }) => {
+    const params = new URLSearchParams()
+    if (city) params.append('city', city)
+    if (lat) params.append('lat', lat)
+    if (lon) params.append('lon', lon)
+    params.append('units', units)
+    
+    const response = await axios.get(`${API_BASE}/weather/current?${params}`)
+    return response.data
+  }
+  
+  export const getForecast = async ({ city, lat, lon, units = 'metric' }) => {
+    const params = new URLSearchParams()
+    if (city) params.append('city', city)
+    if (lat) params.append('lat', lat)
+    if (lon) params.append('lon', lon)
+    params.append('units', units)
+    
+    const response = await axios.get(`${API_BASE}/weather/forecast?${params}`)
+    return response.data
+  }
+  
+  export const getHourlyForecast = async ({ lat, lon, units = 'metric' }) => {
+    const response = await axios.get(`${API_BASE}/weather/hourly`, {
+      params: { lat, lon, units }
+    })
+    return response.data
+  }
+  
+  export const getFavorites = async (userId) => {
+    const response = await axios.get(`${API_BASE}/weather/favorites`, {
+      params: { user_id: userId }
+    })
+    return response.data
+  }
+  
+  export const addFavorite = async (data) => {
+    const response = await axios.post(`${API_BASE}/weather/favorites`, data)
+    return response.data
+  }
+  
+  export const deleteFavorite = async (id) => {
+    const response = await axios.delete(`${API_BASE}/weather/favorites/${id}`)
+    return response.data
+  }
+  ```
+
+- [ ] **Task 4.1.2:** Create WeatherTool.jsx page skeleton
+  ```jsx
+  // File: src/pages/WeatherTool.jsx
+  import React, { useState, useEffect } from 'react'
+  import { motion } from 'framer-motion'
+  
+  const WeatherTool = () => {
+    const [currentWeather, setCurrentWeather] = useState(null)
+    const [forecast, setForecast] = useState([])
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState(null)
+    const [units, setUnits] = useState('metric')
+    const [location, setLocation] = useState(null)
+    
+    // Load weather on mount
+    useEffect(() => {
+      loadWeather()
+    }, [])
+    
+    const loadWeather = async (city = null, lat = null, lon = null) => {
+      // Implementation
+    }
+    
+    const handleSearch = (searchCity) => {
+      loadWeather(searchCity)
+    }
+    
+    const handleGeolocation = () => {
+      // Geolocation API
+    }
+    
+    const toggleUnits = () => {
+      setUnits(prev => prev === 'metric' ? 'imperial' : 'metric')
+    }
+    
+    if (loading) return <LoadingSpinner />
+    if (error) return <ErrorMessage message={error} />
+    
+    return (
+      <motion.div
+        className="min-h-screen p-4 md:p-8"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+      >
+        {/* Components here */}
+      </motion.div>
+    )
+  }
+  
+  export default WeatherTool
+  ```
+
+- [ ] **Task 4.1.3:** Add route to App.jsx
+  ```jsx
+  import WeatherTool from './pages/WeatherTool'
+  <Route path="/weather" element={<WeatherTool />} />
+  ```
+
+- [ ] **Task 4.1.4:** Add menu item to SidebarMenu.jsx
+  ```jsx
+  { icon: Cloud, label: 'Weather', path: '/weather' }
+  ```
+
+#### Milestone 4.2: Weather Components
+**Duration:** 2 days
+
+- [ ] **Task 4.2.1:** Create WeatherHeader.jsx
+  ```jsx
+  // File: src/components/weather/WeatherHeader.jsx
+  import { RefreshCw } from 'lucide-react'
+  
+  const WeatherHeader = ({ onRefresh, lastUpdated }) => {
+    return (
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-3xl font-bold text-gray-800">
+          Weather Forecast
+        </h1>
+        <button
+          onClick={onRefresh}
+          className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+        >
+          <RefreshCw className="w-4 h-4" />
+          Refresh
+        </button>
+      </div>
+    )
+  }
+  ```
+
+- [ ] **Task 4.2.2:** Create WeatherSearch.jsx
+  ```jsx
+  // Search input + Geolocation button
+  // Debounce search (500ms)
+  // Icons: Search, MapPin
+  ```
+
+- [ ] **Task 4.2.3:** Create WeatherCurrent.jsx
+  ```jsx
+  // Display current weather
+  // Temperature (large)
+  // Weather icon
+  // Feels like, humidity, wind, pressure
+  // UV index, visibility
+  ```
+
+- [ ] **Task 4.2.4:** Create WeatherDetails.jsx
+  ```jsx
+  // Grid của details: humidity, wind, pressure, visibility
+  // Icons: Droplets, Wind, Gauge, Eye
+  ```
+
+- [ ] **Task 4.2.5:** Create WeatherForecast.jsx
+  ```jsx
+  // 7-day forecast cards
+  // Horizontal scroll trên mobile
+  // Grid trên desktop
+  ```
+
+- [ ] **Task 4.2.6:** Create ForecastCard.jsx
+  ```jsx
+  // Individual day card
+  // Date, icon, temp high/low, precipitation %
+  ```
+
+- [ ] **Task 4.2.7:** Create WeatherHourly.jsx (optional)
+  ```jsx
+  // Hourly forecast cho 24h
+  // Line chart hoặc horizontal scroll
+  ```
+
+- [ ] **Task 4.2.8:** Create FavoriteCities.jsx
+  ```jsx
+  // List favorite cities
+  // Add/remove buttons
+  // Click to load weather
+  ```
+
+#### Milestone 4.3: State Management & Integration
+**Duration:** 2 days
+
+- [ ] **Task 4.3.1:** Implement loadWeather function
+  - Call weatherService.getCurrentWeather()
+  - Call weatherService.getForecast()
+  - Update state (currentWeather, forecast, location)
+  - Handle loading/error states
+
+- [ ] **Task 4.3.2:** Implement handleSearch
+  - Validate city input
+  - Call loadWeather with city name
+  - Show loading spinner
+  - Handle "city not found" error
+
+- [ ] **Task 4.3.3:** Implement handleGeolocation
+  - Request geolocation permission
+  - Get coordinates
+  - Call loadWeather with lat/lon
+  - Handle permission denied
+
+- [ ] **Task 4.3.4:** Implement toggleUnits
+  - Toggle metric ↔ imperial
+  - Re-fetch weather với new units
+  - Update display
+
+- [ ] **Task 4.3.5:** Implement favorites
+  - Load user's favorites on mount
+  - Add favorite (show star icon)
+  - Remove favorite
+  - Click favorite to load weather
+
+- [ ] **Task 4.3.6:** Add loading states
+  - Skeleton loaders
+  - Spinner for refresh
+  - Disabled buttons during load
+
+- [ ] **Task 4.3.7:** Add error handling
+  - Network error → Retry button
+  - API error → Show message
+  - City not found → Suggest alternatives
+  - Geolocation denied → Show manual search
+
+#### Deliverables
+- [ ] WeatherTool page functional
+- [ ] 8+ components created
+- [ ] weatherService integrated
+- [ ] State management working
+- [ ] Search + geolocation working
+- [ ] Favorites working
+- [ ] Loading/error states polished
+
+**Estimated Hours:** 20 hours  
+**Dependencies:** Phase 3 complete
+
+---
+
+### Phase 5: Framer Motion Animations
+**Duration:** 3 days (2025-11-25 → 2025-11-28)  
+**Status:** 📝 Not Started  
+**Progress:** 0%
+
+#### Milestone 5.1: Animation Components
+**Duration:** 2 days
+
+- [ ] **Task 5.1.1:** Create WeatherAnimation.jsx wrapper
+  ```jsx
+  // File: src/components/weather/WeatherAnimation.jsx
+  import React from 'react'
+  import SunnyAnimation from './animations/SunnyAnimation'
+  import RainyAnimation from './animations/RainyAnimation'
+  import CloudyAnimation from './animations/CloudyAnimation'
+  import SnowyAnimation from './animations/SnowyAnimation'
+  import ThunderstormAnimation from './animations/ThunderstormAnimation'
+  import FoggyAnimation from './animations/FoggyAnimation'
+  
+  const animationMap = {
+    'Clear': SunnyAnimation,
+    'Clouds': CloudyAnimation,
+    'Rain': RainyAnimation,
+    'Drizzle': RainyAnimation,
+    'Thunderstorm': ThunderstormAnimation,
+    'Snow': SnowyAnimation,
+    'Mist': FoggyAnimation,
+    'Fog': FoggyAnimation,
+    'Haze': FoggyAnimation
+  }
+  
+  const WeatherAnimation = ({ condition }) => {
+    const Animation = animationMap[condition] || null
+    if (!Animation) return null
+    
+    return (
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <Animation />
+      </div>
+    )
+  }
+  
+  export default WeatherAnimation
+  ```
+
+- [ ] **Task 5.1.2:** Create SunnyAnimation.jsx
+  ```jsx
+  // ☀️ Sunny: Mặt trời lấp lánh, bầu trời xanh
+  // motion.div for sun (scale + opacity pulse)
+  // 8 rays around sun (rotate + scale animation)
+  // Yellow/orange colors
+  // Smooth 60fps animation
+  ```
+
+- [ ] **Task 5.1.3:** Create RainyAnimation.jsx
+  ```jsx
+  // 🌧️ Rainy: Giọt mưa rơi từ trên xuống
+  // 50 raindrops
+  // motion.div animate y from -20 to 100vh
+  // Random delay, random x position
+  // Blue color, opacity 60%
+  // Linear easing for constant speed
+  ```
+
+- [ ] **Task 5.1.4:** Create CloudyAnimation.jsx
+  ```jsx
+  // ☁️ Cloudy: Mây di chuyển chậm
+  // 3-5 clouds (rounded rectangles)
+  // motion.div animate x from -100 to window.innerWidth + 100
+  // Different speeds (20s, 25s, 30s)
+  // Gray color, opacity 40%
+  // Infinite loop
+  ```
+
+- [ ] **Task 5.1.5:** Create SnowyAnimation.jsx
+  ```jsx
+  // ❄️ Snowy: Bông tuyết rơi nhẹ nhàng
+  // 30 snowflakes (small circles)
+  // motion.div animate y + gentle x sway
+  // Slower than rain (3-5s duration)
+  // White color
+  // easeInOut for gentle falling
+  ```
+
+- [ ] **Task 5.1.6:** Create ThunderstormAnimation.jsx
+  ```jsx
+  // ⛈️ Thunderstorm: Sấm chớp, mưa to
+  // Combine rain animation (faster, more drops)
+  // Lightning flash: opacity 0 → 0.5 → 0 (0.2s)
+  // Random intervals (3-7s)
+  // Yellow-white flash covering screen
+  // Dark background
+  ```
+
+- [ ] **Task 5.1.7:** Create FoggyAnimation.jsx
+  ```jsx
+  // 🌫️ Foggy: Sương mù dày đặc
+  // Multiple layers of fog (large blurred circles)
+  // motion.div opacity pulse (0.2 ↔ 0.4)
+  // Slow horizontal movement
+  // Gray/white gradient
+  // Blur filter
+  ```
+
+#### Milestone 5.2: Performance Optimization
+**Duration:** 1 day
+
+- [ ] **Task 5.2.1:** Optimize animation performance
+  - Use `transform` instead of `top/left` (GPU accelerated)
+  - Use `will-change: transform` for smoother animation
+  - Limit number of animated elements (max 50 raindrops)
+  - Use `React.memo` for animation components
+  - Add `reduce motion` support for accessibility
+
+- [ ] **Task 5.2.2:** Test animation FPS
+  - Use Chrome DevTools Performance tab
+  - Verify 60fps on desktop
+  - Verify 30fps+ on mobile
+  - Reduce complexity if needed
+
+- [ ] **Task 5.2.3:** Add conditional rendering
+  - Don't render animation if not in viewport
+  - Pause animation when tab inactive
+  - Reduce animation on low-end devices
+
+#### Deliverables
+- [ ] 7 weather animations implemented
+- [ ] Smooth 60fps performance
+- [ ] GPU-accelerated transforms
+- [ ] Accessibility support (reduce motion)
+- [ ] Performance tested
+
+**Estimated Hours:** 12 hours  
+**Dependencies:** Phase 4 complete
+
+---
+
+### Phase 6: Testing
+**Duration:** 3 days (2025-11-28 → 2025-12-01)  
+**Status:** 📝 Not Started  
+**Progress:** 0%
+
+#### Tasks
+
+- [ ] **Task 6.1:** Backend unit tests
+  ```javascript
+  // File: backend/tests/unit/controllers/weather.test.js
+  describe('Weather Controller', () => {
+    describe('getCurrentWeather', () => {
+      it('should return weather for valid city', async () => {})
+      it('should return cached weather if available', async () => {})
+      it('should return 400 for missing parameters', async () => {})
+      it('should return 404 for invalid city', async () => {})
+    })
+    
+    describe('getForecast', () => {
+      it('should return 7-day forecast', async () => {})
+      it('should cache forecast for 6 hours', async () => {})
+    })
+    
+    describe('favorites', () => {
+      it('should add favorite city', async () => {})
+      it('should prevent duplicate favorites', async () => {})
+      it('should delete favorite', async () => {})
+    })
+  })
+  ```
+
+- [ ] **Task 6.2:** Backend integration tests
+  ```javascript
+  // File: backend/tests/integration/api/weather.api.test.js
+  describe('Weather API Integration', () => {
+    it('GET /api/weather/current?city=Hanoi', async () => {})
+    it('GET /api/weather/forecast', async () => {})
+    it('POST /api/weather/favorites', async () => {})
+    it('DELETE /api/weather/favorites/:id', async () => {})
+  })
+  ```
+
+- [ ] **Task 6.3:** Frontend component tests
+  ```javascript
+  // Test WeatherSearch, WeatherCurrent, ForecastCard
+  // Test user interactions: search, geolocation, favorites
+  // Test error states
+  ```
+
+- [ ] **Task 6.4:** E2E tests (optional)
+  - User opens weather page → sees current weather
+  - User searches city → weather updates
+  - User adds favorite → appears in list
+  - User clicks favorite → loads weather
+
+- [ ] **Task 6.5:** Manual testing checklist
+  - [ ] Search by city name works
+  - [ ] Geolocation permission granted → shows weather
+  - [ ] Geolocation denied → shows search
+  - [ ] City not found → shows error
+  - [ ] Add favorite → saves to DB
+  - [ ] Remove favorite → deletes
+  - [ ] Refresh button → updates weather
+  - [ ] Toggle °C/°F → converts correctly
+  - [ ] Animations render for all weather types
+  - [ ] Responsive on mobile (iPhone, Android)
+  - [ ] Responsive on tablet (iPad)
+  - [ ] Responsive on desktop (1920x1080)
+
+- [ ] **Task 6.6:** Performance testing
+  - API response < 500ms (cached)
+  - API response < 2s (uncached)
+  - Page load < 2s
+  - Animation 60fps (Chrome DevTools)
+  - No memory leaks (long session)
+
+- [ ] **Task 6.7:** Security testing
+  - API key not exposed in frontend
+  - Input validation prevents XSS
+  - SQL injection prevented (parameterized queries)
+  - Rate limiting works (60 req/hour)
+  - CORS configured correctly
+
+#### Deliverables
+- [ ] Unit tests written (20+ tests)
+- [ ] Integration tests written (10+ tests)
+- [ ] Component tests written (15+ tests)
+- [ ] Manual testing checklist complete
+- [ ] Test coverage >= 80%
+- [ ] All tests passing
+- [ ] Performance verified
+- [ ] Security verified
+
+**Estimated Hours:** 12 hours  
+**Dependencies:** Phase 5 complete
+
+---
+
+### Phase 7: Documentation & Deployment
+**Duration:** 2 days (2025-12-01 → 2025-12-03)  
+**Status:** 📝 Not Started  
+**Progress:** 0%
+
+#### Tasks
+
+- [ ] **Task 7.1:** Update API documentation
+  ```markdown
+  // File: docs/API_DOCUMENTATION.md
+  
+  ## Weather API Endpoints
+  
+  ### GET /api/weather/current
+  Get current weather by city or coordinates.
+  
+  **Query Parameters:**
+  - `city` (string, optional) - City name (e.g., "Hanoi")
+  - `lat` (number, optional) - Latitude
+  - `lon` (number, optional) - Longitude
+  - `units` (string, optional) - "metric" or "imperial" (default: "metric")
+  
+  **Response:**
+  \`\`\`json
+  {
+    "success": true,
+    "data": {
+      "location": {
+        "name": "Hanoi",
+        "country": "VN",
+        "lat": 21.0285,
+        "lon": 105.8542
+      },
+      "current": {
+        "temp": 28.5,
+        "feels_like": 31.2,
+        "humidity": 75,
+        "wind_speed": 3.5,
+        "weather": {
+          "main": "Clouds",
+          "description": "scattered clouds",
+          "icon": "03d"
+        }
+      }
+    },
+    "cached": true
+  }
+  \`\`\`
+  
+  ### GET /api/weather/forecast
+  Get 7-day weather forecast.
+  
+  ### GET /api/weather/hourly
+  Get hourly forecast (24 hours).
+  
+  ### GET /api/weather/favorites
+  Get user's favorite cities.
+  
+  ### POST /api/weather/favorites
+  Add city to favorites.
+  
+  ### DELETE /api/weather/favorites/:id
+  Remove city from favorites.
+  ```
+
+- [ ] **Task 7.2:** Update DATABASE_SCHEMA.md
+  ```markdown
+  ## Weather Tables
+  
+  ### favorite_cities
+  Stores user's favorite cities for quick access.
+  
+  | Column | Type | Description |
+  |--------|------|-------------|
+  | id | UUID | Primary key |
+  | user_id | UUID | Foreign key to users |
+  | city_name | VARCHAR(255) | City name |
+  | country | VARCHAR(100) | Country code |
+  | lat | DECIMAL(10,7) | Latitude |
+  | lon | DECIMAL(10,7) | Longitude |
+  | is_default | BOOLEAN | Default city flag |
+  
+  ### weather_cache
+  Caches weather API responses to reduce external calls.
+  
+  | Column | Type | Description |
+  |--------|------|-------------|
+  | id | UUID | Primary key |
+  | city_name | VARCHAR(255) | City name |
+  | lat | DECIMAL(10,7) | Latitude |
+  | lon | DECIMAL(10,7) | Longitude |
+  | weather_data | JSONB | Cached weather data |
+  | fetched_at | TIMESTAMP | Cache time |
+  | expires_at | TIMESTAMP | Expiration time |
+  ```
+
+- [ ] **Task 7.3:** Create WEATHER_FEATURE.md user guide
+  ```markdown
+  # Weather Tool User Guide
+  
+  ## Overview
+  Weather Forecast Tool với animation dễ thương.
+  
+  ## Features
+  - Current weather + 7-day forecast
+  - Search city or use geolocation
+  - Save favorite cities
+  - Beautiful weather animations
+  - Toggle °C/°F
+  
+  ## How to Use
+  1. Allow geolocation (recommended)
+  2. Or search city name
+  3. View current weather
+  4. Scroll for 7-day forecast
+  5. Add to favorites (star icon)
+  
+  ## Animations
+  - ☀️ Sunny: Sparkling sun
+  - 🌧️ Rainy: Falling raindrops
+  - ☁️ Cloudy: Moving clouds
+  - ❄️ Snowy: Gentle snowflakes
+  - ⛈️ Thunderstorm: Lightning + heavy rain
+  - 🌫️ Foggy: Thick fog
+  ```
+
+- [ ] **Task 7.4:** Update README.md
+  - Add Weather Tool to features list
+  - Add screenshot
+  - Update tech stack (OpenWeatherMap API)
+
+- [ ] **Task 7.5:** Update CHANGELOG.md
+  ```markdown
+  ## [1.4.0] - 2025-12-03
+  
+  ### ✨ New Features
+  - **Weather Tool**: Real-time weather forecast with animations
+    - Current weather + 7-day forecast
+    - 7 weather animations (sunny, rainy, cloudy, snowy, thunderstorm, foggy, partly cloudy)
+    - Search city or geolocation auto-detect
+    - Save favorite cities
+    - Toggle Celsius/Fahrenheit
+    - Responsive design
+    - OpenWeatherMap API integration with 30-min cache
+  
+  ### 🗄️ Database
+  - Added `favorite_cities` table
+  - Added `weather_cache` table
+  
+  ### 🎨 UI/UX
+  - Framer Motion animations (60fps)
+  - Pastel color scheme
+  - Mobile-first responsive design
+  ```
+
+- [ ] **Task 7.6:** Create feature status document
+  ```markdown
+  // File: docs/dev-notes/features/weather-tool-implementation-status.md
+  
+  # Weather Tool Implementation Status
+  
+  **Status:** ✅ Completed  
+  **Completion Date:** 2025-12-03  
+  **Coverage:** 85%
+  
+  ## Implementation Summary
+  - Backend: 100% (6 endpoints, cache, OpenWeatherMap integration)
+  - Frontend: 100% (8 components, 7 animations)
+  - Testing: 85% coverage (45 tests)
+  - Documentation: 100%
+  
+  ## Key Achievements
+  - Smooth 60fps animations
+  - API response < 500ms (cached)
+  - Responsive design
+  - 80%+ test coverage
+  ```
+
+- [ ] **Task 7.7:** Deploy to staging
+  - Verify migrations run on Railway database
+  - Deploy backend to Railway
+  - Deploy frontend to Vercel
+  - Test all features on staging
+  - Verify OpenWeatherMap API key works
+
+- [ ] **Task 7.8:** Deploy to production
+  - Run migrations on production DB
+  - Deploy backend
+  - Deploy frontend
+  - Smoke test: Search Hanoi, check animations
+  - Monitor for 24 hours
+  - Check error logs
+
+#### Deliverables
+- [ ] API documentation complete
+- [ ] Database schema documented
+- [ ] User guide created
+- [ ] README updated
+- [ ] CHANGELOG updated
+- [ ] Feature status documented
+- [ ] Deployed to production
+- [ ] Monitoring active
+
+**Estimated Hours:** 8 hours  
+**Dependencies:** Phase 6 complete
+
+---
+
+## 📊 Progress Tracking
+
+### Overall Status
+
+| Phase | Progress | Status | Est. Days | Actual Days |
+|-------|----------|--------|-----------|-------------|
+| 1. Setup | 0% | ⏳ | 2 | - |
+| 2. Database | 0% | ⏳ | 2 | - |
+| 3. Backend | 0% | ⏳ | 5 | - |
+| 4. Frontend | 0% | ⏳ | 5 | - |
+| 5. Animations | 0% | ⏳ | 3 | - |
+| 6. Testing | 0% | ⏳ | 3 | - |
+| 7. Docs + Deploy | 0% | ⏳ | 2 | - |
+| **Total** | **0%** | **⏳** | **22** | **-** |
+
+### Velocity Metrics
+- **Planned velocity:** 4 tasks/day
+- **Actual velocity:** - tasks/day
+- **Completion rate:** 0%
+
+### Files Created (Projected)
+
+**Backend (10 files):**
+- `backend/database/migrations/003_up_weather_tool.sql`
+- `backend/database/migrations/003_down_weather_tool.sql`
+- `backend/database/seeds/003_weather_favorites.sql`
+- `backend/providers/weatherProvider.js`
+- `backend/controllers/weatherController.js`
+- `backend/routes/weather.js`
+- `backend/tests/unit/controllers/weather.test.js`
+- `backend/tests/integration/api/weather.api.test.js`
+
+**Frontend (15+ files):**
+- `src/pages/WeatherTool.jsx`
+- `src/services/weatherService.js`
+- `src/components/weather/WeatherHeader.jsx`
+- `src/components/weather/WeatherSearch.jsx`
+- `src/components/weather/WeatherCurrent.jsx`
+- `src/components/weather/WeatherDetails.jsx`
+- `src/components/weather/WeatherForecast.jsx`
+- `src/components/weather/ForecastCard.jsx`
+- `src/components/weather/WeatherHourly.jsx`
+- `src/components/weather/FavoriteCities.jsx`
+- `src/components/weather/WeatherAnimation.jsx`
+- `src/components/weather/animations/SunnyAnimation.jsx`
+- `src/components/weather/animations/RainyAnimation.jsx`
+- `src/components/weather/animations/CloudyAnimation.jsx`
+- `src/components/weather/animations/SnowyAnimation.jsx`
+- `src/components/weather/animations/ThunderstormAnimation.jsx`
+- `src/components/weather/animations/FoggyAnimation.jsx`
+
+**Documentation (4 files):**
+- `docs/API_DOCUMENTATION.md` (updated)
+- `docs/DATABASE_SCHEMA.md` (updated)
+- `docs/WEATHER_FEATURE.md` (new)
+- `docs/dev-notes/features/weather-tool-implementation-status.md` (new)
+
+---
+
+## 🐛 Issues & Risks
+
+### Risks
+
+| Risk | Probability | Impact | Mitigation |
+|------|-------------|--------|------------|
+| OpenWeatherMap API rate limit | Medium | High | Implement aggressive caching (30 min), add fallback to cached data |
+| Animation performance on low-end devices | Medium | Medium | Reduce animation complexity, add "reduce motion" support, conditional rendering |
+| Geolocation permission denied | High | Low | Provide manual search as primary option, make geolocation optional |
+| Weather API downtime | Low | High | Cache data for longer (6 hours for forecast), show last known data |
+| Complex state management | Medium | Medium | Use React hooks effectively, consider Context API for global state |
+
+### Dependencies
+
+**External:**
+- OpenWeatherMap API (free tier: 1000 calls/day)
+- Browser Geolocation API support
+- Framer Motion library (already installed)
+
+**Internal:**
+- Users table exists (for favorite_cities foreign key)
+- Database migrations 001, 002 already run
+- Backend server running on port 5000
+- Frontend running on Vite dev server
+
+---
+
+## 💡 Technical Decisions
+
+### Decision 1: Weather API Choice - OpenWeatherMap
+**Date:** 2025-11-12  
+**Status:** ✅ Approved
+
+**Context:**  
+Cần chọn weather API provider cho dự án. Yêu cầu: free tier sufficient, reliable, comprehensive data.
+
+**Options Considered:**
+1. **OpenWeatherMap**
+   - Pros: Free tier 1000 calls/day, established provider, comprehensive docs, 7-day forecast
+   - Cons: Rate limit might be tight, requires API key management
+
+2. **WeatherAPI.com**
+   - Pros: Free tier 1M calls/month, more generous
+   - Cons: Less popular, documentation not as comprehensive
+
+3. **AccuWeather**
+   - Pros: Very accurate data
+   - Cons: No free tier, expensive
+
+**Decision:** OpenWeatherMap chosen
+
+**Reasoning:**  
+- 1000 calls/day sufficient với cache 30 phút (max ~500 unique locations/day)
+- Established provider với stable API
+- Excellent documentation và community support
+- Free tier covers MVP needs
+- Can upgrade later if needed
+
+**Trade-offs:**  
+- Rate limit requires aggressive caching
+- May need upgrade for production scale
+
+**Impact:**  
+- Cache strategy critical (30 min for current, 6 hours for forecast)
+- Need monitoring for API usage
+- Fallback to cached data if rate limit hit
+
+---
+
+### Decision 2: Animation Strategy - Framer Motion
+**Date:** 2025-11-12  
+**Status:** ✅ Approved
+
+**Context:**  
+Cần implement weather animations (sunny, rainy, cloudy, snowy, thunderstorm, foggy). Yêu cầu: smooth 60fps, easy to code, lightweight.
+
+**Options Considered:**
+1. **Framer Motion**
+   - Pros: Already installed, declarative API, GPU-accelerated, 60fps smooth
+   - Cons: Bundle size (~40KB gzipped)
+
+2. **CSS Animations**
+   - Pros: Lightweight, native browser support
+   - Cons: Complex to manage state, less flexible
+
+3. **Canvas/WebGL**
+   - Pros: Ultimate performance, 3D effects possible
+   - Cons: Complex to implement, overkill for 2D animations
+
+**Decision:** Framer Motion chosen
+
+**Reasoning:**  
+- Already in project dependencies (v10.16.16)
+- Declarative API makes code readable
+- GPU-accelerated transforms for 60fps
+- Easy to create complex animations (raindrops, snowflakes)
+- Good TypeScript support
+
+**Trade-offs:**  
+- Bundle size increase (~40KB), but acceptable for animation-heavy feature
+- Learning curve for complex animations
+
+**Impact:**  
+- Need to optimize number of animated elements (max 50 raindrops)
+- Use transform instead of top/left for GPU acceleration
+- Add "reduce motion" support for accessibility
+
+---
+
+### Decision 3: Cache Strategy - Database JSONB
+**Date:** 2025-11-12  
+**Status:** ✅ Approved
+
+**Context:**  
+Cần cache weather API responses để giảm external calls và improve performance. Yêu cầu: persistent, queryable, TTL support.
+
+**Options Considered:**
+1. **Database (PostgreSQL JSONB)**
+   - Pros: Persistent across server restarts, queryable, TTL with expires_at
+   - Cons: Slightly slower than in-memory
+
+2. **In-Memory (node-cache)**
+   - Pros: Fastest, simple API
+   - Cons: Lost on server restart, not shared across instances
+
+3. **Redis**
+   - Pros: Fast, persistent, TTL built-in
+   - Cons: Additional infrastructure, overkill for MVP
+
+**Decision:** Database (PostgreSQL JSONB) chosen
+
+**Reasoning:**  
+- Persistent cache survives server restarts
+- JSONB type allows flexible storage và querying
+- TTL với expires_at column + periodic cleanup
+- No additional infrastructure needed
+- GIN index on JSONB for fast queries
+- Sufficient performance for weather data (not high-frequency)
+
+**Trade-offs:**  
+- Slightly slower than in-memory cache (~10-20ms)
+- Requires periodic cleanup cron job
+
+**Impact:**  
+- Create weather_cache table với JSONB column
+- Index on (lat, lon) for location lookup
+- Index on expires_at for cleanup
+- Cron job to delete expired entries daily
+
+---
+
+### Decision 4: Geolocation Strategy - Browser API (Optional)
+**Date:** 2025-11-12  
+**Status:** ✅ Approved
+
+**Context:**  
+Cần auto-detect user location cho weather. Yêu cầu: privacy-friendly, fallback nếu denied.
+
+**Options Considered:**
+1. **Browser Geolocation API**
+   - Pros: Native, accurate, no backend needed
+   - Cons: Requires user permission, may be denied
+
+2. **IP Geolocation (backend)**
+   - Pros: No permission needed, works for all users
+   - Cons: Less accurate (city-level), requires external service
+
+3. **Hybrid (Browser first, IP fallback)**
+   - Pros: Best of both worlds
+   - Cons: Complex implementation
+
+**Decision:** Browser Geolocation API (optional) chosen
+
+**Reasoning:**  
+- Best accuracy (GPS-level)
+- No cost (no external service)
+- User controls privacy
+- Good UX: clear permission prompt
+- Fallback: manual city search (primary flow)
+
+**Trade-offs:**  
+- Some users will deny permission
+- Need clear UI for denied case
+
+**Impact:**  
+- Make geolocation optional (not required)
+- Provide prominent search input
+- Handle permission denied gracefully
+- Show helpful message: "Allow location or search city"
+
+---
+
+## 📝 Notes & Best Practices
+
+### Technical Notes
+- **OpenWeatherMap API Limits:** 1000 calls/day on free tier. Với cache 30 phút, có thể serve ~20,000 requests/day.
+- **Cache Expiry:** Current weather 30 min, Forecast 6 hours. Balance between freshness và API calls.
+- **Animation Elements:** Max 50 animated elements (raindrops/snowflakes) để maintain 60fps.
+- **Geolocation Fallback:** If denied, don't repeatedly ask. Show search input prominently.
+- **Error Messages:** User-friendly Vietnamese messages: "Không tìm thấy thành phố", "Không thể lấy vị trí"
+
+### Best Practices
+- **Code Style:** Follow ESLint configuration, use functional components với hooks
+- **Commit Messages:** Conventional commits format (`feat(weather): add search functionality`)
+- **Testing:** TDD approach - write tests before implementation khi possible
+- **Documentation:** Update docs với code changes, add JSDoc comments cho functions
+- **Performance:** Use React.memo cho expensive components, debounce search input 500ms
+- **Accessibility:** Add ARIA labels, support keyboard navigation, reduce motion preference
+
+### Lessons Learned (To be filled during implementation)
+- Lesson 1: (TBD)
+- Lesson 2: (TBD)
+- Lesson 3: (TBD)
+
+---
+
+## 🔗 Related Documentation
+
+- **Specification:** `specs/02_weather_tool.spec`
+- **API Docs:** `docs/API_DOCUMENTATION.md` (to be updated)
+- **Database Schema:** `docs/DATABASE_SCHEMA.md` (to be updated)
+- **User Guide:** `docs/WEATHER_FEATURE.md` (to be created)
+- **Feature Status:** `docs/dev-notes/features/weather-tool-implementation-status.md` (to be created)
+- **Project Manifest:** `project_manifest.json`
+
+**External:**
+- **OpenWeatherMap API:** https://openweathermap.org/api
+- **Framer Motion Docs:** https://www.framer.com/motion/
+- **Lucide Icons:** https://lucide.dev/icons/
+
+---
+
+## 👥 Team
+
+**Plan Owner:** Long Nguyen  
+**Contributors:** Development Team  
+**Reviewers:** Tech Lead  
+**Stakeholders:** Product Owner, End Users
+
+---
+
+## 📊 Metrics & KPIs
+
+### Development Metrics
+- **Lines of Code:** 0 (Target: ~2000)
+- **Test Coverage:** 0% (Target: >= 80%)
+- **Bug Count:** 0
+- **Code Reviews:** 0
+
+### Performance Metrics
+- **API Response Time:** Target < 500ms (cached), < 2s (uncached)
+- **Page Load Time:** Target < 2s
+- **Animation FPS:** Target >= 60fps
+- **Database Query Time:** Target < 100ms
+
+### Business Metrics
+- **Feature Adoption:** Target 70% of users try weather tool
+- **Daily Active Usage:** Target 40% users check weather daily
+- **User Satisfaction:** Target 4.5/5 rating
+- **Geolocation Opt-in Rate:** Target 50% users allow location
+
+---
+
+## 🔄 Review History
+
+| Date | Version | Changes | Updated By |
+|------|---------|---------|------------|
+| 2025-11-12 | 1.0.0 | Initial plan created | Copilot Agent |
+
+---
+
+## ✅ Sign-off
+
+- [ ] Plan reviewed by team
+- [ ] Timeline approved by stakeholders
+- [ ] Resources allocated
+- [ ] OpenWeatherMap API key obtained
+- [ ] Ready to begin implementation
+
+**Approved By:** (Pending)  
+**Approval Date:** (Pending)
+
+---
+
+**Next Review:** 2025-11-19 (Weekly)  
+**Review Frequency:** Weekly during implementation  
+**Last Updated By:** Copilot Agent
+
+---
+
+## 🚀 Quick Start Commands
+
+```bash
+# 1. Setup OpenWeatherMap API
+# Visit: https://openweathermap.org/api
+# Get free API key
+
+# 2. Add to .env
+echo "OPENWEATHER_API_KEY=your_key_here" >> backend/.env
+
+# 3. Create branch
+git checkout -b feature/02-weather-tool
+
+# 4. Run migrations
+cd backend
+node database/runMigration.js 003_up_weather_tool
+
+# 5. Start development
+npm run dev
+
+# 6. Test API
+curl "http://localhost:5000/api/weather/current?city=Hanoi"
+
+# 7. Run tests
+npm test
+```
+
+---
+
+**Ready to implement? Start with Phase 1, Task 1.1! 🚀**
