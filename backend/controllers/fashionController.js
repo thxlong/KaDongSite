@@ -68,7 +68,13 @@ export const getOutfitById = async (req, res) => {
 // POST create new outfit
 export const createOutfit = async (req, res) => {
   try {
-    const { name, shirtColor, pantsColor, shoesColor, hatColor, bagColor } = req.body
+    // Accept both camelCase and snake_case for compatibility
+    const name = req.body.name
+    const shirtColor = req.body.shirtColor || req.body.shirt_color
+    const pantsColor = req.body.pantsColor || req.body.pants_color
+    const shoesColor = req.body.shoesColor || req.body.shoes_color
+    const hatColor = req.body.hatColor || req.body.hat_color
+    const bagColor = req.body.bagColor || req.body.bag_color
     const userId = req.body.user_id || TEST_USER_ID
 
     // Validation
@@ -137,7 +143,13 @@ export const createOutfit = async (req, res) => {
 export const updateOutfit = async (req, res) => {
   try {
     const { id } = req.params
-    const { name, shirtColor, pantsColor, shoesColor, hatColor, bagColor } = req.body
+    // Accept both camelCase and snake_case for compatibility
+    const name = req.body.name
+    const shirtColor = req.body.shirtColor || req.body.shirt_color
+    const pantsColor = req.body.pantsColor || req.body.pants_color
+    const shoesColor = req.body.shoesColor || req.body.shoes_color
+    const hatColor = req.body.hatColor || req.body.hat_color
+    const bagColor = req.body.bagColor || req.body.bag_color
     const userId = req.body.user_id || TEST_USER_ID
 
     // Check if outfit exists

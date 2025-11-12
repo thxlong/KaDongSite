@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Shirt, Plus, Save, Trash2, Edit2, Check, X } from 'lucide-react'
 import ColorPicker from '../components/ColorPicker'
 import OutfitPreview from '../components/OutfitPreview'
+import { TEST_USER_ID, API_BASE_URL } from '../config/constants'
 
 const FashionTool = () => {
   const [outfits, setOutfits] = useState([])
@@ -27,7 +28,7 @@ const FashionTool = () => {
   const fetchOutfits = async () => {
     try {
       setLoading(true)
-      const response = await fetch('http://localhost:5000/api/fashion?user_id=test-user-id')
+      const response = await fetch(`${API_BASE_URL}/fashion?user_id=${TEST_USER_ID}`)
       const data = await response.json()
       if (data.success) {
         setOutfits(data.data)
@@ -47,11 +48,15 @@ const FashionTool = () => {
       return
     }
 
+    // Convert to snake_case for API (backend accepts both formats)
     const payload = {
-      ...formData,
-      user_id: 'test-user-id',
-      hatColor: formData.hatColor || null,
-      bagColor: formData.bagColor || null
+      name: formData.name,
+      shirt_color: formData.shirtColor,
+      pants_color: formData.pantsColor,
+      shoes_color: formData.shoesColor,
+      hat_color: formData.hatColor || null,
+      bag_color: formData.bagColor || null,
+      user_id: TEST_USER_ID
     }
 
     try {
@@ -59,7 +64,7 @@ const FashionTool = () => {
 
       if (editingId) {
         // Update existing outfit
-        const response = await fetch(`http://localhost:5000/api/fashion/${editingId}`, {
+        const response = await fetch(`${API_BASE_URL}/fashion/${editingId}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
@@ -73,7 +78,7 @@ const FashionTool = () => {
         }
       } else {
         // Create new outfit
-        const response = await fetch('http://localhost:5000/api/fashion', {
+        const response = await fetch(`${API_BASE_URL}/fashion`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
@@ -123,7 +128,7 @@ const FashionTool = () => {
     try {
       setLoading(true)
       const response = await fetch(
-        `http://localhost:5000/api/fashion/${id}?user_id=test-user-id`,
+        `${API_BASE_URL}/fashion/${id}?user_id=${TEST_USER_ID}`,
         { method: 'DELETE' }
       )
       const data = await response.json()

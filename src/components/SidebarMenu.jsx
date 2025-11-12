@@ -7,6 +7,8 @@ import {
   StickyNote, 
   DollarSign,
   Shirt,
+  TrendingUp,
+  CloudRain,
   ChevronRight 
 } from 'lucide-react'
 
@@ -58,6 +60,22 @@ const tools = [
     icon: Shirt,
     color: 'from-pastel-pink to-pastel-purple',
     description: 'Chọn màu trang phục'
+  },
+  {
+    id: 'gold',
+    name: 'Giá vàng',
+    path: '/gold',
+    icon: TrendingUp,
+    color: 'from-yellow-300 to-yellow-500',
+    description: 'Xem giá vàng Việt Nam'
+  },
+  {
+    id: 'weather',
+    name: 'Thời tiết',
+    path: '/weather',
+    icon: CloudRain,
+    color: 'from-blue-300 to-purple-400',
+    description: 'Dự báo thời tiết'
   }
 ]
 
