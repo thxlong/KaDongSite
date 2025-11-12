@@ -1,0 +1,6 @@
+TEST_DB_HOST=localhost
+TEST_DB_PORT=5432
+TEST_DB_NAME=kadong_tools_test
+TEST_DB_USER=postgres
+TEST_DB_PASSWORD=123
+JWT_SECRET=test_secret_key_for_testing_only
