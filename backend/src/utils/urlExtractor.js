@@ -14,14 +14,24 @@ import * as cheerio from 'cheerio'
 async function extractShopeeMetadata(url) {
   try {
     // Parse Shopee URL to extract shop_id and item_id
-    // Format: https://shopee.vn/product-name-i.{shop_id}.{item_id}
-    const match = url.match(/i\.(\d+)\.(\d+)/)
-    if (!match) {
-      console.error('[URLExtractor] Invalid Shopee URL format:', url)
-      return null
+    // Format 1: https://shopee.vn/product-name-i.{shop_id}.{item_id}
+    // Format 2: https://shopee.vn/product/{shop_id}/{item_id}
+    let shopId, itemId
+    
+    // Try format 1: product-name-i.{shop_id}.{item_id}
+    let match = url.match(/i\.(\d+)\.(\d+)/)
+    if (match) {
+      [, shopId, itemId] = match
+    } else {
+      // Try format 2: product/{shop_id}/{item_id}
+      match = url.match(/\/product\/(\d+)\/(\d+)/)
+      if (match) {
+        [, shopId, itemId] = match
+      } else {
+        console.error('[URLExtractor] Invalid Shopee URL format:', url)
+        return null
+      }
     }
-
-    const [, shopId, itemId] = match
 
     // Call Shopee API
     const apiUrl = `https://shopee.vn/api/v4/item/get?itemid=${itemId}&shopid=${shopId}`
