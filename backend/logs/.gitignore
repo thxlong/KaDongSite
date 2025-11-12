@@ -1,0 +1,4 @@
+*.log
+error.log
+combined.log
+access.log
