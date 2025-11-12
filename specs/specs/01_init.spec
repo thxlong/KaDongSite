@@ -408,7 +408,7 @@ currency_rates (id UUID, base_currency, rates JSONB)
 6. ⏳ Performance benchmarking
 
 **Nice to Have (Week 5+):**
-7. ⏳ E2E frontend tests
+7. ⏳ E2E frontend tests (use: playwright)
 8. ⏳ CI/CD pipeline setup
 9. ⏳ Production deployment
 

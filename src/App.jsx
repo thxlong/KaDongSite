@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
+import { Toaster } from 'react-hot-toast'
 import Header from './components/Header'
 import SidebarMenu from './components/SidebarMenu'
 import Footer from './components/Footer'
@@ -12,11 +13,13 @@ import FashionTool from './pages/FashionTool'
 import GoldPricesTool from './pages/GoldPricesTool'
 import WeatherTool from './pages/WeatherTool'
 import WishlistTool from './pages/WishlistTool'
+import WeddingInvitationTool from './pages/WeddingInvitationTool'
 
 function App() {
   return (
     <Router>
       <div className="min-h-screen flex flex-col">
+        <Toaster position="top-right" />
         <Header />
         <div className="flex flex-1 flex-col lg:flex-row">
           <SidebarMenu />
@@ -32,6 +35,7 @@ function App() {
                 <Route path="/gold" element={<GoldPricesTool />} />
                 <Route path="/weather" element={<WeatherTool />} />
                 <Route path="/wishlist" element={<WishlistTool />} />
+                <Route path="/wedding-invitation" element={<WeddingInvitationTool />} />
               </Routes>
             </AnimatePresence>
           </main>

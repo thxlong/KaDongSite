@@ -1,0 +1,1554 @@
+# Implementation Plan: Wedding Invitation URL Encoder
+
+**Plan ID:** `06_wedding_invitation_url_encoder`  
+**Linked Spec:** [`06_wedding_invitation_url_encoder.spec`](../specs/06_wedding_invitation_url_encoder.spec)  
+**Version:** 1.0.0  
+**Status:** 📝 Planning  
+**Created:** 2025-11-12  
+**Last Updated:** 2025-11-12
+
+---
+
+## 📋 Overview
+
+**Feature:** Wedding Invitation URL Encoder Tool  
+**Priority:** 🟡 Medium  
+**Overall Progress:** 0%
+
+**Objectives:**
+1. Encode tên khách mời tiếng Việt có dấu thành URL parameters chuẩn UTF-8
+2. Hỗ trợ batch input qua textarea hoặc file upload (TXT/CSV/Excel)
+3. Lưu trữ base URL thiệp cưới vào database để tái sử dụng
+4. Tạo danh sách links cá nhân hóa với 1-click copy
+
+**Success Criteria:**
+- [ ] URL encoding chính xác 100% với tiếng Việt có dấu
+- [ ] Parse được file Excel/TXT/CSV với 1000+ tên
+- [ ] Copy to clipboard hoạt động trên Chrome, Firefox, Safari
+- [ ] API response time < 200ms
+- [ ] Test coverage >= 85%
+
+---
+
+## 📅 Timeline
+
+**Estimated Duration:** 9 days (1.5 weeks)  
+**Start Date:** TBD  
+**Target Completion:** TBD  
+**Actual Completion:** -
+
+### Key Milestones
+
+| Milestone | Target Date | Status | Completion Date |
+|-----------|-------------|--------|-----------------|
+| M1: Database & Backend API | Day 2 | ⏳ | - |
+| M2: Frontend Core UI | Day 5 | ⏳ | - |
+| M3: Testing Complete | Day 7 | ⏳ | - |
+| M4: Documentation | Day 8 | ⏳ | - |
+| M5: Production Deploy | Day 9 | ⏳ | - |
+
+---
+
+## 📦 Phase 1: Database Design & Migration
+**Duration:** 0.5 days  
+**Status:** 📝 Not Started  
+**Progress:** 0%
+
+### Tasks
+
+#### Task 1.1: Design Database Schema
+- [ ] **Create ERD diagram** cho `wedding_urls` table
+  - Quan hệ với `users` table (FK user_id)
+  - Soft delete pattern với `deleted_at`
+- [ ] **Define indexes** cho performance
+  - Index trên `user_id` (query by user)
+  - Index trên `deleted_at` (filter active URLs)
+
+#### Task 1.2: Write Migration Scripts
+- [ ] **Create migration UP:** `backend/database/migrations/007_up_wedding_urls.sql`
+  ```sql
+  CREATE TABLE wedding_urls (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+    base_url VARCHAR(500) NOT NULL,
+    created_at TIMESTAMP DEFAULT NOW(),
+    updated_at TIMESTAMP DEFAULT NOW(),
+    deleted_at TIMESTAMP DEFAULT NULL
+  );
+
+  CREATE INDEX idx_wedding_urls_user_id ON wedding_urls(user_id);
+  CREATE INDEX idx_wedding_urls_deleted_at ON wedding_urls(deleted_at);
+
+  -- Trigger for updated_at
+  CREATE TRIGGER update_wedding_urls_updated_at
+    BEFORE UPDATE ON wedding_urls
+    FOR EACH ROW
+    EXECUTE FUNCTION update_updated_at_column();
+  ```
+
+- [ ] **Create migration DOWN:** `backend/database/migrations/007_down_wedding_urls.sql`
+  ```sql
+  DROP TRIGGER IF EXISTS update_wedding_urls_updated_at ON wedding_urls;
+  DROP TABLE IF EXISTS wedding_urls CASCADE;
+  ```
+
+#### Task 1.3: Test Migration
+- [ ] Run migration: `npm run db:migrate:up`
+- [ ] Verify table created: `\dt wedding_urls`
+- [ ] Verify indexes: `\di idx_wedding_urls_*`
+- [ ] Test rollback: `npm run db:migrate:down`
+- [ ] Re-run migration for development
+
+### Deliverables
+- [ ] ERD diagram complete
+- [ ] Migration scripts tested
+- [ ] Database ready for API development
+
+**Estimated Time:** 4 hours
+
+---
+
+## 📦 Phase 2: Backend API Development
+**Duration:** 1.5 days  
+**Status:** 📝 Not Started  
+**Progress:** 0%
+
+### Milestone 2.1: Controller & Routes Setup
+
+#### Task 2.1.1: Create Wedding Controller
+- [ ] **File:** `backend/controllers/weddingController.js`
+- [ ] **Implement functions:**
+  ```javascript
+  const pool = require('../config/database')
+
+  // Create or update base URL
+  const saveWeddingUrl = async (req, res) => {
+    try {
+      const { baseUrl } = req.body
+      const userId = req.user.id // From JWT middleware
+
+      // Validation
+      if (!baseUrl || baseUrl.trim() === '') {
+        return res.status(400).json({
+          success: false,
+          error: { code: 'INVALID_URL', message: 'Base URL is required' }
+        })
+      }
+
+      // Validate URL format
+      const urlPattern = /^https?:\/\/.+/
+      if (!urlPattern.test(baseUrl)) {
+        return res.status(400).json({
+          success: false,
+          error: { code: 'INVALID_FORMAT', message: 'URL must start with http:// or https://' }
+        })
+      }
+
+      // Max length check
+      if (baseUrl.length > 500) {
+        return res.status(400).json({
+          success: false,
+          error: { code: 'URL_TOO_LONG', message: 'URL must be less than 500 characters' }
+        })
+      }
+
+      // Soft delete previous active URL
+      await pool.query(
+        'UPDATE wedding_urls SET deleted_at = NOW(), updated_at = NOW() WHERE user_id = $1 AND deleted_at IS NULL',
+        [userId]
+      )
+
+      // Insert new URL
+      const result = await pool.query(
+        'INSERT INTO wedding_urls (user_id, base_url) VALUES ($1, $2) RETURNING id, base_url, created_at',
+        [userId, baseUrl]
+      )
+
+      res.status(201).json({
+        success: true,
+        data: result.rows[0]
+      })
+    } catch (error) {
+      console.error('Error saving wedding URL:', error)
+      res.status(500).json({
+        success: false,
+        error: { code: 'SERVER_ERROR', message: 'Failed to save wedding URL' }
+      })
+    }
+  }
+
+  // Get latest active URL
+  const getLatestWeddingUrl = async (req, res) => {
+    try {
+      const userId = req.user.id
+
+      const result = await pool.query(
+        'SELECT id, base_url, created_at FROM wedding_urls WHERE user_id = $1 AND deleted_at IS NULL ORDER BY created_at DESC LIMIT 1',
+        [userId]
+      )
+
+      if (result.rows.length === 0) {
+        return res.status(404).json({
+          success: false,
+          error: { code: 'URL_NOT_FOUND', message: 'No wedding invitation URL found. Please add one.' }
+        })
+      }
+
+      res.json({
+        success: true,
+        data: result.rows[0]
+      })
+    } catch (error) {
+      console.error('Error fetching wedding URL:', error)
+      res.status(500).json({
+        success: false,
+        error: { code: 'SERVER_ERROR', message: 'Failed to fetch wedding URL' }
+      })
+    }
+  }
+
+  // Soft delete URL
+  const deleteWeddingUrl = async (req, res) => {
+    try {
+      const { id } = req.params
+      const userId = req.user.id
+
+      const result = await pool.query(
+        'UPDATE wedding_urls SET deleted_at = NOW(), updated_at = NOW() WHERE id = $1 AND user_id = $2 AND deleted_at IS NULL RETURNING id',
+        [id, userId]
+      )
+
+      if (result.rows.length === 0) {
+        return res.status(404).json({
+          success: false,
+          error: { code: 'URL_NOT_FOUND', message: 'Wedding invitation URL not found' }
+        })
+      }
+
+      res.json({
+        success: true,
+        message: 'Wedding invitation URL deleted successfully'
+      })
+    } catch (error) {
+      console.error('Error deleting wedding URL:', error)
+      res.status(500).json({
+        success: false,
+        error: { code: 'SERVER_ERROR', message: 'Failed to delete wedding URL' }
+      })
+    }
+  }
+
+  module.exports = {
+    saveWeddingUrl,
+    getLatestWeddingUrl,
+    deleteWeddingUrl
+  }
+  ```
+
+#### Task 2.1.2: Create Routes
+- [ ] **File:** `backend/routes/wedding.js`
+  ```javascript
+  const express = require('express')
+  const router = express.Router()
+  const { saveWeddingUrl, getLatestWeddingUrl, deleteWeddingUrl } = require('../controllers/weddingController')
+  const authenticateToken = require('../middleware/auth')
+
+  // All routes require authentication
+  router.use(authenticateToken)
+
+  // POST /api/wedding-urls - Create/update base URL
+  router.post('/wedding-urls', saveWeddingUrl)
+
+  // GET /api/wedding-urls/latest - Get latest URL
+  router.get('/wedding-urls/latest', getLatestWeddingUrl)
+
+  // DELETE /api/wedding-urls/:id - Soft delete URL
+  router.delete('/wedding-urls/:id', deleteWeddingUrl)
+
+  module.exports = router
+  ```
+
+#### Task 2.1.3: Register Routes in App
+- [ ] **File:** `backend/app.js`
+- [ ] Add route registration:
+  ```javascript
+  const weddingRoutes = require('./routes/wedding')
+  app.use('/api', weddingRoutes)
+  ```
+
+### Milestone 2.2: Rate Limiting (Security)
+
+#### Task 2.2.1: Add Rate Limiter for POST Endpoint
+- [ ] Install package: `npm install express-rate-limit`
+- [ ] **File:** `backend/routes/wedding.js`
+  ```javascript
+  const rateLimit = require('express-rate-limit')
+
+  // Rate limit: max 10 requests per hour
+  const weddingUrlLimiter = rateLimit({
+    windowMs: 60 * 60 * 1000, // 1 hour
+    max: 10,
+    message: {
+      success: false,
+      error: {
+        code: 'RATE_LIMIT_EXCEEDED',
+        message: 'Too many requests. Please try again later.'
+      }
+    }
+  })
+
+  // Apply to POST only
+  router.post('/wedding-urls', weddingUrlLimiter, saveWeddingUrl)
+  ```
+
+### Milestone 2.3: Integration Tests
+
+#### Task 2.3.1: Write API Tests
+- [ ] **File:** `backend/tests/wedding-urls.test.js`
+- [ ] Test POST endpoint (create URL)
+- [ ] Test POST validation (invalid URL format)
+- [ ] Test POST soft delete behavior
+- [ ] Test GET latest URL
+- [ ] Test GET 404 when no URL
+- [ ] Test DELETE endpoint
+- [ ] Test authentication requirement
+- [ ] Test rate limiting
+
+### Deliverables
+- [ ] 3 API endpoints working
+- [ ] Rate limiting active
+- [ ] Integration tests passing (8 tests)
+- [ ] API response format chuẩn
+
+**Estimated Time:** 12 hours
+
+---
+
+## 📦 Phase 3: Frontend Utilities Development
+**Duration:** 1 day  
+**Status:** 📝 Not Started  
+**Progress:** 0%
+
+### Milestone 3.1: URL Encoder Utility
+
+#### Task 3.1.1: Create urlEncoder.js
+- [ ] **File:** `frontend/src/utils/urlEncoder.js`
+  ```javascript
+  /**
+   * Encode Vietnamese name to URL-safe format
+   * @param {string} name - Guest name with Vietnamese diacritics
+   * @returns {string} URL-encoded name
+   */
+  export const encodeVietnameseName = (name) => {
+    if (!name) return ''
+    return encodeURIComponent(name.trim())
+  }
+
+  /**
+   * Generate full invitation URL with encoded name
+   * @param {string} baseUrl - Base invitation URL
+   * @param {string} guestName - Guest name to encode
+   * @returns {string} Complete invitation URL
+   */
+  export const generateInvitationUrl = (baseUrl, guestName) => {
+    const encoded = encodeVietnameseName(guestName)
+    return `${baseUrl}?name=${encoded}`
+  }
+
+  /**
+   * Parse guest names from text with multiple separators
+   * @param {string} text - Text with guest names
+   * @returns {string[]} Array of guest names
+   */
+  export const parseGuestNames = (text) => {
+    if (!text) return []
+    
+    return text
+      .split(/[,;\n]+/) // Split by comma, semicolon, or newline
+      .map(name => name.trim())
+      .filter(name => name.length > 0)
+  }
+
+  /**
+   * Remove duplicate names (case-insensitive)
+   * @param {string[]} names - Array of guest names
+   * @returns {string[]} Array without duplicates
+   */
+  export const removeDuplicateNames = (names) => {
+    const seen = new Set()
+    return names.filter(name => {
+      const lower = name.toLowerCase()
+      if (seen.has(lower)) return false
+      seen.add(lower)
+      return true
+    })
+  }
+
+  /**
+   * Validate URL format
+   * @param {string} url - URL to validate
+   * @returns {boolean} True if valid
+   */
+  export const isValidUrl = (url) => {
+    if (!url) return false
+    return /^https?:\/\/.+/.test(url)
+  }
+  ```
+
+#### Task 3.1.2: Write Unit Tests for urlEncoder
+- [ ] **File:** `frontend/src/utils/__tests__/urlEncoder.test.js`
+- [ ] Test `encodeVietnameseName` với 20 Vietnamese characters
+- [ ] Test `parseGuestNames` với separators `,` `;` `\n`
+- [ ] Test `removeDuplicateNames` case-insensitive
+- [ ] Test `isValidUrl` validation
+
+### Milestone 3.2: File Parser Utility
+
+#### Task 3.2.1: Install xlsx Package
+- [ ] Run: `cd frontend && npm install xlsx@^0.18.5`
+
+#### Task 3.2.2: Create fileParser.js
+- [ ] **File:** `frontend/src/utils/fileParser.js`
+  ```javascript
+  import * as XLSX from 'xlsx'
+
+  /**
+   * Parse text file (one name per line)
+   * @param {File} file - Text file
+   * @returns {Promise<string[]>} Array of guest names
+   */
+  export const parseTextFile = async (file) => {
+    try {
+      const text = await file.text()
+      return text
+        .split('\n')
+        .map(line => line.trim())
+        .filter(Boolean)
+    } catch (error) {
+      console.error('Error parsing text file:', error)
+      throw new Error('Không thể đọc file TXT')
+    }
+  }
+
+  /**
+   * Parse CSV file (first column = names)
+   * @param {File} file - CSV file
+   * @returns {Promise<string[]>} Array of guest names
+   */
+  export const parseCsvFile = async (file) => {
+    try {
+      const text = await file.text()
+      const lines = text.split('\n')
+      
+      return lines
+        .map(line => {
+          const columns = line.split(',')
+          return columns[0]?.trim() || ''
+        })
+        .filter(Boolean)
+    } catch (error) {
+      console.error('Error parsing CSV file:', error)
+      throw new Error('Không thể đọc file CSV')
+    }
+  }
+
+  /**
+   * Parse Excel file (first column of first sheet = names)
+   * @param {File} file - Excel file (.xlsx)
+   * @returns {Promise<string[]>} Array of guest names
+   */
+  export const parseExcelFile = async (file) => {
+    try {
+      const buffer = await file.arrayBuffer()
+      const workbook = XLSX.read(buffer, { type: 'array' })
+      
+      // Get first sheet
+      const firstSheetName = workbook.SheetNames[0]
+      const worksheet = workbook.Sheets[firstSheetName]
+      
+      // Convert to array of arrays
+      const data = XLSX.utils.sheet_to_json(worksheet, { header: 1 })
+      
+      // Extract first column
+      return data
+        .map(row => String(row[0] || '').trim())
+        .filter(Boolean)
+    } catch (error) {
+      console.error('Error parsing Excel file:', error)
+      throw new Error('Không thể đọc file Excel')
+    }
+  }
+
+  /**
+   * Parse file based on extension
+   * @param {File} file - File to parse
+   * @returns {Promise<string[]>} Array of guest names
+   */
+  export const parseFile = async (file) => {
+    const extension = file.name.split('.').pop().toLowerCase()
+    
+    switch (extension) {
+      case 'txt':
+        return parseTextFile(file)
+      case 'csv':
+        return parseCsvFile(file)
+      case 'xlsx':
+        return parseExcelFile(file)
+      default:
+        throw new Error(`Định dạng file không hỗ trợ: .${extension}`)
+    }
+  }
+
+  /**
+   * Validate file size
+   * @param {File} file - File to validate
+   * @param {number} maxSizeMB - Max size in MB
+   * @returns {boolean} True if valid
+   */
+  export const validateFileSize = (file, maxSizeMB = 2) => {
+    const maxBytes = maxSizeMB * 1024 * 1024
+    return file.size <= maxBytes
+  }
+  ```
+
+#### Task 3.2.3: Write Unit Tests for fileParser
+- [ ] **File:** `frontend/src/utils/__tests__/fileParser.test.js`
+- [ ] Test `parseTextFile` với mock file
+- [ ] Test `parseCsvFile` với CSV data
+- [ ] Test `parseExcelFile` với mock workbook
+- [ ] Test `validateFileSize` với different sizes
+
+### Milestone 3.3: Wedding Service (API Client)
+
+#### Task 3.3.1: Create weddingService.js
+- [ ] **File:** `frontend/src/services/weddingService.js`
+  ```javascript
+  import { API_BASE_URL } from '../config/constants'
+
+  const getAuthHeaders = () => {
+    const token = localStorage.getItem('token')
+    return {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    }
+  }
+
+  /**
+   * Save wedding base URL
+   * @param {string} baseUrl - Base invitation URL
+   * @returns {Promise<Object>} Saved URL data
+   */
+  export const saveWeddingUrl = async (baseUrl) => {
+    const response = await fetch(`${API_BASE_URL}/wedding-urls`, {
+      method: 'POST',
+      headers: getAuthHeaders(),
+      body: JSON.stringify({ baseUrl })
+    })
+
+    const data = await response.json()
+
+    if (!response.ok) {
+      throw new Error(data.error?.message || 'Không thể lưu URL')
+    }
+
+    return data
+  }
+
+  /**
+   * Get latest wedding URL
+   * @returns {Promise<Object>} Latest URL data
+   */
+  export const getLatestWeddingUrl = async () => {
+    const response = await fetch(`${API_BASE_URL}/wedding-urls/latest`, {
+      method: 'GET',
+      headers: getAuthHeaders()
+    })
+
+    const data = await response.json()
+
+    if (response.status === 404) {
+      return null // No URL saved yet
+    }
+
+    if (!response.ok) {
+      throw new Error(data.error?.message || 'Không thể tải URL')
+    }
+
+    return data
+  }
+
+  /**
+   * Delete wedding URL
+   * @param {string} id - URL ID
+   * @returns {Promise<void>}
+   */
+  export const deleteWeddingUrl = async (id) => {
+    const response = await fetch(`${API_BASE_URL}/wedding-urls/${id}`, {
+      method: 'DELETE',
+      headers: getAuthHeaders()
+    })
+
+    const data = await response.json()
+
+    if (!response.ok) {
+      throw new Error(data.error?.message || 'Không thể xóa URL')
+    }
+  }
+  ```
+
+### Deliverables
+- [ ] `urlEncoder.js` với 5 functions
+- [ ] `fileParser.js` với Excel/CSV/TXT support
+- [ ] `weddingService.js` với 3 API calls
+- [ ] Unit tests passing (15+ tests)
+
+**Estimated Time:** 8 hours
+
+---
+
+## 📦 Phase 4: Frontend UI Components
+**Duration:** 2 days  
+**Status:** 📝 Not Started  
+**Progress:** 0%
+
+### Milestone 4.1: Base URL Input Component
+
+#### Task 4.1.1: Create BaseUrlInput.jsx
+- [ ] **File:** `frontend/src/components/wedding/BaseUrlInput.jsx`
+  ```jsx
+  import React, { useState } from 'react'
+  import { Save } from 'lucide-react'
+  import { isValidUrl } from '../../utils/urlEncoder'
+
+  const BaseUrlInput = ({ value, onChange, onSave, lastUpdated, loading }) => {
+    const [error, setError] = useState('')
+
+    const handleSave = async () => {
+      // Validation
+      if (!value.trim()) {
+        setError('Vui lòng nhập URL thiệp cưới')
+        return
+      }
+
+      if (!isValidUrl(value)) {
+        setError('URL phải bắt đầu bằng http:// hoặc https://')
+        return
+      }
+
+      setError('')
+      await onSave(value)
+    }
+
+    return (
+      <div className="bg-white rounded-xl p-6 shadow-sm">
+        <h3 className="text-lg font-semibold mb-4">🔗 Base URL Thiệp Cưới</h3>
+        
+        <div className="space-y-3">
+          <input
+            type="text"
+            value={value}
+            onChange={(e) => {
+              onChange(e.target.value)
+              setError('')
+            }}
+            placeholder="https://invitations.jmiiwedding.com/longnhiwedding"
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-400 focus:border-transparent"
+            data-testid="base-url-input"
+          />
+
+          {error && (
+            <p className="text-red-500 text-sm">{error}</p>
+          )}
+
+          <button
+            onClick={handleSave}
+            disabled={loading}
+            className="bg-pink-400 text-white px-6 py-2 rounded-lg hover:bg-pink-500 transition disabled:opacity-50 flex items-center gap-2"
+            data-testid="save-url-btn"
+          >
+            <Save size={18} />
+            {loading ? 'Đang lưu...' : 'Lưu URL'}
+          </button>
+
+          {lastUpdated && (
+            <p className="text-sm text-gray-500">
+              Cập nhật lần cuối: {new Date(lastUpdated).toLocaleString('vi-VN')}
+            </p>
+          )}
+        </div>
+      </div>
+    )
+  }
+
+  export default BaseUrlInput
+  ```
+
+### Milestone 4.2: Guest Name Input Component
+
+#### Task 4.2.1: Create GuestNameInput.jsx
+- [ ] **File:** `frontend/src/components/wedding/GuestNameInput.jsx`
+  ```jsx
+  import React, { useState } from 'react'
+  import { Upload, Users } from 'lucide-react'
+  import { parseFile, validateFileSize } from '../../utils/fileParser'
+
+  const GuestNameInput = ({ onNamesChange }) => {
+    const [text, setText] = useState('')
+    const [fileInfo, setFileInfo] = useState(null)
+    const [error, setError] = useState('')
+    const [loading, setLoading] = useState(false)
+
+    const handleFileUpload = async (e) => {
+      const file = e.target.files[0]
+      if (!file) return
+
+      // Validate file size
+      if (!validateFileSize(file, 2)) {
+        setError('File quá lớn. Vui lòng chọn file < 2MB')
+        return
+      }
+
+      // Validate extension
+      const ext = file.name.split('.').pop().toLowerCase()
+      if (!['txt', 'csv', 'xlsx'].includes(ext)) {
+        setError('Chỉ hỗ trợ file .txt, .csv, .xlsx')
+        return
+      }
+
+      setLoading(true)
+      setError('')
+
+      try {
+        const names = await parseFile(file)
+        setText(names.join('\n'))
+        setFileInfo({ name: file.name, count: names.length })
+        onNamesChange(names)
+      } catch (err) {
+        setError(err.message)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    const handleTextChange = (value) => {
+      setText(value)
+      setFileInfo(null)
+      setError('')
+    }
+
+    return (
+      <div className="bg-white rounded-xl p-6 shadow-sm">
+        <h3 className="text-lg font-semibold mb-4">
+          <Users className="inline mr-2" size={20} />
+          Danh Sách Khách Mời
+        </h3>
+
+        <div className="space-y-4">
+          {/* Textarea Input */}
+          <textarea
+            value={text}
+            onChange={(e) => handleTextChange(e.target.value)}
+            placeholder="Nhập danh sách khách mời (phân cách bằng dấu phẩy, chấm phẩy hoặc xuống dòng)&#10;&#10;Ví dụ:&#10;Bà Ngoại + Cậu Năm&#10;GD Em Phong Vân&#10;GĐ Em Sang Bình"
+            rows={8}
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent resize-none"
+            data-testid="guest-names-textarea"
+          />
+
+          {/* File Upload */}
+          <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+            <Upload className="mx-auto mb-2 text-gray-400" size={32} />
+            <p className="text-sm text-gray-600 mb-3">
+              Hoặc tải lên file Excel/TXT/CSV
+            </p>
+            <input
+              type="file"
+              accept=".txt,.csv,.xlsx"
+              onChange={handleFileUpload}
+              className="hidden"
+              id="file-upload"
+              data-testid="file-upload-input"
+            />
+            <label
+              htmlFor="file-upload"
+              className="bg-purple-400 text-white px-6 py-2 rounded-lg hover:bg-purple-500 transition cursor-pointer inline-block"
+            >
+              {loading ? 'Đang đọc...' : 'Chọn File'}
+            </label>
+          </div>
+
+          {/* File Info */}
+          {fileInfo && (
+            <div className="bg-green-50 border border-green-200 rounded-lg p-3">
+              <p className="text-sm text-green-700">
+                ✅ Đã đọc {fileInfo.count} tên từ file: {fileInfo.name}
+              </p>
+            </div>
+          )}
+
+          {/* Error */}
+          {error && (
+            <div className="bg-red-50 border border-red-200 rounded-lg p-3">
+              <p className="text-sm text-red-700">❌ {error}</p>
+            </div>
+          )}
+        </div>
+      </div>
+    )
+  }
+
+  export default GuestNameInput
+  ```
+
+### Milestone 4.3: Encoded URL List Component
+
+#### Task 4.3.1: Create EncodedUrlList.jsx
+- [ ] **File:** `frontend/src/components/wedding/EncodedUrlList.jsx`
+  ```jsx
+  import React, { useState } from 'react'
+  import { Copy, CheckCircle, ExternalLink } from 'lucide-react'
+
+  const EncodedUrlList = ({ urls, onCopyAll }) => {
+    const [copiedIndex, setCopiedIndex] = useState(null)
+    const [copiedAll, setCopiedAll] = useState(false)
+
+    const copyToClipboard = async (text, index = null) => {
+      try {
+        await navigator.clipboard.writeText(text)
+        
+        if (index !== null) {
+          setCopiedIndex(index)
+          setTimeout(() => setCopiedIndex(null), 2000)
+        } else {
+          setCopiedAll(true)
+          setTimeout(() => setCopiedAll(false), 2000)
+        }
+      } catch (err) {
+        console.error('Failed to copy:', err)
+        alert('Không thể copy. Vui lòng copy thủ công.')
+      }
+    }
+
+    const handleCopyAll = () => {
+      const allUrls = urls.map(item => item.url).join('\n')
+      copyToClipboard(allUrls)
+      onCopyAll()
+    }
+
+    if (urls.length === 0) {
+      return (
+        <div className="bg-gray-50 rounded-xl p-6 text-center text-gray-500">
+          Nhập danh sách khách mời để tạo links
+        </div>
+      )
+    }
+
+    return (
+      <div className="bg-white rounded-xl p-6 shadow-sm">
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="text-lg font-semibold">
+            📋 Danh Sách Links ({urls.length})
+          </h3>
+          
+          <button
+            onClick={handleCopyAll}
+            className="bg-green-400 text-white px-4 py-2 rounded-lg hover:bg-green-500 transition flex items-center gap-2"
+            data-testid="copy-all-btn"
+          >
+            {copiedAll ? <CheckCircle size={18} /> : <Copy size={18} />}
+            {copiedAll ? 'Đã copy!' : 'Copy tất cả'}
+          </button>
+        </div>
+
+        <div className="space-y-3 max-h-96 overflow-y-auto">
+          {urls.map((item, index) => (
+            <div
+              key={index}
+              className="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 transition"
+              data-testid="encoded-url-item"
+            >
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex-1 min-w-0">
+                  <p className="font-medium text-gray-800 mb-1">
+                    {item.name}
+                  </p>
+                  <a
+                    href={item.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-blue-600 hover:text-blue-700 break-all flex items-center gap-1"
+                  >
+                    {item.url}
+                    <ExternalLink size={14} />
+                  </a>
+                </div>
+
+                <button
+                  onClick={() => copyToClipboard(item.url, index)}
+                  className="bg-blue-100 text-blue-600 px-3 py-2 rounded-lg hover:bg-blue-200 transition flex items-center gap-1 flex-shrink-0"
+                  title="Copy link"
+                >
+                  {copiedIndex === index ? (
+                    <>
+                      <CheckCircle size={16} />
+                      <span className="text-xs">Đã copy</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy size={16} />
+                      <span className="text-xs">Copy</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    )
+  }
+
+  export default EncodedUrlList
+  ```
+
+### Milestone 4.4: Main Page Component
+
+#### Task 4.4.1: Create WeddingInvitationTool.jsx
+- [ ] **File:** `frontend/src/pages/WeddingInvitationTool.jsx`
+  ```jsx
+  import React, { useState, useEffect } from 'react'
+  import { Mail } from 'lucide-react'
+  import BaseUrlInput from '../components/wedding/BaseUrlInput'
+  import GuestNameInput from '../components/wedding/GuestNameInput'
+  import EncodedUrlList from '../components/wedding/EncodedUrlList'
+  import { saveWeddingUrl, getLatestWeddingUrl } from '../services/weddingService'
+  import { parseGuestNames, removeDuplicateNames, generateInvitationUrl } from '../utils/urlEncoder'
+  import toast from 'react-hot-toast'
+
+  const WeddingInvitationTool = () => {
+    const [baseUrl, setBaseUrl] = useState('')
+    const [lastUpdated, setLastUpdated] = useState(null)
+    const [guestNames, setGuestNames] = useState([])
+    const [encodedUrls, setEncodedUrls] = useState([])
+    const [loading, setLoading] = useState(false)
+
+    // Load saved URL on mount
+    useEffect(() => {
+      loadSavedUrl()
+    }, [])
+
+    const loadSavedUrl = async () => {
+      try {
+        const result = await getLatestWeddingUrl()
+        if (result?.data) {
+          setBaseUrl(result.data.base_url)
+          setLastUpdated(result.data.created_at)
+        }
+      } catch (error) {
+        console.error('Failed to load URL:', error)
+      }
+    }
+
+    const handleSaveUrl = async (url) => {
+      setLoading(true)
+      try {
+        const result = await saveWeddingUrl(url)
+        setLastUpdated(result.data.created_at)
+        toast.success('✅ Đã lưu URL thiệp cưới')
+      } catch (error) {
+        toast.error(`❌ ${error.message}`)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    const handleNamesChange = (names) => {
+      setGuestNames(names)
+      generateLinks(names)
+    }
+
+    const handleTextInput = (text) => {
+      const names = parseGuestNames(text)
+      const uniqueNames = removeDuplicateNames(names)
+      setGuestNames(uniqueNames)
+      generateLinks(uniqueNames)
+    }
+
+    const generateLinks = (names) => {
+      if (!baseUrl.trim()) {
+        toast.error('❌ Vui lòng lưu Base URL trước')
+        return
+      }
+
+      if (names.length === 0) {
+        setEncodedUrls([])
+        return
+      }
+
+      const urls = names.map(name => ({
+        name,
+        url: generateInvitationUrl(baseUrl, name)
+      }))
+
+      setEncodedUrls(urls)
+      toast.success(`✅ Đã tạo ${urls.length} links`)
+    }
+
+    const handleCopyAll = () => {
+      toast.success(`✅ Đã copy ${encodedUrls.length} links vào clipboard`)
+    }
+
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 p-6">
+        <div className="max-w-6xl mx-auto">
+          {/* Header */}
+          <div className="text-center mb-8">
+            <Mail className="inline-block text-pink-500 mb-2" size={48} />
+            <h1 className="text-4xl font-bold text-gray-800 mb-2">
+              Wedding Invitation URL Encoder
+            </h1>
+            <p className="text-gray-600">
+              Tạo links thiệp cưới cá nhân hóa cho từng khách mời
+            </p>
+          </div>
+
+          {/* Main Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Left Column */}
+            <div className="space-y-6">
+              <BaseUrlInput
+                value={baseUrl}
+                onChange={setBaseUrl}
+                onSave={handleSaveUrl}
+                lastUpdated={lastUpdated}
+                loading={loading}
+              />
+
+              <GuestNameInput onNamesChange={handleNamesChange} />
+            </div>
+
+            {/* Right Column */}
+            <div>
+              <EncodedUrlList urls={encodedUrls} onCopyAll={handleCopyAll} />
+            </div>
+          </div>
+
+          {/* Footer Stats */}
+          <div className="mt-8 text-center text-sm text-gray-500">
+            <p>
+              {encodedUrls.length > 0 && (
+                <>Đã tạo <strong>{encodedUrls.length}</strong> links thiệp cưới</>
+              )}
+            </p>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  export default WeddingInvitationTool
+  ```
+
+#### Task 4.4.2: Add Route to App.jsx
+- [ ] **File:** `frontend/src/App.jsx`
+  ```jsx
+  import WeddingInvitationTool from './pages/WeddingInvitationTool'
+
+  // Add route
+  <Route path="/wedding-invitation" element={<WeddingInvitationTool />} />
+  ```
+
+#### Task 4.4.3: Add Menu Item to SidebarMenu.jsx
+- [ ] **File:** `frontend/src/components/SidebarMenu.jsx`
+  ```jsx
+  import { Mail } from 'lucide-react'
+
+  // Add menu item
+  {
+    name: 'Wedding Invitation',
+    path: '/wedding-invitation',
+    icon: Mail,
+    color: 'text-pink-500'
+  }
+  ```
+
+### Deliverables
+- [ ] 3 components complete (BaseUrlInput, GuestNameInput, EncodedUrlList)
+- [ ] Main page với state management
+- [ ] Route và menu item added
+- [ ] UI responsive và có loading states
+
+**Estimated Time:** 16 hours
+
+---
+
+## 📦 Phase 5: Testing
+**Duration:** 2 days  
+**Status:** 📝 Not Started  
+**Progress:** 0%
+
+### Milestone 5.1: Unit Tests
+
+#### Task 5.1.1: URL Encoder Tests
+- [ ] Run: `npm test urlEncoder.test.js`
+- [ ] Verify 20+ test cases pass
+- [ ] Coverage >= 90%
+
+#### Task 5.1.2: File Parser Tests
+- [ ] Run: `npm test fileParser.test.js`
+- [ ] Test with mock files
+- [ ] Coverage >= 85%
+
+### Milestone 5.2: Integration Tests
+
+#### Task 5.2.1: Backend API Tests
+- [ ] Run: `npm test wedding-urls.test.js`
+- [ ] Verify 8 test cases pass
+- [ ] Test authentication
+- [ ] Test rate limiting
+
+### Milestone 5.3: E2E Tests
+
+#### Task 5.3.1: Write Cypress Tests
+- [ ] **File:** `cypress/e2e/wedding-invitation.cy.js`
+- [ ] Test: Save base URL and persist on reload
+- [ ] Test: Generate links from textarea
+- [ ] Test: Copy all links to clipboard
+- [ ] Test: Upload Excel file
+- [ ] Run: `npm run test:e2e`
+
+### Milestone 5.4: Manual Testing
+
+#### Task 5.4.1: Manual Test Cases
+- [ ] Test với 100 Vietnamese names
+- [ ] Test file upload với 1000 rows Excel
+- [ ] Test copy to clipboard on Chrome/Firefox/Safari
+- [ ] Test mobile responsive design
+- [ ] Test với các URL thiệp cưới thực tế:
+  - JMii Wedding
+  - Marry Wedding
+  - The Wedding
+- [ ] Test error scenarios:
+  - Invalid URL format
+  - Empty names
+  - File too large (> 2MB)
+  - Duplicate names
+
+### Deliverables
+- [ ] All unit tests pass (35+ tests)
+- [ ] All integration tests pass (8 tests)
+- [ ] All E2E tests pass (4 tests)
+- [ ] Manual testing complete
+- [ ] Coverage >= 85%
+
+**Estimated Time:** 16 hours
+
+---
+
+## 📦 Phase 6: Documentation
+**Duration:** 1 day  
+**Status:** 📝 Not Started  
+**Progress:** 0%
+
+### Task 6.1: API Documentation
+
+#### Update API_DOCUMENTATION.md
+- [ ] **File:** `docs/API_DOCUMENTATION.md`
+- [ ] Add section "Wedding Invitation URLs"
+- [ ] Document 3 endpoints:
+  - POST /api/wedding-urls
+  - GET /api/wedding-urls/latest
+  - DELETE /api/wedding-urls/:id
+- [ ] Include request/response examples
+- [ ] Document error codes
+
+### Task 6.2: Database Schema Documentation
+
+#### Update DATABASE_SCHEMA.md
+- [ ] **File:** `docs/DATABASE_SCHEMA.md`
+- [ ] Add `wedding_urls` table schema
+- [ ] Update ERD diagram
+- [ ] Document indexes
+
+### Task 6.3: User Guide
+
+#### Create WEDDING_INVITATION_TOOL.md
+- [ ] **File:** `docs/WEDDING_INVITATION_TOOL.md`
+- [ ] Step-by-step guide:
+  - How to save base URL
+  - How to input guest names (textarea)
+  - How to upload Excel file
+  - How to copy links
+- [ ] Add screenshots
+- [ ] Troubleshooting section
+
+### Task 6.4: Update Main Documentation
+
+#### Update README.md
+- [ ] Add "Wedding Invitation URL Encoder" to tools list
+- [ ] Add screenshot
+
+#### Update CHANGELOG.md
+- [ ] Create v1.5.0 entry
+- [ ] List features:
+  - UTF-8 encoding for Vietnamese names
+  - Batch input (textarea/file)
+  - File upload (.txt, .csv, .xlsx)
+  - One-click copy all links
+  - Base URL persistence
+
+### Deliverables
+- [ ] API docs updated
+- [ ] Database schema docs updated
+- [ ] User guide created
+- [ ] README and CHANGELOG updated
+
+**Estimated Time:** 8 hours
+
+---
+
+## 📦 Phase 7: Deployment
+**Duration:** 1 day  
+**Status:** 📝 Not Started  
+**Progress:** 0%
+
+### Task 7.1: Database Migration (Production)
+
+- [ ] Backup production database
+- [ ] Run migration: `npm run db:migrate:up`
+- [ ] Verify `wedding_urls` table created
+- [ ] Verify indexes created
+
+### Task 7.2: Backend Deployment (Railway)
+
+- [ ] Commit backend changes
+- [ ] Push to GitHub
+- [ ] Railway auto-deploys
+- [ ] Verify deployment logs
+- [ ] Test API endpoints on production:
+  - POST /api/wedding-urls
+  - GET /api/wedding-urls/latest
+
+### Task 7.3: Frontend Deployment (Vercel)
+
+- [ ] Install `xlsx` package in production
+- [ ] Commit frontend changes
+- [ ] Push to GitHub
+- [ ] Vercel auto-deploys
+- [ ] Verify build successful
+- [ ] Test on production URL
+
+### Task 7.4: Smoke Testing
+
+- [ ] Test full workflow on production:
+  - Save base URL
+  - Input guest names
+  - Upload Excel file
+  - Generate links
+  - Copy to clipboard
+- [ ] Test on mobile devices
+- [ ] Test on different browsers
+
+### Task 7.5: Monitoring
+
+- [ ] Monitor Railway logs for errors
+- [ ] Monitor Vercel analytics
+- [ ] Check database query performance
+- [ ] Monitor for 24 hours
+
+### Rollback Plan
+
+- [ ] Document rollback steps:
+  - Vercel: Revert to previous deployment
+  - Railway: Revert to previous deployment
+  - Database: Run `007_down_wedding_urls.sql`
+
+### Deliverables
+- [ ] Production deployment successful
+- [ ] Smoke tests passing
+- [ ] Monitoring active
+- [ ] No critical errors in 24h
+
+**Estimated Time:** 8 hours
+
+---
+
+## 📊 Progress Tracking
+
+### Overall Status
+
+| Phase | Progress | Status | Est. Days | Actual Days |
+|-------|----------|--------|-----------|-------------|
+| 1. Database | 0% | ⏳ | 0.5 | - |
+| 2. Backend API | 0% | ⏳ | 1.5 | - |
+| 3. Utilities | 0% | ⏳ | 1 | - |
+| 4. Frontend UI | 0% | ⏳ | 2 | - |
+| 5. Testing | 0% | ⏳ | 2 | - |
+| 6. Documentation | 0% | ⏳ | 1 | - |
+| 7. Deployment | 0% | ⏳ | 1 | - |
+| **Total** | **0%** | **⏳** | **9** | **-** |
+
+### Task Completion
+
+- **Total Tasks:** 62
+- **Completed:** 0
+- **In Progress:** 0
+- **Not Started:** 62
+
+### Velocity Metrics
+- **Planned velocity:** 7 tasks/day
+- **Actual velocity:** - tasks/day
+- **Completion rate:** 0%
+
+---
+
+## 🐛 Issues & Risks
+
+### Risks
+
+| Risk | Probability | Impact | Mitigation |
+|------|-------------|--------|------------|
+| Excel parsing library bundle size (30MB) | Medium | Medium | Use code splitting, lazy load xlsx only when needed |
+| Browser clipboard API không work trên HTTP | Low | Medium | Fallback to manual copy với textarea selection |
+| UTF-8 encoding edge cases với emoji | Low | Low | Test với nhiều test cases, document limitations |
+| File upload timeout với large files | Medium | Medium | Enforce 2MB limit, show progress indicator |
+| Rate limiting quá aggressive | Low | Low | Monitor metrics, adjust limit nếu cần |
+
+### Mitigation Strategies
+
+1. **Bundle Size Risk:**
+   - Implement dynamic import cho xlsx: `const XLSX = await import('xlsx')`
+   - Chỉ load khi user click file upload
+   - Reduce bundle size impact
+
+2. **Clipboard API Risk:**
+   - Check API availability: `if (navigator.clipboard)`
+   - Fallback: Create textarea, select, document.execCommand('copy')
+   - Show clear error message
+
+3. **Encoding Edge Cases:**
+   - Write comprehensive test suite (20+ Vietnamese chars)
+   - Test với emoji, special characters
+   - Document any known limitations
+
+---
+
+## 💡 Technical Decisions
+
+### Decision 1: Client-side URL Encoding
+**Date:** 2025-11-12  
+**Status:** ✅ Approved
+
+**Context:**  
+Cần quyết định encode URLs ở frontend hay backend.
+
+**Options Considered:**
+1. **Client-side** (JavaScript `encodeURIComponent()`)
+   - Pros: Instant feedback, no network latency, reduce server load
+   - Cons: No server validation
+
+2. **Server-side** (Node.js encoding + validation)
+   - Pros: Centralized validation, consistent encoding
+   - Cons: Network round-trip, slower UX
+
+3. **Hybrid** (Encode client, validate server)
+   - Pros: Best of both worlds
+   - Cons: Complex, redundant code
+
+**Decision:** Option 1 - Client-side only
+
+**Reasoning:**
+- `encodeURIComponent()` is well-tested browser API
+- Instant feedback improves UX
+- Encoding is pure function (no side effects, no validation needed)
+- Reduces backend load
+- No security risk (encoding output is always safe)
+
+**Trade-offs:**
+- No server-side validation of encoding quality
+- Acceptable because encoding is deterministic
+
+---
+
+### Decision 2: xlsx Package for Excel Parsing
+**Date:** 2025-11-12  
+**Status:** ✅ Approved
+
+**Context:**  
+Cần parse `.xlsx` files trên client-side.
+
+**Options Considered:**
+1. **xlsx (SheetJS)** - 30MB unpacked
+   - Pros: Most popular, best browser support, handles complex Excel
+   - Cons: Large bundle size
+
+2. **exceljs** - 10MB
+   - Pros: Smaller, modern API
+   - Cons: Less mature, fewer downloads
+
+3. **Server-side parsing**
+   - Pros: No client bundle size impact
+   - Cons: File upload to server, slower, security concerns
+
+**Decision:** Option 1 - xlsx (SheetJS) with code splitting
+
+**Reasoning:**
+- Most reliable and battle-tested (100M+ downloads/month)
+- Client-side parsing is faster (no upload time)
+- Code splitting mitigates bundle size impact
+- Feature importance justifies the cost
+
+**Trade-offs:**
+- Large bundle size
+- Mitigation: Dynamic import, lazy loading
+
+**Implementation:**
+```javascript
+// Lazy load xlsx only when needed
+const handleFileUpload = async (file) => {
+  const XLSX = await import('xlsx')
+  // Parse file
+}
+```
+
+---
+
+### Decision 3: Single Active URL Per User
+**Date:** 2025-11-12  
+**Status:** ✅ Approved
+
+**Context:**  
+Có nên cho phép user lưu multiple base URLs?
+
+**Options Considered:**
+1. **Single URL** (soft delete old ones)
+   - Pros: Simple UX, no URL selection needed
+   - Cons: User phải re-enter nếu có multiple events
+
+2. **Multiple URLs** (dropdown selection)
+   - Pros: Support multiple events simultaneously
+   - Cons: Complex UX, need URL management UI
+
+**Decision:** Option 1 - Single active URL
+
+**Reasoning:**
+- Most users chỉ có 1 active wedding event tại một thời điểm
+- Simpler UX (no dropdown clutter)
+- Soft delete preserves history (có thể restore later)
+- Reduces cognitive load
+
+**Trade-offs:**
+- Users with multiple events phải switch URL
+- Acceptable because rare use case
+
+---
+
+## 📝 Best Practices
+
+### Code Style
+- Follow ESLint configuration
+- Use meaningful variable names
+- Add JSDoc comments for utility functions
+- Keep functions < 50 lines
+
+### Testing
+- Write tests BEFORE implementation (TDD)
+- Test Vietnamese characters extensively
+- Test edge cases (empty input, duplicates, large files)
+- Maintain >= 85% coverage
+
+### Security
+- Parameterized SQL queries ALWAYS
+- Validate all user input
+- Apply rate limiting on POST endpoints
+- No secrets in code (use .env)
+
+### Performance
+- Lazy load xlsx package (dynamic import)
+- Use React.memo for expensive components
+- Virtualize list if > 500 URLs (react-window)
+- Optimize database queries with indexes
+
+### Git Workflow
+- Commit messages: `feat(wedding): add base URL input component`
+- Create PR for each phase
+- Request code review before merge
+- Squash commits before merging
+
+---
+
+## 📚 Related Documentation
+
+- **Specification:** `specs/specs/06_wedding_invitation_url_encoder.spec`
+- **API Docs:** `docs/API_DOCUMENTATION.md` (to be updated)
+- **Database Schema:** `docs/DATABASE_SCHEMA.md` (to be updated)
+- **User Guide:** `docs/WEDDING_INVITATION_TOOL.md` (to be created)
+- **Project Manifest:** `project_manifest.json` (to be updated with v1.5.0)
+
+---
+
+## 👥 Team
+
+**Plan Owner:** KaDong Development Team  
+**Contributors:** Full-stack Developer  
+**Reviewers:** Technical Lead, Product Owner  
+**Stakeholders:** Wedding couples using the tool
+
+---
+
+## 📊 Success Metrics
+
+### Development Metrics
+- **Lines of Code:** ~2000 (estimated)
+- **Test Coverage:** >= 85%
+- **Files Created:** 15+
+- **API Endpoints:** 3
+- **Components:** 4
+
+### Performance Metrics
+- **API Response Time:** < 200ms ✅ Target
+- **File Parsing (1000 rows):** < 2s ✅ Target
+- **URL Encoding (100 names):** < 100ms ✅ Target
+
+### Business Metrics
+- **User Adoption:** 50+ users in first month
+- **URLs Generated:** 100+ in first week
+- **Error Rate:** < 0.1%
+- **User Satisfaction:** 4.5+ / 5.0
+
+---
+
+## 🔄 Review History
+
+| Date | Version | Changes | Updated By |
+|------|---------|---------|------------|
+| 2025-11-12 | 1.0.0 | Initial plan created | KaDong Team |
+
+---
+
+## ✅ Pre-Implementation Checklist
+
+- [ ] Plan reviewed by team
+- [ ] Timeline approved by stakeholders
+- [ ] Dependencies identified (xlsx package)
+- [ ] Database migration ready
+- [ ] Test strategy defined
+- [ ] Rollback plan documented
+- [ ] Ready to begin Phase 1
+
+**Approved By:** -  
+**Approval Date:** -
+
+---
+
+**Next Review:** After Phase 3 completion  
+**Review Frequency:** End of each phase  
+**Last Updated By:** KaDong Team  
+**Contact:** Team Slack channel
+
+---
+
+**Notes:**
+- This plan assumes existing auth system is working
+- Clipboard API requires HTTPS or localhost
+- Excel parsing may be slow on low-end devices (show loading indicator)
+- Consider adding export to TXT/CSV feature in future (Nice to Have)

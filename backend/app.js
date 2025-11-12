@@ -13,6 +13,7 @@ import goldRoutes from './routes/gold.js'
 import weatherRoutes from './routes/weather.js'
 import wishlistRoutes from './routes/wishlist.js'
 import currencyRoutes from './routes/currency.js'
+import weddingRoutes from './routes/wedding.js'
 import debugRoutes from './routes/debug.js'
 
 // Load environment variables
@@ -42,6 +43,7 @@ app.use('/api/gold', goldRoutes)
 app.use('/api/weather', weatherRoutes)
 app.use('/api/wishlist', wishlistRoutes)
 app.use('/api/currency', currencyRoutes)
+app.use('/api', weddingRoutes)
 
 // Debug routes (development only)
 if (process.env.NODE_ENV === 'development') {
@@ -71,7 +73,8 @@ app.get('/', (req, res) => {
       fashion: '/api/fashion',
       gold: '/api/gold',
       weather: '/api/weather',
-      wishlist: '/api/wishlist'
+      wishlist: '/api/wishlist',
+      weddingUrls: '/api/wedding-urls'
     }
   })
 })
