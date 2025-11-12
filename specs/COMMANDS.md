@@ -1,7 +1,7 @@
 # 🤖 Spec Kit - Copilot Agent Commands
 
 **Version:** 1.0.0  
-**Last Updated:** 2025-11-11
+**Last Updated:** 2025-11-12
 
 ---
 
@@ -927,7 +927,110 @@ LANG: VN
 
 ---
 
-## 6️⃣ Command `/status` - Check Progress
+## 6️⃣ Command `/update` - Update Spec Status
+
+### Cú pháp:
+```
+/update {spec_id}
+```
+
+### Ví dụ:
+```
+/update 01_init
+/update 03_wishlist_management
+/update 04_api_testing_framework
+```
+
+### 📝 Prompt:
+
+```
+TASK: Review và update status của spec {spec_id}
+DETAIL:
+Bạn là technical lead. Hãy review implementation hiện tại và update spec file.
+
+**Bước 1: Thu thập thông tin**
+- Đọc spec: specs/{spec_id}.spec
+- Check backend: controllers/, routes/, database/migrations/
+- Check frontend: src/pages/, src/components/
+- Check tests: backend/tests/
+- Check docs: docs/
+
+**Bước 2: Đánh giá progress**
+- Backend implementation: X% (check controllers/routes exist)
+- Frontend implementation: X% (check pages/components exist)
+- Database schema: X% (check migrations)
+- Testing: X% (check coverage, test files)
+- Documentation: X% (check API docs, README)
+
+**Bước 3: Update spec file**
+Chỉ update những phần sau (KHÔNG tạo version history mới):
+
+1. **Header:**
+   - Last Updated: YYYY-MM-DD (current date)
+   - Status: Draft/In Progress/Complete
+   - Overall Progress: X%
+
+2. **Acceptance Criteria:**
+   - Đánh dấu [x] cho completed items
+   - Thêm ✅ và date cho done items
+   - Thêm ⏳ cho in progress
+   - Thêm ⚠️ cho blocked items
+
+3. **Implementation Status Section (nếu chưa có):**
+   Thêm section mới ở cuối trước "Review & Updates":
+   ```markdown
+   ## 📊 Implementation Status (Added: YYYY-MM-DD)
+   
+   ### Backend: X% Complete
+   - Controllers: List implemented
+   - Routes: List implemented
+   - Database: Tables created
+   
+   ### Frontend: X% Complete
+   - Pages: List implemented
+   - Components: List implemented
+   
+   ### Testing: X% Coverage
+   - Unit tests: X/Y
+   - Integration tests: X/Y
+   - Coverage: X%
+   
+   ### Critical Findings:
+   - ✅ Completed items
+   - ⚠️ Gaps/blockers
+   - 🔴 Risks
+   ```
+
+4. **Review & Updates Table:**
+   - Chỉ có 1 entry với Version 1.0.0
+   - Update "Changes" column với latest changes
+   - Update date to current
+   - Format:
+   ```markdown
+   | Date | Version | Changes | Updated By |
+   |------|---------|---------|------------|
+   | YYYY-MM-DD | 1.0.0 | Brief summary of implementation status | Team |
+   ```
+
+**QUAN TRỌNG:**
+- ❌ KHÔNG tạo version 1.1.0, 1.2.0, etc.
+- ❌ KHÔNG tạo nhiều dòng trong Review table
+- ✅ CHỈ update existing Version 1.0.0 entry
+- ✅ CHỈ update Last Updated date ở header
+- ✅ CHỈ thêm checkmarks và status symbols
+
+**Output:**
+- Spec file đã update với status mới nhất
+- Implementation status section added/updated
+- Review table có 1 entry duy nhất
+- Ready for next phase
+
+LANG: VN
+```
+
+---
+
+## 7️⃣ Command `/status` - Check Progress
 
 ### Cú pháp:
 ```
@@ -937,7 +1040,8 @@ LANG: VN
 ### Ví dụ:
 ```
 /status 01_init
-/status 05_gold_prices
+/status 03_wishlist_management
+/status 04_api_testing_framework
 ```
 
 ### 📝 Prompt:
@@ -960,37 +1064,50 @@ Hãy tổng hợp progress của spec này.
 - Tasks completed: Z/Total
 
 **Output format:**
-```
-📊 Progress Report: {spec_id}
+Tạo comprehensive progress report bao gồm:
 
-**Spec:** {spec_name}
-**Status:** 🚧 In Progress
-**Overall Progress:** 75%
+1. **Executive Summary:**
+   - Spec ID, name, status
+   - Overall progress percentage
+   - Priority level
 
-**Phases:**
-✅ Phase 1: Database (100%)
-✅ Phase 2: Backend (100%)
-✅ Phase 3: Frontend (100%)
-🚧 Phase 4: Testing (30%)
-⏳ Phase 5: Docs (0%)
-⏳ Phase 6: Deploy (0%)
+2. **Phase Progress Table:**
+   | Phase | Name | Progress | Status | Tasks |
+   |-------|------|----------|--------|-------|
+   | 1 | Setup | 100% | ✅ Complete | 6/6 |
+   | 2 | Backend | 60% | 🚧 In Progress | 18/30 |
 
-**Tasks:**
-- Completed: 12/18
-- In Progress: 3/18
-- Todo: 3/18
+3. **Acceptance Criteria Status:**
+   - Must Have: X/Y completed
+   - Should Have: X/Y completed
+   - Nice to Have: X/Y completed
 
-**Blockers:**
-- Issue 1: Description
-- Issue 2: Description
+4. **Coverage Metrics (nếu có testing):**
+   - Code coverage: X%
+   - Tests written: X/Y
+   - Tests passing: X/Y
 
-**Next Steps:**
-1. Complete Phase 4 testing
-2. Start Phase 5 documentation
-3. Deploy to staging
+5. **Critical Findings:**
+   - ✅ Completed features
+   - ⚠️ Gaps/blockers
+   - 🔴 Risk assessment
 
-**ETA:** 2025-11-15
-```
+6. **Next Steps (Priority Order):**
+   - Urgent tasks
+   - Important tasks
+   - Nice to have tasks
+
+7. **Timeline Status:**
+   - Started: Date
+   - Current day: X
+   - Progress: On Track/Delayed
+   - ETA: Date
+
+**Lưu ý:**
+- Format output dễ đọc với tables, emoji, sections rõ ràng
+- Highlight critical issues bằng ⚠️ hoặc 🔴
+- Đưa ra recommendations cụ thể
+- Link đến related specs nếu có
 
 LANG: VN
 
@@ -1015,20 +1132,31 @@ LANG: VN
 /review specs/plans/06_shopping_cart.plan
 /tasks 06_shopping_cart 1
 /implement 06_shopping_cart_phase1_task1
-/status 06_shopping_cart
+/update 06_shopping_cart
 ```
 
 **Pattern 2: Continue existing feature**
 ```
-/status 05_gold_prices
-/tasks 05_gold_prices 4
-/implement 05_gold_prices_phase4_task1
+/status 04_api_testing_framework
+/tasks 04_api_testing_framework 2
+/implement 04_api_testing_framework_phase2_task1
+/update 04_api_testing_framework
 ```
 
-**Pattern 3: Quick check**
+**Pattern 3: Quick check and update**
 ```
-/status 01_init
-/review specs/plans/01_init.plan
+/status 03_wishlist_management
+/update 03_wishlist_management
+```
+
+**Pattern 4: Critical Gap Response**
+```
+/status 03_wishlist_management
+[Nhận thấy: 0% test coverage - CRITICAL]
+/plan 04_api_testing_framework
+/tasks 04_api_testing_framework 1
+/implement 04_api_testing_framework_phase1_task1
+/update 04_api_testing_framework
 ```
 
 ---

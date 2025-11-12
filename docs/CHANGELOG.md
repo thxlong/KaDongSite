@@ -16,6 +16,46 @@ MAJOR.MINOR.PATCH
 
 ---
 
+## [1.5.0] - 2025-11-12
+
+### 💒 Wedding Invitation URL Encoder Added
+
+**New Feature**: Generate personalized wedding invitation links with UTF-8 encoding for Vietnamese names
+
+#### ✨ Features
+- **UTF-8 Encoding**: Automatic encoding of Vietnamese diacritics to URL-safe format
+- **Batch Input**: Support textarea input with multiple separators (comma, semicolon, newline)
+- **File Upload**: Parse guest names from `.txt`, `.csv`, `.xlsx` files (max 2MB)
+- **Base URL Persistence**: Save wedding invitation base URL to database for reuse
+- **One-Click Copy**: Copy individual links or all links at once to clipboard
+- **Export**: Download guest list as `.txt` or `.csv` files
+- **Duplicate Detection**: Automatically remove duplicate names (case-insensitive)
+- **Validation**: URL format validation, file size validation, empty name detection
+
+#### 🎨 UI Components
+- `BaseUrlInput.jsx`: Base URL input with save functionality
+- `GuestNameInput.jsx`: Textarea + file upload with drag-and-drop
+- `EncodedUrlList.jsx`: URL list display with copy buttons
+- `WeddingInvitationTool.jsx`: Main page with state management
+
+#### 🔧 Backend API
+- `POST /api/wedding-urls`: Create/update base URL (with rate limiting: 10 req/hour)
+- `GET /api/wedding-urls/latest`: Get latest saved URL
+- `DELETE /api/wedding-urls/:id`: Soft delete URL
+- Database: `wedding_urls` table with soft delete pattern
+
+#### 📦 Dependencies Added
+- `xlsx@0.18.5`: Excel file parsing (SheetJS)
+- `react-hot-toast@2.4.1`: Toast notifications
+- `jsonwebtoken@9.0.2`: JWT authentication (backend)
+
+#### 📚 Documentation
+- User guide: `docs/WEDDING_INVITATION_TOOL.md`
+- Spec: `specs/specs/06_wedding_invitation_url_encoder.spec`
+- Implementation plan: `specs/plans/06_wedding_invitation_url_encoder.plan`
+
+---
+
 ## [Unreleased]
 
 ### 🚀 Planned Features

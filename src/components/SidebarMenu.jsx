@@ -10,6 +10,7 @@ import {
   TrendingUp,
   CloudRain,
   Gift,
+  Mail,
   ChevronRight 
 } from 'lucide-react'
 
@@ -85,6 +86,14 @@ const tools = [
     icon: Gift,
     color: 'from-pink-400 to-purple-500',
     description: 'Danh sách muốn mua'
+  },
+  {
+    id: 'wedding-invitation',
+    name: 'Thiệp cưới',
+    path: '/wedding-invitation',
+    icon: Mail,
+    color: 'from-pink-300 to-rose-400',
+    description: 'Tạo link thiệp cá nhân'
   }
 ]
 

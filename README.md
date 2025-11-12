@@ -15,6 +15,7 @@ Website tiện ích cá nhân dễ thương với thiết kế hiện đại, d�
 - **💱 Chuyển đổi tiền tệ**: Tính toán và chuyển đổi 8 loại tiền tệ phổ biến với rate realtime
 - **👔 Phối đồ màu sắc**: Chọn và lưu trang phục với preview realtime, SVG rendering
 - **💰 Giá vàng**: Theo dõi giá vàng Việt Nam realtime với 7 loại vàng, biểu đồ lịch sử, auto-refresh
+- **💒 Wedding Invitation URL Encoder** ⭐ NEW: Tạo links thiệp cưới cá nhân hóa với UTF-8 encoding cho tên tiếng Việt, hỗ trợ upload Excel/TXT/CSV
 
 ### 🎨 Đặc điểm thiết kế:
 
@@ -37,6 +38,8 @@ Website tiện ích cá nhân dễ thương với thiết kế hiện đại, d�
 - **Lucide React** - Icon library đẹp và nhẹ
 - **date-fns** - Date manipulation
 - **Recharts** - Charting library cho biểu đồ giá vàng
+- **xlsx (SheetJS)** - Excel file parsing cho Wedding Invitation tool
+- **react-hot-toast** - Toast notifications
 - **PropTypes** - Runtime type checking
 
 ### Backend:

@@ -6,34 +6,117 @@ const router = express.Router()
 
 // Configuration
 const CACHE_DURATION_HOURS = 1 // Cache rates for 1 hour
-const EXCHANGE_RATE_API_URL = 'https://api.exchangerate-api.com/v4/latest/USD'
-const FALLBACK_API_URL = 'https://open.er-api.com/v6/latest/USD'
+
+// Multiple API endpoints for redundancy (ordered by priority)
+const API_ENDPOINTS = [
+  {
+    name: 'ExchangeRate-API',
+    url: 'https://api.exchangerate-api.com/v4/latest/USD',
+    timeout: 5000,
+    parseResponse: (data) => data.rates
+  },
+  {
+    name: 'Open ExchangeRates (Free)',
+    url: 'https://open.er-api.com/v6/latest/USD',
+    timeout: 5000,
+    parseResponse: (data) => data.rates
+  },
+  {
+    name: 'Fawaz Ahmed CDN',
+    url: 'https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json',
+    timeout: 6000,
+    parseResponse: (data) => {
+      // Convert format: { usd: { vnd: 25000, ... } } -> { VND: 25000, ... }
+      const rates = {}
+      if (data.usd) {
+        Object.keys(data.usd).forEach(key => {
+          rates[key.toUpperCase()] = data.usd[key]
+        })
+      }
+      return rates
+    }
+  },
+  {
+    name: 'ExchangeRate.host',
+    url: 'https://api.exchangerate.host/latest?base=USD',
+    timeout: 5000,
+    parseResponse: (data) => data.rates
+  },
+  {
+    name: 'Frankfurter (EU)',
+    url: 'https://api.frankfurter.app/latest?from=USD',
+    timeout: 5000,
+    parseResponse: (data) => {
+      // Frankfurter doesn't include USD in rates, add it manually
+      return { ...data.rates, USD: 1.0 }
+    }
+  }
+]
 
 /**
- * Fetch latest exchange rates from API
+ * Fetch latest exchange rates from API with multiple fallbacks
  */
 async function fetchLatestRates() {
-  try {
-    console.log('Fetching latest exchange rates from API...')
-    
-    // Try primary API
-    let response
-    try {
-      response = await axios.get(EXCHANGE_RATE_API_URL, { timeout: 5000 })
-    } catch (primaryError) {
-      console.warn('Primary API failed, trying fallback...')
-      response = await axios.get(FALLBACK_API_URL, { timeout: 5000 })
+  console.log(`🔄 Fetching exchange rates... (${API_ENDPOINTS.length} APIs available)`)
+  
+  let lastError = null
+  
+  // Configure axios for corporate networks (skip SSL verification in development)
+  const axiosConfig = {
+    headers: {
+      'User-Agent': 'KaDongTools/1.0',
+      'Accept': 'application/json'
     }
-
-    if (!response.data || !response.data.rates) {
-      throw new Error('Invalid API response structure')
-    }
-
-    return response.data.rates
-  } catch (error) {
-    console.error('Error fetching exchange rates:', error.message)
-    throw error
   }
+  
+  // Skip SSL verification in development (for corporate proxies)
+  if (process.env.NODE_ENV === 'development') {
+    const https = await import('https')
+    axiosConfig.httpsAgent = new https.Agent({ rejectUnauthorized: false })
+  }
+  
+  // Try each API endpoint sequentially until one succeeds
+  for (let i = 0; i < API_ENDPOINTS.length; i++) {
+    const api = API_ENDPOINTS[i]
+    
+    try {
+      console.log(`📡 Trying ${api.name} (${i + 1}/${API_ENDPOINTS.length})...`)
+      
+      const response = await axios.get(api.url, { 
+        ...axiosConfig,
+        timeout: api.timeout
+      })
+
+      // Validate response structure
+      if (!response.data) {
+        throw new Error('Empty response data')
+      }
+
+      // Parse rates using API-specific parser
+      const rates = api.parseResponse(response.data)
+      
+      if (!rates || typeof rates !== 'object' || Object.keys(rates).length === 0) {
+        throw new Error('Invalid rates structure')
+      }
+
+      console.log(`✅ Successfully fetched rates from ${api.name} (${Object.keys(rates).length} currencies)`)
+      return rates
+      
+    } catch (error) {
+      lastError = error
+      const errorMsg = error.code === 'ECONNABORTED' ? 'Timeout' : error.message
+      console.warn(`⚠️ ${api.name} failed: ${errorMsg}`)
+      
+      // Continue to next API (don't throw yet)
+      if (i < API_ENDPOINTS.length - 1) {
+        console.log(`⏩ Trying next API...`)
+      }
+    }
+  }
+  
+  // All APIs failed
+  console.error(`❌ All ${API_ENDPOINTS.length} APIs failed. Last error:`, lastError?.message)
+  throw new Error(`Không thể lấy tỷ giá từ ${API_ENDPOINTS.length} APIs. Lỗi cuối: ${lastError?.message}`)
 }
 
 /**
