@@ -137,7 +137,6 @@ CREATE INDEX idx_{table}_{column} ON {table}({column});
 - Ready để review và approve
 
 LANG: VN
-```
 
 ---
 
@@ -324,7 +323,6 @@ const getResource = async (req, res) => {
 - Ready để bắt đầu implement
 
 LANG: VN
-```
 
 ---
 
@@ -530,7 +528,6 @@ describe('{Controller}', () => {
 - Ready để assign và implement
 
 LANG: VN
-```
 
 ---
 
@@ -868,7 +865,6 @@ Closes #gold-prices-phase3-task1
 7. Create PR if needed
 
 LANG: VN
-```
 
 ---
 
@@ -928,7 +924,6 @@ Bạn là technical reviewer. Hãy review file này và đưa ra feedback.
 - ❌ Rejected - Major problems
 
 LANG: VN
-```
 
 ---
 
@@ -1115,7 +1110,6 @@ Tạo comprehensive progress report bao gồm:
 - Link đến related specs nếu có
 
 LANG: VN
-```
 
 ---
 
