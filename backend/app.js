@@ -93,15 +93,17 @@ app.use((err, req, res, next) => {
   })
 })
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`
+// Start server (skip in test environment)
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(PORT, () => {
+    console.log(`
 
    KaDong Tools API Server
    Running on http://localhost:${PORT}
    Environment: ${process.env.NODE_ENV}
 
-  `)
-})
+    `)
+  })
+}
 
 export default app

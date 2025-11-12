@@ -106,3 +106,33 @@ export const dbHelper = {
     return await testPool.query(sql, params);
   }
 };
+
+/**
+ * Cleanup database after tests
+ */
+export async function cleanupDatabase() {
+  const tables = [
+    'sessions',
+    'wishlist_hearts',
+    'wishlist_comments',
+    'wishlist_items',
+    'favorite_cities',
+    'weather_cache',
+    'currency_rates',
+    'gold_rates',
+    'fashion_outfits',
+    'countdown_events',
+    'notes',
+    'feedback',
+    'users'
+  ];
+  
+  for (const table of tables) {
+    try {
+      await testPool.query(`DELETE FROM ${table}`);
+    } catch (error) {
+      // Ignore errors for non-existent tables in test db
+      console.warn(`Warning: Could not cleanup ${table}:`, error.message);
+    }
+  }
+}
