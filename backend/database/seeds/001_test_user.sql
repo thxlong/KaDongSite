@@ -26,7 +26,7 @@ WHERE email = 'test@kadong.com';
 -- Print success message
 DO $$
 BEGIN
-    RAISE NOTICE '✅ Test user created with UUID: 00000000-0000-0000-0000-000000000001';
+    RAISE NOTICE '✅ Test user created with UUID: a0000000-0000-4000-8000-000000000001';
     RAISE NOTICE '📧 Email: test@kadong.com';
     RAISE NOTICE '👤 Name: Test User';
 END $$;

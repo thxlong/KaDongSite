@@ -471,7 +471,7 @@ netstat -ano | findstr :5000
 taskkill /PID <PID> /F
 
 # Hoặc đổi port trong .env
-PORT=5001
+PORT=5000
 ```
 
 **Giải pháp Linux/Mac**:
@@ -480,7 +480,7 @@ PORT=5001
 lsof -ti:5000 | xargs kill -9
 
 # Hoặc đổi port
-PORT=5001
+PORT=5000
 ```
 
 ---
@@ -528,7 +528,7 @@ npm install
 **Backend Port**:
 ```env
 # .env
-PORT=5001
+PORT=5000
 ```
 
 **Frontend Port**:

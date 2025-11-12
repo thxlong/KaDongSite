@@ -9,6 +9,7 @@ import {
   Shirt,
   TrendingUp,
   CloudRain,
+  Gift,
   ChevronRight 
 } from 'lucide-react'
 
@@ -76,6 +77,14 @@ const tools = [
     icon: CloudRain,
     color: 'from-blue-300 to-purple-400',
     description: 'Dự báo thời tiết'
+  },
+  {
+    id: 'wishlist',
+    name: 'Wishlist',
+    path: '/wishlist',
+    icon: Gift,
+    color: 'from-pink-400 to-purple-500',
+    description: 'Danh sách muốn mua'
   }
 ]
 

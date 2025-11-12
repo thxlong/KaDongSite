@@ -229,7 +229,7 @@ taskkill /PID 12345 /F
 
 # Or change port in .env
 # backend/.env
-PORT=5001
+PORT=5000
 
 # Restart server
 npm run dev
@@ -244,7 +244,7 @@ lsof -ti:5000 | xargs kill -9
 fuser -k 5000/tcp
 
 # Or change port
-PORT=5001 npm run dev
+PORT=5000 npm run dev
 ```
 
 ---

@@ -1,0 +1,1151 @@
+# Wishlist Management Tool - Implementation Plan
+
+**Plan ID:** `03_wishlist_management`  
+**Spec:** `specs/specs/03_wishlist_management.spec`  
+**Version:** 1.0.0  
+**Status:** 📝 Planning  
+**Created:** 2025-11-12  
+**Last Updated:** 2025-11-12
+
+---
+
+## 📋 Overview
+
+**Feature:** Wishlist Management Tool  
+**Priority:** 🟡 Medium  
+**Overall Progress:** 0%
+
+**Objectives:**
+1. Tạo hệ thống quản lý wishlist với CRUD operations cho sản phẩm
+2. Implement heart system (like/unlike) để vote độ ưu tiên
+3. Tạo comment/notes system cho mỗi sản phẩm
+4. Xây dựng UI responsive với search, filter, sort functionality
+5. Tích hợp real-time updates (polling 30s)
+6. Đảm bảo performance (GET < 500ms, Heart < 200ms) và security
+
+**Success Criteria:**
+- [ ] User có thể thêm/edit/delete sản phẩm với đầy đủ metadata
+- [ ] Heart system hoạt động với optimistic UI updates
+- [ ] Comment system cho phép add/edit/delete comments
+- [ ] Search, filter, sort hoạt động mượt mà
+- [ ] UI responsive trên mobile và desktop
+- [ ] Performance đạt targets (GET < 500ms, Heart < 200ms)
+- [ ] Security: SQL injection prevented, XSS sanitized
+- [ ] Test coverage >= 80%
+- [ ] Real-time polling cập nhật UI mỗi 30s
+- [ ] Stats dashboard hiển thị insights
+
+---
+
+## 📅 Timeline
+
+**Estimated Duration:** 3 weeks (15 working days)  
+**Start Date:** 2025-11-18 (planned)  
+**Target Completion:** 2025-12-09 (planned)  
+**Actual Completion:** TBD
+
+### Key Milestones
+
+| Milestone | Target Date | Status | Completion Date |
+|-----------|-------------|--------|-----------------|
+| M1: Setup & Database | 2025-11-19 | ⏳ | - |
+| M2: Backend API Complete | 2025-11-25 | ⏳ | - |
+| M3: Frontend UI Complete | 2025-12-02 | ⏳ | - |
+| M4: Testing Complete | 2025-12-05 | ⏳ | - |
+| M5: Deployment to Production | 2025-12-09 | ⏳ | - |
+
+---
+
+## 📦 Phases
+
+### Phase 1: Environment Setup & Database Design
+**Duration:** 2 days  
+**Status:** 📝 Not Started  
+**Progress:** 0%  
+**Dates:** Nov 18-19, 2025
+
+#### Tasks
+
+- [ ] **Task 1.1:** Install dependencies
+  - Backend: `cheerio`, `axios`, `validator`, `express-rate-limit`
+  - Frontend: Already installed (React, Tailwind, Framer Motion)
+  - Dev tools: Already configured
+  - **Estimated:** 1 hour
+
+- [ ] **Task 1.2:** Create database migrations
+  - File: `backend/database/migrations/008_create_wishlist_tables.sql`
+  - Tables: `wishlist_items`, `wishlist_hearts`, `wishlist_comments`
+  - Indexes: 12 indexes (user_id, heart_count, created_at, etc.)
+  - Triggers: 3 triggers (updated_at, heart_count sync)
+  - Constraints: CHECK constraints for price, currency, comments
+  - **Estimated:** 3 hours
+  - **Reference:** Spec section "Database Schema"
+
+- [ ] **Task 1.3:** Test migration
+  - Run up migration: `npm run db:migrate:up`
+  - Verify tables created: `\dt` in psql
+  - Test down migration: `npm run db:migrate:down`
+  - Re-run up migration
+  - **Estimated:** 1 hour
+
+- [ ] **Task 1.4:** Create seed data
+  - File: `backend/database/seeds/004_wishlist_seed.sql`
+  - Add 10 sample wishlist items
+  - Add hearts from both users (Ka & Dong)
+  - Add sample comments
+  - **Estimated:** 2 hours
+
+- [ ] **Task 1.5:** Verify database setup
+  - Query all tables
+  - Test triggers (update updated_at)
+  - Test constraints (negative price, invalid currency)
+  - Verify indexes: `\di` in psql
+  - **Estimated:** 1 hour
+
+#### Deliverables
+- [ ] Dependencies installed (`cheerio`, `axios`, `validator`, `express-rate-limit`)
+- [ ] Migration file created (3 tables, 12 indexes, 3 triggers)
+- [ ] Migration tested (up & down)
+- [ ] Seed data created and loaded
+- [ ] Database ready for development
+
+---
+
+### Phase 2: Backend API Development
+**Duration:** 5 days  
+**Status:** 📝 Not Started  
+**Progress:** 0%  
+**Dates:** Nov 20-25, 2025
+
+#### Milestone 2.1: Core Setup & Utilities (Day 1)
+
+- [ ] **Task 2.1.1:** Create URL metadata extractor
+  - File: `backend/utils/urlExtractor.js`
+  - Function: `extractMetadata(url)`
+  - Use `cheerio` to parse Open Graph tags
+  - Extract: title, image, description, price, currency
+  - Error handling: timeout (5s), invalid HTML
+  - **Estimated:** 3 hours
+  - **Reference:** Spec "Implementation Notes > Decision 3"
+
+- [ ] **Task 2.1.2:** Create validation utilities
+  - File: `backend/utils/validation.js`
+  - Functions: `validateURL()`, `validatePrice()`, `validateCategory()`
+  - Use `validator` library for URL validation
+  - Whitelist schemes: http, https only
+  - **Estimated:** 2 hours
+
+- [ ] **Task 2.1.3:** Create sanitization utilities
+  - File: `backend/utils/sanitizer.js`
+  - Functions: `sanitizeHTML()`, `sanitizeText()`
+  - Prevent XSS: strip `<script>`, `<iframe>`, etc.
+  - Trim whitespace, limit length
+  - **Estimated:** 2 hours
+
+#### Milestone 2.2: Wishlist Items API (Day 2-3)
+
+- [ ] **Task 2.2.1:** GET /api/wishlist
+  - File: `backend/controllers/wishlistController.js`
+  - Query params: user_id, sort, order, filter, search, purchased, limit, offset
+  - Include `user_liked` flag (join with wishlist_hearts)
+  - Pagination: total, limit, offset, has_more
+  - Sort: hearts DESC, date DESC, price DESC
+  - Filter: category, purchased status
+  - Search: ILIKE on product_name + description
+  - **Estimated:** 4 hours
+  - **Reference:** Spec "API Endpoints > GET /api/wishlist"
+
+- [ ] **Task 2.2.2:** POST /api/wishlist
+  - Validate: user_id, product_name, product_url (required)
+  - Validate: price >= 0, currency in ['VND', 'USD', 'EUR', 'JPY']
+  - Sanitize: product_name, description
+  - Insert into wishlist_items
+  - Return: created item with id, created_at
+  - **Estimated:** 3 hours
+
+- [ ] **Task 2.2.3:** PUT /api/wishlist/:id
+  - Validate: id is UUID
+  - Validate fields: same as POST (optional)
+  - Check ownership: user_id matches or couple access
+  - Update only provided fields
+  - Return: updated item with updated_at
+  - **Estimated:** 2 hours
+
+- [ ] **Task 2.2.4:** DELETE /api/wishlist/:id
+  - Validate: id is UUID, user_id provided
+  - Check ownership: user_id matches
+  - Soft delete: SET deleted_at = NOW()
+  - Return: success message
+  - **Estimated:** 2 hours
+
+- [ ] **Task 2.2.5:** PATCH /api/wishlist/:id/purchase
+  - Validate: id is UUID, user_id provided
+  - Toggle is_purchased: true → false or false → true
+  - Set purchased_at: NOW() if purchased, NULL if unpurchased
+  - Return: updated is_purchased, purchased_at
+  - **Estimated:** 2 hours
+
+#### Milestone 2.3: Hearts API (Day 3)
+
+- [ ] **Task 2.3.1:** POST /api/wishlist/:id/heart
+  - Validate: id is UUID, user_id provided
+  - Check if already hearted: SELECT from wishlist_hearts
+  - If already hearted: return 409 Conflict
+  - Insert into wishlist_hearts (trigger updates heart_count)
+  - Return: heart_count, user_liked: true
+  - **Estimated:** 3 hours
+  - **Reference:** Spec "API Endpoints > POST /api/wishlist/:id/heart"
+
+- [ ] **Task 2.3.2:** DELETE /api/wishlist/:id/heart
+  - Validate: id is UUID, user_id provided
+  - Check if hearted: SELECT from wishlist_hearts
+  - Delete from wishlist_hearts (trigger decrements heart_count)
+  - Return: heart_count, user_liked: false
+  - **Estimated:** 2 hours
+
+#### Milestone 2.4: Comments API (Day 4)
+
+- [ ] **Task 2.4.1:** GET /api/wishlist/:id/comments
+  - Validate: id is UUID
+  - Query: SELECT with user name JOIN
+  - Order: created_at ASC (oldest first)
+  - Filter: deleted_at IS NULL
+  - Return: array of comments with user info
+  - **Estimated:** 2 hours
+
+- [ ] **Task 2.4.2:** POST /api/wishlist/:id/comments
+  - Validate: id is UUID, user_id, comment_text (not empty)
+  - Sanitize: comment_text (XSS prevention)
+  - Constraint check: LENGTH(TRIM(comment_text)) > 0
+  - Insert into wishlist_comments
+  - Return: created comment
+  - **Estimated:** 2 hours
+
+- [ ] **Task 2.4.3:** PUT /api/wishlist/comments/:comment_id
+  - Validate: comment_id is UUID, comment_text provided
+  - Check ownership: user_id matches
+  - Sanitize: comment_text
+  - Update comment_text, updated_at
+  - Return: updated comment
+  - **Estimated:** 2 hours
+
+- [ ] **Task 2.4.4:** DELETE /api/wishlist/comments/:comment_id
+  - Validate: comment_id is UUID, user_id provided
+  - Check ownership: user_id matches
+  - Soft delete: SET deleted_at = NOW()
+  - Return: success message
+  - **Estimated:** 1.5 hours
+
+#### Milestone 2.5: Stats API (Day 5)
+
+- [ ] **Task 2.5.1:** GET /api/wishlist/stats
+  - Validate: user_id provided
+  - Aggregate queries:
+    - total_items: COUNT(*) WHERE deleted_at IS NULL
+    - total_value: SUM(price) WHERE deleted_at IS NULL AND price IS NOT NULL
+    - purchased_count: COUNT(*) WHERE is_purchased = true
+    - unpurchased_count: COUNT(*) WHERE is_purchased = false
+    - top_hearted: TOP 5 ORDER BY heart_count DESC
+    - categories_breakdown: GROUP BY category, COUNT(*)
+    - recent_purchases: TOP 5 WHERE is_purchased = true ORDER BY purchased_at DESC
+  - Return: stats object
+  - **Estimated:** 4 hours
+  - **Reference:** Spec "API Endpoints > GET /api/wishlist/stats"
+
+#### Milestone 2.6: Routes & Middleware (Day 5)
+
+- [ ] **Task 2.6.1:** Create routes
+  - File: `backend/routes/wishlist.js`
+  - Mount all endpoints: GET, POST, PUT, DELETE, PATCH
+  - Add JWT auth middleware: `authenticate`
+  - Add rate limiting:
+    - General: 100 req / 15min
+    - Hearts: Custom limiter 100/day
+    - Comments: Custom limiter 50/hour
+  - **Estimated:** 2 hours
+
+- [ ] **Task 2.6.2:** Update app.js
+  - Import: `import wishlistRoutes from './routes/wishlist.js'`
+  - Mount: `app.use('/api/wishlist', wishlistRoutes)`
+  - **Estimated:** 30 minutes
+
+#### Deliverables
+- [ ] URL metadata extractor working (`extractMetadata()`)
+- [ ] Validation utilities (`validateURL`, `validatePrice`, `validateCategory`)
+- [ ] Sanitization utilities (`sanitizeHTML`, `sanitizeText`)
+- [ ] 11 API endpoints implemented:
+  - GET /api/wishlist
+  - POST /api/wishlist
+  - PUT /api/wishlist/:id
+  - DELETE /api/wishlist/:id
+  - PATCH /api/wishlist/:id/purchase
+  - POST /api/wishlist/:id/heart
+  - DELETE /api/wishlist/:id/heart
+  - GET /api/wishlist/:id/comments
+  - POST /api/wishlist/:id/comments
+  - PUT /api/wishlist/comments/:comment_id
+  - DELETE /api/wishlist/comments/:comment_id
+  - GET /api/wishlist/stats
+- [ ] Routes configured with auth & rate limiting
+- [ ] Error handling consistent across endpoints
+
+---
+
+### Phase 3: Frontend UI Development
+**Duration:** 5 days  
+**Status:** 📝 Not Started  
+**Progress:** 0%  
+**Dates:** Nov 26 - Dec 2, 2025
+
+#### Milestone 3.1: Page Structure & Header (Day 1)
+
+- [ ] **Task 3.1.1:** Create WishlistTool page
+  - File: `frontend/src/pages/WishlistTool.jsx`
+  - Layout: Header + Stats + Grid
+  - State management: useState for items, filters, sort
+  - API integration: fetchWishlist()
+  - Loading state: Skeleton loaders
+  - Error state: Toast notifications
+  - **Estimated:** 3 hours
+
+- [ ] **Task 3.1.2:** Create WishlistHeader component
+  - File: `frontend/src/components/wishlist/WishlistHeader.jsx`
+  - Add Item button (FAB on mobile, button on desktop)
+  - Search input (debounced 300ms)
+  - Category filter dropdown (Electronics, Fashion, etc.)
+  - Sort dropdown (Hearts, Date, Price)
+  - **Estimated:** 3 hours
+  - **Reference:** Spec "Frontend Components"
+
+- [ ] **Task 3.1.3:** Add WishlistTool route
+  - File: `frontend/src/App.jsx`
+  - Route: `/wishlist`
+  - Icon: Gift (lucide-react)
+  - Update navigation menu
+  - **Estimated:** 30 minutes
+
+#### Milestone 3.2: Stats Dashboard (Day 1)
+
+- [ ] **Task 3.2.1:** Create WishlistStats component
+  - File: `frontend/src/components/wishlist/WishlistStats.jsx`
+  - API: GET /api/wishlist/stats
+  - Cards:
+    - Total Items (with icon)
+    - Total Value (formatted VND)
+    - Purchased Count (badge)
+    - Top Hearted Items (horizontal scroll with images)
+  - Responsive: 1 col mobile, 2 cols tablet, 4 cols desktop
+  - **Estimated:** 4 hours
+
+#### Milestone 3.3: Card Component (Day 2)
+
+- [ ] **Task 3.3.1:** Create WishlistCard component
+  - File: `frontend/src/components/wishlist/WishlistCard.jsx`
+  - Props: item, onHeart, onDelete, onEdit, onTogglePurchased
+  - Sections:
+    - Product Image (lazy load, fallback)
+    - Product Info (name, price, origin, category)
+    - Heart Button + Count (Framer Motion animation)
+    - Comments Section (collapsible)
+    - Action Buttons (Edit, Delete, Mark Purchased)
+  - Responsive: Full width mobile, card grid desktop
+  - **Estimated:** 5 hours
+  - **Reference:** Spec "Frontend Components > WishlistCard.jsx"
+
+- [ ] **Task 3.3.2:** Create WishlistGrid component
+  - File: `frontend/src/components/wishlist/WishlistGrid.jsx`
+  - Grid layout: 1 col mobile, 2 cols tablet, 3 cols desktop
+  - Map items to WishlistCard components
+  - Empty state: "Chưa có sản phẩm nào"
+  - **Estimated:** 2 hours
+
+#### Milestone 3.4: Heart Animation (Day 2)
+
+- [ ] **Task 3.4.1:** Implement heart toggle with animation
+  - Framer Motion `whileTap={{ scale: 1.2 }}`
+  - Animate: scale [1, 1.3, 1] on heart
+  - Color: red when hearted, gray when not
+  - Optimistic update: Toggle immediately, revert on error
+  - API: POST /api/wishlist/:id/heart or DELETE
+  - **Estimated:** 3 hours
+  - **Reference:** Spec "UI/UX Mockup Notes > Heart Animation"
+
+#### Milestone 3.5: Comments Section (Day 3)
+
+- [ ] **Task 3.5.1:** Create CommentItem component
+  - File: `frontend/src/components/wishlist/CommentItem.jsx`
+  - Props: comment, onEdit, onDelete, isOwner
+  - Layout: User avatar + name + timestamp + text
+  - Edit/Delete buttons (only for own comments)
+  - **Estimated:** 2 hours
+
+- [ ] **Task 3.5.2:** Implement comments section in WishlistCard
+  - Collapsed by default (show count badge)
+  - Expand on click (smooth animation)
+  - Comment input (textarea + submit button)
+  - API: GET /api/wishlist/:id/comments
+  - API: POST /api/wishlist/:id/comments
+  - Inline editing: Click to edit, save/cancel buttons
+  - **Estimated:** 4 hours
+
+#### Milestone 3.6: Add/Edit Modals (Day 4)
+
+- [ ] **Task 3.6.1:** Create WishlistAddModal component
+  - File: `frontend/src/components/wishlist/WishlistAddModal.jsx`
+  - Form fields:
+    - Product URL (with auto-extract button)
+    - Product Name
+    - Price (number input with formatting)
+    - Currency (select: VND, USD, EUR, JPY)
+    - Origin
+    - Category (select dropdown)
+    - Description (textarea)
+    - Image URL (with preview)
+  - Validation: URL required, price >= 0
+  - API: POST /api/wishlist
+  - Auto-extract: Call extractMetadata on URL paste
+  - **Estimated:** 5 hours
+  - **Reference:** Spec "Frontend Components > WishlistAddModal.jsx"
+
+- [ ] **Task 3.6.2:** Create WishlistEditModal component
+  - File: `frontend/src/components/wishlist/WishlistEditModal.jsx`
+  - Same form as Add, pre-filled with item data
+  - API: PUT /api/wishlist/:id
+  - **Estimated:** 2 hours
+
+#### Milestone 3.7: Search, Filter, Sort (Day 5)
+
+- [ ] **Task 3.7.1:** Implement search
+  - Debounced input (300ms delay)
+  - API: GET /api/wishlist?search={query}
+  - Update items on search
+  - **Estimated:** 2 hours
+
+- [ ] **Task 3.7.2:** Implement filter
+  - Category dropdown (All, Electronics, Fashion, etc.)
+  - Purchased filter (All, Purchased, Unpurchased)
+  - API: GET /api/wishlist?filter={category}&purchased={bool}
+  - **Estimated:** 2 hours
+
+- [ ] **Task 3.7.3:** Implement sort
+  - Sort dropdown (Hearts, Date, Price)
+  - Order toggle (Asc/Desc)
+  - API: GET /api/wishlist?sort={field}&order={asc|desc}
+  - **Estimated:** 2 hours
+
+#### Milestone 3.8: Real-time Polling (Day 5)
+
+- [ ] **Task 3.8.1:** Implement polling
+  - useEffect with setInterval (30s)
+  - API: GET /api/wishlist?updated_since={last_update}
+  - Merge updates: heart_count, comments, new items
+  - Cleanup interval on unmount
+  - **Estimated:** 3 hours
+  - **Reference:** Spec "Data Flow > Real-time Updates (Polling)"
+
+#### Deliverables
+- [ ] WishlistTool page created with full layout
+- [ ] WishlistHeader with search, filter, sort
+- [ ] WishlistStats dashboard with 4 cards
+- [ ] WishlistCard component with all sections
+- [ ] WishlistGrid with responsive layout
+- [ ] Heart animation with Framer Motion
+- [ ] Comments section (collapsible, CRUD)
+- [ ] WishlistAddModal with auto-extract
+- [ ] WishlistEditModal with pre-fill
+- [ ] Search, filter, sort working
+- [ ] Real-time polling (30s interval)
+- [ ] Optimistic UI updates
+- [ ] Loading & error states
+- [ ] Responsive design (mobile/tablet/desktop)
+
+---
+
+### Phase 4: Testing
+**Duration:** 2 days  
+**Status:** 📝 Not Started  
+**Progress:** 0%  
+**Dates:** Dec 3-5, 2025
+
+#### Milestone 4.1: Unit Tests (Day 1)
+
+- [ ] **Task 4.1.1:** Backend controller tests
+  - File: `backend/tests/controllers/wishlist.test.js`
+  - Test: getWishlistItems (valid user_id, filter, sort, search, pagination)
+  - Test: createWishlistItem (valid data, invalid URL, missing fields)
+  - Test: updateWishlistItem (valid update, invalid price)
+  - Test: deleteWishlistItem (valid delete, unauthorized)
+  - Test: toggleHeart (first heart, unheart, duplicate heart)
+  - Test: getComments (valid item_id)
+  - Test: createComment (valid comment, empty comment)
+  - Test: updateComment (valid update, unauthorized)
+  - Test: deleteComment (valid delete, unauthorized)
+  - Test: getStats (valid user_id, aggregate calculations)
+  - **Estimated:** 5 hours
+
+- [ ] **Task 4.1.2:** Validation utility tests
+  - File: `backend/tests/utils/validation.test.js`
+  - Test: validateURL (valid HTTP, valid HTTPS, javascript:, malformed)
+  - Test: validatePrice (positive, zero, negative, non-numeric)
+  - Test: validateCategory (valid, invalid, null)
+  - **Estimated:** 2 hours
+
+- [ ] **Task 4.1.3:** Frontend component tests
+  - File: `frontend/src/components/wishlist/__tests__/WishlistCard.test.jsx`
+  - Test: WishlistCard renders correctly
+  - Test: Heart button click triggers onHeart
+  - Test: Comments section expands/collapses
+  - Test: Edit/Delete buttons trigger callbacks
+  - **Estimated:** 3 hours
+
+#### Milestone 4.2: Integration Tests (Day 1-2)
+
+- [ ] **Task 4.2.1:** API integration tests
+  - File: `backend/tests/integration/wishlist.test.js`
+  - Test: POST /api/wishlist → item created in DB
+  - Test: GET /api/wishlist → returns items with pagination
+  - Test: POST /api/wishlist/:id/heart → heart_count increments
+  - Test: DELETE /api/wishlist/:id/heart → heart_count decrements
+  - Test: POST /api/wishlist/:id/comments → comment created
+  - Test: GET /api/wishlist/stats → correct aggregates
+  - **Estimated:** 4 hours
+
+- [ ] **Task 4.2.2:** Database trigger tests
+  - Test: UPDATE wishlist_items → updated_at changes
+  - Test: INSERT wishlist_hearts → heart_count increments
+  - Test: DELETE wishlist_hearts → heart_count decrements
+  - **Estimated:** 2 hours
+
+#### Milestone 4.3: E2E Tests (Day 2)
+
+- [ ] **Task 4.3.1:** Add item workflow
+  - File: `frontend/cypress/e2e/wishlist.cy.js`
+  - Test: Click Add button → modal opens
+  - Test: Fill form → click Save → item appears in grid
+  - Test: Verify item in database
+  - **Estimated:** 2 hours
+
+- [ ] **Task 4.3.2:** Heart/unheart workflow
+  - Test: Click heart button → count increases
+  - Test: Click again → count decreases
+  - Test: Verify in database
+  - **Estimated:** 1.5 hours
+
+- [ ] **Task 4.3.3:** Comment workflow
+  - Test: Expand comments → add comment → appears in list
+  - Test: Edit own comment → saves changes
+  - Test: Delete comment → removed from list
+  - **Estimated:** 2 hours
+
+#### Milestone 4.4: Performance & Security Tests (Day 2)
+
+- [ ] **Task 4.4.1:** Performance tests
+  - File: `backend/tests/performance/load.test.js`
+  - Test: GET /api/wishlist with 100 items < 500ms
+  - Test: POST /api/wishlist/:id/heart < 200ms
+  - Test: GET /api/wishlist/stats < 300ms
+  - **Estimated:** 2 hours
+
+- [ ] **Task 4.4.2:** Security tests
+  - File: `backend/tests/security/injection.test.js`
+  - Test: SQL injection in search parameter
+  - Test: XSS in comment_text
+  - Test: Invalid URL schemes (javascript:, data:)
+  - Test: Rate limiting enforcement
+  - **Estimated:** 2 hours
+
+#### Deliverables
+- [ ] Unit tests pass (backend controllers, validation, frontend components)
+- [ ] Integration tests pass (API endpoints, database triggers)
+- [ ] E2E tests pass (add item, heart, comment workflows)
+- [ ] Performance tests pass (< 500ms, < 200ms)
+- [ ] Security tests pass (SQL injection, XSS prevented)
+- [ ] Test coverage >= 80%
+
+---
+
+### Phase 5: Documentation
+**Duration:** 1 day  
+**Status:** 📝 Not Started  
+**Progress:** 0%  
+**Dates:** Dec 5, 2025
+
+#### Tasks
+
+- [ ] **Task 5.1:** Update API_DOCUMENTATION.md
+  - File: `docs/API_DOCUMENTATION.md`
+  - Add Wishlist section
+  - Document all 11 endpoints with:
+    - Purpose
+    - Auth requirements
+    - Request parameters
+    - Request body examples
+    - Response examples (200, 400, 401, 404, 409)
+    - Error codes
+  - **Estimated:** 3 hours
+
+- [ ] **Task 5.2:** Update DATABASE_SCHEMA.md
+  - File: `docs/DATABASE_SCHEMA.md`
+  - Add 3 tables: wishlist_items, wishlist_hearts, wishlist_comments
+  - Add ERD diagram (show relationships)
+  - Document indexes (12 total)
+  - Document triggers (3 total)
+  - Document constraints
+  - **Estimated:** 2 hours
+
+- [ ] **Task 5.3:** Update README.md
+  - File: `README.md`
+  - Add Wishlist tool to features list:
+    - 🎁 **Wishlist Tool** - Quản lý danh sách sản phẩm muốn mua, heart để vote, comment thảo luận
+  - Update screenshots (optional)
+  - **Estimated:** 30 minutes
+
+- [ ] **Task 5.4:** Create WISHLIST_USER_GUIDE.md
+  - File: `docs/WISHLIST_USER_GUIDE.md`
+  - Sections:
+    - How to add items
+    - How to heart items
+    - How to add comments
+    - How to search & filter
+    - How to mark as purchased
+    - Tips & tricks
+  - Screenshots/GIFs (optional)
+  - **Estimated:** 2 hours
+
+- [ ] **Task 5.5:** Add JSDoc comments
+  - Backend controllers: Add `@param`, `@returns`, `@throws`
+  - Frontend components: Add PropTypes and descriptions
+  - Utility functions: Document parameters and return values
+  - **Estimated:** 2 hours
+
+- [ ] **Task 5.6:** Update CHANGELOG.md
+  - File: `docs/CHANGELOG.md`
+  - Add version 1.5.0 section:
+    - ✨ New Features: Wishlist Management Tool
+    - 🗄️ Database: 3 new tables, 12 indexes, 3 triggers
+    - 📝 API: 11 new endpoints
+    - 🎨 UI: Wishlist page, cards, modals, stats
+    - 🧪 Tests: Unit, integration, E2E tests
+  - **Estimated:** 1 hour
+
+- [ ] **Task 5.7:** Update project_manifest.json
+  - File: `project_manifest.json`
+  - Add wishlist tool to `tools.available`:
+    - name: "wishlist"
+    - displayName: "Wishlist Tool"
+    - icon: "Gift"
+    - route: "/wishlist"
+    - apiEndpoint: "/api/wishlist"
+    - dbTable: "wishlist_items"
+    - features: ["CRUD", "heart-system", "comments", "search-filter", "stats"]
+  - Add tables: `wishlist_items`, `wishlist_hearts`, `wishlist_comments`
+  - Add endpoints: `/api/wishlist` to `api.endpoints`
+  - Update `metadata.lastUpdated` to 2025-12-09
+  - Update `metadata.manifestVersion` to 1.5.0
+  - Add to `metadata.changes.v1.5.0`
+  - **Estimated:** 1 hour
+
+#### Deliverables
+- [ ] API_DOCUMENTATION.md updated (Wishlist section)
+- [ ] DATABASE_SCHEMA.md updated (3 tables, ERD)
+- [ ] README.md updated (features list)
+- [ ] WISHLIST_USER_GUIDE.md created
+- [ ] JSDoc comments added to all functions
+- [ ] CHANGELOG.md updated (v1.5.0)
+- [ ] project_manifest.json updated
+
+---
+
+### Phase 6: Deployment
+**Duration:** 1 day  
+**Status:** 📝 Not Started  
+**Progress:** 0%  
+**Dates:** Dec 9, 2025
+
+#### Tasks
+
+- [ ] **Task 6.1:** Backup production database
+  - Command: `pg_dump kadong_tools > backup_pre_wishlist_$(date +%Y%m%d).sql`
+  - Verify backup: Check file size > 0
+  - Store: Upload to cloud storage (Google Drive, S3)
+  - **Estimated:** 30 minutes
+
+- [ ] **Task 6.2:** Deploy to staging
+  - Backend: Push to Railway staging
+  - Frontend: Push to Vercel staging
+  - Database: Run migration on staging DB
+  - **Estimated:** 1 hour
+
+- [ ] **Task 6.3:** Smoke test staging
+  - Test: Add item workflow
+  - Test: Heart item workflow
+  - Test: Comment workflow
+  - Test: Search, filter, sort
+  - Test: Stats dashboard
+  - Verify: No console errors
+  - **Estimated:** 1 hour
+
+- [ ] **Task 6.4:** Performance test staging
+  - Load test: 50 concurrent users
+  - Test: GET /api/wishlist < 500ms
+  - Test: POST /api/wishlist/:id/heart < 200ms
+  - Monitor: CPU usage, memory usage
+  - **Estimated:** 1 hour
+
+- [ ] **Task 6.5:** Deploy to production
+  - Run migration: `npm run db:migrate:up` on production DB
+  - Backend: Deploy to Railway production
+  - Frontend: Deploy to Vercel production
+  - Clear CDN cache
+  - **Estimated:** 1 hour
+
+- [ ] **Task 6.6:** Smoke test production
+  - Test: Add item workflow
+  - Test: Heart item workflow
+  - Test: Comment workflow
+  - Verify: No errors in logs
+  - **Estimated:** 30 minutes
+
+- [ ] **Task 6.7:** Monitor for 24 hours
+  - Watch error logs (Sentry or console)
+  - Monitor performance metrics (Railway dashboard)
+  - Check user feedback (if any)
+  - Verify database queries efficient
+  - **Estimated:** 1 hour (periodic checks)
+
+#### Deliverables
+- [ ] Production database backed up
+- [ ] Staging deployment complete
+- [ ] Smoke tests passed (staging)
+- [ ] Performance tests passed (staging)
+- [ ] Production deployment complete
+- [ ] Smoke tests passed (production)
+- [ ] Monitoring active
+- [ ] No critical errors in first 24h
+
+---
+
+## 📊 Progress Tracking
+
+### Overall Status
+
+| Phase | Progress | Status | Est. Days | Actual Days | Start Date | End Date |
+|-------|----------|--------|-----------|-------------|------------|----------|
+| 1. Setup & Database | 0% | ⏳ | 2 | - | Nov 18 | Nov 19 |
+| 2. Backend API | 0% | ⏳ | 5 | - | Nov 20 | Nov 25 |
+| 3. Frontend UI | 0% | ⏳ | 5 | - | Nov 26 | Dec 2 |
+| 4. Testing | 0% | ⏳ | 2 | - | Dec 3 | Dec 5 |
+| 5. Documentation | 0% | ⏳ | 1 | - | Dec 5 | Dec 5 |
+| 6. Deployment | 0% | ⏳ | 1 | - | Dec 9 | Dec 9 |
+| **Total** | **0%** | **⏳** | **16** | **-** | **Nov 18** | **Dec 9** |
+
+### Velocity Metrics
+- **Planned velocity:** 30 tasks / 3 weeks = 10 tasks/week
+- **Actual velocity:** TBD
+- **Completion rate:** 0%
+
+### Task Breakdown
+- **Total tasks:** 87 tasks
+- **Completed:** 0 tasks (0%)
+- **In Progress:** 0 tasks
+- **Not Started:** 87 tasks (100%)
+
+---
+
+## 🐛 Issues & Risks
+
+### Active Issues
+
+#### Issue 1: URL Metadata Extraction Reliability
+**Status:** 🟡 Medium  
+**Description:** Không phải tất cả e-commerce sites đều có Open Graph tags đầy đủ. Một số sites block scraping (Cloudflare, bot detection).
+
+**Impact:** 
+- User phải manually nhập thông tin nếu auto-extract fail
+- Tốn thời gian hơn cho user
+
+**Mitigation:**
+1. **Fallback strategy:** Nếu Open Graph không có, parse HTML title/meta tags
+2. **User-agent rotation:** Try different user-agents nếu bị block
+3. **Manual input option:** Always cho phép user manual input thay vì bắt buộc URL
+4. **Cache results:** Cache thành công extractions để reduce API calls
+
+**Status:** ⏳ Open - Will monitor during implementation
+
+---
+
+#### Issue 2: Real-time Polling Performance
+**Status:** 🟡 Medium  
+**Description:** Polling mỗi 30s từ nhiều users có thể tăng database load.
+
+**Impact:**
+- Database connections spike
+- Increased server cost
+- Potential performance degradation
+
+**Mitigation:**
+1. **Conditional polling:** Only poll if tab is active (Page Visibility API)
+2. **Smart queries:** Only fetch `updated_since={last_update}` instead of all items
+3. **Connection pooling:** Ensure pool size adequate (20 connections)
+4. **v2 upgrade:** Plan WebSocket upgrade if polling becomes bottleneck
+
+**Status:** ⏳ Open - Will monitor after deployment
+
+---
+
+#### Issue 3: Heart Count Sync Issues
+**Status:** 🟢 Low  
+**Description:** Database triggers might fail, causing heart_count mismatch với actual wishlist_hearts count.
+
+**Impact:**
+- UI displays incorrect heart count
+- User confusion
+
+**Mitigation:**
+1. **Trigger testing:** Thoroughly test triggers in Phase 1
+2. **Sync script:** Create maintenance script to recalculate heart_count
+3. **Monitoring:** Log trigger failures (if possible)
+4. **Fallback query:** In UI, optionally show COUNT(*) từ wishlist_hearts instead of cached value
+
+**Resolution Script:**
+```sql
+-- Run periodically to sync heart_count
+UPDATE wishlist_items 
+SET heart_count = (
+  SELECT COUNT(*) 
+  FROM wishlist_hearts 
+  WHERE wishlist_item_id = wishlist_items.id
+)
+WHERE deleted_at IS NULL;
+```
+
+**Status:** ⏳ Open - Preventive measures in place
+
+---
+
+### Risks
+
+| Risk | Probability | Impact | Mitigation |
+|------|-------------|--------|------------|
+| URL extraction fails for popular sites (Shopee, Tiki) | High | Medium | Manual input fallback + user-agent rotation |
+| Polling causes performance issues with 100+ users | Medium | High | Conditional polling + smart queries + WebSocket v2 |
+| Heart count sync fails due to trigger errors | Low | Medium | Sync script + monitoring |
+| Migration fails on production | Low | High | Test on staging + backup before migration |
+| User adoption low (<50% in first week) | Medium | Medium | User onboarding tutorial + announcements |
+| Test coverage below 80% target | Medium | Low | Prioritize critical path testing + code reviews |
+
+---
+
+## 💡 Technical Decisions
+
+### Decision 1: Heart Count Denormalization
+**Date:** 2025-11-12  
+**Status:** ✅ Approved
+
+**Context:**  
+Hiển thị heart_count trên mỗi card trong grid. Query `COUNT(*)` từ `wishlist_hearts` mỗi lần sẽ tạo N+1 queries problem, rất chậm với 100 items.
+
+**Options Considered:**
+1. **Option A:** Real-time COUNT(*) từ wishlist_hearts table
+   - Pros: Always 100% accurate
+   - Cons: N+1 queries problem, slow (1 query per card), không scale
+
+2. **Option B:** Cached heart_count trong wishlist_items (denormalized)
+   - Pros: Single query (fast), scales well, simple implementation
+   - Cons: Risk of sync issues nếu trigger fails
+
+3. **Option C:** Redis cache cho heart counts
+   - Pros: Fast, accurate, độc lập với database
+   - Cons: Added complexity, infrastructure cost, cache invalidation strategy
+
+**Decision:** Option B - Denormalized heart_count with database triggers
+
+**Reasoning:**  
+- Performance critical: Displayed on every card, need fast queries
+- Sync issues preventable: Database triggers 99.9% reliable, can add sync script
+- Simple solution: No external dependencies (Redis), no infrastructure changes
+- Acceptable trade-off: Slight risk vs major performance gain (10x faster)
+
+**Trade-offs:**  
+- Giving up: Perfect consistency (99.9% accurate via triggers vs 100%)
+- Gaining: 10x faster queries (1 query vs 100 queries), simpler architecture
+
+**Impact:**  
+- Database: Add `heart_count` column to `wishlist_items`
+- Database: Add triggers `trigger_sync_heart_count_insert`, `trigger_sync_heart_count_delete`
+- API: No changes needed (transparent to API layer)
+- Frontend: Displays cached value (fast rendering)
+
+---
+
+### Decision 2: Polling vs WebSocket for Real-time Updates
+**Date:** 2025-11-12  
+**Status:** ✅ Approved (v1), 🚧 Under Review (v2)
+
+**Context:**  
+Cần update UI khi partner adds/hearts/comments. Couple cần thấy changes của nhau để collaborate effectively.
+
+**Options Considered:**
+1. **Option A:** Polling every 30s
+   - Pros: Simple implementation, works everywhere, easy to debug, no persistent connections
+   - Cons: 30s delay (not instant), more server load (periodic requests)
+
+2. **Option B:** WebSocket (Socket.io)
+   - Pros: Instant updates, bidirectional communication, less server load (persistent connection)
+   - Cons: Complex setup, requires WebSocket infrastructure, harder to debug, firewall issues
+
+3. **Option C:** Server-Sent Events (SSE)
+   - Pros: Simpler than WebSocket, built-in browser support, auto reconnection
+   - Cons: One-way only (server → client), less browser support than WebSocket
+
+**Decision:** 
+- **v1 (Approved):** Option A - Polling every 30s
+- **v2 (Future):** Option B - WebSocket upgrade if user feedback demands instant updates
+
+**Reasoning:**  
+- v1: Start simple, validate product-market fit, faster time-to-market
+- 30s delay acceptable for wishlist use case (not chat app, not mission-critical)
+- Easy to implement: Just setInterval + API call
+- No infrastructure changes needed
+- v2: Upgrade to WebSocket after user feedback confirms need for instant updates
+
+**Trade-offs:**  
+- v1: Giving up instant updates, more API calls (every 30s per user)
+- v1: Gaining simplicity, faster development, easier debugging
+- v2: Giving up simplicity, gaining real-time UX, better server efficiency
+
+**Impact:**  
+- Frontend: useEffect with setInterval (30s)
+- Backend: Optimize GET /api/wishlist with `updated_since` parameter
+- Infrastructure: No changes for v1, Socket.io server for v2
+
+**Implementation (v1):**
+```javascript
+// frontend/src/pages/WishlistTool.jsx
+useEffect(() => {
+  const intervalId = setInterval(() => {
+    fetchWishlist({ updated_since: lastUpdate })
+      .then(items => {
+        mergeUpdates(items) // Merge with existing items
+        setLastUpdate(new Date())
+      })
+  }, 30000) // 30s
+
+  return () => clearInterval(intervalId)
+}, [lastUpdate])
+```
+
+---
+
+### Decision 3: Server-side URL Metadata Extraction
+**Date:** 2025-11-12  
+**Status:** ✅ Approved
+
+**Context:**  
+Auto-fill product info (tên, giá, hình ảnh) từ URL để save user time. User chỉ cần paste URL thay vì manual nhập tất cả fields.
+
+**Options Considered:**
+1. **Option A:** Backend extraction (server-side)
+   - Pros: Secure, consistent, can handle CORS, validate URLs
+   - Cons: Server load, slower response (network + parsing time)
+
+2. **Option B:** Frontend extraction (client-side)
+   - Pros: Fast, offload from server, no backend changes
+   - Cons: CORS issues (many sites block), inconsistent results, security risks
+
+3. **Option C:** Third-party API (LinkPreview.io, Microlink, etc.)
+   - Pros: Reliable, maintained, rich metadata
+   - Cons: Cost ($29/month+), rate limits (100 req/day free), privacy concerns
+
+**Decision:** Option A - Backend server-side extraction
+
+**Reasoning:**  
+- CORS issues: Many e-commerce sites block client-side requests (Shopee, Tiki, Lazada)
+- Consistency: Server-side parsing more reliable (same environment every time)
+- Security: Validate URLs before fetching, prevent SSRF attacks
+- Can cache results: Store extracted metadata to reduce repeated calls
+
+**Trade-offs:**  
+- Giving up: Client-side speed (instant), zero server load
+- Gaining: Reliability, security, CORS-free, consistent results
+
+**Impact:**  
+- Backend: Create `backend/utils/urlExtractor.js`
+- Backend: Add endpoint POST /api/wishlist/extract-metadata (optional, for preview)
+- Frontend: Call backend before form submit, or as user types URL
+
+**Implementation:**
+```javascript
+// backend/utils/urlExtractor.js
+import cheerio from 'cheerio'
+import axios from 'axios'
+
+export async function extractMetadata(url) {
+  try {
+    const response = await axios.get(url, { 
+      timeout: 5000,
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+      }
+    })
+    
+    const $ = cheerio.load(response.data)
+    
+    return {
+      title: $('meta[property="og:title"]').attr('content') || $('title').text(),
+      image: $('meta[property="og:image"]').attr('content'),
+      description: $('meta[property="og:description"]').attr('content'),
+      price: $('meta[property="product:price:amount"]').attr('content'),
+      currency: $('meta[property="product:price:currency"]').attr('content')
+    }
+  } catch (error) {
+    console.error('[URLExtractor] Failed:', error.message)
+    return null // Fallback to manual input
+  }
+}
+```
+
+---
+
+## 📝 Notes & Best Practices
+
+### Technical Notes
+
+**Database Performance:**
+- Use partial indexes `WHERE deleted_at IS NULL` to exclude soft-deleted rows
+- Analyze query performance: `EXPLAIN ANALYZE` on complex queries
+- Monitor slow queries: Enable PostgreSQL slow query log
+
+**Frontend Performance:**
+- Lazy load images: Use Intersection Observer API
+- Debounce search: 300ms delay to reduce API calls
+- Code splitting: Lazy load modal components (`React.lazy()`)
+- Optimistic updates: Update UI immediately, revert on error
+
+**Security:**
+- Always validate on backend (never trust client)
+- Parameterized queries: Use `pg` with `$1, $2` placeholders
+- Rate limiting: Different limits for different endpoints
+- CORS: Whitelist frontend origin only
+
+### Best Practices
+
+**Code Style:**
+- Follow ESLint configuration (already setup)
+- Use Prettier for formatting (already setup)
+- File naming: kebab-case for files, PascalCase for React components
+- Function naming: camelCase, descriptive (e.g., `fetchWishlistItems`, not `fetch`)
+
+**Commit Messages:**
+- Format: `type(scope): subject`
+- Types: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`
+- Example: `feat(wishlist): add heart toggle with animation`
+- Example: `fix(wishlist): prevent duplicate hearts`
+
+**Testing:**
+- Write tests before implementation (TDD) when possible
+- Test happy path + edge cases + error cases
+- Mock external dependencies (axios, database)
+- E2E tests: Focus on critical user workflows
+
+**Documentation:**
+- Update docs với code changes
+- JSDoc comments cho functions
+- Inline comments for complex logic only
+- README screenshots/GIFs when UI changes
+
+### Lessons Learned
+
+*(Will be updated during implementation)*
+
+- Lesson 1: TBD
+- Lesson 2: TBD
+- Lesson 3: TBD
+
+---
+
+## 🔗 Related Documentation
+
+- **Specification:** `specs/specs/03_wishlist_management.spec`
+- **API Docs:** `docs/API_DOCUMENTATION.md` (to be updated)
+- **Database Schema:** `docs/DATABASE_SCHEMA.md` (to be updated)
+- **User Guide:** `docs/WISHLIST_USER_GUIDE.md` (to be created)
+- **Project Manifest:** `project_manifest.json` (to be updated)
+- **Feature Status:** `docs/dev-notes/features/wishlist-implementation-status.md` (to be created with `/implement`)
+
+---
+
+## 👥 Team
+
+**Plan Owner:** GitHub Copilot  
+**Contributors:** Development Team  
+**Reviewers:** KaDong Team  
+**Stakeholders:** Ka & Dong (Users)
+
+---
+
+## 📊 Metrics & KPIs
+
+### Development Metrics (Targets)
+- **Lines of Code:** ~3000 lines (est.)
+- **Test Coverage:** >= 80%
+- **Bug Count:** < 5 critical bugs
+- **Code Reviews:** All PRs reviewed before merge
+
+### Performance Metrics (Targets)
+- **API Response Time:** 
+  - GET /api/wishlist: < 500ms (p95)
+  - POST /api/wishlist/:id/heart: < 200ms (p95)
+  - GET /api/wishlist/stats: < 300ms (p95)
+- **Page Load Time:** < 2s (First Contentful Paint)
+- **Database Query Time:** < 100ms (average)
+
+### Business Metrics (Targets)
+- **User Adoption:** 80% of users add >= 1 item in first week
+- **Engagement:** Average 5 hearts per user per week
+- **Comments:** Average 2 comments per item
+- **Retention:** 70% of users return within 1 week
+- **User Satisfaction:** >= 4.5/5 rating
+
+---
+
+## 🔄 Review History
+
+| Date | Version | Changes | Updated By |
+|------|---------|---------|------------|
+| 2025-11-12 | 1.0.0 | Initial implementation plan | GitHub Copilot |
+| TBD | 1.1.0 | After Phase 1 complete | Dev Team |
+| TBD | 2.0.0 | After implementation complete | Dev Team |
+
+---
+
+## ✅ Sign-off
+
+- [ ] Plan reviewed by development team
+- [ ] Timeline approved by stakeholders
+- [ ] Resources allocated (time, infrastructure)
+- [ ] Dependencies identified and addressed
+- [ ] Risks assessed and mitigated
+- [ ] Ready to begin implementation
+
+**Approved By:** TBD  
+**Approval Date:** TBD
+
+---
+
+**Next Review:** 2025-11-19 (After Phase 1)  
+**Review Frequency:** Weekly (Monday mornings)  
+**Last Updated By:** GitHub Copilot  
+**Status:** 📝 Planning - Ready for review and approval
+
+---
+
+## 🚀 Next Steps
+
+1. **Review plan với team** - Schedule meeting
+2. **Approve plan** - Get stakeholder sign-off
+3. **Start Phase 1** - Nov 18, 2025
+4. **Create feature status file** - `/implement 03_wishlist_management`
+5. **Begin development** - Install dependencies, create migrations
+
+**Ready to implement?** Run `/implement 03_wishlist_management` to start! 🎯
