@@ -6,13 +6,15 @@
  */
 
 import { useState } from 'react'
-import { Copy, CheckCircle, ExternalLink, Download } from 'lucide-react'
+import { Copy, CheckCircle, ExternalLink, Download, QrCode } from 'lucide-react'
 import PropTypes from 'prop-types'
 import { copyToClipboard, downloadAsTextFile, downloadAsCSVFile } from '../../services/weddingService'
+import QRCodeDisplay from './QRCodeDisplay'
 
 const EncodedUrlList = ({ urls, onCopyAll }) => {
   const [copiedIndex, setCopiedIndex] = useState(null)
   const [copiedAll, setCopiedAll] = useState(false)
+  const [selectedQRIndex, setSelectedQRIndex] = useState(null)
 
   const handleCopyOne = async (url, index) => {
     const success = await copyToClipboard(url)
@@ -46,6 +48,10 @@ const EncodedUrlList = ({ urls, onCopyAll }) => {
   const handleDownloadCsv = () => {
     const filename = `wedding-invitation-links-${new Date().toISOString().split('T')[0]}.csv`
     downloadAsCSVFile(urls, filename)
+  }
+
+  const toggleQRCode = (index) => {
+    setSelectedQRIndex(selectedQRIndex === index ? null : index)
   }
 
   if (urls.length === 0) {
@@ -150,29 +156,58 @@ const EncodedUrlList = ({ urls, onCopyAll }) => {
                 </a>
               </div>
 
-              {/* Copy Button */}
-              <button
-                onClick={() => handleCopyOne(item.url, index)}
-                className={`flex-shrink-0 px-3 py-2 rounded-lg font-medium transition-all flex items-center gap-2 ${
-                  copiedIndex === index
-                    ? 'bg-green-100 text-green-700'
-                    : 'bg-blue-100 text-blue-600 hover:bg-blue-200'
-                }`}
-                title="Copy link"
-              >
-                {copiedIndex === index ? (
-                  <>
-                    <CheckCircle size={16} />
-                    <span className="text-xs hidden sm:inline">Đã copy</span>
-                  </>
-                ) : (
-                  <>
-                    <Copy size={16} />
-                    <span className="text-xs hidden sm:inline">Copy</span>
-                  </>
-                )}
-              </button>
+              {/* Action Buttons */}
+              <div className="flex gap-2">
+                {/* QR Code Button */}
+                <button
+                  onClick={() => toggleQRCode(index)}
+                  className={`flex-shrink-0 px-3 py-2 rounded-lg font-medium transition-all flex items-center gap-2 ${
+                    selectedQRIndex === index
+                      ? 'bg-purple-100 text-purple-700'
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  }`}
+                  title="Hiển thị QR Code"
+                >
+                  <QrCode size={16} />
+                  <span className="text-xs hidden sm:inline">QR</span>
+                </button>
+
+                {/* Copy Button */}
+                <button
+                  onClick={() => handleCopyOne(item.url, index)}
+                  className={`flex-shrink-0 px-3 py-2 rounded-lg font-medium transition-all flex items-center gap-2 ${
+                    copiedIndex === index
+                      ? 'bg-green-100 text-green-700'
+                      : 'bg-blue-100 text-blue-600 hover:bg-blue-200'
+                  }`}
+                  title="Copy link"
+                >
+                  {copiedIndex === index ? (
+                    <>
+                      <CheckCircle size={16} />
+                      <span className="text-xs hidden sm:inline">Đã copy</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy size={16} />
+                      <span className="text-xs hidden sm:inline">Copy</span>
+                    </>
+                  )}
+                </button>
+              </div>
             </div>
+
+            {/* QR Code Display (Collapsible) */}
+            {selectedQRIndex === index && (
+              <div className="mt-4 pt-4 border-t border-gray-200 flex justify-center">
+                <QRCodeDisplay
+                  url={item.url}
+                  guestName={item.name}
+                  size={180}
+                  showDownload={true}
+                />
+              </div>
+            )}
           </div>
         ))}
       </div>

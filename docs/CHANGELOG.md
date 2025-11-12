@@ -31,12 +31,14 @@ MAJOR.MINOR.PATCH
 - **Export**: Download guest list as `.txt` or `.csv` files
 - **Duplicate Detection**: Automatically remove duplicate names (case-insensitive)
 - **Validation**: URL format validation, file size validation, empty name detection
+- **QR Code Generation** ⭐ NEW: Generate and download QR codes for each invitation link
 
 #### 🎨 UI Components
 - `BaseUrlInput.jsx`: Base URL input with save functionality
 - `GuestNameInput.jsx`: Textarea + file upload with drag-and-drop
-- `EncodedUrlList.jsx`: URL list display with copy buttons
+- `EncodedUrlList.jsx`: URL list display with copy and QR code buttons
 - `WeddingInvitationTool.jsx`: Main page with state management
+- `QRCodeDisplay.jsx` ⭐ NEW: QR code display and download component
 
 #### 🔧 Backend API
 - `POST /api/wedding-urls`: Create/update base URL (with rate limiting: 10 req/hour)
@@ -48,11 +50,13 @@ MAJOR.MINOR.PATCH
 - `xlsx@0.18.5`: Excel file parsing (SheetJS)
 - `react-hot-toast@2.4.1`: Toast notifications
 - `jsonwebtoken@9.0.2`: JWT authentication (backend)
+- `qrcode.react@4.2.0` ⭐ NEW: QR code generation
 
 #### 📚 Documentation
-- User guide: `docs/WEDDING_INVITATION_TOOL.md`
+- User guide: `docs/WEDDING_INVITATION_TOOL.md` (updated with QR code guide)
 - Spec: `specs/specs/06_wedding_invitation_url_encoder.spec`
 - Implementation plan: `specs/plans/06_wedding_invitation_url_encoder.plan`
+- Implementation status: `docs/dev-notes/features/wedding-invitation-implementation-status.md`
 
 ---
 

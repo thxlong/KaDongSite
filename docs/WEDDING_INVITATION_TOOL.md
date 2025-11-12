@@ -48,6 +48,14 @@ Wedding Invitation URL Encoder là công cụ giúp bạn tạo links thiệp c�
 - Export ra file `.csv`: bảng 2 cột (Tên khách, URL)
 - Tên file tự động: `wedding-invitation-links-YYYY-MM-DD.txt`
 
+### 6. QR Code Generation ⭐ NEW
+- **Hiển thị QR code**: Click nút "QR" bên cạnh mỗi URL
+- **Download QR code**: Click "Tải QR Code" để tải về dạng PNG
+- QR code chất lượng cao, có tên khách ở dưới
+- File PNG: `qr-code-{tên-khách}.png`
+- Kích thước: 180x180px (có thể scan dễ dàng)
+- Dùng để in sticker, name card, hoặc gửi qua Zalo/Facebook
+
 ## 📖 Hướng dẫn sử dụng
 
 ### Bước 1: Nhập Base URL
@@ -93,6 +101,19 @@ Wedding Invitation URL Encoder là công cụ giúp bạn tạo links thiệp c�
 5. Paste vào Excel/Word/Facebook để gửi cho khách
 ```
 
+### Bước 4: Download QR Code (Optional) ⭐ NEW
+```
+1. Click nút "QR" bên cạnh URL bất kỳ
+2. QR code xuất hiện với tên khách
+3. Click "Tải QR Code" để download PNG
+4. File PNG tự động lưu: qr-code-{tên-khách}.png
+5. Dùng QR code để:
+   - In sticker dán thiệp giấy
+   - In name card cho bàn tiệc
+   - Gửi qua Zalo/Facebook/Email
+   - Khách quét QR code → mở thiệp online ngay
+```
+
 ## ✨ Tips & Tricks
 
 ### 1. Tối ưu workflow
@@ -116,6 +137,13 @@ Wedding Invitation URL Encoder là công cụ giúp bạn tạo links thiệp c�
 - Export ra CSV để lưu trữ
 - File CSV có thể mở lại bằng Excel
 - Dễ dàng check lại hoặc sửa tên
+
+### 5. Sử dụng QR Code hiệu quả ⭐ NEW
+- **In thiệp giấy**: Download QR code, in sticker dán lên thiệp
+- **Name card bàn tiệc**: In QR code cho mỗi bàn
+- **Gửi online**: Gửi QR code qua Zalo/Messenger thay vì link dài
+- **Kích thước in**: QR code 180x180px phù hợp cho in 3x3cm đến 5x5cm
+- **Kiểm tra**: Scan QR code bằng điện thoại để test trước khi in
 
 ## ❓ Câu hỏi thường gặp (FAQ)
 
@@ -153,6 +181,21 @@ Ví dụ: `https://invitations.jmiiwedding.com/longnhiwedding`
 
 ### Q: Có lưu lịch sử không?
 **A:** Hiện tại chỉ lưu base URL mới nhất. Danh sách tên không được lưu (privacy).
+
+### Q: QR code có hoạt động không? ⭐ NEW
+**A:** Có! QR code được test với:
+- iPhone (Camera app)
+- Android (Google Lens, Camera)
+- Zalo QR Scanner
+- Facebook Messenger Scanner
+QR code sử dụng error correction level H (cao nhất), hoạt động ngay cả khi bị mờ/hư hỏng 30%.
+
+### Q: Tại sao cần QR code khi đã có link?
+**A:** QR code tiện lợi hơn vì:
+- Khách quét là mở thiệp ngay, không cần gõ/copy link
+- In QR lên thiệp giấy/name card trông professional
+- Gửi qua Zalo/Facebook gọn gàng hơn link dài
+- Người lớn tuổi dễ dùng (quét QR) hơn click link
 
 ## 🛠️ Troubleshooting
 
