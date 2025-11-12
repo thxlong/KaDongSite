@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wishlist Category Enhancement - Demo</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      padding: 40px 20px;
+      min-height: 100vh;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    
+    .header h1 {
+      font-size: 2.5rem;
+      color: #2c3e50;
+      margin-bottom: 10px;
+    }
+    
+    .header p {
+      color: #7f8c8d;
+      font-size: 1.1rem;
+    }
+    
+    .comparison {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+    
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .card h2 {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      color: #2c3e50;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .badge {
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    
+    .badge.old {
+      background: #e74c3c;
+      color: white;
+    }
+    
+    .badge.new {
+      background: #27ae60;
+      color: white;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #34495e;
+    }
+    
+    .form-group select,
+    .form-group input {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+    }
+    
+    .form-group select:focus,
+    .form-group input:focus {
+      outline: none;
+      border-color: #9b59b6;
+    }
+    
+    .highlight {
+      background: #fff9e6;
+      padding: 15px;
+      border-left: 4px solid #f39c12;
+      margin-top: 20px;
+      border-radius: 4px;
+    }
+    
+    .highlight strong {
+      color: #e67e22;
+    }
+    
+    .code-block {
+      background: #2c3e50;
+      color: #ecf0f1;
+      padding: 20px;
+      border-radius: 8px;
+      margin-top: 20px;
+      overflow-x: auto;
+    }
+    
+    .code-block code {
+      font-family: 'Monaco', 'Courier New', monospace;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+    
+    .features {
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .features h2 {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+      color: #2c3e50;
+    }
+    
+    .features ul {
+      list-style: none;
+    }
+    
+    .features li {
+      padding: 12px 0;
+      border-bottom: 1px solid #ecf0f1;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .features li:last-child {
+      border-bottom: none;
+    }
+    
+    .check {
+      color: #27ae60;
+      font-size: 1.2rem;
+    }
+    
+    @media (max-width: 768px) {
+      .comparison {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <h1>🎨 Wishlist Category Enhancement</h1>
+      <p>Combobox danh mục default là trống nếu API không trả về hoặc người dùng chưa chọn</p>
+    </div>
+    
+    <!-- Comparison -->
+    <div class="comparison">
+      <!-- Before -->
+      <div class="card">
+        <h2>
+          <span class="badge old">BEFORE</span>
+          Trước khi sửa
+        </h2>
+        
+        <div class="form-group">
+          <label>Danh mục</label>
+          <select disabled>
+            <option selected>Electronics</option>
+            <option>Fashion</option>
+            <option>Home</option>
+            <option>Books</option>
+            <option>Games</option>
+          </select>
+        </div>
+        
+        <div class="highlight">
+          <strong>❌ Vấn đề:</strong>
+          <ul style="margin-top: 10px; padding-left: 20px;">
+            <li>Luôn default "Electronics"</li>
+            <li>Không có option trống</li>
+            <li>Force user chọn category</li>
+            <li>API không trả về vẫn set Electronics</li>
+          </ul>
+        </div>
+        
+        <div class="code-block">
+          <code>
+// State<br>
+category: 'Electronics' // ❌ Always default<br>
+<br>
+// After API extract<br>
+category: 'Electronics' // ❌ Still forced<br>
+          </code>
+        </div>
+      </div>
+      
+      <!-- After -->
+      <div class="card">
+        <h2>
+          <span class="badge new">AFTER</span>
+          Sau khi sửa
+        </h2>
+        
+        <div class="form-group">
+          <label>Danh mục</label>
+          <select>
+            <option value="" selected>-- Chọn danh mục --</option>
+            <option value="Electronics">Electronics</option>
+            <option value="Fashion">Fashion</option>
+            <option value="Home">Home</option>
+            <option value="Books">Books</option>
+            <option value="Games">Games</option>
+          </select>
+        </div>
+        
+        <div class="highlight">
+          <strong>✅ Cải tiến:</strong>
+          <ul style="margin-top: 10px; padding-left: 20px;">
+            <li>Default là trống</li>
+            <li>Có option "-- Chọn danh mục --"</li>
+            <li>User tự quyết định chọn hay không</li>
+            <li>Chỉ set nếu API trả về</li>
+          </ul>
+        </div>
+        
+        <div class="code-block">
+          <code>
+// State<br>
+category: '' // ✅ Empty by default<br>
+<br>
+// After API extract (no category)<br>
+category: '' // ✅ Remains empty<br>
+          </code>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Features -->
+    <div class="features">
+      <h2>✨ Tính năng mới</h2>
+      <ul>
+        <li>
+          <span class="check">✓</span>
+          <span><strong>Empty option:</strong> "-- Chọn danh mục --" là option đầu tiên</span>
+        </li>
+        <li>
+          <span class="check">✓</span>
+          <span><strong>API-friendly:</strong> Không override nếu API không trả về category</span>
+        </li>
+        <li>
+          <span class="check">✓</span>
+          <span><strong>Flexible:</strong> User có thể để trống (category = null trong DB)</span>
+        </li>
+        <li>
+          <span class="check">✓</span>
+          <span><strong>Consistent:</strong> Add Modal và Edit Modal hoạt động giống nhau</span>
+        </li>
+        <li>
+          <span class="check">✓</span>
+          <span><strong>Shopee compatible:</strong> Shopee API không trả về category → giữ nguyên empty</span>
+        </li>
+        <li>
+          <span class="check">✓</span>
+          <span><strong>Backward compatible:</strong> Các item cũ vẫn hiển thị category đã chọn</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+  
+  <script>
+    // Interactive demo
+    const newSelect = document.querySelector('.card:last-child select')
+    newSelect.addEventListener('change', (e) => {
+      const value = e.target.value
+      console.log('Category selected:', value || 'null')
+      
+      // Visual feedback
+      if (value === '') {
+        e.target.style.borderColor = '#3498db'
+      } else {
+        e.target.style.borderColor = '#27ae60'
+      }
+    })
+  </script>
+</body>
+</html>

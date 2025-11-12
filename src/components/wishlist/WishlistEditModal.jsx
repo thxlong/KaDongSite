@@ -11,16 +11,17 @@ import { X, Loader, Image as ImageIcon, DollarSign } from 'lucide-react'
 import * as wishlistService from '../../services/wishlistService'
 
 const CATEGORIES = [
-  'Electronics',
-  'Fashion',
-  'Home',
-  'Books',
-  'Games',
-  'Beauty',
-  'Sports',
-  'Toys',
-  'Food',
-  'Other'
+  { value: '', label: '-- Chọn danh mục --' },
+  { value: 'Electronics', label: 'Electronics' },
+  { value: 'Fashion', label: 'Fashion' },
+  { value: 'Home', label: 'Home' },
+  { value: 'Books', label: 'Books' },
+  { value: 'Games', label: 'Games' },
+  { value: 'Beauty', label: 'Beauty' },
+  { value: 'Sports', label: 'Sports' },
+  { value: 'Toys', label: 'Toys' },
+  { value: 'Food', label: 'Food' },
+  { value: 'Other', label: 'Other' }
 ]
 
 const CURRENCIES = ['VND', 'USD', 'EUR', 'JPY']
@@ -32,7 +33,7 @@ const WishlistEditModal = ({ isOpen, onClose, onSuccess, item }) => {
     price: '',
     currency: 'VND',
     origin: '',
-    category: 'Electronics',
+    category: '',
     description: '',
     product_image_url: ''
   })
@@ -50,7 +51,7 @@ const WishlistEditModal = ({ isOpen, onClose, onSuccess, item }) => {
         price: item.price || '',
         currency: item.currency || 'VND',
         origin: item.origin || '',
-        category: item.category || 'Electronics',
+        category: item.category || '',
         description: item.description || '',
         product_image_url: item.product_image_url || ''
       })
@@ -123,10 +124,11 @@ const WishlistEditModal = ({ isOpen, onClose, onSuccess, item }) => {
 
     setSubmitting(true)
     try {
-      // Convert price to number
+      // Convert price to number and handle empty category
       const payload = {
         ...formData,
-        price: formData.price ? parseFloat(formData.price) : null
+        price: formData.price ? parseFloat(formData.price) : null,
+        category: formData.category || null // Send null if empty
       }
 
       const updatedItem = await wishlistService.updateWishlistItem(item.id, payload)
@@ -294,9 +296,9 @@ const WishlistEditModal = ({ isOpen, onClose, onSuccess, item }) => {
                     onChange={handleChange}
                     className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                   >
-                    {CATEGORIES.map((category) => (
-                      <option key={category} value={category}>
-                        {category}
+                    {CATEGORIES.map((cat) => (
+                      <option key={cat.value} value={cat.value}>
+                        {cat.label}
                       </option>
                     ))}
                   </select>

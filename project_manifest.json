@@ -159,6 +159,17 @@ LANG: VN
     },
     "documentation": {
       "location": "docs/",
+      "namingConventions": {
+        "permanentDocs": "UPPER_SNAKE_CASE.md (stable reference docs)",
+        "devNotesDocs": "kebab-case.md (working documents)",
+        "folders": "kebab-case/ (all folders use lowercase with hyphens)",
+        "examples": {
+          "permanent": ["API_DOCUMENTATION.md", "DATABASE_SCHEMA.md", "SETUP_INSTALLATION.md"],
+          "devNotes": ["gold-implementation-status.md", "fix-uuid-validation.md"],
+          "folders": ["01-getting-started/", "dev-notes/", "features/"]
+        },
+        "reasoning": "UPPER_SNAKE_CASE for permanent reference docs (easy to spot), kebab-case for temporary dev notes"
+      },
       "structure": {
         "README.md": "Main documentation index and navigation",
         "SETUP_INSTALLATION.md": "Installation and setup guide",
@@ -173,34 +184,64 @@ LANG: VN
         "CONTRIBUTING.md": "Contribution guidelines",
         "TROUBLESHOOTING.md": "Common issues and solutions",
         "CHANGELOG.md": "Version history and release notes",
-        "dev-notes/": "Development notes folder (features, bugfixes, commits)"
+        "dev-notes/": "Development notes folder (features, bugfixes, enhancements)"
       },
       "devNotes": {
         "location": "docs/dev-notes/",
-        "purpose": "Track implementation progress, bug fixes, and commit summaries during development",
+        "purpose": "Track implementation progress, bug fixes, and enhancements during development",
         "structure": {
-          "features/": "Feature implementation status and progress tracking",
+          "implementations/": "Feature implementation status and progress tracking",
           "bugfixes/": "Bug fix documentation and root cause analysis",
-          "commits/": "Commit summaries and detailed change logs before committing",
+          "enhancements/": "Enhancement/improvement documentation (UX, performance, refactoring)",
+          "planning/": "Planning documents (specs analysis, restructure plans, proposals)",
           "README.md": "Dev-notes folder guide and best practices"
         },
+        "documentTypes": {
+          "implementation": {
+            "folder": "implementations/",
+            "naming": "{feature-name}-status.md",
+            "purpose": "Track NEW feature implementation progress from scratch",
+            "examples": ["gold-prices-status.md", "weather-tool-status.md", "user-authentication-status.md"]
+          },
+          "bugfix": {
+            "folder": "bugfixes/",
+            "naming": "fix-{bug-description}.md",
+            "purpose": "Document bug fixes with root cause analysis",
+            "examples": ["fix-uuid-validation.md", "fix-shopee-url-extraction.md", "fix-category-hardcode.md"]
+          },
+          "enhancement": {
+            "folder": "enhancements/",
+            "naming": "{feature-name}-{enhancement-type}.md",
+            "purpose": "Document enhancements to EXISTING features (UX, performance, API improvements)",
+            "examples": ["wishlist-category-enhancement.md", "currency-api-resilience.md", "gold-real-api-integration.md"]
+          },
+          "planning": {
+            "folder": "planning/",
+            "naming": "{topic}-plan.md",
+            "purpose": "Planning and analysis documents before implementation",
+            "examples": ["docs-restructure-plan.md", "database-migration-plan.md", "api-versioning-plan.md"]
+          }
+        },
         "namingConventions": {
-          "features": "{feature-name}-implementation-status.md",
+          "implementations": "{feature-name}-status.md",
           "bugfixes": "fix-{bug-description}.md",
-          "commits": "{feature-or-component}-commit.md"
+          "enhancements": "{feature-name}-{enhancement-type}.md",
+          "planning": "{topic}-plan.md",
+          "allUseKebabCase": true
         },
         "archivePolicy": {
-          "keepForever": ["features/*", "bugfixes/*"],
-          "canDelete": ["commits/* (after git commit)"],
-          "reasoning": "Features and bugfixes are knowledge base, commits are duplicated in git history"
+          "keepForever": ["implementations/*", "bugfixes/*", "enhancements/*", "planning/*"],
+          "reasoning": "All dev-notes are knowledge base for future reference and learning"
         },
         "aiInstructions": [
-          "When implementing new feature: Create features/{feature-name}-implementation-status.md to track progress",
+          "When implementing NEW feature from scratch: Create implementations/{feature-name}-status.md to track progress",
+          "When ENHANCING existing feature: Create enhancements/{feature-name}-{enhancement-type}.md",
           "When fixing bug: Create bugfixes/fix-{bug-description}.md with root cause analysis",
-          "Before committing: Create commits/{feature-name}-commit.md with changes summary",
+          "When planning major changes: Create planning/{topic}-plan.md with comprehensive analysis",
           "Never create status/summary files in project root - always use docs/dev-notes/",
           "Update existing status files instead of creating duplicates",
-          "Follow naming conventions strictly for consistency"
+          "Follow naming conventions strictly: kebab-case for all dev-notes files",
+          "Distinguish between implementation (new) vs enhancement (existing feature improvement)"
         ]
       },
       "specKit": {
@@ -251,11 +292,12 @@ LANG: VN
       "notes": [
         "All docs use .md extension for GitHub compatibility",
         "README.md serves as index/navigation hub",
-        "File names use kebab-case in dev-notes, UPPER_SNAKE_CASE elsewhere",
-        "No numbered prefixes (removed wiki structure)",
+        "NAMING: UPPER_SNAKE_CASE for permanent reference docs, kebab-case for dev-notes",
+        "FOLDERS: Always use kebab-case with numbers if needed (01-getting-started/)",
         "Each doc is self-contained with internal links",
-        "Dev-notes are temporary/working documents, main docs are permanent",
-        "Spec Kit provides structured workflow for planning and tracking"
+        "Dev-notes are knowledge base (not temporary) - keep forever",
+        "Spec Kit provides structured workflow for planning and tracking",
+        "Distinguish: implementations/ (new features) vs enhancements/ (improvements to existing)"
       ]
     }
   },

@@ -11,16 +11,17 @@ import { X, Link, Loader, Image as ImageIcon, DollarSign } from 'lucide-react'
 import * as wishlistService from '../../services/wishlistService'
 
 const CATEGORIES = [
-  'Electronics',
-  'Fashion',
-  'Home',
-  'Books',
-  'Games',
-  'Beauty',
-  'Sports',
-  'Toys',
-  'Food',
-  'Other'
+  { value: '', label: '-- Chọn danh mục --' },
+  { value: 'Electronics', label: 'Electronics' },
+  { value: 'Fashion', label: 'Fashion' },
+  { value: 'Home', label: 'Home' },
+  { value: 'Books', label: 'Books' },
+  { value: 'Games', label: 'Games' },
+  { value: 'Beauty', label: 'Beauty' },
+  { value: 'Sports', label: 'Sports' },
+  { value: 'Toys', label: 'Toys' },
+  { value: 'Food', label: 'Food' },
+  { value: 'Other', label: 'Other' }
 ]
 
 const CURRENCIES = ['VND', 'USD', 'EUR', 'JPY']
@@ -32,7 +33,7 @@ const WishlistAddModal = ({ isOpen, onClose, onSuccess }) => {
     price: '',
     currency: 'VND',
     origin: '',
-    category: 'Electronics',
+    category: '',
     description: '',
     product_image_url: ''
   })
@@ -51,7 +52,7 @@ const WishlistAddModal = ({ isOpen, onClose, onSuccess }) => {
         price: '',
         currency: 'VND',
         origin: '',
-        category: 'Electronics',
+        category: '',
         description: '',
         product_image_url: ''
       })
@@ -100,7 +101,9 @@ const WishlistAddModal = ({ isOpen, onClose, onSuccess }) => {
           description: metadata.description || prev.description,
           price: metadata.price || prev.price,
           currency: metadata.currency || prev.currency,
-          origin: metadata.origin || prev.origin
+          origin: metadata.origin || prev.origin,
+          // Only set category if API returns it, otherwise keep user's selection or empty
+          category: metadata.category || prev.category
         }))
       } else {
         alert('Không thể trích xuất thông tin từ URL. Vui lòng nhập thủ công.')
@@ -152,10 +155,11 @@ const WishlistAddModal = ({ isOpen, onClose, onSuccess }) => {
 
     setSubmitting(true)
     try {
-      // Convert price to number
+      // Convert price to number and handle empty category
       const payload = {
         ...formData,
-        price: formData.price ? parseFloat(formData.price) : null
+        price: formData.price ? parseFloat(formData.price) : null,
+        category: formData.category || null // Send null if empty
       }
 
       const newItem = await wishlistService.createWishlistItem(payload)
@@ -345,9 +349,9 @@ const WishlistAddModal = ({ isOpen, onClose, onSuccess }) => {
                     onChange={handleChange}
                     className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                   >
-                    {CATEGORIES.map((category) => (
-                      <option key={category} value={category}>
-                        {category}
+                    {CATEGORIES.map((cat) => (
+                      <option key={cat.value} value={cat.value}>
+                        {cat.label}
                       </option>
                     ))}
                   </select>

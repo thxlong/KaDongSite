@@ -1,191 +1,212 @@
-# Developer Notes
+# 🛠️ Developer Notes
 
-Thư mục này chứa các ghi chú development, status implementation, bug fixes và commit summaries trong quá trình phát triển dự án.
+**Purpose:** Development tracking, working documents, and knowledge base
 
-## 📁 Cấu trúc thư mục
+---
+
+## 📁 Folder Structure
 
 ```
 docs/dev-notes/
-├── features/           # Feature implementation status và progress notes
-│   └── gold-implementation-status.md
-├── bugfixes/          # Bug fix documentation và root cause analysis
-│   └── fix-uuid-validation-error.md
-├── commits/           # Commit summaries và change logs chi tiết
-│   └── fashion-tool-commit.md
-└── README.md          # File này
+├── implementations/    # NEW feature implementation tracking
+├── enhancements/      # EXISTING feature improvements
+├── bugfixes/         # Bug fix documentation with root cause
+├── planning/         # Planning and analysis documents
+└── README.md         # This file
 ```
 
-## 🎯 Mục đích
+---
 
-### 1. Features (`features/`)
-Chứa các file tracking implementation progress của features mới:
-- Status: ✅ Done, 🚧 In Progress, ⏳ Pending
-- Checklist các tasks cần làm
-- Technical decisions và reasoning
-- Next steps và todos
+## 🎯 Document Categories
 
-**Format:** `{feature-name}-implementation-status.md`
+### 1. Implementations (`implementations/`)
+Track NEW features being built from scratch
 
-**Ví dụ:**
-- `gold-implementation-status.md` - Gold Price Viewer feature
-- `weather-implementation-status.md` - Weather Tool (future)
+**Naming:** `{feature-name}-status.md`
 
-### 2. Bug Fixes (`bugfixes/`)
-Chứa documentation chi tiết về bug fixes:
-- Problem description
-- Root cause analysis
-- Solution implementation
-- Testing results
-- Prevention measures
+**Examples:**
+- ✅ `gold-prices-status.md` - Gold price tracking feature
+- ✅ `weather-tool-status.md` - Weather tool (planned)
+- ✅ `user-authentication-status.md` - Auth system
 
-**Format:** `fix-{bug-description}.md`
+**When to use:**
+- Feature doesn't exist yet
+- Building from scratch
+- Need to track progress through phases
 
-**Ví dụ:**
-- `fix-uuid-validation-error.md` - UUID validation in Fashion Tool
-- `fix-cors-policy.md` - CORS configuration issue
+### 2. Enhancements (`enhancements/`)
+Document improvements to EXISTING features
 
-### 3. Commits (`commits/`)
-Chứa commit summaries chi tiết trước khi commit:
-- Changes overview
-- Files modified
-- Testing checklist
-- Breaking changes (if any)
-- Commit message draft
+**Naming:** `{feature-name}-{enhancement-type}.md`
 
-**Format:** `{feature-or-component}-commit.md`
+**Examples:**
+- ✅ `wishlist-category-enhancement.md` - Add category combobox to wishlist
+- ✅ `currency-api-resilience.md` - Add 5 API fallbacks
+- ✅ `gold-real-api-integration.md` - Replace mock with real API
 
-**Ví dụ:**
-- `fashion-tool-commit.md` - Fashion Tool feature commit
-- `gold-api-commit.md` - Gold API implementation commit
+**When to use:**
+- Feature already exists
+- Making UX/performance improvements
+- Changing implementation (mock → real API)
 
-## 📝 Quy tắc sử dụng
+### 3. Bug Fixes (`bugfixes/`)
+Root cause analysis and solutions
 
-### Khi implement feature mới:
-1. Tạo file `features/{feature-name}-implementation-status.md`
-2. Track progress với checklist
-3. Document technical decisions
-4. Update status khi có tiến triển
+**Naming:** `fix-{bug-description}.md`
 
-### Khi fix bug:
-1. Tạo file `bugfixes/fix-{bug-description}.md`
-2. Document root cause analysis
-3. Explain solution với code examples
-4. Add verification steps
+**Examples:**
+- ✅ `fix-uuid-validation.md` - Invalid UUID format
+- ✅ `fix-shopee-url-extraction.md` - New URL format not recognized
+- ✅ `fix-category-hardcode.md` - Hardcoded category field
 
-### Khi chuẩn bị commit:
-1. Tạo file `commits/{feature-name}-commit.md`
-2. List tất cả changes
-3. Verify testing checklist
-4. Draft commit message
-5. Sau khi commit, có thể archive hoặc xóa file
+**When to use:**
+- Fixing bugs (not new features)
+- Need to document root cause
+- Learning lesson for future
 
-## 🔄 Workflow
+### 4. Planning (`planning/`)
+Planning and analysis before implementation
 
-```mermaid
-graph LR
-    A[Start Feature] --> B[Create features/*.md]
-    B --> C[Track Progress]
-    C --> D{Bug Found?}
-    D -->|Yes| E[Create bugfixes/*.md]
-    E --> F[Fix Bug]
-    F --> C
-    D -->|No| G[Feature Complete]
-    G --> H[Create commits/*.md]
-    H --> I[Prepare Commit]
-    I --> J[Git Commit]
-    J --> K[Archive/Delete commit file]
-```
+**Naming:** `{topic}-plan.md`
 
-## 🗂️ Archive Policy
+**Examples:**
+- ✅ `docs-restructure-plan.md` - Reorganize docs folder
+- ✅ `database-migration-plan.md` - DB schema changes
+- ✅ `api-versioning-plan.md` - API v2 rollout
 
-### Keep Forever:
-- `features/*.md` - Historical reference for implementation decisions
-- `bugfixes/*.md` - Knowledge base for similar issues
+**When to use:**
+- Planning major changes
+- Need to analyze options
+- Documenting proposals for review
 
-### Can Archive/Delete:
-- `commits/*.md` - After successful commit, information is in git history
+---
 
-## 📊 Current Status
+## 📝 Usage Guidelines
 
-### Features
-- ✅ Gold Price Viewer (`gold-implementation-status.md`)
-  - Status: 70% complete (backend done, frontend partial)
+### Creating New Docs
 
-### Bug Fixes
-- ✅ UUID Validation Error (`fix-uuid-validation-error.md`)
-  - Status: Fixed and documented
-
-### Commits
-- ✅ Fashion Tool (`fashion-tool-commit.md`)
-  - Status: Ready to commit
-
-## 🔗 Related Documentation
-
-- Main docs: `docs/`
-  - `API_DOCUMENTATION.md` - API reference
-  - `DATABASE_SCHEMA.md` - Database structure
-  - `TROUBLESHOOTING.md` - Common issues
-  - `CHANGELOG.md` - Version history
-
-- Development guides: `docs/`
-  - `SETUP_INSTALLATION.md` - Setup guide
-  - `FRONTEND_GUIDE.md` - Frontend development
-  - `DEPLOYMENT_GUIDE.md` - Deployment instructions
-
-## 💡 Best Practices
-
-1. **Be Specific**: Use descriptive filenames
-   - ❌ `status.md`
-   - ✅ `gold-implementation-status.md`
-
-2. **Keep Updated**: Update status files as you progress
-   - Mark tasks as done: ✅
-   - Note blockers: 🚫
-   - Add timestamps for major updates
-
-3. **Document Decisions**: Explain why, not just what
-   ```markdown
-   # Why we chose PostgreSQL over MongoDB
-   - Need for ACID transactions
-   - Complex relationships between entities
-   - Team familiarity with SQL
-   ```
-
-4. **Cross-reference**: Link related docs
-   ```markdown
-   See also:
-   - [API Documentation](../API_DOCUMENTATION.md)
-   - [Database Schema](../DATABASE_SCHEMA.md#gold_rates)
-   ```
-
-5. **Use Templates**: Create templates for consistency
-   - Feature status template
-   - Bug fix template
-   - Commit summary template
-
-## 🚀 Quick Actions
-
-### Create new feature status:
+**For NEW features:**
 ```bash
-cd docs/dev-notes/features
-# Copy template or create new file
-code {feature-name}-implementation-status.md
+cd docs/dev-notes/implementations
+code {feature-name}-status.md
 ```
 
-### Create bug fix doc:
+**For IMPROVEMENTS to existing:**
+```bash
+cd docs/dev-notes/enhancements
+code {feature-name}-{type}.md
+```
+
+**For BUG FIXES:**
 ```bash
 cd docs/dev-notes/bugfixes
 code fix-{bug-description}.md
 ```
 
-### Create commit summary:
+**For PLANNING:**
 ```bash
-cd docs/dev-notes/commits
-code {feature-name}-commit.md
+cd docs/dev-notes/planning
+code {topic}-plan.md
 ```
 
 ---
 
+## 🔄 Workflow
+
+```mermaid
+graph LR
+    A[Start Task] --> B{Type?}
+    B -->|NEW Feature| C[implementations/*.md]
+    B -->|Improvement| D[enhancements/*.md]
+    B -->|Bug| E[bugfixes/*.md]
+    B -->|Planning| F[planning/*.md]
+    C --> G[Track Progress]
+    D --> G
+    E --> G
+    F --> G
+    G --> H{Complete?}
+    H -->|Yes| I[Update Status ✅]
+    H -->|No| G
+    I --> J[Archive as Knowledge Base]
+```
+
+---
+
+## 🗂️ Archive Policy
+
+**Keep Forever:**
+- ✅ `implementations/*` - Implementation decisions and patterns
+- ✅ `enhancements/*` - Enhancement history and reasoning
+- ✅ `bugfixes/*` - Bug knowledge base
+- ✅ `planning/*` - Planning decisions and analysis
+
+**Reasoning:** All dev-notes are valuable knowledge base for future reference
+
+---
+
+## � Key Differences
+
+### Implementations vs Enhancements
+
+| Aspect | Implementations | Enhancements |
+|--------|----------------|--------------|
+| **Feature** | NEW (doesn't exist) | EXISTING (already has) |
+| **Scope** | Build from scratch | Improve what exists |
+| **Example** | gold-prices-status.md | wishlist-category-enhancement.md |
+| | weather-tool-status.md | currency-api-resilience.md |
+
+**Rule:** If feature doesn't exist → `implementations/`, if improving existing → `enhancements/`
+
+---
+
+## 📊 Current Status
+
+### Implementations
+- ✅ Gold Prices (`gold-prices-status.md`) - 100% complete
+
+### Enhancements
+- ✅ Wishlist Category (`wishlist-category-enhancement.md`) - 95% complete
+- ✅ Currency API Resilience (`currency-api-resilience.md`) - 100% complete
+- ✅ Gold Real API Integration (`gold-real-api-integration.md`) - 100% complete
+
+### Bug Fixes
+- ✅ UUID Validation (`fix-uuid-validation.md`) - Fixed
+- ✅ Shopee URL Extraction (`fix-shopee-url-extraction.md`) - Fixed
+
+### Planning
+- ✅ Docs Restructure (`docs-restructure-plan.md`) - Executed
+- ✅ Backend Restructure (`backend-restructure-plan.md`) - Completed
+
+---
+
+## 🔗 Related Documentation
+
+### Main Documentation
+- [API Documentation](../02-architecture/API_DOCUMENTATION.md)
+- [Database Schema](../02-architecture/DATABASE_SCHEMA.md)
+- [Project Structure](../02-architecture/PROJECT_STRUCTURE.md)
+
+### Guides
+- [Setup Installation](../01-getting-started/SETUP_INSTALLATION.md)
+- [Frontend Guide](../03-development/FRONTEND_GUIDE.md)
+- [Contributing](../03-development/CONTRIBUTING.md)
+
+### Reference
+- [Documentation Naming Guide](../DOCUMENTATION_NAMING_GUIDE.md)
+- [Changelog](../06-migration/CHANGELOG.md)
+
+---
+
+## 📋 Templates
+
+Use these templates in `docs/dev-notes/`:
+- `TEMPLATE_feature_status.md` - For implementations
+- `TEMPLATE_bugfix.md` - For bugfixes
+- *(Create enhancement template as needed)*
+
+---
+
 **Maintained by:** KaDong Team  
-**Last Updated:** 2025-11-11  
-**Version:** 1.0.0
+**Last Updated:** 2025-11-13  
+**Version:** 2.0.0 (Restructured)
+
