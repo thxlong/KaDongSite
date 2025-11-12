@@ -207,15 +207,18 @@ LANG: VN
         "location": "specs/",
         "purpose": "Manage feature specifications, implementation plans, and task breakdowns using structured workflow",
         "structure": {
+          "README.md": "Spec Kit user guide and workflow documentation",
+          "COMMANDS.md": "Command reference and usage examples",
+          "config.json": "Configuration and validation rules",
           "specs/": "Feature specifications (.spec files)",
           "plans/": "Implementation plans (.plan files)",
-          "templates/": "Reusable templates for specs, plans, and tasks",
-          "config.json": "Configuration and validation rules"
+          "plans/tasks/": "Task breakdown files (.task files)",
+          "templates/": "Reusable templates for specs, plans, and tasks"
         },
         "namingConventions": {
-          "specs": "{id}_{feature_name}.spec",
-          "plans": "{spec_id}.plan",
-          "tasks": "{plan_id}_phase{X}_task{Y}.task"
+          "specs": "specs/specs/{id}_{name}.spec",
+          "plans": "specs/plans/{spec_id}.plan",
+          "tasks": "specs/plans/tasks/{plan_id}_phase{X}_task{Y}.task"
         },
         "workflow": {
           "step1": "Create specification with /specify command",
@@ -738,8 +741,8 @@ LANG: VN
   
   "metadata": {
     "created": "2024-11-01",
-    "lastUpdated": "2025-11-11",
-    "manifestVersion": "1.3.1",
+    "lastUpdated": "2025-11-12",
+    "manifestVersion": "1.3.3",
     "generatedBy": "Senior AI Developer Assistant",
     "purpose": "Standardize development workflow and maintain consistency",
     "autoUpdate": {
@@ -777,11 +780,24 @@ LANG: VN
           "Backend and frontend now accessible via network IP (192.168.2.14)"
         ]
       },
+      "v1.3.3": {
+        "date": "2025-11-12",
+        "description": "Restructured specs/ folder for better organization",
+        "updates": [
+          "Created specs/specs/ subfolder to contain all .spec files",
+          "Moved 01_init.spec and 02_weather_tool.spec into specs/specs/",
+          "Updated specs/README.md with new directory structure",
+          "Updated specs/config.json directories and examples paths",
+          "Updated project_manifest.json specKit structure documentation",
+          "Cleaner separation: specs/ (root) now only contains organizational files (README, COMMANDS, config)",
+          "Better hierarchy: specs/specs/, specs/plans/, specs/plans/tasks/, specs/templates/"
+        ]
+      },
       "v1.3.1": {
         "date": "2025-11-11",
         "description": "Created Weather Tool specification",
         "updates": [
-          "Created specs/02_weather_tool.spec with comprehensive specification",
+          "Created specs/specs/02_weather_tool.spec with comprehensive specification",
           "Weather tool with OpenWeatherMap API integration planned",
           "Weather-appropriate Framer Motion animations (sunny, rainy, cloudy, snowy, thunderstorm)",
           "Geolocation, city search, favorite cities features",

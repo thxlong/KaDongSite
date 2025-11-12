@@ -25,17 +25,21 @@ Spec Kit helps you:
 ```
 specs/
 ├── README.md                    ← This file
+├── COMMANDS.md                  ← Command reference guide
 ├── config.json                  ← Configuration settings
-├── templates/                   ← Reusable templates
-│   ├── TEMPLATE_spec.md        ← Specification template
-│   ├── TEMPLATE_plan.md        ← Implementation plan template
-│   └── TEMPLATE_task.md        ← Task breakdown template
+├── specs/                       ← Feature specifications
+│   ├── 01_init.spec            ← Project initialization spec
+│   ├── 02_weather_tool.spec    ← Weather tool spec
+│   └── {id}_{name}.spec        ← More specifications
 ├── plans/                       ← Implementation plans
 │   ├── 01_init.plan            ← Project initialization plan
-│   └── {spec_id}.plan          ← Plan for each spec
-├── 01_init.spec                ← Project initialization spec
-├── 02_feature.spec             ← Feature specifications
-└── ...                          ← More specs
+│   ├── {spec_id}.plan          ← Plan for each spec
+│   └── tasks/                   ← Task breakdown files (optional)
+│       └── {plan_id}_phase{X}_task{Y}.task
+└── templates/                   ← Reusable templates
+    ├── TEMPLATE_spec.md        ← Specification template
+    ├── TEMPLATE_plan.md        ← Implementation plan template
+    └── TEMPLATE_task.md        ← Task breakdown template
 ```
 
 ---
@@ -92,7 +96,7 @@ graph LR
 /specify user_authentication
 ```
 
-Creates: `specs/06_user_authentication.spec`
+Creates: `specs/specs/06_user_authentication.spec`
 
 ---
 
@@ -185,7 +189,7 @@ Creates: `docs/dev-notes/features/user-authentication-implementation-status.md`
 
 **Template:** `specs/templates/TEMPLATE_spec.md`
 
-**Example:** `specs/05_gold_prices.spec`
+**Example:** `specs/specs/05_gold_prices.spec`
 
 ---
 
@@ -387,7 +391,7 @@ Configuration is stored in `specs/config.json`:
 
 For the **Gold Prices** feature:
 
-**Spec:** `specs/05_gold_prices.spec`
+**Spec:** `specs/specs/05_gold_prices.spec`
 - ✅ Database schema defined
 - ✅ API endpoints documented
 - ✅ Provider system designed

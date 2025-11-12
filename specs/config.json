@@ -15,14 +15,15 @@
     "plans": "{spec_id}.plan",
     "tasks": "{plan_id}_phase{X}_task{Y}.task",
     "examples": {
-      "spec": "05_gold_prices.spec",
-      "plan": "05_gold_prices.plan",
-      "task": "05_gold_prices_phase3_task1.task"
+      "spec": "specs/specs/05_gold_prices.spec",
+      "plan": "specs/plans/05_gold_prices.plan",
+      "task": "specs/plans/tasks/05_gold_prices_phase3_task1.task"
     }
   },
   
   "directories": {
-    "specs": "specs/",
+    "root": "specs/",
+    "specs": "specs/specs/",
     "plans": "specs/plans/",
     "tasks": "specs/plans/tasks/",
     "templates": "specs/templates/"
@@ -106,7 +107,7 @@
       "description": "Create a new specification",
       "usage": "/specify {feature_name}",
       "template": "specs/templates/TEMPLATE_spec.md",
-      "output": "specs/{id}_{feature_name}.spec"
+      "output": "specs/specs/{id}_{feature_name}.spec"
     },
     "/plan": {
       "description": "Create an implementation plan for a spec",
@@ -208,7 +209,7 @@
   "examples": [
     {
       "feature": "Gold Prices",
-      "spec": "specs/05_gold_prices.spec",
+      "spec": "specs/specs/05_gold_prices.spec",
       "plan": "specs/plans/05_gold_prices.plan",
       "status": "docs/dev-notes/features/gold-implementation-status.md",
       "progress": "70%",
@@ -216,10 +217,17 @@
     },
     {
       "feature": "Project Initialization",
-      "spec": "specs/01_init.spec",
+      "spec": "specs/specs/01_init.spec",
       "plan": "specs/plans/01_init.plan",
       "status": "85% complete",
       "notes": "7 phases, testing 30% done, deployment pending"
+    },
+    {
+      "feature": "Weather Tool",
+      "spec": "specs/specs/02_weather_tool.spec",
+      "plan": "specs/plans/02_weather_tool.plan (not created yet)",
+      "status": "📝 Draft",
+      "notes": "Specification complete, implementation not started"
     }
   ]
 }
