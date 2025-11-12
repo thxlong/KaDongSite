@@ -742,7 +742,7 @@ LANG: VN
   "metadata": {
     "created": "2024-11-01",
     "lastUpdated": "2025-11-12",
-    "manifestVersion": "1.3.3",
+    "manifestVersion": "1.4.2",
     "generatedBy": "Senior AI Developer Assistant",
     "purpose": "Standardize development workflow and maintain consistency",
     "autoUpdate": {
@@ -750,6 +750,33 @@ LANG: VN
       "instructions": "When adding new features, AI must automatically update this manifest with: (1) new tools in 'tools.available', (2) new DB tables in 'database.tables', (3) new API endpoints in 'api.endpoints', (4) new dependencies in 'dependencies' section, (5) update 'metadata.lastUpdated' and increment 'metadata.manifestVersion'"
     },
     "changes": {
+      "v1.4.2": {
+        "date": "2025-11-12",
+        "description": "Currency Tool Real API Integration - Fixed hardcoded exchange rates bug",
+        "updates": [
+          "Created backend/routes/currency.js with real-time exchange rate API (exchangerate-api.com)",
+          "Created currency_rates database table with caching (1-hour TTL)",
+          "Created migration 005_up_currency_rates.sql and seed data",
+          "Updated CurrencyTool.jsx to fetch rates from backend API instead of hardcode",
+          "Added refresh button to manually update exchange rates",
+          "Added loading states and error handling with fallback rates",
+          "Fixed DATABASE_URL password in backend/.env (123 → kadong2024)",
+          "API endpoints: GET /api/currency/rates, POST /api/currency/refresh, POST /api/currency/convert",
+          "Added dataIntegrityRules.noHardcodedAPIData to project_manifest.json",
+          "Real exchange rates: 1 USD = 26,345 VND (as of Nov 2025)"
+        ]
+      },
+      "v1.4.1": {
+        "date": "2025-11-12",
+        "description": "Documentation Reorganization - Moved bug fix summaries and user guides to proper structure",
+        "updates": [
+          "Moved UUID_FIX_SUMMARY.md to docs/dev-notes/bugfixes/fix-invalid-uuid-global-migration.md",
+          "Moved USER_SYSTEM.md to docs/USER_SYSTEM.md",
+          "Cleaned up root directory - all documentation now properly organized",
+          "Bug fix summary documents global UUID migration across 5 frontend files",
+          "User system guide covers admin/guest setup, permissions, and seeding procedures"
+        ]
+      },
       "v1.4.0": {
         "date": "2025-11-11",
         "description": "Gold Price Real API Integration - Replaced mock provider with real market data",
@@ -942,6 +969,41 @@ LANG: VN
       "✓ CORS properly configured",
       "✓ Rate limiting considered"
     ],
+    "dataIntegrityRules": {
+      "noHardcodedAPIData": {
+        "rule": "NEVER hardcode API responses or live data in frontend/backend code",
+        "rationale": "Hardcoded data becomes stale and misleads users with incorrect information",
+        "exceptions": [
+          "Fallback data in case API fails (with clear warning to user)",
+          "Mock data for development/testing (clearly labeled as mock)",
+          "Static reference data that never changes (e.g., country codes)"
+        ],
+        "enforcement": [
+          "All live data MUST come from external APIs or database",
+          "Cache external data with TTL to reduce API calls",
+          "Display last-updated timestamp to users",
+          "Show error messages when data is stale or unavailable"
+        ],
+        "examples": {
+          "bad": [
+            "const rates = { USD: 1, VND: 24000, EUR: 0.92 } // Hardcoded exchange rates",
+            "const goldPrice = 78800000 // Hardcoded gold price",
+            "const weather = { temp: 25, condition: 'sunny' } // Hardcoded weather"
+          ],
+          "good": [
+            "const rates = await fetchFromAPI('exchangerate-api.com')",
+            "const goldPrice = await query('SELECT rate FROM gold_rates WHERE type = $1', ['SJC_9999'])",
+            "const rates = cachedRates || FALLBACK_RATES // With TTL check and user warning"
+          ]
+        },
+        "aiInstructions": [
+          "When creating tools that display live data (currency, weather, stocks, prices)",
+          "Always implement: 1) External API integration, 2) Database caching with TTL, 3) Fallback handling, 4) Last-updated display",
+          "Never return hardcoded values disguised as live data",
+          "If API is unavailable, clearly inform user that data is stale/fallback"
+        ]
+      }
+    },
     "gitCommitRules": {
       "convention": "Conventional Commits",
       "format": "type(scope): subject",

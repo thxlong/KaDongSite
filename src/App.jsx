@@ -11,6 +11,7 @@ import CurrencyTool from './pages/CurrencyTool'
 import FashionTool from './pages/FashionTool'
 import GoldPricesTool from './pages/GoldPricesTool'
 import WeatherTool from './pages/WeatherTool'
+import WishlistTool from './pages/WishlistTool'
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
                 <Route path="/fashion" element={<FashionTool />} />
                 <Route path="/gold" element={<GoldPricesTool />} />
                 <Route path="/weather" element={<WeatherTool />} />
+                <Route path="/wishlist" element={<WishlistTool />} />
               </Routes>
             </AnimatePresence>
           </main>

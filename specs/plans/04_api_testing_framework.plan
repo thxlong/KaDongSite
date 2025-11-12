@@ -1,0 +1,1856 @@
+# Kế Hoạch Triển Khai API Testing Framework
+
+**Plan ID:** `04_api_testing_framework`  
+**Spec:** `04_api_testing_framework.spec`  
+**Version:** 1.0.0  
+**Status:** 📝 Planning  
+**Created:** 2025-11-12  
+**Last Updated:** 2025-11-12
+
+---
+
+## 📋 Tổng Quan
+
+**Feature:** Hệ Thống Testing API Tự Động  
+**Priority:** 🟠 High  
+**Overall Progress:** 0%
+
+**Mục Tiêu:**
+1. Đạt >= 80% code coverage cho toàn bộ backend API
+2. Tạo test framework dễ maintain và mở rộng
+3. Tích hợp CI/CD với GitHub Actions
+4. Xây dựng văn hóa testing trong team
+
+**Tiêu Chí Thành Công:**
+- [x] Jest + Supertest setup hoàn chỉnh
+- [ ] >= 80% code coverage đạt được
+- [ ] 100% critical endpoints có test
+- [ ] CI/CD pipeline hoạt động ổn định
+- [ ] Team members tự viết test cho features mới
+- [ ] Zero flaky tests trong production
+
+---
+
+## 📅 Timeline
+
+**Thời Gian Ước Tính:** 4 tuần  
+**Ngày Bắt Đầu:** 2025-11-13  
+**Ngày Hoàn Thành Dự Kiến:** 2025-12-08  
+**Ngày Hoàn Thành Thực Tế:** - (chưa hoàn thành)
+
+### Các Mốc Quan Trọng
+
+| Milestone | Ngày Dự Kiến | Trạng Thái | Ngày Hoàn Thành |
+|-----------|--------------|------------|-----------------|
+| M1: Setup Framework Complete | 2025-11-15 | ⏳ | - |
+| M2: Unit Tests 50% Coverage | 2025-11-22 | ⏳ | - |
+| M3: Integration Tests Complete | 2025-11-29 | ⏳ | - |
+| M4: 80% Coverage + CI/CD Live | 2025-12-06 | ⏳ | - |
+| M5: Documentation + Training | 2025-12-08 | ⏳ | - |
+
+---
+
+## 📦 Các Giai Đoạn Triển Khai
+
+---
+
+### 🔧 Phase 1: Environment Setup & Test Infrastructure
+**Thời Gian:** 3 ngày (13-15 Nov)  
+**Trạng Thái:** ⏳ Chưa Bắt Đầu  
+**Progress:** 0%  
+**Owner:** Senior Test Engineer + Backend Lead
+
+#### Tasks
+
+##### 1.1. Cài Đặt Dependencies
+**Người Làm:** Backend Dev 1  
+**Ước Tính:** 2 giờ  
+**Priority:** 🔴 Critical
+
+- [ ] Install Jest v29.x
+  ```bash
+  npm install --save-dev jest @types/jest
+  ```
+- [ ] Install Supertest v6.x
+  ```bash
+  npm install --save-dev supertest
+  ```
+- [ ] Install testing utilities
+  ```bash
+  npm install --save-dev @faker-js/faker nock sinon
+  ```
+- [ ] Install coverage tools
+  ```bash
+  npm install --save-dev jest-coverage-badges
+  ```
+
+**Deliverable:** `package.json` updated với tất cả dependencies
+
+---
+
+##### 1.2. Tạo Test Database
+**Người Làm:** Backend Dev 1  
+**Ước Tính:** 1 giờ  
+**Priority:** 🔴 Critical
+
+- [ ] Create database `kadong_tools_test`
+  ```sql
+  CREATE DATABASE kadong_tools_test;
+  ```
+- [ ] Copy schema từ main database
+  ```bash
+  pg_dump -s kadong_tools > schema.sql
+  psql kadong_tools_test < schema.sql
+  ```
+- [ ] Create `.testenv` file
+  ```env
+  TEST_DB_HOST=localhost
+  TEST_DB_PORT=5432
+  TEST_DB_NAME=kadong_tools_test
+  TEST_DB_USER=postgres
+  TEST_DB_PASSWORD=123
+  JWT_SECRET=test_secret_key
+  ```
+- [ ] Verify connection
+  ```bash
+  psql -d kadong_tools_test -U postgres
+  ```
+
+**Deliverable:** Test database sẵn sàng
+
+---
+
+##### 1.3. Cấu Hình Jest
+**Người Làm:** Senior Test Engineer  
+**Ước Tính:** 2 giờ  
+**Priority:** 🔴 Critical
+
+- [ ] Create `backend/jest.config.js`
+  - Setup test environment: node
+  - Configure coverage thresholds (80%)
+  - Define test patterns
+  - Setup module aliases (@/, @tests/)
+  - Configure timeouts (10s default)
+
+- [ ] Create `backend/jest.setup.js`
+  - Global test configuration
+  - Custom matchers
+  - Test utilities
+
+**Deliverable:** Jest configuration hoàn chỉnh
+
+**Verification:**
+```bash
+cd backend
+npm test -- --version
+# Should show Jest 29.x
+```
+
+---
+
+##### 1.4. Tạo Test Directory Structure
+**Người Làm:** Senior Test Engineer  
+**Ước Tính:** 1 giờ  
+**Priority:** 🟠 High
+
+- [ ] Create folder structure
+  ```
+  backend/tests/
+  ├── unit/
+  │   ├── controllers/
+  │   ├── utils/
+  │   └── middleware/
+  ├── integration/
+  │   ├── api/
+  │   └── database/
+  ├── performance/
+  ├── fixtures/
+  ├── helpers/
+  └── mocks/
+  ```
+
+- [ ] Create README.md trong tests/
+  - Giải thích cấu trúc
+  - Hướng dẫn chạy tests
+  - Best practices
+
+**Deliverable:** Folder structure sẵn sàng
+
+---
+
+##### 1.5. Tạo Test Helpers
+**Người Làm:** Senior Test Engineer  
+**Ước Tính:** 4 giờ  
+**Priority:** 🔴 Critical
+
+- [ ] **setup.js** - Global setup
+  - Database connection pool
+  - beforeAll: Connect to test DB
+  - afterAll: Close connections
+  - afterEach: Truncate tables
+
+- [ ] **dbHelper.js** - Database utilities
+  - `insert(table, data)` - Insert test data
+  - `findById(table, id)` - Query by ID
+  - `count(table, where)` - Count rows
+  - `truncate(table)` - Clean table
+  - `query(sql, params)` - Raw query
+
+- [ ] **factories.js** - Test data generators
+  - `user(overrides)` - Generate user
+  - `note(userId, overrides)` - Generate note
+  - `event(userId, overrides)` - Generate event
+  - `wishlistItem(userId, overrides)` - Generate wishlist item
+  - `currency(overrides)` - Generate currency rate
+
+- [ ] **authHelper.js** - Authentication utilities
+  - `createAuthenticatedUser(role)` - Create user + token
+  - `getAuthHeader(token)` - Get auth header
+  - `createExpiredToken(userId)` - Create expired token
+
+- [ ] **assertions.js** - Custom matchers
+  - `toBeValidUUID()` - Validate UUID format
+  - `toBeValidDate()` - Validate date format
+  - `toHaveSuccessResponse()` - Check API success format
+
+**Deliverable:** 5 helper files với đầy đủ functions
+
+**Verification:**
+```javascript
+// Test import
+import { dbHelper, factories, authHelper } from '@tests/helpers'
+// Should work without errors
+```
+
+---
+
+##### 1.6. Tạo Mock Services
+**Người Làm:** Backend Dev 2  
+**Ước Tính:** 3 giờ  
+**Priority:** 🟠 High
+
+- [ ] **externalAPIs.js** - Mock external APIs
+  - `mockWeatherAPI(city, data)` - Mock OpenWeather
+  - `mockExchangeRateAPI(rates)` - Mock exchange rate API
+  - `mockShopeeAPI(productData)` - Mock Shopee API
+  - `mockGoldAPI(prices)` - Mock gold price API
+  - `cleanAll()` - Clean all mocks
+
+- [ ] Test mocks hoạt động
+  ```javascript
+  mockWeatherAPI('Ho Chi Minh', { temp: 28 })
+  // Call API should return mocked data
+  ```
+
+**Deliverable:** Mock services sẵn sàng
+
+---
+
+#### Deliverables Phase 1
+- [x] Jest + Supertest installed
+- [ ] Test database created & configured
+- [ ] Jest configuration complete
+- [ ] Test structure created
+- [ ] All helper files implemented
+- [ ] Mock services ready
+- [ ] Smoke test passes
+
+**Smoke Test:**
+```bash
+cd backend
+npm test -- tests/helpers/setup.test.js
+# Should pass: "✅ Test database connected"
+```
+
+---
+
+### 🧪 Phase 2: Unit Tests - Controllers
+**Thời Gian:** 5 ngày (16-20 Nov)  
+**Trạng Thái:** ⏳ Chưa Bắt Đầu  
+**Progress:** 0%  
+**Target Coverage:** 50%
+
+#### Chia Task Theo Feature
+
+##### 2.1. Notes Controller Tests
+**Người Làm:** Backend Dev 1  
+**Ước Tính:** 1 ngày  
+**File:** `tests/unit/controllers/notes.test.js`
+
+**Test Cases (15 tests):**
+
+**GET /api/notes**
+- [ ] should return all notes for user (happy path)
+- [ ] should filter by pinned status
+- [ ] should filter by color
+- [ ] should search by title/content
+- [ ] should return empty array if no notes
+- [ ] should return 500 on database error
+
+**POST /api/notes**
+- [ ] should create note with valid data
+- [ ] should validate required fields (title)
+- [ ] should set default color if not provided
+- [ ] should prevent SQL injection
+- [ ] should return 400 on invalid data
+
+**PUT /api/notes/:id**
+- [ ] should update note with valid data
+- [ ] should not update other user's note
+- [ ] should return 404 if note not found
+
+**DELETE /api/notes/:id**
+- [ ] should soft delete note
+- [ ] should return 404 if note not found
+
+**Deliverable:** 15 unit tests pass, ~60% coverage cho notesController
+
+---
+
+##### 2.2. Events Controller Tests
+**Người Làm:** Backend Dev 2  
+**Ước Tính:** 1 ngày  
+**File:** `tests/unit/controllers/events.test.js`
+
+**Test Cases (12 tests):**
+
+**GET /api/events**
+- [ ] should return upcoming events
+- [ ] should return past events with filter
+- [ ] should filter by recurring status
+- [ ] should sort by event_date
+
+**POST /api/events**
+- [ ] should create event with valid data
+- [ ] should validate required fields (title, event_date)
+- [ ] should prevent invalid date format
+- [ ] should calculate days_until correctly
+
+**PUT /api/events/:id**
+- [ ] should update event
+- [ ] should recalculate days_until after update
+
+**DELETE /api/events/:id**
+- [ ] should delete event
+- [ ] should return 404 if not found
+
+**Deliverable:** 12 unit tests pass
+
+---
+
+##### 2.3. Currency Controller Tests
+**Người Làm:** Backend Dev 1  
+**Ước Tính:** 0.5 ngày  
+**File:** `tests/unit/controllers/currency.test.js`
+
+**Test Cases (10 tests):**
+
+**GET /api/currency/rates**
+- [ ] should return cached rates if fresh (< 1 hour)
+- [ ] should refresh rates if stale (> 1 hour)
+- [ ] should handle API failure with fallback
+- [ ] should return 500 on database error
+
+**POST /api/currency/refresh**
+- [ ] should force refresh rates
+- [ ] should update database with new rates
+- [ ] should return last_updated timestamp
+
+**POST /api/currency/convert**
+- [ ] should convert amount between currencies
+- [ ] should validate required fields (from, to, amount)
+- [ ] should return 400 if currency not found
+
+**Deliverable:** 10 unit tests pass
+
+---
+
+##### 2.4. Wishlist Controller Tests
+**Người Làm:** Backend Dev 2  
+**Ước Tính:** 1 ngày  
+**File:** `tests/unit/controllers/wishlist.test.js`
+
+**Test Cases (15 tests):**
+
+**GET /api/wishlist**
+- [ ] should return all wishlist items
+- [ ] should filter by origin (Shopee/TikTok)
+- [ ] should search by title
+- [ ] should sort by price/created_at
+
+**POST /api/wishlist**
+- [ ] should create wishlist item with valid data
+- [ ] should extract product info from URL
+- [ ] should handle invalid URL
+- [ ] should validate required fields
+
+**PUT /api/wishlist/:id**
+- [ ] should update wishlist item
+- [ ] should not update other user's item
+
+**DELETE /api/wishlist/:id**
+- [ ] should delete wishlist item
+
+**POST /api/wishlist/:id/comments**
+- [ ] should add comment to item
+- [ ] should return 404 if item not found
+
+**GET /api/wishlist/:id/comments**
+- [ ] should return all comments for item
+- [ ] should sort by created_at DESC
+
+**Deliverable:** 15 unit tests pass
+
+---
+
+##### 2.5. Utils & Middleware Tests
+**Người Làm:** Backend Dev 1 + Dev 2 (parallel)  
+**Ước Tính:** 1 ngày  
+
+**2.5.1. Validation Utils** (Dev 1)
+**File:** `tests/unit/utils/validation.test.js`
+- [ ] should validate email format
+- [ ] should validate UUID format
+- [ ] should validate URL format
+- [ ] should sanitize HTML input
+- [ ] should prevent XSS
+
+**2.5.2. URL Extractor** (Dev 1)
+**File:** `tests/unit/utils/urlExtractor.test.js`
+- [ ] should extract Shopee product info
+- [ ] should extract TikTok product info
+- [ ] should handle invalid URLs
+- [ ] should extract price correctly
+
+**2.5.3. Auth Middleware** (Dev 2)
+**File:** `tests/unit/middleware/auth.test.js`
+- [ ] should authenticate valid token
+- [ ] should reject invalid token
+- [ ] should reject expired token
+- [ ] should reject missing token
+- [ ] should attach userId to request
+
+**2.5.4. Error Handler Middleware** (Dev 2)
+**File:** `tests/unit/middleware/errorHandler.test.js`
+- [ ] should format error response correctly
+- [ ] should handle ValidationError
+- [ ] should handle DatabaseError
+- [ ] should handle UnauthorizedError
+- [ ] should log errors
+
+**Deliverable:** 20+ utility tests pass
+
+---
+
+#### Deliverables Phase 2
+- [ ] Notes controller: 15 tests (60% coverage)
+- [ ] Events controller: 12 tests (65% coverage)
+- [ ] Currency controller: 10 tests (70% coverage)
+- [ ] Wishlist controller: 15 tests (60% coverage)
+- [ ] Utils & Middleware: 20 tests (75% coverage)
+- [ ] **Total: 72 unit tests**
+- [ ] **Overall backend coverage: ~50%**
+
+**Verification:**
+```bash
+npm run test:unit
+npm run test:coverage
+# Should show ~50% coverage
+```
+
+---
+
+### 🔗 Phase 3: Integration Tests - API Endpoints
+**Thời Gian:** 5 ngày (21-25 Nov)  
+**Trạng Thái:** ⏳ Chưa Bắt Đầu  
+**Progress:** 0%  
+**Target Coverage:** 75%
+
+#### Overview
+Integration tests kiểm tra toàn bộ flow từ HTTP request → Controller → Database → Response
+
+#### Chia Task Theo Module
+
+##### 3.1. Notes API Integration Tests
+**Người Làm:** QA Engineer 1  
+**Ước Tính:** 1.5 ngày  
+**File:** `tests/integration/api/notes.api.test.js`
+
+**Setup:**
+- [ ] Create test user với authentication
+- [ ] Setup beforeEach: Clean notes table
+- [ ] Setup afterEach: Verify database state
+
+**Test Cases (20 tests):**
+
+**GET /api/notes - List Notes**
+- [ ] should return 200 with notes array
+- [ ] should return 401 without auth token
+- [ ] should return only user's notes (isolation)
+- [ ] should support pagination (limit, offset)
+- [ ] should support search query
+- [ ] should support filter by pinned
+- [ ] should support filter by color
+- [ ] should respond within 500ms
+
+**POST /api/notes - Create Note**
+- [ ] should create note with 201 status
+- [ ] should return created note with id
+- [ ] should save to database correctly
+- [ ] should validate required fields
+- [ ] should validate max length (title, content)
+- [ ] should sanitize XSS attempts
+- [ ] should prevent SQL injection
+
+**PUT /api/notes/:id - Update Note**
+- [ ] should update note with 200 status
+- [ ] should update database correctly
+- [ ] should return 403 for other user's note
+- [ ] should return 404 for non-existent note
+
+**DELETE /api/notes/:id - Delete Note**
+- [ ] should soft delete note with 200 status
+- [ ] should set deleted_at timestamp
+- [ ] should not return deleted notes in list
+- [ ] should return 403 for other user's note
+
+**Deliverable:** 20 integration tests pass
+
+---
+
+##### 3.2. Events API Integration Tests
+**Người Làm:** QA Engineer 2  
+**Ước Tính:** 1.5 ngày  
+**File:** `tests/integration/api/events.api.test.js`
+
+**Test Cases (15 tests):**
+
+**GET /api/events**
+- [ ] should return upcoming events
+- [ ] should return past events with filter
+- [ ] should calculate days_until correctly
+- [ ] should support pagination
+- [ ] should respond within 300ms
+
+**POST /api/events**
+- [ ] should create event with valid data
+- [ ] should validate event_date format
+- [ ] should prevent past dates (optional rule)
+- [ ] should set default recurring=false
+
+**PUT /api/events/:id**
+- [ ] should update event
+- [ ] should recalculate days_until
+
+**DELETE /api/events/:id**
+- [ ] should delete event
+- [ ] should not affect other user's events
+
+**PATCH /api/events/:id/recurring**
+- [ ] should toggle recurring status
+- [ ] should return updated event
+
+**Deliverable:** 15 integration tests pass
+
+---
+
+##### 3.3. Currency API Integration Tests
+**Người Làm:** QA Engineer 1  
+**Ước Tính:** 1 ngày  
+**File:** `tests/integration/api/currency.api.test.js`
+
+**Setup:**
+- [ ] Mock external API (exchangerate-api.com)
+- [ ] Setup test currency rates in database
+
+**Test Cases (12 tests):**
+
+**GET /api/currency/rates**
+- [ ] should return cached rates
+- [ ] should include last_updated timestamp
+- [ ] should have all required currencies (USD, VND, EUR, etc)
+- [ ] should refresh if cache is stale
+- [ ] should use fallback API if primary fails
+- [ ] should respond within 200ms
+
+**POST /api/currency/refresh**
+- [ ] should force refresh rates
+- [ ] should call external API
+- [ ] should update database
+- [ ] should return new rates
+
+**POST /api/currency/convert**
+- [ ] should convert amount correctly
+- [ ] should validate required fields
+- [ ] should return 400 for invalid currency
+
+**Deliverable:** 12 integration tests pass
+
+---
+
+##### 3.4. Wishlist API Integration Tests
+**Người Làm:** QA Engineer 2  
+**Ước Tính:** 1.5 ngày  
+**File:** `tests/integration/api/wishlist.api.test.js`
+
+**Setup:**
+- [ ] Mock Shopee API
+- [ ] Mock TikTok API
+
+**Test Cases (18 tests):**
+
+**GET /api/wishlist**
+- [ ] should return all items
+- [ ] should filter by origin
+- [ ] should search by title
+- [ ] should support pagination
+- [ ] should respond within 400ms
+
+**POST /api/wishlist**
+- [ ] should create item from Shopee URL
+- [ ] should extract product info (title, price, image)
+- [ ] should create item from TikTok URL
+- [ ] should handle invalid URL
+- [ ] should validate required fields
+
+**PUT /api/wishlist/:id**
+- [ ] should update item
+- [ ] should not update other user's item
+
+**DELETE /api/wishlist/:id**
+- [ ] should delete item and its comments
+
+**POST /api/wishlist/:id/comments**
+- [ ] should add comment
+- [ ] should return 404 if item not found
+
+**GET /api/wishlist/:id/comments**
+- [ ] should return all comments
+- [ ] should sort by created_at
+
+**GET /api/wishlist/stats**
+- [ ] should return total items count
+- [ ] should return total price by currency
+
+**Deliverable:** 18 integration tests pass
+
+---
+
+##### 3.5. Authentication Flow Tests
+**Người Làm:** QA Engineer 1  
+**Ước Tính:** 0.5 ngày  
+**File:** `tests/integration/api/auth.api.test.js`
+
+**Test Cases (10 tests):**
+
+**POST /api/auth/register**
+- [ ] should register new user
+- [ ] should hash password
+- [ ] should return JWT token
+- [ ] should validate email format
+- [ ] should prevent duplicate email
+
+**POST /api/auth/login**
+- [ ] should login with valid credentials
+- [ ] should return JWT token
+- [ ] should return 401 for invalid credentials
+
+**GET /api/auth/me**
+- [ ] should return user info with valid token
+- [ ] should return 401 without token
+
+**Deliverable:** 10 integration tests pass
+
+---
+
+#### Deliverables Phase 3
+- [ ] Notes API: 20 integration tests
+- [ ] Events API: 15 integration tests
+- [ ] Currency API: 12 integration tests
+- [ ] Wishlist API: 18 integration tests
+- [ ] Auth API: 10 integration tests
+- [ ] **Total: 75 integration tests**
+- [ ] **Overall backend coverage: ~75%**
+
+**Verification:**
+```bash
+npm run test:integration
+npm run test:coverage
+# Should show ~75% coverage
+```
+
+---
+
+### 🔐 Phase 4: Security & Performance Tests
+**Thời Gian:** 3 ngày (26-28 Nov)  
+**Trạng Thái:** ⏳ Chưa Bắt Đầu  
+**Progress:** 0%  
+**Target Coverage:** 80%+
+
+#### 4.1. Security Tests
+**Người Làm:** Senior Test Engineer + Security Specialist  
+**Ước Tính:** 2 ngày  
+
+##### 4.1.1. SQL Injection Tests
+**File:** `tests/security/sql-injection.test.js`
+**Ước Tính:** 4 giờ
+
+**Test Cases (8 tests):**
+- [ ] should prevent SQL injection in notes search
+- [ ] should prevent SQL injection in events filter
+- [ ] should prevent SQL injection in wishlist search
+- [ ] should prevent SQL injection in user registration
+- [ ] should verify parameterized queries usage
+- [ ] should test UNION SELECT attacks
+- [ ] should test DROP TABLE attacks
+- [ ] should verify database integrity after attacks
+
+**Payloads to test:**
+```javascript
+const sqlInjectionPayloads = [
+  "'; DROP TABLE notes; --",
+  "1' OR '1'='1",
+  "admin'--",
+  "' UNION SELECT * FROM users--",
+  "'; DELETE FROM notes WHERE '1'='1",
+  "1' AND 1=CONVERT(int, (SELECT TOP 1 password_hash FROM users))--"
+]
+```
+
+**Deliverable:** 8 SQL injection tests pass
+
+---
+
+##### 4.1.2. XSS Prevention Tests
+**File:** `tests/security/xss-prevention.test.js`
+**Ước Tính:** 3 giờ
+
+**Test Cases (6 tests):**
+- [ ] should sanitize <script> tags in note title
+- [ ] should sanitize onerror attributes in content
+- [ ] should sanitize iframe tags
+- [ ] should sanitize javascript: URLs
+- [ ] should allow safe HTML (optional: if using WYSIWYG)
+- [ ] should prevent DOM-based XSS
+
+**Payloads to test:**
+```javascript
+const xssPayloads = [
+  '<script>alert("XSS")</script>',
+  '<img src=x onerror=alert(1)>',
+  '<iframe src="javascript:alert(1)">',
+  'javascript:alert(document.cookie)',
+  '<svg onload=alert(1)>',
+  '<body onload=alert(1)>'
+]
+```
+
+**Deliverable:** 6 XSS prevention tests pass
+
+---
+
+##### 4.1.3. Authentication Security Tests
+**File:** `tests/security/auth-security.test.js`
+**Ước Tính:** 3 giờ
+
+**Test Cases (10 tests):**
+- [ ] should reject requests without token
+- [ ] should reject invalid token format
+- [ ] should reject expired token
+- [ ] should reject tampered token
+- [ ] should reject token with invalid signature
+- [ ] should prevent brute force attacks (rate limiting)
+- [ ] should log authentication failures
+- [ ] should not leak user existence in error messages
+- [ ] should verify password hashing (bcrypt)
+- [ ] should enforce strong password policy
+
+**Deliverable:** 10 auth security tests pass
+
+---
+
+##### 4.1.4. Authorization Tests
+**File:** `tests/security/authorization.test.js`
+**Ước Tính:** 2 giờ
+
+**Test Cases (6 tests):**
+- [ ] should prevent user from accessing other user's notes
+- [ ] should prevent user from updating other user's events
+- [ ] should prevent user from deleting other user's wishlist
+- [ ] should verify userId in JWT matches resource owner
+- [ ] should check role-based access (if applicable)
+- [ ] should handle missing userId in token
+
+**Deliverable:** 6 authorization tests pass
+
+---
+
+#### 4.2. Performance Tests
+**Người Làm:** Senior Test Engineer  
+**Ước Tính:** 1 ngày  
+
+##### 4.2.1. Response Time Tests
+**File:** `tests/performance/response-time.test.js`
+**Ước Tính:** 3 giờ
+
+**Test Cases (8 tests):**
+- [ ] GET /api/notes should respond < 200ms
+- [ ] POST /api/notes should respond < 300ms
+- [ ] GET /api/events should respond < 200ms
+- [ ] GET /api/currency/rates should respond < 100ms
+- [ ] GET /api/wishlist should respond < 400ms
+- [ ] POST /api/wishlist (with URL extraction) should respond < 1000ms
+- [ ] Database queries should execute < 50ms
+- [ ] External API calls should timeout at 5000ms
+
+**Deliverable:** 8 performance tests pass
+
+---
+
+##### 4.2.2. Concurrency Tests
+**File:** `tests/performance/concurrency.test.js`
+**Ước Tính:** 3 giờ
+
+**Test Cases (5 tests):**
+- [ ] should handle 100 concurrent GET requests
+- [ ] should handle 50 concurrent POST requests
+- [ ] should not have race conditions in database writes
+- [ ] should maintain database connection pool (max 20)
+- [ ] should not leak memory under load
+
+**Test Scenario:**
+```javascript
+it('should handle 100 concurrent requests', async () => {
+  const requests = Array(100).fill().map(() =>
+    request(app).get('/api/notes').set('Authorization', token)
+  )
+  
+  const startTime = Date.now()
+  const responses = await Promise.all(requests)
+  const endTime = Date.now()
+  
+  expect(responses.every(r => r.status === 200)).toBe(true)
+  expect(endTime - startTime).toBeLessThan(5000)
+})
+```
+
+**Deliverable:** 5 concurrency tests pass
+
+---
+
+##### 4.2.3. Database Performance Tests
+**File:** `tests/performance/database.test.js`
+**Ước Tính:** 2 giờ
+
+**Test Cases (6 tests):**
+- [ ] should query notes with index usage
+- [ ] should verify pagination performance (1000+ records)
+- [ ] should verify search performance
+- [ ] should monitor query count (N+1 prevention)
+- [ ] should test transaction rollback performance
+- [ ] should verify connection pool efficiency
+
+**Deliverable:** 6 database performance tests pass
+
+---
+
+#### Deliverables Phase 4
+- [ ] SQL Injection: 8 tests pass
+- [ ] XSS Prevention: 6 tests pass
+- [ ] Auth Security: 10 tests pass
+- [ ] Authorization: 6 tests pass
+- [ ] Response Time: 8 tests pass
+- [ ] Concurrency: 5 tests pass
+- [ ] Database Performance: 6 tests pass
+- [ ] **Total: 49 security + performance tests**
+- [ ] **Overall backend coverage: 80%+**
+
+**Verification:**
+```bash
+npm run test:security
+npm run test:performance
+npm run test:coverage
+# Should show >= 80% coverage
+```
+
+---
+
+### 📚 Phase 5: Documentation & CI/CD
+**Thời Gian:** 3 ngày (29 Nov - 01 Dec)  
+**Trạng Thái:** ⏳ Chưa Bắt Đầu  
+**Progress:** 0%
+
+#### 5.1. Documentation
+**Người Làm:** Senior Test Engineer + Technical Writer  
+**Ước Tính:** 1.5 ngày
+
+##### 5.1.1. Testing Guide
+**File:** `docs/TESTING_GUIDE.md`
+**Ước Tính:** 3 giờ
+
+**Nội dung:**
+- [ ] Quick start guide
+  - Installing dependencies
+  - Running tests
+  - Watching tests during development
+  
+- [ ] Writing tests
+  - Unit test template
+  - Integration test template
+  - Using test helpers
+  - Using factories
+  
+- [ ] Best practices
+  - AAA pattern (Arrange-Act-Assert)
+  - Test naming conventions
+  - Test independence
+  - Mock external APIs
+  
+- [ ] Troubleshooting
+  - Common errors và fixes
+  - Database connection issues
+  - Test timeout issues
+  - Flaky tests debugging
+
+**Deliverable:** Comprehensive testing guide
+
+---
+
+##### 5.1.2. API Test Coverage Report
+**File:** `docs/API_TEST_COVERAGE.md`
+**Ước Tính:** 2 giờ
+
+**Nội dung:**
+- [ ] Coverage summary by module
+  - Notes: X% coverage
+  - Events: Y% coverage
+  - Currency: Z% coverage
+  - Wishlist: W% coverage
+  
+- [ ] Endpoint test status table
+  ```
+  | Endpoint | Unit Tests | Integration Tests | Security Tests |
+  |----------|------------|-------------------|----------------|
+  | GET /api/notes | ✅ | ✅ | ✅ |
+  ```
+  
+- [ ] Untested scenarios (if any)
+- [ ] Future test improvements
+
+**Deliverable:** Coverage report document
+
+---
+
+##### 5.1.3. Test Data Management Guide
+**File:** `docs/TEST_DATA_GUIDE.md`
+**Ước Tính:** 2 giờ
+
+**Nội dung:**
+- [ ] Using factories
+  - Available factories
+  - Customizing factory data
+  - Creating new factories
+  
+- [ ] Using fixtures
+  - Loading fixtures
+  - Updating fixtures
+  
+- [ ] Test database management
+  - Creating test database
+  - Running migrations
+  - Cleaning test data
+  
+- [ ] Seed data strategy
+
+**Deliverable:** Test data management guide
+
+---
+
+##### 5.1.4. Code Examples & Templates
+**File:** `docs/TEST_EXAMPLES.md`
+**Ước Tính:** 2 giờ
+
+**Nội dung:**
+- [ ] Unit test example (full file)
+- [ ] Integration test example (full file)
+- [ ] Security test example
+- [ ] Performance test example
+- [ ] Mocking external API example
+- [ ] Using authHelper example
+
+**Deliverable:** Code examples collection
+
+---
+
+#### 5.2. CI/CD Integration
+**Người Làm:** DevOps Engineer + Senior Test Engineer  
+**Ước Tính:** 1.5 ngày
+
+##### 5.2.1. GitHub Actions Workflow
+**File:** `.github/workflows/test.yml`
+**Ước Tính:** 4 giờ
+
+**Tasks:**
+- [ ] Create workflow file
+  - Trigger: push to main/develop, PRs
+  - Setup Node.js 18
+  - Setup PostgreSQL service
+  - Install dependencies
+  - Run migrations
+  - Run tests with coverage
+  
+- [ ] Add coverage reporting
+  - Upload to Codecov
+  - Comment on PR with coverage
+  - Fail if coverage < 80%
+  
+- [ ] Add test artifacts
+  - Save coverage report
+  - Save test results
+  - Keep for 7 days
+
+**Deliverable:** GitHub Actions workflow hoạt động
+
+**Test Workflow:**
+```bash
+# Manually trigger workflow
+git push origin feature-branch
+# Check GitHub Actions tab for results
+```
+
+---
+
+##### 5.2.2. Pre-commit Hooks
+**File:** `.husky/pre-commit`
+**Ước Tính:** 2 giờ
+
+**Tasks:**
+- [ ] Install Husky
+  ```bash
+  npm install --save-dev husky
+  npx husky install
+  ```
+  
+- [ ] Create pre-commit hook
+  - Run lint
+  - Run tests for changed files only
+  - Abort commit if tests fail
+  
+- [ ] Create commit-msg hook
+  - Validate commit message format
+  - Enforce conventional commits
+
+**Deliverable:** Pre-commit hooks active
+
+**Verification:**
+```bash
+git add .
+git commit -m "test: add sample test"
+# Should run tests before commit
+```
+
+---
+
+##### 5.2.3. NPM Scripts
+**File:** `backend/package.json`
+**Ước Tính:** 1 giờ
+
+**Tasks:**
+- [ ] Add test scripts
+  ```json
+  {
+    "test": "NODE_ENV=test jest",
+    "test:watch": "NODE_ENV=test jest --watch",
+    "test:coverage": "NODE_ENV=test jest --coverage",
+    "test:unit": "NODE_ENV=test jest tests/unit",
+    "test:integration": "NODE_ENV=test jest tests/integration",
+    "test:security": "NODE_ENV=test jest tests/security",
+    "test:performance": "NODE_ENV=test jest tests/performance",
+    "test:ci": "NODE_ENV=test jest --ci --coverage --maxWorkers=2"
+  }
+  ```
+
+**Deliverable:** All npm scripts work
+
+---
+
+##### 5.2.4. Coverage Badges
+**File:** `README.md`
+**Ước Tính:** 1 giờ
+
+**Tasks:**
+- [ ] Setup Codecov integration
+- [ ] Add coverage badge to README
+- [ ] Add test status badge
+- [ ] Add build status badge
+
+**Example badges:**
+```markdown
+![Coverage](https://codecov.io/gh/username/repo/branch/main/graph/badge.svg)
+![Tests](https://github.com/username/repo/workflows/API%20Tests/badge.svg)
+```
+
+**Deliverable:** Badges hiển thị trong README
+
+---
+
+#### 5.3. Test Database Migration Script
+**Người Làm:** Backend Dev 1  
+**Ước Tính:** 0.5 ngày  
+
+**File:** `backend/scripts/migrate-test-db.js`
+**Ước Tính:** 3 giờ
+
+**Tasks:**
+- [ ] Create migration script
+  - Connect to test database
+  - Run all migrations
+  - Seed initial data
+  - Verify tables created
+  
+- [ ] Add to npm scripts
+  ```json
+  "db:migrate:test": "node scripts/migrate-test-db.js"
+  ```
+  
+- [ ] Document usage
+
+**Deliverable:** Migration script hoạt động
+
+**Verification:**
+```bash
+npm run db:migrate:test
+# Should create all tables in kadong_tools_test
+```
+
+---
+
+#### Deliverables Phase 5
+- [ ] TESTING_GUIDE.md complete
+- [ ] API_TEST_COVERAGE.md complete
+- [ ] TEST_DATA_GUIDE.md complete
+- [ ] TEST_EXAMPLES.md complete
+- [ ] GitHub Actions workflow live
+- [ ] Pre-commit hooks working
+- [ ] NPM scripts configured
+- [ ] Coverage badges in README
+- [ ] Test DB migration script ready
+
+**Verification:**
+```bash
+# Push code to GitHub
+git push origin main
+
+# Check GitHub Actions
+# Visit: https://github.com/username/repo/actions
+
+# Should see:
+# ✅ Tests passed
+# ✅ Coverage 80%+
+# ✅ No security issues
+```
+
+---
+
+### 🎓 Phase 6: Team Training & Handover
+**Thời Gian:** 2 ngày (02-03 Dec)  
+**Trạng Thái:** ⏳ Chưa Bắt Đầu  
+**Progress:** 0%
+
+#### 6.1. Knowledge Transfer Sessions
+**Người Làm:** Senior Test Engineer  
+**Ước Tính:** 1 ngày
+
+##### Session 1: Testing Framework Overview (1 giờ)
+**Đối Tượng:** All Backend Developers
+
+**Agenda:**
+- [ ] Introduction to Jest & Supertest
+- [ ] Test structure overview (unit/integration/security)
+- [ ] Running tests locally
+- [ ] Reading test results
+- [ ] Understanding coverage reports
+
+**Deliverable:** Team hiểu cơ bản về testing framework
+
+---
+
+##### Session 2: Writing Unit Tests (2 giờ)
+**Đối Tượng:** Backend Developers
+
+**Agenda:**
+- [ ] AAA pattern (Arrange-Act-Assert)
+- [ ] Using test helpers & factories
+- [ ] Mocking dependencies
+- [ ] Testing error cases
+- [ ] Live coding demo
+- [ ] Practice exercise
+
+**Deliverable:** Devs có thể viết unit tests
+
+---
+
+##### Session 3: Writing Integration Tests (2 giờ)
+**Đối Tượng:** Backend Developers + QA Engineers
+
+**Agenda:**
+- [ ] API testing with Supertest
+- [ ] Database setup/teardown
+- [ ] Authentication in tests
+- [ ] Testing external API integrations
+- [ ] Live coding demo
+- [ ] Practice exercise
+
+**Deliverable:** Team có thể viết integration tests
+
+---
+
+##### Session 4: CI/CD & Best Practices (1 giờ)
+**Đối Tượng:** All Team Members
+
+**Agenda:**
+- [ ] GitHub Actions workflow
+- [ ] Pre-commit hooks
+- [ ] Coverage requirements
+- [ ] Handling flaky tests
+- [ ] Test maintenance
+- [ ] Q&A
+
+**Deliverable:** Team hiểu CI/CD pipeline
+
+---
+
+#### 6.2. Practice Assignments
+**Người Làm:** All Backend Developers  
+**Ước Tính:** 1 ngày
+
+##### Assignment 1: Write Unit Tests
+**Assignee:** Backend Dev 1  
+**Ước Tính:** 2 giờ
+
+**Task:**
+- [ ] Write unit tests cho Gold Prices Controller
+- [ ] Target: 5 tests, 70% coverage
+- [ ] Review by Senior Test Engineer
+
+**Deliverable:** Unit tests merged
+
+---
+
+##### Assignment 2: Write Integration Tests
+**Assignee:** Backend Dev 2  
+**Ước Tính:** 2 giờ
+
+**Task:**
+- [ ] Write integration tests cho Weather API
+- [ ] Target: 8 tests, all endpoints covered
+- [ ] Review by Senior Test Engineer
+
+**Deliverable:** Integration tests merged
+
+---
+
+##### Assignment 3: Write Security Tests
+**Assignee:** QA Engineer 1  
+**Ước Tính:** 2 giờ
+
+**Task:**
+- [ ] Write SQL injection tests cho Gold Prices search
+- [ ] Target: 5 payloads tested
+- [ ] Review by Senior Test Engineer
+
+**Deliverable:** Security tests merged
+
+---
+
+#### 6.3. Documentation Review
+**Người Làm:** All Team Members  
+**Ước Tính:** 2 giờ
+
+**Tasks:**
+- [ ] Review TESTING_GUIDE.md
+- [ ] Review API_TEST_COVERAGE.md
+- [ ] Collect feedback
+- [ ] Update documentation based on feedback
+
+**Deliverable:** Documentation approved by team
+
+---
+
+#### 6.4. Testing Checklist for Future Features
+**Người Làm:** Senior Test Engineer  
+**Ước Tính:** 1 giờ
+
+**File:** `docs/TESTING_CHECKLIST.md`
+
+**Nội dung:**
+```markdown
+# Testing Checklist for New Features
+
+## Before Starting Development
+- [ ] Read spec/requirement
+- [ ] Identify test scenarios
+- [ ] Plan test data needed
+
+## During Development
+- [ ] Write unit tests for controllers
+- [ ] Write unit tests for utilities
+- [ ] Write integration tests for API endpoints
+- [ ] Test error cases
+- [ ] Test security (SQL injection, XSS)
+
+## Before Code Review
+- [ ] All tests pass locally
+- [ ] Coverage >= 80% for new code
+- [ ] No console.log statements
+- [ ] Tests are independent
+- [ ] Tests have descriptive names
+
+## Before Merge
+- [ ] CI/CD pipeline passes
+- [ ] Code reviewed and approved
+- [ ] Coverage threshold met
+- [ ] Documentation updated
+```
+
+**Deliverable:** Testing checklist for future reference
+
+---
+
+#### Deliverables Phase 6
+- [ ] 4 training sessions completed
+- [ ] All devs completed practice assignments
+- [ ] Documentation reviewed & approved
+- [ ] Testing checklist created
+- [ ] Team confident in writing tests
+
+**Success Metric:**
+- [ ] 100% team members can write basic unit tests
+- [ ] 80% team members can write integration tests
+- [ ] Team commits to writing tests for new features
+
+---
+
+## 📊 Overall Progress Tracking
+
+### Progress by Phase
+
+| Phase | Ước Tính | Trạng Thái | Progress | Ngày Hoàn Thành |
+|-------|----------|------------|----------|-----------------|
+| 1. Setup & Infrastructure | 3 ngày | ⏳ | 0% | - |
+| 2. Unit Tests - Controllers | 5 ngày | ⏳ | 0% | - |
+| 3. Integration Tests - API | 5 ngày | ⏳ | 0% | - |
+| 4. Security & Performance | 3 ngày | ⏳ | 0% | - |
+| 5. Documentation & CI/CD | 3 ngày | ⏳ | 0% | - |
+| 6. Training & Handover | 2 ngày | ⏳ | 0% | - |
+| **TỔNG CỘNG** | **21 ngày** | **⏳** | **0%** | **-** |
+
+### Test Count Summary
+
+| Test Type | Target | Current | Status |
+|-----------|--------|---------|--------|
+| Unit Tests | 72 | 0 | ⏳ |
+| Integration Tests | 75 | 0 | ⏳ |
+| Security Tests | 30 | 0 | ⏳ |
+| Performance Tests | 19 | 0 | ⏳ |
+| **TỔNG CỘNG** | **196 tests** | **0** | **⏳** |
+
+### Coverage Goals
+
+| Module | Target Coverage | Current | Status |
+|--------|----------------|---------|--------|
+| Controllers | 80% | 0% | 🔴 |
+| Routes | 85% | 0% | 🔴 |
+| Utils | 90% | 0% | 🔴 |
+| Middleware | 85% | 0% | 🔴 |
+| **Overall Backend** | **80%** | **0%** | **🔴** |
+
+---
+
+## 🐛 Issues & Risks
+
+### Active Risks
+
+#### Risk 1: Test Database Setup Complexity
+**Khả Năng:** 🟠 Medium  
+**Tác Động:** 🟠 Medium  
+**Mô Tả:** Setup test database có thể gặp vấn đề với migrations hoặc permissions
+
+**Mitigation:**
+- Tạo detailed guide cho database setup
+- Test trên nhiều environments (Windows, Mac, Linux)
+- Có backup plan với Docker PostgreSQL
+- Document tất cả errors thường gặp
+
+**Owner:** Backend Dev 1
+
+---
+
+#### Risk 2: Flaky Tests Due to External APIs
+**Khả Năng:** 🟠 Medium  
+**Tác Động:** 🔴 High  
+**Mô Tả:** Tests có thể fail do external APIs (weather, exchange rate) down hoặc slow
+
+**Mitigation:**
+- Mock tất cả external API calls
+- Add timeout guards (5s max)
+- Use fallback APIs
+- Monitor external API uptime
+
+**Owner:** Senior Test Engineer
+
+---
+
+#### Risk 3: Team Learning Curve
+**Khả Năng:** 🟡 Low  
+**Tác Động:** 🟠 Medium  
+**Mô Tả:** Team members chưa quen với Jest/Supertest có thể mất thời gian học
+
+**Mitigation:**
+- Comprehensive training sessions
+- Pair programming trong phase đầu
+- Code review nghiêm ngặt
+- Tạo nhiều examples & templates
+- Designated "test champion" trong team
+
+**Owner:** Senior Test Engineer
+
+---
+
+#### Risk 4: CI/CD Pipeline Failures
+**Khả Năng:** 🟡 Low  
+**Tác Động:** 🔴 High  
+**Mô Tả:** GitHub Actions có thể fail do database connection, timeouts, hoặc resource limits
+
+**Mitigation:**
+- Test workflow locally với act
+- Monitor CI run times
+- Optimize slow tests
+- Add retry logic cho flaky tests
+- Cache dependencies
+
+**Owner:** DevOps Engineer
+
+---
+
+#### Risk 5: Coverage Pressure Leading to Low-Quality Tests
+**Khả Năng:** 🟠 Medium  
+**Tác Động:** 🟠 Medium  
+**Mô Tả:** Team có thể viết tests chỉ để đạt coverage thay vì test meaningful scenarios
+
+**Mitigation:**
+- Code review focus on test quality
+- Enforce test naming conventions
+- Reject tests không có assertions
+- Mutation testing để verify test quality
+- Regular test audit sessions
+
+**Owner:** Senior Test Engineer
+
+---
+
+## 💡 Technical Decisions
+
+### Decision 1: Jest vs Mocha
+**Ngày:** 2025-11-12  
+**Trạng Thái:** ✅ Approved
+
+**Context:**  
+Cần chọn test framework cho backend testing
+
+**Options:**
+1. **Jest**
+   - Pros: Built-in mocking, coverage, parallel execution, great DX
+   - Cons: Hơi heavy, có thể slow với large codebase
+
+2. **Mocha + Chai + Sinon**
+   - Pros: Lightweight, flexible, mature
+   - Cons: Cần setup nhiều libraries, less integrated
+
+3. **AVA**
+   - Pros: Fast, modern, concurrent by default
+   - Cons: Smaller community, ít resources
+
+**Decision:** Jest chosen
+
+**Reasoning:**
+- All-in-one solution giảm configuration overhead
+- Excellent developer experience với watch mode
+- Great error messages
+- Large community & resources
+- Used by many large projects (React, NestJS)
+
+**Trade-offs:**
+- Package size lớn hơn Mocha
+- Có thể chậm hơn với very large test suites (chưa phải concern hiện tại)
+
+---
+
+### Decision 2: Test Database Strategy
+**Ngày:** 2025-11-12  
+**Trạng Thái:** ✅ Approved
+
+**Context:**  
+Cần quyết định cách setup test database
+
+**Options:**
+1. **Separate Test Database**
+   - Pros: Isolation, no risk to dev/prod data
+   - Cons: Need separate PostgreSQL instance
+
+2. **In-Memory Database (SQLite)**
+   - Pros: Fast, no setup
+   - Cons: Different SQL dialect, không test PostgreSQL-specific features
+
+3. **Transaction Rollback per Test**
+   - Pros: Fast cleanup, shares dev database
+   - Cons: Complex với nested transactions, can interfere with app logic
+
+**Decision:** Separate Test Database chosen
+
+**Reasoning:**
+- Full PostgreSQL compatibility testing
+- Complete isolation from dev data
+- Can test migrations properly
+- Simple truncate strategy for cleanup
+- Worth the setup effort for confidence
+
+**Trade-offs:**
+- Requires separate database setup
+- Slightly slower than in-memory
+
+---
+
+### Decision 3: Coverage Threshold
+**Ngày:** 2025-11-12  
+**Trạng Thái:** ✅ Approved
+
+**Context:**  
+Cần đặt minimum coverage requirement
+
+**Options:**
+1. **70% coverage**
+   - Pros: Easier to achieve
+   - Cons: Too low, nhiều code không được test
+
+2. **80% coverage**
+   - Pros: Industry standard, good balance
+   - Cons: Requires effort
+
+3. **90% coverage**
+   - Pros: Very comprehensive
+   - Cons: Can lead to low-quality tests just to hit target
+
+**Decision:** 80% coverage cho all metrics (lines, functions, branches, statements)
+
+**Reasoning:**
+- Industry standard for serious projects
+- Achievable với reasonable effort
+- High enough để catch most bugs
+- Low enough để không force meaningless tests
+- Can increase gradually sau khi đạt 80%
+
+**Enforcement:**
+- CI/CD fail nếu coverage < 80%
+- Weekly review nếu coverage drop
+- Exceptions allowed với approval (e.g., generated code)
+
+---
+
+## 📝 Notes & Best Practices
+
+### Technical Notes
+
+**Note 1: Test Isolation**
+- Mỗi test PHẢI độc lập, không phụ thuộc vào test khác
+- Use `beforeEach` để setup, `afterEach` để cleanup
+- KHÔNG share state giữa các tests
+- Mock external dependencies
+
+**Note 2: Test Naming**
+- Format: `should [expected behavior] when [condition]`
+- Example: `should return 404 when note does not exist`
+- Descriptive > concise
+- Test name = documentation
+
+**Note 3: Database Cleanup**
+- TRUNCATE tables sau mỗi test (fast, preserves schema)
+- Use `RESTART IDENTITY CASCADE` để reset auto-increment
+- Verify cleanup với count queries
+- Monitor for orphaned data
+
+**Note 4: Async Testing**
+- ALWAYS use `async/await`, KHÔNG dùng callbacks
+- Set reasonable timeouts (default 10s)
+- Use `done` callback chỉ khi absolutely necessary
+- Handle promise rejections properly
+
+**Note 5: Mock External APIs**
+- Use `nock` cho HTTP mocks
+- Always clean mocks: `nock.cleanAll()` trong `afterEach`
+- Mock cả success và error cases
+- Verify mock calls: `nock.isDone()`
+
+---
+
+### Best Practices
+
+**Code Style:**
+- Follow ESLint configuration
+- Use Prettier for formatting
+- Max 100 lines per test file (split nếu lớn hơn)
+- Group related tests trong `describe` blocks
+
+**Commit Messages:**
+- Format: `test: [what you tested]`
+- Examples:
+  - `test: add unit tests for notes controller`
+  - `test: add integration tests for currency API`
+  - `test: add SQL injection prevention tests`
+
+**Testing Strategy:**
+- Write tests TRƯỚC hoặc CÙNG LÚC với code (TDD mindset)
+- Test happy path first, then edge cases
+- Test error handling thoroughly
+- Test security implications
+
+**Code Review:**
+- Every test file PHẢI được review
+- Check test quality, not just coverage numbers
+- Verify test independence
+- Ensure meaningful assertions
+- Reject flaky tests
+
+---
+
+### Lessons Learned
+
+**Lesson 1: Start with Helpers First**
+✅ **What Worked:**
+- Tạo test helpers (dbHelper, factories, authHelper) TRƯỚC KHI viết tests
+- Saves time, ensures consistency
+- Makes tests readable
+
+**Lesson 2: Mock External APIs Properly**
+✅ **What Worked:**
+- Use nock instead of manual fetch mocking
+- Create reusable mock functions
+- Clean mocks religiously
+
+**Lesson 3: Test Database Cleanup is Critical**
+⚠️ **What Didn't Work:**
+- Trying to use transaction rollback initially
+- Too complex với nested transactions
+
+✅ **What Worked:**
+- Simple TRUNCATE strategy
+- Fast enough for our use case
+- Easy to debug
+
+**Lesson 4: CI/CD Early**
+✅ **What to Do:**
+- Setup GitHub Actions EARLY trong project
+- Catch issues early
+- Builds confidence
+
+**Lesson 5: Team Training is Essential**
+✅ **What to Do:**
+- Don't assume everyone knows testing
+- Invest time in training
+- Pair programming helps
+- Create examples & templates
+
+---
+
+## 🔗 Related Documentation
+
+**Specification:**
+- `specs/specs/04_api_testing_framework.spec` - Chi tiết spec
+
+**Implementation Status:**
+- `docs/dev-notes/features/api-testing-implementation-status.md` - (Sẽ tạo)
+
+**Related Specs:**
+- `01_init.spec` - Project initialization
+- `05_e2e_testing.spec` - Frontend E2E tests (future)
+- `06_load_testing.spec` - Performance/load tests (future)
+
+**Documentation to Create:**
+- `docs/TESTING_GUIDE.md` - Testing guide cho developers
+- `docs/API_TEST_COVERAGE.md` - Coverage report
+- `docs/TEST_DATA_GUIDE.md` - Test data management
+- `docs/TEST_EXAMPLES.md` - Code examples
+
+**External Resources:**
+- Jest Documentation: https://jestjs.io/
+- Supertest Documentation: https://github.com/ladjs/supertest
+- Faker.js Documentation: https://fakerjs.dev/
+
+---
+
+## 👥 Team Assignment
+
+### Core Team
+
+**Senior Automation Test Engineer** (Plan Owner)
+- Overall responsibility
+- Architecture decisions
+- Code review tất cả tests
+- Training delivery
+- Phase 1, 4, 5 lead
+
+**Backend Dev 1**
+- Phase 1: Setup & helpers
+- Phase 2: Notes + Currency tests
+- Practice assignments
+- Database migration script
+
+**Backend Dev 2**
+- Phase 1: Mock services
+- Phase 2: Events + Wishlist tests
+- Practice assignments
+
+**QA Engineer 1**
+- Phase 3: Notes + Currency integration tests
+- Phase 4: SQL injection tests
+- Practice assignments
+
+**QA Engineer 2**
+- Phase 3: Events + Wishlist integration tests
+- Phase 4: XSS prevention tests
+- Practice assignments
+
+**DevOps Engineer**
+- Phase 5: GitHub Actions workflow
+- Phase 5: CI/CD pipeline
+- Infrastructure support
+
+**Technical Writer**
+- Phase 5: Documentation review
+- Phase 5: Writing guides
+- Phase 6: Training materials
+
+---
+
+## 📊 Metrics & KPIs
+
+### Development Metrics
+
+**Current Status:**
+- **Lines of Code:** 0 (test code)
+- **Test Coverage:** 0%
+- **Test Count:** 0
+- **Flaky Tests:** 0
+
+**Target Status (End of Phase 6):**
+- **Lines of Code:** ~5,000 (test code)
+- **Test Coverage:** 80%+
+- **Test Count:** 196 tests
+- **Flaky Tests:** 0
+
+### Performance Metrics
+
+**Targets:**
+- **Test Execution Time:** < 5 minutes (all tests)
+- **Unit Tests:** < 1 minute
+- **Integration Tests:** < 3 minutes
+- **Security Tests:** < 1 minute
+- **CI/CD Pipeline:** < 10 minutes total
+
+### Quality Metrics
+
+**Targets:**
+- **Test Pass Rate:** 100% on main branch
+- **Code Review Coverage:** 100% (all tests reviewed)
+- **Test Maintenance Time:** < 10% of development time
+- **Bug Catch Rate:** 80%+ of bugs caught by tests before production
+
+### Business Metrics
+
+**Targets:**
+- **Developer Confidence:** 90%+ (survey)
+- **Deployment Frequency:** Increase 2x (safer to deploy)
+- **Production Bugs:** Decrease 50%
+- **Development Speed:** Maintain or increase (no slowdown despite testing)
+
+---
+
+## 🔄 Review History
+
+| Date | Version | Changes | Updated By |
+|------|---------|---------|------------|
+| 2025-11-12 | 1.0.0 | Initial plan created | Senior Automation Test Engineer |
+
+---
+
+## ✅ Sign-off Checklist
+
+### Pre-Implementation
+- [ ] Plan reviewed by team (All developers + QA)
+- [ ] Timeline approved by Product Owner
+- [ ] Resources allocated (5 engineers)
+- [ ] Budget approved (if any external tools needed)
+- [ ] Risks acknowledged
+- [ ] Training dates scheduled
+
+### Ready to Begin
+- [ ] Test database credentials available
+- [ ] GitHub Actions enabled
+- [ ] Team members have access to resources
+- [ ] Kick-off meeting scheduled
+- [ ] Daily standup time agreed
+
+**Approved By:** Product Owner / Tech Lead  
+**Approval Date:** 2025-11-12
+
+---
+
+## 📅 Weekly Checkpoints
+
+**Week 1 (13-17 Nov):**
+- [ ] Phase 1 complete (Setup)
+- [ ] 20% of Phase 2 complete (Unit tests started)
+- [ ] Checkpoint meeting: Review helper functions
+
+**Week 2 (18-22 Nov):**
+- [ ] Phase 2 complete (Unit tests)
+- [ ] 50% overall coverage achieved
+- [ ] Checkpoint meeting: Review test quality
+
+**Week 3 (23-29 Nov):**
+- [ ] Phase 3 complete (Integration tests)
+- [ ] Phase 4 started (Security tests)
+- [ ] 75% overall coverage achieved
+- [ ] Checkpoint meeting: Review security tests
+
+**Week 4 (30 Nov - 06 Dec):**
+- [ ] Phase 4 complete (Security + Performance)
+- [ ] Phase 5 complete (Documentation + CI/CD)
+- [ ] 80%+ coverage achieved
+- [ ] Checkpoint meeting: Review CI/CD pipeline
+
+**Week 5 (07-08 Dec):**
+- [ ] Phase 6 complete (Training)
+- [ ] All deliverables complete
+- [ ] Final review meeting
+- [ ] Retrospective
+
+---
+
+**Next Review:** 2025-11-15 (Weekly)  
+**Review Frequency:** Weekly on Fridays 2PM  
+**Last Updated By:** Senior Automation Test Engineer  
+**Contact:** [email/slack channel]
+
+---
+
+**🎯 SUCCESS CRITERIA:**
+1. ✅ 196 tests written và pass
+2. ✅ >= 80% code coverage achieved
+3. ✅ CI/CD pipeline hoạt động ổn định
+4. ✅ Zero flaky tests
+5. ✅ Team trained và confident
+6. ✅ Documentation complete
+7. ✅ Production deployment với tests
+
+**🚀 LET'S BUILD A ROBUST TESTING CULTURE! 🚀**

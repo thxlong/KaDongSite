@@ -69,7 +69,7 @@ netstat -ano | findstr :3000
 taskkill /PID <PID> /F
 
 # Backend - Thay đổi port trong backend/.env
-PORT=5001
+PORT=5000
 ```
 
 ### Lỗi: Module not found

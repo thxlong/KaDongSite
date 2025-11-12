@@ -1,4 +1,4 @@
-﻿import express from 'express'
+import express from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
 import bodyParser from 'body-parser'
@@ -11,6 +11,9 @@ import feedbackRoutes from './routes/feedback.js'
 import fashionRoutes from './routes/fashion.js'
 import goldRoutes from './routes/gold.js'
 import weatherRoutes from './routes/weather.js'
+import wishlistRoutes from './routes/wishlist.js'
+import currencyRoutes from './routes/currency.js'
+import debugRoutes from './routes/debug.js'
 
 // Load environment variables
 dotenv.config()
@@ -37,6 +40,13 @@ app.use('/api/feedback', feedbackRoutes)
 app.use('/api/fashion', fashionRoutes)
 app.use('/api/gold', goldRoutes)
 app.use('/api/weather', weatherRoutes)
+app.use('/api/wishlist', wishlistRoutes)
+app.use('/api/currency', currencyRoutes)
+
+// Debug routes (development only)
+if (process.env.NODE_ENV === 'development') {
+  app.use('/api/debug', debugRoutes)
+}
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
@@ -60,7 +70,8 @@ app.get('/', (req, res) => {
       feedback: '/api/feedback',
       fashion: '/api/fashion',
       gold: '/api/gold',
-      weather: '/api/weather'
+      weather: '/api/weather',
+      wishlist: '/api/wishlist'
     }
   })
 })
@@ -86,9 +97,9 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
   console.log(`
 
-    KaDong Tools API Server       
-   Running on http://localhost:   
-   Environment:            
+   KaDong Tools API Server
+   Running on http://localhost:${PORT}
+   Environment: ${process.env.NODE_ENV}
 
   `)
 })

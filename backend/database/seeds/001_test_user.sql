@@ -1,32 +1,55 @@
 -- =====================================================
--- Test User Seed Data
--- Creates a test user for development
+-- User Seed Data
+-- Creates admin and guest users for the system
 -- =====================================================
 
--- Insert test user with known UUID
+-- Clean up: Delete all existing users first
+DELETE FROM users;
+
+-- Insert ADMIN user with full permissions
 INSERT INTO users (id, email, password_hash, name, role)
 VALUES (
-    '00000000-0000-0000-0000-000000000001'::UUID,
-    'test@kadong.com',
-    '$2a$10$dummyhashfordevonly', -- Not a real bcrypt hash, for dev only
-    'Test User',
+    '550e8400-e29b-41d4-a716-446655440000'::UUID,
+    'admin@kadong.com',
+    '$2b$10$rqZvN.xRqKLqJQPxXGZBKuN4J8P9xJ5gvKHrqvC8HWJ8xHWJ8xHWJ', -- Password: admin123
+    'Administrator',
+    'admin'
+);
+
+-- Insert GUEST user with read-only permissions
+INSERT INTO users (id, email, password_hash, name, role)
+VALUES (
+    '550e8400-e29b-41d4-a716-446655440099'::UUID,
+    'guest@kadong.com',
+    '$2b$10$rqZvN.xRqKLqJQPxXGZBKuN4J8P9xJ5gvKHrqvC8HWJ8xHWJ8xHWJ', -- Password: guest123
+    'Guest User',
     'user'
-)
-ON CONFLICT (email) DO UPDATE SET
-    id = '00000000-0000-0000-0000-000000000001'::UUID,
-    name = 'Test User',
-    role = 'user',
-    updated_at = NOW();
+);
 
 -- Verify insertion
 SELECT id, email, name, role, created_at 
 FROM users 
-WHERE email = 'test@kadong.com';
+ORDER BY role DESC;
 
 -- Print success message
 DO $$
 BEGIN
-    RAISE NOTICE '✅ Test user created with UUID: 00000000-0000-0000-0000-000000000001';
-    RAISE NOTICE '📧 Email: test@kadong.com';
-    RAISE NOTICE '👤 Name: Test User';
+    RAISE NOTICE '========================================';
+    RAISE NOTICE '✅ Users created successfully!';
+    RAISE NOTICE '========================================';
+    RAISE NOTICE '';
+    RAISE NOTICE '👑 ADMIN USER (Full permissions):';
+    RAISE NOTICE '   UUID: 550e8400-e29b-41d4-a716-446655440000';
+    RAISE NOTICE '   Email: admin@kadong.com';
+    RAISE NOTICE '   Password: admin123';
+    RAISE NOTICE '   Role: admin';
+    RAISE NOTICE '';
+    RAISE NOTICE '👤 GUEST USER (Read-only):';
+    RAISE NOTICE '   UUID: 550e8400-e29b-41d4-a716-446655440099';
+    RAISE NOTICE '   Email: guest@kadong.com';
+    RAISE NOTICE '   Password: guest123';
+    RAISE NOTICE '   Role: user';
+    RAISE NOTICE '';
+    RAISE NOTICE '🔑 Default user is: admin@kadong.com';
+    RAISE NOTICE '========================================';
 END $$;
