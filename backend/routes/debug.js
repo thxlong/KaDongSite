@@ -108,4 +108,72 @@ router.get('/users', async (req, res) => {
   }
 })
 
+/**
+ * POST /api/debug/migrate-currency
+ * Run currency_rates migration and seed
+ */
+router.post('/migrate-currency', async (req, res) => {
+  try {
+    console.log('[DEBUG] Running currency migration...')
+    
+    // Drop table if exists
+    await query('DROP TABLE IF EXISTS currency_rates CASCADE')
+    console.log('[DEBUG] Dropped existing table')
+    
+    // Create table
+    await query(`
+      CREATE TABLE currency_rates (
+        id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+        base_currency VARCHAR(3) NOT NULL DEFAULT 'USD',
+        target_currency VARCHAR(3) NOT NULL,
+        rate NUMERIC(15, 6) NOT NULL,
+        last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        source VARCHAR(50) DEFAULT 'exchangerate-api',
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE(base_currency, target_currency)
+      )
+    `)
+    console.log('[DEBUG] Created currency_rates table')
+    
+    // Create indexes
+    await query('CREATE INDEX idx_currency_rates_base_target ON currency_rates(base_currency, target_currency)')
+    await query('CREATE INDEX idx_currency_rates_last_updated ON currency_rates(last_updated DESC)')
+    console.log('[DEBUG] Created indexes')
+    
+    // Seed initial data
+    await query(`
+      INSERT INTO currency_rates (base_currency, target_currency, rate, source, last_updated) VALUES
+        ('USD', 'USD', 1.000000, 'fixed', CURRENT_TIMESTAMP),
+        ('USD', 'VND', 26345.00, 'exchangerate-api', CURRENT_TIMESTAMP),
+        ('USD', 'EUR', 0.92, 'exchangerate-api', CURRENT_TIMESTAMP),
+        ('USD', 'GBP', 0.79, 'exchangerate-api', CURRENT_TIMESTAMP),
+        ('USD', 'JPY', 149.50, 'exchangerate-api', CURRENT_TIMESTAMP),
+        ('USD', 'KRW', 1320.00, 'exchangerate-api', CURRENT_TIMESTAMP),
+        ('USD', 'CNY', 7.24, 'exchangerate-api', CURRENT_TIMESTAMP),
+        ('USD', 'THB', 35.50, 'exchangerate-api', CURRENT_TIMESTAMP)
+    `)
+    console.log('[DEBUG] Seeded currency rates')
+    
+    const result = await query('SELECT * FROM currency_rates ORDER BY target_currency')
+    
+    res.json({
+      success: true,
+      message: 'Currency migration completed successfully',
+      data: {
+        total: result.rows.length,
+        rates: result.rows
+      }
+    })
+  } catch (error) {
+    console.error('[DEBUG] Error in currency migration:', error)
+    res.status(500).json({
+      success: false,
+      error: {
+        code: 'MIGRATION_FAILED',
+        message: error.message
+      }
+    })
+  }
+})
+
 export default router

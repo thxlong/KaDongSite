@@ -7,16 +7,10 @@ const CurrencyTool = () => {
   const [fromCurrency, setFromCurrency] = useState('USD')
   const [toCurrency, setToCurrency] = useState('VND')
   const [result, setResult] = useState(0)
-  const [rates, setRates] = useState({
-    USD: 1,
-    VND: 24000,
-    EUR: 0.92,
-    GBP: 0.79,
-    JPY: 148.5,
-    KRW: 1320,
-    CNY: 7.24,
-    THB: 35.5
-  })
+  const [rates, setRates] = useState({})
+  const [loading, setLoading] = useState(true)
+  const [lastUpdated, setLastUpdated] = useState(null)
+  const [error, setError] = useState(null)
 
   const currencies = [
     { code: 'USD', name: 'Đô la Mỹ', symbol: '$', flag: '🇺🇸' },
@@ -29,11 +23,83 @@ const CurrencyTool = () => {
     { code: 'THB', name: 'Baht Thái', symbol: '฿', flag: '🇹🇭' },
   ]
 
+  // Fetch exchange rates from API on mount
   useEffect(() => {
-    calculateConversion()
+    fetchExchangeRates()
+  }, [])
+
+  // Recalculate when inputs change
+  useEffect(() => {
+    if (Object.keys(rates).length > 0) {
+      calculateConversion()
+    }
   }, [amount, fromCurrency, toCurrency, rates])
 
+  const fetchExchangeRates = async () => {
+    try {
+      setLoading(true)
+      setError(null)
+      
+      const response = await fetch('http://localhost:5000/api/currency/rates')
+      const data = await response.json()
+
+      if (data.success) {
+        setRates(data.data.rates)
+        setLastUpdated(new Date(data.data.lastUpdated))
+      } else {
+        throw new Error(data.error?.message || 'Không thể lấy tỷ giá')
+      }
+    } catch (err) {
+      console.error('Error fetching exchange rates:', err)
+      setError('Không thể kết nối đến server. Vui lòng thử lại.')
+      // Set fallback rates if API fails
+      setRates({
+        USD: 1,
+        VND: 26345,
+        EUR: 0.92,
+        GBP: 0.79,
+        JPY: 149.5,
+        KRW: 1320,
+        CNY: 7.24,
+        THB: 35.5
+      })
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const refreshRates = async () => {
+    try {
+      setLoading(true)
+      setError(null)
+
+      const response = await fetch('http://localhost:5000/api/currency/refresh', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+      })
+      const data = await response.json()
+
+      if (data.success) {
+        setRates(data.data.rates)
+        setLastUpdated(new Date(data.data.lastUpdated))
+        alert('✅ Đã cập nhật tỷ giá mới nhất!')
+      } else {
+        throw new Error(data.error?.message || 'Không thể cập nhật tỷ giá')
+      }
+    } catch (err) {
+      console.error('Error refreshing rates:', err)
+      setError('Không thể cập nhật tỷ giá. Vui lòng thử lại.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
   const calculateConversion = () => {
+    if (!rates[fromCurrency] || !rates[toCurrency]) {
+      setResult(0)
+      return
+    }
+    
     // Convert from source currency to USD first, then to target currency
     const amountInUSD = amount / rates[fromCurrency]
     const convertedAmount = amountInUSD * rates[toCurrency]
@@ -208,9 +274,21 @@ const CurrencyTool = () => {
             <RefreshCw className="w-5 h-5 text-gray-600" />
             Tỷ giá hôm nay
           </h3>
-          <span className="text-sm text-gray-500 font-nunito">
-            Cập nhật: {new Date().toLocaleTimeString('vi-VN')}
-          </span>
+          <div className="flex items-center gap-3">
+            <span className="text-sm text-gray-500 font-nunito">
+              {lastUpdated ? `Cập nhật: ${lastUpdated.toLocaleTimeString('vi-VN')}` : 'Đang tải...'}
+            </span>
+            <motion.button
+              whileHover={{ scale: 1.05, rotate: 180 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={refreshRates}
+              disabled={loading}
+              className="text-green-600 hover:text-green-700 disabled:opacity-50"
+              title="Làm mới tỷ giá"
+            >
+              <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+            </motion.button>
+          </div>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -234,7 +312,8 @@ const CurrencyTool = () => {
         </div>
 
         <p className="text-xs text-gray-500 mt-4 text-center font-nunito">
-          * Tỷ giá tham khảo so với USD. Dữ liệu chỉ mang tính chất tham khảo.
+          * Tỷ giá tham khảo so với USD. Dữ liệu từ API exchangerate-api.com (cập nhật mỗi giờ).
+          {error && <span className="text-red-500 block mt-1">⚠️ {error}</span>}
         </p>
       </motion.div>
     </motion.div>
