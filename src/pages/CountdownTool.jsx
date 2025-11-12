@@ -5,7 +5,7 @@ import { formatDistanceToNow, differenceInDays, parseISO } from 'date-fns'
 import { vi } from 'date-fns/locale'
 
 const API_URL = 'http://localhost:5000/api/events'
-const USER_ID = '00000000-0000-0000-0000-000000000001' // TODO: Get from auth context
+const USER_ID = '550e8400-e29b-41d4-a716-446655440000' // Administrator (admin@kadong.com)
 
 const CountdownTool = () => {
   const [countdowns, setCountdowns] = useState([])

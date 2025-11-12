@@ -742,7 +742,7 @@ LANG: VN
   "metadata": {
     "created": "2024-11-01",
     "lastUpdated": "2025-11-12",
-    "manifestVersion": "1.3.3",
+    "manifestVersion": "1.4.1",
     "generatedBy": "Senior AI Developer Assistant",
     "purpose": "Standardize development workflow and maintain consistency",
     "autoUpdate": {
@@ -750,6 +750,17 @@ LANG: VN
       "instructions": "When adding new features, AI must automatically update this manifest with: (1) new tools in 'tools.available', (2) new DB tables in 'database.tables', (3) new API endpoints in 'api.endpoints', (4) new dependencies in 'dependencies' section, (5) update 'metadata.lastUpdated' and increment 'metadata.manifestVersion'"
     },
     "changes": {
+      "v1.4.1": {
+        "date": "2025-11-12",
+        "description": "Documentation Reorganization - Moved bug fix summaries and user guides to proper structure",
+        "updates": [
+          "Moved UUID_FIX_SUMMARY.md to docs/dev-notes/bugfixes/fix-invalid-uuid-global-migration.md",
+          "Moved USER_SYSTEM.md to docs/USER_SYSTEM.md",
+          "Cleaned up root directory - all documentation now properly organized",
+          "Bug fix summary documents global UUID migration across 5 frontend files",
+          "User system guide covers admin/guest setup, permissions, and seeding procedures"
+        ]
+      },
       "v1.4.0": {
         "date": "2025-11-11",
         "description": "Gold Price Real API Integration - Replaced mock provider with real market data",

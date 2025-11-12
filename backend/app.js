@@ -12,6 +12,7 @@ import fashionRoutes from './routes/fashion.js'
 import goldRoutes from './routes/gold.js'
 import weatherRoutes from './routes/weather.js'
 import wishlistRoutes from './routes/wishlist.js'
+import debugRoutes from './routes/debug.js'
 
 // Load environment variables
 dotenv.config()
@@ -39,6 +40,11 @@ app.use('/api/fashion', fashionRoutes)
 app.use('/api/gold', goldRoutes)
 app.use('/api/weather', weatherRoutes)
 app.use('/api/wishlist', wishlistRoutes)
+
+// Debug routes (development only)
+if (process.env.NODE_ENV === 'development') {
+  app.use('/api/debug', debugRoutes)
+}
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {

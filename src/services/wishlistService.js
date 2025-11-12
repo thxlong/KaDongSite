@@ -9,8 +9,8 @@ const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api
 
 // Helper: Get user ID (temporary - should come from auth context)
 const getUserId = () => {
-  // Use existing user from seed data (Ka - admin)
-  return '550e8400-e29b-41d4-a716-446655440001'
+  // Default user: Administrator (full permissions)
+  return '550e8400-e29b-41d4-a716-446655440000'
 }
 
 /**
