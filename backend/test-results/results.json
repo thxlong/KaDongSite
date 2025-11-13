@@ -52,7 +52,6 @@
         "testIgnore": [
           "**/frontend/**",
           "**/tests/fashion.test.js",
-          "**/tests/integration/**",
           "**/tests/mocks/**"
         ],
         "testMatch": [
@@ -73,7 +72,6 @@
         "testIgnore": [
           "**/frontend/**",
           "**/tests/fashion.test.js",
-          "**/tests/integration/**",
           "**/tests/mocks/**"
         ],
         "testMatch": [
@@ -91,31 +89,29 @@
   },
   "suites": [
     {
-      "title": "api\\notes.api.spec.js",
-      "file": "api/notes.api.spec.js",
+      "title": "integration\\api\\auth.api.spec.js",
+      "file": "integration/api/auth.api.spec.js",
       "column": 0,
       "line": 0,
       "specs": [],
       "suites": [
         {
-          "title": "Notes API @api",
-          "file": "api/notes.api.spec.js",
-          "line": 11,
+          "title": "Authentication API",
+          "file": "integration/api/auth.api.spec.js",
+          "line": 23,
           "column": 6,
           "specs": [],
           "suites": [
             {
-              "title": "GET /api/notes",
-              "file": "api/notes.api.spec.js",
-              "line": 13,
+              "title": "POST /api/auth/register",
+              "file": "integration/api/auth.api.spec.js",
+              "line": 30,
               "column": 8,
               "specs": [
                 {
-                  "title": "should return all notes successfully",
+                  "title": "should register a new user successfully",
                   "ok": true,
-                  "tags": [
-                    "api"
-                  ],
+                  "tags": [],
                   "tests": [
                     {
                       "timeout": 30000,
@@ -128,12 +124,12 @@
                           "workerIndex": 0,
                           "parallelIndex": 0,
                           "status": "passed",
-                          "duration": 546,
+                          "duration": 688,
                           "errors": [],
                           "stdout": [],
                           "stderr": [],
                           "retry": 0,
-                          "startTime": "2025-11-12T18:34:47.778Z",
+                          "startTime": "2025-11-13T12:23:59.764Z",
                           "annotations": [],
                           "attachments": []
                         }
@@ -141,17 +137,15 @@
                       "status": "expected"
                     }
                   ],
-                  "id": "41c4312642d799b42aff-2fec8cfe0bb82de6ff9c",
-                  "file": "api/notes.api.spec.js",
-                  "line": 15,
+                  "id": "e1259fcfddf035549a56-eef69d66a14a3e99605a",
+                  "file": "integration/api/auth.api.spec.js",
+                  "line": 32,
                   "column": 5
                 },
                 {
-                  "title": "should handle pagination parameters",
-                  "ok": true,
-                  "tags": [
-                    "api"
-                  ],
+                  "title": "should reject registration with duplicate email",
+                  "ok": false,
+                  "tags": [],
                   "tests": [
                     {
                       "timeout": 30000,
@@ -163,39 +157,53 @@
                         {
                           "workerIndex": 1,
                           "parallelIndex": 1,
-                          "status": "passed",
-                          "duration": 512,
-                          "errors": [],
+                          "status": "failed",
+                          "duration": 735,
+                          "error": {
+                            "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m400\u001b[39m\nReceived: \u001b[31m429\u001b[39m",
+                            "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m400\u001b[39m\nReceived: \u001b[31m429\u001b[39m\n    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js:78:33",
+                            "location": {
+                              "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                              "column": 33,
+                              "line": 78
+                            },
+                            "snippet": "\u001b[0m \u001b[90m 76 |\u001b[39m       })\n \u001b[90m 77 |\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 78 |\u001b[39m       expect(response\u001b[33m.\u001b[39mstatus())\u001b[33m.\u001b[39mtoBe(\u001b[35m400\u001b[39m)\n \u001b[90m    |\u001b[39m                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 79 |\u001b[39m       \u001b[36mconst\u001b[39m data \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m response\u001b[33m.\u001b[39mjson()\n \u001b[90m 80 |\u001b[39m       expect(data)\u001b[33m.\u001b[39mtoHaveProperty(\u001b[32m'success'\u001b[39m\u001b[33m,\u001b[39m \u001b[36mfalse\u001b[39m)\n \u001b[90m 81 |\u001b[39m       expect(data\u001b[33m.\u001b[39mmessage)\u001b[33m.\u001b[39mtoContain(\u001b[32m'email'\u001b[39m)\u001b[0m"
+                          },
+                          "errors": [
+                            {
+                              "location": {
+                                "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                                "column": 33,
+                                "line": 78
+                              },
+                              "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m400\u001b[39m\nReceived: \u001b[31m429\u001b[39m\n\n\u001b[0m \u001b[90m 76 |\u001b[39m       })\n \u001b[90m 77 |\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 78 |\u001b[39m       expect(response\u001b[33m.\u001b[39mstatus())\u001b[33m.\u001b[39mtoBe(\u001b[35m400\u001b[39m)\n \u001b[90m    |\u001b[39m                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 79 |\u001b[39m       \u001b[36mconst\u001b[39m data \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m response\u001b[33m.\u001b[39mjson()\n \u001b[90m 80 |\u001b[39m       expect(data)\u001b[33m.\u001b[39mtoHaveProperty(\u001b[32m'success'\u001b[39m\u001b[33m,\u001b[39m \u001b[36mfalse\u001b[39m)\n \u001b[90m 81 |\u001b[39m       expect(data\u001b[33m.\u001b[39mmessage)\u001b[33m.\u001b[39mtoContain(\u001b[32m'email'\u001b[39m)\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js:78:33\u001b[22m"
+                            }
+                          ],
                           "stdout": [],
                           "stderr": [],
                           "retry": 0,
-                          "startTime": "2025-11-12T18:34:47.796Z",
+                          "startTime": "2025-11-13T12:23:59.704Z",
                           "annotations": [],
-                          "attachments": []
+                          "attachments": [],
+                          "errorLocation": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                            "column": 33,
+                            "line": 78
+                          }
                         }
                       ],
-                      "status": "expected"
+                      "status": "unexpected"
                     }
                   ],
-                  "id": "41c4312642d799b42aff-0dbd3039d53e4ded993d",
-                  "file": "api/notes.api.spec.js",
-                  "line": 26,
+                  "id": "e1259fcfddf035549a56-2a3bc5136d8b93f66985",
+                  "file": "integration/api/auth.api.spec.js",
+                  "line": 59,
                   "column": 5
-                }
-              ]
-            },
-            {
-              "title": "POST /api/notes",
-              "file": "api/notes.api.spec.js",
-              "line": 35,
-              "column": 8,
-              "specs": [
+                },
                 {
-                  "title": "should create new note with valid data",
+                  "title": "should reject registration with invalid email",
                   "ok": false,
-                  "tags": [
-                    "api"
-                  ],
+                  "tags": [],
                   "tests": [
                     {
                       "timeout": 30000,
@@ -208,54 +216,52 @@
                           "workerIndex": 2,
                           "parallelIndex": 2,
                           "status": "failed",
-                          "duration": 601,
+                          "duration": 177,
                           "error": {
-                            "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m201\u001b[39m\nReceived: \u001b[31m500\u001b[39m",
-                            "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m201\u001b[39m\nReceived: \u001b[31m500\u001b[39m\n    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js:44:33",
+                            "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoContain\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // indexOf\u001b[22m\n\n\u001b[1mMatcher error\u001b[22m: \u001b[31mreceived\u001b[39m value must not be null nor undefined\n\nReceived has value: \u001b[31mundefined\u001b[39m",
+                            "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoContain\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // indexOf\u001b[22m\n\n\u001b[1mMatcher error\u001b[22m: \u001b[31mreceived\u001b[39m value must not be null nor undefined\n\nReceived has value: \u001b[31mundefined\u001b[39m\n    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js:96:28",
                             "location": {
-                              "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js",
-                              "column": 33,
-                              "line": 44
+                              "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                              "column": 28,
+                              "line": 96
                             },
-                            "snippet": "\u001b[0m \u001b[90m 42 |\u001b[39m       })\n \u001b[90m 43 |\u001b[39m       \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 44 |\u001b[39m       expect(response\u001b[33m.\u001b[39mstatus())\u001b[33m.\u001b[39mtoBe(\u001b[35m201\u001b[39m)\n \u001b[90m    |\u001b[39m                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 45 |\u001b[39m       \n \u001b[90m 46 |\u001b[39m       \u001b[36mconst\u001b[39m data \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m response\u001b[33m.\u001b[39mjson()\n \u001b[90m 47 |\u001b[39m       expect(data\u001b[33m.\u001b[39msuccess)\u001b[33m.\u001b[39mtoBe(\u001b[36mtrue\u001b[39m)\u001b[0m"
+                            "snippet": "\u001b[0m \u001b[90m 94 |\u001b[39m       \u001b[36mconst\u001b[39m data \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m response\u001b[33m.\u001b[39mjson()\n \u001b[90m 95 |\u001b[39m       expect(data)\u001b[33m.\u001b[39mtoHaveProperty(\u001b[32m'success'\u001b[39m\u001b[33m,\u001b[39m \u001b[36mfalse\u001b[39m)\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 96 |\u001b[39m       expect(data\u001b[33m.\u001b[39mmessage)\u001b[33m.\u001b[39mtoContain(\u001b[32m'email'\u001b[39m)\n \u001b[90m    |\u001b[39m                            \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 97 |\u001b[39m     })\n \u001b[90m 98 |\u001b[39m\n \u001b[90m 99 |\u001b[39m     test(\u001b[32m'should reject registration with weak password'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ request }) \u001b[33m=>\u001b[39m {\u001b[0m"
                           },
                           "errors": [
                             {
                               "location": {
-                                "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js",
-                                "column": 33,
-                                "line": 44
+                                "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                                "column": 28,
+                                "line": 96
                               },
-                              "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m201\u001b[39m\nReceived: \u001b[31m500\u001b[39m\n\n\u001b[0m \u001b[90m 42 |\u001b[39m       })\n \u001b[90m 43 |\u001b[39m       \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 44 |\u001b[39m       expect(response\u001b[33m.\u001b[39mstatus())\u001b[33m.\u001b[39mtoBe(\u001b[35m201\u001b[39m)\n \u001b[90m    |\u001b[39m                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 45 |\u001b[39m       \n \u001b[90m 46 |\u001b[39m       \u001b[36mconst\u001b[39m data \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m response\u001b[33m.\u001b[39mjson()\n \u001b[90m 47 |\u001b[39m       expect(data\u001b[33m.\u001b[39msuccess)\u001b[33m.\u001b[39mtoBe(\u001b[36mtrue\u001b[39m)\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js:44:33\u001b[22m"
+                              "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoContain\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // indexOf\u001b[22m\n\n\u001b[1mMatcher error\u001b[22m: \u001b[31mreceived\u001b[39m value must not be null nor undefined\n\nReceived has value: \u001b[31mundefined\u001b[39m\n\n\u001b[0m \u001b[90m 94 |\u001b[39m       \u001b[36mconst\u001b[39m data \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m response\u001b[33m.\u001b[39mjson()\n \u001b[90m 95 |\u001b[39m       expect(data)\u001b[33m.\u001b[39mtoHaveProperty(\u001b[32m'success'\u001b[39m\u001b[33m,\u001b[39m \u001b[36mfalse\u001b[39m)\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 96 |\u001b[39m       expect(data\u001b[33m.\u001b[39mmessage)\u001b[33m.\u001b[39mtoContain(\u001b[32m'email'\u001b[39m)\n \u001b[90m    |\u001b[39m                            \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 97 |\u001b[39m     })\n \u001b[90m 98 |\u001b[39m\n \u001b[90m 99 |\u001b[39m     test(\u001b[32m'should reject registration with weak password'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ request }) \u001b[33m=>\u001b[39m {\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js:96:28\u001b[22m"
                             }
                           ],
                           "stdout": [],
                           "stderr": [],
                           "retry": 0,
-                          "startTime": "2025-11-12T18:34:47.799Z",
+                          "startTime": "2025-11-13T12:23:59.687Z",
                           "annotations": [],
                           "attachments": [],
                           "errorLocation": {
-                            "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js",
-                            "column": 33,
-                            "line": 44
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                            "column": 28,
+                            "line": 96
                           }
                         }
                       ],
                       "status": "unexpected"
                     }
                   ],
-                  "id": "41c4312642d799b42aff-320bcfc2967df2df5611",
-                  "file": "api/notes.api.spec.js",
-                  "line": 37,
+                  "id": "e1259fcfddf035549a56-7663e322bf687a6682bd",
+                  "file": "integration/api/auth.api.spec.js",
+                  "line": 84,
                   "column": 5
                 },
                 {
-                  "title": "should reject note with missing title",
-                  "ok": true,
-                  "tags": [
-                    "api"
-                  ],
+                  "title": "should reject registration with weak password",
+                  "ok": false,
+                  "tags": [],
                   "tests": [
                     {
                       "timeout": 30000,
@@ -267,31 +273,53 @@
                         {
                           "workerIndex": 3,
                           "parallelIndex": 3,
-                          "status": "passed",
-                          "duration": 157,
-                          "errors": [],
+                          "status": "failed",
+                          "duration": 199,
+                          "error": {
+                            "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m400\u001b[39m\nReceived: \u001b[31m429\u001b[39m",
+                            "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m400\u001b[39m\nReceived: \u001b[31m429\u001b[39m\n    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js:108:33",
+                            "location": {
+                              "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                              "column": 33,
+                              "line": 108
+                            },
+                            "snippet": "\u001b[0m \u001b[90m 106 |\u001b[39m       })\n \u001b[90m 107 |\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 108 |\u001b[39m       expect(response\u001b[33m.\u001b[39mstatus())\u001b[33m.\u001b[39mtoBe(\u001b[35m400\u001b[39m)\n \u001b[90m     |\u001b[39m                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 109 |\u001b[39m       \u001b[36mconst\u001b[39m data \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m response\u001b[33m.\u001b[39mjson()\n \u001b[90m 110 |\u001b[39m       expect(data)\u001b[33m.\u001b[39mtoHaveProperty(\u001b[32m'success'\u001b[39m\u001b[33m,\u001b[39m \u001b[36mfalse\u001b[39m)\n \u001b[90m 111 |\u001b[39m       expect(data\u001b[33m.\u001b[39mmessage\u001b[33m.\u001b[39mtoLowerCase())\u001b[33m.\u001b[39mtoMatch(\u001b[35m/password|mật khẩu/\u001b[39m)\u001b[0m"
+                          },
+                          "errors": [
+                            {
+                              "location": {
+                                "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                                "column": 33,
+                                "line": 108
+                              },
+                              "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m400\u001b[39m\nReceived: \u001b[31m429\u001b[39m\n\n\u001b[0m \u001b[90m 106 |\u001b[39m       })\n \u001b[90m 107 |\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 108 |\u001b[39m       expect(response\u001b[33m.\u001b[39mstatus())\u001b[33m.\u001b[39mtoBe(\u001b[35m400\u001b[39m)\n \u001b[90m     |\u001b[39m                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 109 |\u001b[39m       \u001b[36mconst\u001b[39m data \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m response\u001b[33m.\u001b[39mjson()\n \u001b[90m 110 |\u001b[39m       expect(data)\u001b[33m.\u001b[39mtoHaveProperty(\u001b[32m'success'\u001b[39m\u001b[33m,\u001b[39m \u001b[36mfalse\u001b[39m)\n \u001b[90m 111 |\u001b[39m       expect(data\u001b[33m.\u001b[39mmessage\u001b[33m.\u001b[39mtoLowerCase())\u001b[33m.\u001b[39mtoMatch(\u001b[35m/password|mật khẩu/\u001b[39m)\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js:108:33\u001b[22m"
+                            }
+                          ],
                           "stdout": [],
                           "stderr": [],
                           "retry": 0,
-                          "startTime": "2025-11-12T18:34:47.775Z",
+                          "startTime": "2025-11-13T12:23:59.845Z",
                           "annotations": [],
-                          "attachments": []
+                          "attachments": [],
+                          "errorLocation": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                            "column": 33,
+                            "line": 108
+                          }
                         }
                       ],
-                      "status": "expected"
+                      "status": "unexpected"
                     }
                   ],
-                  "id": "41c4312642d799b42aff-d1e2b9763575bf61a63c",
-                  "file": "api/notes.api.spec.js",
-                  "line": 56,
+                  "id": "e1259fcfddf035549a56-dd0c3d630115804a8962",
+                  "file": "integration/api/auth.api.spec.js",
+                  "line": 99,
                   "column": 5
                 },
                 {
-                  "title": "should sanitize HTML in content",
+                  "title": "should reject registration with missing required fields",
                   "ok": false,
-                  "tags": [
-                    "api"
-                  ],
+                  "tags": [],
                   "tests": [
                     {
                       "timeout": 30000,
@@ -304,54 +332,60 @@
                           "workerIndex": 4,
                           "parallelIndex": 4,
                           "status": "failed",
-                          "duration": 635,
+                          "duration": 171,
                           "error": {
-                            "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeTruthy\u001b[2m()\u001b[22m\n\nReceived: \u001b[31mfalse\u001b[39m",
-                            "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeTruthy\u001b[2m()\u001b[22m\n\nReceived: \u001b[31mfalse\u001b[39m\n    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js:79:29",
+                            "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m400\u001b[39m\nReceived: \u001b[31m429\u001b[39m",
+                            "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m400\u001b[39m\nReceived: \u001b[31m429\u001b[39m\n    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js:122:33",
                             "location": {
-                              "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js",
-                              "column": 29,
-                              "line": 79
+                              "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                              "column": 33,
+                              "line": 122
                             },
-                            "snippet": "\u001b[0m \u001b[90m 77 |\u001b[39m       })\n \u001b[90m 78 |\u001b[39m       \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 79 |\u001b[39m       expect(response\u001b[33m.\u001b[39mok())\u001b[33m.\u001b[39mtoBeTruthy()\n \u001b[90m    |\u001b[39m                             \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 80 |\u001b[39m       \u001b[36mconst\u001b[39m data \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m response\u001b[33m.\u001b[39mjson()\n \u001b[90m 81 |\u001b[39m       \u001b[90m// Content should be escaped or sanitized\u001b[39m\n \u001b[90m 82 |\u001b[39m       expect(data\u001b[33m.\u001b[39mdata\u001b[33m.\u001b[39mcontent)\u001b[33m.\u001b[39mnot\u001b[33m.\u001b[39mtoContain(\u001b[32m'<script>'\u001b[39m)\u001b[0m"
+                            "snippet": "\u001b[0m \u001b[90m 120 |\u001b[39m       })\n \u001b[90m 121 |\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 122 |\u001b[39m       expect(response\u001b[33m.\u001b[39mstatus())\u001b[33m.\u001b[39mtoBe(\u001b[35m400\u001b[39m)\n \u001b[90m     |\u001b[39m                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 123 |\u001b[39m       \u001b[36mconst\u001b[39m data \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m response\u001b[33m.\u001b[39mjson()\n \u001b[90m 124 |\u001b[39m       expect(data)\u001b[33m.\u001b[39mtoHaveProperty(\u001b[32m'success'\u001b[39m\u001b[33m,\u001b[39m \u001b[36mfalse\u001b[39m)\n \u001b[90m 125 |\u001b[39m     })\u001b[0m"
                           },
                           "errors": [
                             {
                               "location": {
-                                "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js",
-                                "column": 29,
-                                "line": 79
+                                "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                                "column": 33,
+                                "line": 122
                               },
-                              "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeTruthy\u001b[2m()\u001b[22m\n\nReceived: \u001b[31mfalse\u001b[39m\n\n\u001b[0m \u001b[90m 77 |\u001b[39m       })\n \u001b[90m 78 |\u001b[39m       \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 79 |\u001b[39m       expect(response\u001b[33m.\u001b[39mok())\u001b[33m.\u001b[39mtoBeTruthy()\n \u001b[90m    |\u001b[39m                             \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 80 |\u001b[39m       \u001b[36mconst\u001b[39m data \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m response\u001b[33m.\u001b[39mjson()\n \u001b[90m 81 |\u001b[39m       \u001b[90m// Content should be escaped or sanitized\u001b[39m\n \u001b[90m 82 |\u001b[39m       expect(data\u001b[33m.\u001b[39mdata\u001b[33m.\u001b[39mcontent)\u001b[33m.\u001b[39mnot\u001b[33m.\u001b[39mtoContain(\u001b[32m'<script>'\u001b[39m)\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js:79:29\u001b[22m"
+                              "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m400\u001b[39m\nReceived: \u001b[31m429\u001b[39m\n\n\u001b[0m \u001b[90m 120 |\u001b[39m       })\n \u001b[90m 121 |\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 122 |\u001b[39m       expect(response\u001b[33m.\u001b[39mstatus())\u001b[33m.\u001b[39mtoBe(\u001b[35m400\u001b[39m)\n \u001b[90m     |\u001b[39m                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 123 |\u001b[39m       \u001b[36mconst\u001b[39m data \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m response\u001b[33m.\u001b[39mjson()\n \u001b[90m 124 |\u001b[39m       expect(data)\u001b[33m.\u001b[39mtoHaveProperty(\u001b[32m'success'\u001b[39m\u001b[33m,\u001b[39m \u001b[36mfalse\u001b[39m)\n \u001b[90m 125 |\u001b[39m     })\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js:122:33\u001b[22m"
                             }
                           ],
                           "stdout": [],
                           "stderr": [],
                           "retry": 0,
-                          "startTime": "2025-11-12T18:34:47.914Z",
+                          "startTime": "2025-11-13T12:23:59.819Z",
                           "annotations": [],
                           "attachments": [],
                           "errorLocation": {
-                            "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js",
-                            "column": 29,
-                            "line": 79
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                            "column": 33,
+                            "line": 122
                           }
                         }
                       ],
                       "status": "unexpected"
                     }
                   ],
-                  "id": "41c4312642d799b42aff-47e57ce29eafbaf02942",
-                  "file": "api/notes.api.spec.js",
-                  "line": 69,
+                  "id": "e1259fcfddf035549a56-46ca2143c97a97bb13e9",
+                  "file": "integration/api/auth.api.spec.js",
+                  "line": 114,
                   "column": 5
-                },
+                }
+              ]
+            },
+            {
+              "title": "POST /api/auth/login",
+              "file": "integration/api/auth.api.spec.js",
+              "line": 128,
+              "column": 8,
+              "specs": [
                 {
-                  "title": "should prevent SQL injection",
+                  "title": "should login successfully with correct credentials",
                   "ok": false,
-                  "tags": [
-                    "api"
-                  ],
+                  "tags": [],
                   "tests": [
                     {
                       "timeout": 30000,
@@ -364,226 +398,52 @@
                           "workerIndex": 5,
                           "parallelIndex": 5,
                           "status": "failed",
-                          "duration": 570,
+                          "duration": 182,
                           "error": {
-                            "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeTruthy\u001b[2m()\u001b[22m\n\nReceived: \u001b[31mfalse\u001b[39m",
-                            "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeTruthy\u001b[2m()\u001b[22m\n\nReceived: \u001b[31mfalse\u001b[39m\n    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js:96:29",
+                            "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m401\u001b[39m",
+                            "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m401\u001b[39m\n    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js:150:33",
                             "location": {
-                              "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js",
-                              "column": 29,
-                              "line": 96
-                            },
-                            "snippet": "\u001b[0m \u001b[90m 94 |\u001b[39m       \n \u001b[90m 95 |\u001b[39m       \u001b[90m// Should succeed (parameterized queries prevent injection)\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 96 |\u001b[39m       expect(response\u001b[33m.\u001b[39mok())\u001b[33m.\u001b[39mtoBeTruthy()\n \u001b[90m    |\u001b[39m                             \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 97 |\u001b[39m       \n \u001b[90m 98 |\u001b[39m       \u001b[90m// Verify table still exists by fetching notes\u001b[39m\n \u001b[90m 99 |\u001b[39m       \u001b[36mconst\u001b[39m verifyResponse \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m request\u001b[33m.\u001b[39m\u001b[36mget\u001b[39m(\u001b[32m'/api/notes'\u001b[39m)\u001b[0m"
-                          },
-                          "errors": [
-                            {
-                              "location": {
-                                "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js",
-                                "column": 29,
-                                "line": 96
-                              },
-                              "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeTruthy\u001b[2m()\u001b[22m\n\nReceived: \u001b[31mfalse\u001b[39m\n\n\u001b[0m \u001b[90m 94 |\u001b[39m       \n \u001b[90m 95 |\u001b[39m       \u001b[90m// Should succeed (parameterized queries prevent injection)\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 96 |\u001b[39m       expect(response\u001b[33m.\u001b[39mok())\u001b[33m.\u001b[39mtoBeTruthy()\n \u001b[90m    |\u001b[39m                             \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 97 |\u001b[39m       \n \u001b[90m 98 |\u001b[39m       \u001b[90m// Verify table still exists by fetching notes\u001b[39m\n \u001b[90m 99 |\u001b[39m       \u001b[36mconst\u001b[39m verifyResponse \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m request\u001b[33m.\u001b[39m\u001b[36mget\u001b[39m(\u001b[32m'/api/notes'\u001b[39m)\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js:96:29\u001b[22m"
-                            }
-                          ],
-                          "stdout": [],
-                          "stderr": [],
-                          "retry": 0,
-                          "startTime": "2025-11-12T18:34:47.861Z",
-                          "annotations": [],
-                          "attachments": [],
-                          "errorLocation": {
-                            "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js",
-                            "column": 29,
-                            "line": 96
-                          }
-                        }
-                      ],
-                      "status": "unexpected"
-                    }
-                  ],
-                  "id": "41c4312642d799b42aff-0e2dc4f36ea6c55517db",
-                  "file": "api/notes.api.spec.js",
-                  "line": 85,
-                  "column": 5
-                }
-              ]
-            },
-            {
-              "title": "GET /api/notes/:id",
-              "file": "api/notes.api.spec.js",
-              "line": 104,
-              "column": 8,
-              "specs": [
-                {
-                  "title": "should return single note by ID",
-                  "ok": false,
-                  "tags": [
-                    "api"
-                  ],
-                  "tests": [
-                    {
-                      "timeout": 30000,
-                      "annotations": [],
-                      "expectedStatus": "passed",
-                      "projectId": "API Tests",
-                      "projectName": "API Tests",
-                      "results": [
-                        {
-                          "workerIndex": 3,
-                          "parallelIndex": 3,
-                          "status": "failed",
-                          "duration": 421,
-                          "error": {
-                            "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeTruthy\u001b[2m()\u001b[22m\n\nReceived: \u001b[31mfalse\u001b[39m",
-                            "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeTruthy\u001b[2m()\u001b[22m\n\nReceived: \u001b[31mfalse\u001b[39m\n    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js:109:29",
-                            "location": {
-                              "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js",
-                              "column": 29,
-                              "line": 109
-                            },
-                            "snippet": "\u001b[0m \u001b[90m 107 |\u001b[39m       \u001b[36mconst\u001b[39m response \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m request\u001b[33m.\u001b[39m\u001b[36mget\u001b[39m(\u001b[32m`/api/notes/${createdNoteId}`\u001b[39m)\n \u001b[90m 108 |\u001b[39m       \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 109 |\u001b[39m       expect(response\u001b[33m.\u001b[39mok())\u001b[33m.\u001b[39mtoBeTruthy()\n \u001b[90m     |\u001b[39m                             \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 110 |\u001b[39m       \u001b[36mconst\u001b[39m data \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m response\u001b[33m.\u001b[39mjson()\n \u001b[90m 111 |\u001b[39m       expect(data\u001b[33m.\u001b[39msuccess)\u001b[33m.\u001b[39mtoBe(\u001b[36mtrue\u001b[39m)\n \u001b[90m 112 |\u001b[39m       expect(data\u001b[33m.\u001b[39mdata\u001b[33m.\u001b[39mid)\u001b[33m.\u001b[39mtoBe(createdNoteId)\u001b[0m"
-                          },
-                          "errors": [
-                            {
-                              "location": {
-                                "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js",
-                                "column": 29,
-                                "line": 109
-                              },
-                              "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeTruthy\u001b[2m()\u001b[22m\n\nReceived: \u001b[31mfalse\u001b[39m\n\n\u001b[0m \u001b[90m 107 |\u001b[39m       \u001b[36mconst\u001b[39m response \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m request\u001b[33m.\u001b[39m\u001b[36mget\u001b[39m(\u001b[32m`/api/notes/${createdNoteId}`\u001b[39m)\n \u001b[90m 108 |\u001b[39m       \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 109 |\u001b[39m       expect(response\u001b[33m.\u001b[39mok())\u001b[33m.\u001b[39mtoBeTruthy()\n \u001b[90m     |\u001b[39m                             \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 110 |\u001b[39m       \u001b[36mconst\u001b[39m data \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m response\u001b[33m.\u001b[39mjson()\n \u001b[90m 111 |\u001b[39m       expect(data\u001b[33m.\u001b[39msuccess)\u001b[33m.\u001b[39mtoBe(\u001b[36mtrue\u001b[39m)\n \u001b[90m 112 |\u001b[39m       expect(data\u001b[33m.\u001b[39mdata\u001b[33m.\u001b[39mid)\u001b[33m.\u001b[39mtoBe(createdNoteId)\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js:109:29\u001b[22m"
-                            }
-                          ],
-                          "stdout": [],
-                          "stderr": [],
-                          "retry": 0,
-                          "startTime": "2025-11-12T18:34:48.027Z",
-                          "annotations": [],
-                          "attachments": [],
-                          "errorLocation": {
-                            "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js",
-                            "column": 29,
-                            "line": 109
-                          }
-                        }
-                      ],
-                      "status": "unexpected"
-                    }
-                  ],
-                  "id": "41c4312642d799b42aff-fbbb522f0c7196e41761",
-                  "file": "api/notes.api.spec.js",
-                  "line": 106,
-                  "column": 5
-                },
-                {
-                  "title": "should return 404 for non-existent note",
-                  "ok": true,
-                  "tags": [
-                    "api"
-                  ],
-                  "tests": [
-                    {
-                      "timeout": 30000,
-                      "annotations": [],
-                      "expectedStatus": "passed",
-                      "projectId": "API Tests",
-                      "projectName": "API Tests",
-                      "results": [
-                        {
-                          "workerIndex": 1,
-                          "parallelIndex": 1,
-                          "status": "passed",
-                          "duration": 53,
-                          "errors": [],
-                          "stdout": [],
-                          "stderr": [],
-                          "retry": 0,
-                          "startTime": "2025-11-12T18:34:48.390Z",
-                          "annotations": [],
-                          "attachments": []
-                        }
-                      ],
-                      "status": "expected"
-                    }
-                  ],
-                  "id": "41c4312642d799b42aff-fb190d5e9e37cf052065",
-                  "file": "api/notes.api.spec.js",
-                  "line": 115,
-                  "column": 5
-                },
-                {
-                  "title": "should return 400 for invalid UUID format",
-                  "ok": false,
-                  "tags": [
-                    "api"
-                  ],
-                  "tests": [
-                    {
-                      "timeout": 30000,
-                      "annotations": [],
-                      "expectedStatus": "passed",
-                      "projectId": "API Tests",
-                      "projectName": "API Tests",
-                      "results": [
-                        {
-                          "workerIndex": 0,
-                          "parallelIndex": 0,
-                          "status": "failed",
-                          "duration": 44,
-                          "error": {
-                            "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m400\u001b[39m\nReceived: \u001b[31m500\u001b[39m",
-                            "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m400\u001b[39m\nReceived: \u001b[31m500\u001b[39m\n    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js:127:33",
-                            "location": {
-                              "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js",
+                              "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
                               "column": 33,
-                              "line": 127
+                              "line": 150
                             },
-                            "snippet": "\u001b[0m \u001b[90m 125 |\u001b[39m       \u001b[36mconst\u001b[39m response \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m request\u001b[33m.\u001b[39m\u001b[36mget\u001b[39m(\u001b[32m'/api/notes/invalid-uuid'\u001b[39m)\n \u001b[90m 126 |\u001b[39m       \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 127 |\u001b[39m       expect(response\u001b[33m.\u001b[39mstatus())\u001b[33m.\u001b[39mtoBe(\u001b[35m400\u001b[39m)\n \u001b[90m     |\u001b[39m                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 128 |\u001b[39m     })\n \u001b[90m 129 |\u001b[39m   })\n \u001b[90m 130 |\u001b[39m   \u001b[0m"
+                            "snippet": "\u001b[0m \u001b[90m 148 |\u001b[39m       })\n \u001b[90m 149 |\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 150 |\u001b[39m       expect(response\u001b[33m.\u001b[39mstatus())\u001b[33m.\u001b[39mtoBe(\u001b[35m200\u001b[39m)\n \u001b[90m     |\u001b[39m                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 151 |\u001b[39m       \u001b[36mconst\u001b[39m data \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m response\u001b[33m.\u001b[39mjson()\n \u001b[90m 152 |\u001b[39m       \n \u001b[90m 153 |\u001b[39m       expect(data)\u001b[33m.\u001b[39mtoHaveProperty(\u001b[32m'success'\u001b[39m\u001b[33m,\u001b[39m \u001b[36mtrue\u001b[39m)\u001b[0m"
                           },
                           "errors": [
                             {
                               "location": {
-                                "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js",
+                                "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
                                 "column": 33,
-                                "line": 127
+                                "line": 150
                               },
-                              "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m400\u001b[39m\nReceived: \u001b[31m500\u001b[39m\n\n\u001b[0m \u001b[90m 125 |\u001b[39m       \u001b[36mconst\u001b[39m response \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m request\u001b[33m.\u001b[39m\u001b[36mget\u001b[39m(\u001b[32m'/api/notes/invalid-uuid'\u001b[39m)\n \u001b[90m 126 |\u001b[39m       \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 127 |\u001b[39m       expect(response\u001b[33m.\u001b[39mstatus())\u001b[33m.\u001b[39mtoBe(\u001b[35m400\u001b[39m)\n \u001b[90m     |\u001b[39m                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 128 |\u001b[39m     })\n \u001b[90m 129 |\u001b[39m   })\n \u001b[90m 130 |\u001b[39m   \u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js:127:33\u001b[22m"
+                              "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m401\u001b[39m\n\n\u001b[0m \u001b[90m 148 |\u001b[39m       })\n \u001b[90m 149 |\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 150 |\u001b[39m       expect(response\u001b[33m.\u001b[39mstatus())\u001b[33m.\u001b[39mtoBe(\u001b[35m200\u001b[39m)\n \u001b[90m     |\u001b[39m                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 151 |\u001b[39m       \u001b[36mconst\u001b[39m data \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m response\u001b[33m.\u001b[39mjson()\n \u001b[90m 152 |\u001b[39m       \n \u001b[90m 153 |\u001b[39m       expect(data)\u001b[33m.\u001b[39mtoHaveProperty(\u001b[32m'success'\u001b[39m\u001b[33m,\u001b[39m \u001b[36mtrue\u001b[39m)\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js:150:33\u001b[22m"
                             }
                           ],
                           "stdout": [],
                           "stderr": [],
                           "retry": 0,
-                          "startTime": "2025-11-12T18:34:48.432Z",
+                          "startTime": "2025-11-13T12:24:00.021Z",
                           "annotations": [],
                           "attachments": [],
                           "errorLocation": {
-                            "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js",
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
                             "column": 33,
-                            "line": 127
+                            "line": 150
                           }
                         }
                       ],
                       "status": "unexpected"
                     }
                   ],
-                  "id": "41c4312642d799b42aff-3309e70707f924d32db2",
-                  "file": "api/notes.api.spec.js",
-                  "line": 124,
+                  "id": "e1259fcfddf035549a56-d21e4d218282926ea88d",
+                  "file": "integration/api/auth.api.spec.js",
+                  "line": 141,
                   "column": 5
-                }
-              ]
-            },
-            {
-              "title": "PUT /api/notes/:id",
-              "file": "api/notes.api.spec.js",
-              "line": 131,
-              "column": 8,
-              "specs": [
+                },
                 {
-                  "title": "should update note successfully",
+                  "title": "should login with rememberMe and get longer session",
                   "ok": false,
-                  "tags": [
-                    "api"
-                  ],
+                  "tags": [],
                   "tests": [
                     {
                       "timeout": 30000,
@@ -596,98 +456,52 @@
                           "workerIndex": 6,
                           "parallelIndex": 2,
                           "status": "failed",
-                          "duration": 632,
+                          "duration": 186,
                           "error": {
-                            "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeTruthy\u001b[2m()\u001b[22m\n\nReceived: \u001b[31mfalse\u001b[39m",
-                            "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeTruthy\u001b[2m()\u001b[22m\n\nReceived: \u001b[31mfalse\u001b[39m\n    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js:143:29",
+                            "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m401\u001b[39m",
+                            "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m401\u001b[39m\n    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js:180:33",
                             "location": {
-                              "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js",
-                              "column": 29,
-                              "line": 143
+                              "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                              "column": 33,
+                              "line": 180
                             },
-                            "snippet": "\u001b[0m \u001b[90m 141 |\u001b[39m       })\n \u001b[90m 142 |\u001b[39m       \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 143 |\u001b[39m       expect(response\u001b[33m.\u001b[39mok())\u001b[33m.\u001b[39mtoBeTruthy()\n \u001b[90m     |\u001b[39m                             \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 144 |\u001b[39m       \u001b[36mconst\u001b[39m data \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m response\u001b[33m.\u001b[39mjson()\n \u001b[90m 145 |\u001b[39m       expect(data\u001b[33m.\u001b[39mdata\u001b[33m.\u001b[39mtitle)\u001b[33m.\u001b[39mtoBe(updates\u001b[33m.\u001b[39mtitle)\n \u001b[90m 146 |\u001b[39m       expect(data\u001b[33m.\u001b[39mdata\u001b[33m.\u001b[39mcontent)\u001b[33m.\u001b[39mtoBe(updates\u001b[33m.\u001b[39mcontent)\u001b[0m"
+                            "snippet": "\u001b[0m \u001b[90m 178 |\u001b[39m       })\n \u001b[90m 179 |\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 180 |\u001b[39m       expect(response\u001b[33m.\u001b[39mstatus())\u001b[33m.\u001b[39mtoBe(\u001b[35m200\u001b[39m)\n \u001b[90m     |\u001b[39m                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 181 |\u001b[39m       \u001b[36mconst\u001b[39m data \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m response\u001b[33m.\u001b[39mjson()\n \u001b[90m 182 |\u001b[39m       expect(data\u001b[33m.\u001b[39mdata\u001b[33m.\u001b[39mexpiresIn)\u001b[33m.\u001b[39mtoContain(\u001b[32m'30d'\u001b[39m)\n \u001b[90m 183 |\u001b[39m     })\u001b[0m"
                           },
                           "errors": [
                             {
                               "location": {
-                                "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js",
-                                "column": 29,
-                                "line": 143
+                                "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                                "column": 33,
+                                "line": 180
                               },
-                              "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeTruthy\u001b[2m()\u001b[22m\n\nReceived: \u001b[31mfalse\u001b[39m\n\n\u001b[0m \u001b[90m 141 |\u001b[39m       })\n \u001b[90m 142 |\u001b[39m       \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 143 |\u001b[39m       expect(response\u001b[33m.\u001b[39mok())\u001b[33m.\u001b[39mtoBeTruthy()\n \u001b[90m     |\u001b[39m                             \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 144 |\u001b[39m       \u001b[36mconst\u001b[39m data \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m response\u001b[33m.\u001b[39mjson()\n \u001b[90m 145 |\u001b[39m       expect(data\u001b[33m.\u001b[39mdata\u001b[33m.\u001b[39mtitle)\u001b[33m.\u001b[39mtoBe(updates\u001b[33m.\u001b[39mtitle)\n \u001b[90m 146 |\u001b[39m       expect(data\u001b[33m.\u001b[39mdata\u001b[33m.\u001b[39mcontent)\u001b[33m.\u001b[39mtoBe(updates\u001b[33m.\u001b[39mcontent)\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js:143:29\u001b[22m"
+                              "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m401\u001b[39m\n\n\u001b[0m \u001b[90m 178 |\u001b[39m       })\n \u001b[90m 179 |\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 180 |\u001b[39m       expect(response\u001b[33m.\u001b[39mstatus())\u001b[33m.\u001b[39mtoBe(\u001b[35m200\u001b[39m)\n \u001b[90m     |\u001b[39m                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 181 |\u001b[39m       \u001b[36mconst\u001b[39m data \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m response\u001b[33m.\u001b[39mjson()\n \u001b[90m 182 |\u001b[39m       expect(data\u001b[33m.\u001b[39mdata\u001b[33m.\u001b[39mexpiresIn)\u001b[33m.\u001b[39mtoContain(\u001b[32m'30d'\u001b[39m)\n \u001b[90m 183 |\u001b[39m     })\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js:180:33\u001b[22m"
                             }
                           ],
                           "stdout": [],
                           "stderr": [],
                           "retry": 0,
-                          "startTime": "2025-11-12T18:34:52.475Z",
+                          "startTime": "2025-11-13T12:24:04.768Z",
                           "annotations": [],
                           "attachments": [],
                           "errorLocation": {
-                            "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js",
-                            "column": 29,
-                            "line": 143
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                            "column": 33,
+                            "line": 180
                           }
                         }
                       ],
                       "status": "unexpected"
                     }
                   ],
-                  "id": "41c4312642d799b42aff-8aaa177926bd9a5c31b6",
-                  "file": "api/notes.api.spec.js",
-                  "line": 133,
+                  "id": "e1259fcfddf035549a56-68cd2fd593743ba162f3",
+                  "file": "integration/api/auth.api.spec.js",
+                  "line": 171,
                   "column": 5
                 },
                 {
-                  "title": "should return 404 for updating non-existent note",
-                  "ok": true,
-                  "tags": [
-                    "api"
-                  ],
-                  "tests": [
-                    {
-                      "timeout": 30000,
-                      "annotations": [],
-                      "expectedStatus": "passed",
-                      "projectId": "API Tests",
-                      "projectName": "API Tests",
-                      "results": [
-                        {
-                          "workerIndex": 1,
-                          "parallelIndex": 1,
-                          "status": "passed",
-                          "duration": 35,
-                          "errors": [],
-                          "stdout": [],
-                          "stderr": [],
-                          "retry": 0,
-                          "startTime": "2025-11-12T18:34:48.568Z",
-                          "annotations": [],
-                          "attachments": []
-                        }
-                      ],
-                      "status": "expected"
-                    }
-                  ],
-                  "id": "41c4312642d799b42aff-0d20dfa12bec2ec62de7",
-                  "file": "api/notes.api.spec.js",
-                  "line": 149,
-                  "column": 5
-                }
-              ]
-            },
-            {
-              "title": "DELETE /api/notes/:id",
-              "file": "api/notes.api.spec.js",
-              "line": 160,
-              "column": 8,
-              "specs": [
-                {
-                  "title": "should soft delete note",
+                  "title": "should reject login with wrong password",
                   "ok": false,
-                  "tags": [
-                    "api"
-                  ],
+                  "tags": [],
                   "tests": [
                     {
                       "timeout": 30000,
@@ -698,100 +512,54 @@
                       "results": [
                         {
                           "workerIndex": 7,
-                          "parallelIndex": 5,
+                          "parallelIndex": 4,
                           "status": "failed",
-                          "duration": 215,
+                          "duration": 218,
                           "error": {
-                            "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeTruthy\u001b[2m()\u001b[22m\n\nReceived: \u001b[31mfalse\u001b[39m",
-                            "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeTruthy\u001b[2m()\u001b[22m\n\nReceived: \u001b[31mfalse\u001b[39m\n    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js:165:29",
+                            "message": "TypeError: Cannot read properties of undefined (reading 'toLowerCase')",
+                            "stack": "TypeError: Cannot read properties of undefined (reading 'toLowerCase')\n    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js:197:27",
                             "location": {
-                              "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js",
-                              "column": 29,
-                              "line": 165
+                              "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                              "column": 27,
+                              "line": 197
                             },
-                            "snippet": "\u001b[0m \u001b[90m 163 |\u001b[39m       \u001b[36mconst\u001b[39m response \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m request\u001b[33m.\u001b[39m\u001b[36mdelete\u001b[39m(\u001b[32m`/api/notes/${createdNoteId}`\u001b[39m)\n \u001b[90m 164 |\u001b[39m       \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 165 |\u001b[39m       expect(response\u001b[33m.\u001b[39mok())\u001b[33m.\u001b[39mtoBeTruthy()\n \u001b[90m     |\u001b[39m                             \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 166 |\u001b[39m       \n \u001b[90m 167 |\u001b[39m       \u001b[90m// Verify note is soft deleted (not in list)\u001b[39m\n \u001b[90m 168 |\u001b[39m       \u001b[36mconst\u001b[39m getResponse \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m request\u001b[33m.\u001b[39m\u001b[36mget\u001b[39m(\u001b[32m`/api/notes/${createdNoteId}`\u001b[39m)\u001b[0m"
+                            "snippet": "\u001b[0m \u001b[90m 195 |\u001b[39m       \u001b[36mconst\u001b[39m data \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m response\u001b[33m.\u001b[39mjson()\n \u001b[90m 196 |\u001b[39m       expect(data)\u001b[33m.\u001b[39mtoHaveProperty(\u001b[32m'success'\u001b[39m\u001b[33m,\u001b[39m \u001b[36mfalse\u001b[39m)\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 197 |\u001b[39m       expect(data\u001b[33m.\u001b[39mmessage\u001b[33m.\u001b[39mtoLowerCase())\u001b[33m.\u001b[39mtoMatch(\u001b[35m/invalid|sai|không đúng/\u001b[39m)\n \u001b[90m     |\u001b[39m                           \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 198 |\u001b[39m     })\n \u001b[90m 199 |\u001b[39m\n \u001b[90m 200 |\u001b[39m     test(\u001b[32m'should reject login with non-existent user'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ request }) \u001b[33m=>\u001b[39m {\u001b[0m"
                           },
                           "errors": [
                             {
                               "location": {
-                                "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js",
-                                "column": 29,
-                                "line": 165
+                                "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                                "column": 27,
+                                "line": 197
                               },
-                              "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeTruthy\u001b[2m()\u001b[22m\n\nReceived: \u001b[31mfalse\u001b[39m\n\n\u001b[0m \u001b[90m 163 |\u001b[39m       \u001b[36mconst\u001b[39m response \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m request\u001b[33m.\u001b[39m\u001b[36mdelete\u001b[39m(\u001b[32m`/api/notes/${createdNoteId}`\u001b[39m)\n \u001b[90m 164 |\u001b[39m       \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 165 |\u001b[39m       expect(response\u001b[33m.\u001b[39mok())\u001b[33m.\u001b[39mtoBeTruthy()\n \u001b[90m     |\u001b[39m                             \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 166 |\u001b[39m       \n \u001b[90m 167 |\u001b[39m       \u001b[90m// Verify note is soft deleted (not in list)\u001b[39m\n \u001b[90m 168 |\u001b[39m       \u001b[36mconst\u001b[39m getResponse \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m request\u001b[33m.\u001b[39m\u001b[36mget\u001b[39m(\u001b[32m`/api/notes/${createdNoteId}`\u001b[39m)\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js:165:29\u001b[22m"
+                              "message": "TypeError: Cannot read properties of undefined (reading 'toLowerCase')\n\n\u001b[0m \u001b[90m 195 |\u001b[39m       \u001b[36mconst\u001b[39m data \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m response\u001b[33m.\u001b[39mjson()\n \u001b[90m 196 |\u001b[39m       expect(data)\u001b[33m.\u001b[39mtoHaveProperty(\u001b[32m'success'\u001b[39m\u001b[33m,\u001b[39m \u001b[36mfalse\u001b[39m)\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 197 |\u001b[39m       expect(data\u001b[33m.\u001b[39mmessage\u001b[33m.\u001b[39mtoLowerCase())\u001b[33m.\u001b[39mtoMatch(\u001b[35m/invalid|sai|không đúng/\u001b[39m)\n \u001b[90m     |\u001b[39m                           \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 198 |\u001b[39m     })\n \u001b[90m 199 |\u001b[39m\n \u001b[90m 200 |\u001b[39m     test(\u001b[32m'should reject login with non-existent user'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ request }) \u001b[33m=>\u001b[39m {\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js:197:27\u001b[22m"
                             }
                           ],
                           "stdout": [],
                           "stderr": [],
                           "retry": 0,
-                          "startTime": "2025-11-12T18:34:52.407Z",
+                          "startTime": "2025-11-13T12:24:04.867Z",
                           "annotations": [],
                           "attachments": [],
                           "errorLocation": {
-                            "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js",
-                            "column": 29,
-                            "line": 165
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                            "column": 27,
+                            "line": 197
                           }
                         }
                       ],
                       "status": "unexpected"
                     }
                   ],
-                  "id": "41c4312642d799b42aff-5dc3a85fedd3f28d77be",
-                  "file": "api/notes.api.spec.js",
-                  "line": 162,
+                  "id": "e1259fcfddf035549a56-56a3e06f2fe278a67003",
+                  "file": "integration/api/auth.api.spec.js",
+                  "line": 185,
                   "column": 5
                 },
                 {
-                  "title": "should return 404 for deleting non-existent note",
+                  "title": "should reject login with non-existent user",
                   "ok": true,
-                  "tags": [
-                    "api"
-                  ],
-                  "tests": [
-                    {
-                      "timeout": 30000,
-                      "annotations": [],
-                      "expectedStatus": "passed",
-                      "projectId": "API Tests",
-                      "projectName": "API Tests",
-                      "results": [
-                        {
-                          "workerIndex": 9,
-                          "parallelIndex": 3,
-                          "status": "passed",
-                          "duration": 644,
-                          "errors": [],
-                          "stdout": [],
-                          "stderr": [],
-                          "retry": 0,
-                          "startTime": "2025-11-12T18:34:52.571Z",
-                          "annotations": [],
-                          "attachments": []
-                        }
-                      ],
-                      "status": "expected"
-                    }
-                  ],
-                  "id": "41c4312642d799b42aff-be8c8b227b0dbc132ed1",
-                  "file": "api/notes.api.spec.js",
-                  "line": 172,
-                  "column": 5
-                }
-              ]
-            },
-            {
-              "title": "Performance Tests",
-              "file": "api/notes.api.spec.js",
-              "line": 181,
-              "column": 8,
-              "specs": [
-                {
-                  "title": "should respond within 500ms",
-                  "ok": false,
-                  "tags": [
-                    "api"
-                  ],
+                  "tags": [],
                   "tests": [
                     {
                       "timeout": 30000,
@@ -802,48 +570,1120 @@
                       "results": [
                         {
                           "workerIndex": 8,
-                          "parallelIndex": 0,
+                          "parallelIndex": 3,
+                          "status": "passed",
+                          "duration": 204,
+                          "errors": [],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "startTime": "2025-11-13T12:24:04.816Z",
+                          "annotations": [],
+                          "attachments": []
+                        }
+                      ],
+                      "status": "expected"
+                    }
+                  ],
+                  "id": "e1259fcfddf035549a56-cb4b115e122a8d19b620",
+                  "file": "integration/api/auth.api.spec.js",
+                  "line": 200,
+                  "column": 5
+                },
+                {
+                  "title": "should reject login with missing credentials",
+                  "ok": false,
+                  "tags": [],
+                  "tests": [
+                    {
+                      "timeout": 30000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "API Tests",
+                      "projectName": "API Tests",
+                      "results": [
+                        {
+                          "workerIndex": 9,
+                          "parallelIndex": 5,
                           "status": "failed",
-                          "duration": 719,
+                          "duration": 208,
                           "error": {
-                            "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: < \u001b[32m500\u001b[39m\nReceived:   \u001b[31m603\u001b[39m",
-                            "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: < \u001b[32m500\u001b[39m\nReceived:   \u001b[31m603\u001b[39m\n    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js:189:24",
+                            "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m400\u001b[39m\nReceived: \u001b[31m429\u001b[39m",
+                            "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m400\u001b[39m\nReceived: \u001b[31m429\u001b[39m\n    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js:222:33",
                             "location": {
-                              "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js",
-                              "column": 24,
-                              "line": 189
+                              "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                              "column": 33,
+                              "line": 222
                             },
-                            "snippet": "\u001b[0m \u001b[90m 187 |\u001b[39m       \n \u001b[90m 188 |\u001b[39m       \u001b[36mconst\u001b[39m duration \u001b[33m=\u001b[39m \u001b[33mDate\u001b[39m\u001b[33m.\u001b[39mnow() \u001b[33m-\u001b[39m startTime\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 189 |\u001b[39m       expect(duration)\u001b[33m.\u001b[39mtoBeLessThan(\u001b[35m500\u001b[39m)\n \u001b[90m     |\u001b[39m                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 190 |\u001b[39m     })\n \u001b[90m 191 |\u001b[39m   })\n \u001b[90m 192 |\u001b[39m })\u001b[0m"
+                            "snippet": "\u001b[0m \u001b[90m 220 |\u001b[39m       })\n \u001b[90m 221 |\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 222 |\u001b[39m       expect(response\u001b[33m.\u001b[39mstatus())\u001b[33m.\u001b[39mtoBe(\u001b[35m400\u001b[39m)\n \u001b[90m     |\u001b[39m                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 223 |\u001b[39m       \u001b[36mconst\u001b[39m data \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m response\u001b[33m.\u001b[39mjson()\n \u001b[90m 224 |\u001b[39m       expect(data)\u001b[33m.\u001b[39mtoHaveProperty(\u001b[32m'success'\u001b[39m\u001b[33m,\u001b[39m \u001b[36mfalse\u001b[39m)\n \u001b[90m 225 |\u001b[39m     })\u001b[0m"
                           },
                           "errors": [
                             {
                               "location": {
-                                "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js",
-                                "column": 24,
-                                "line": 189
+                                "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                                "column": 33,
+                                "line": 222
                               },
-                              "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: < \u001b[32m500\u001b[39m\nReceived:   \u001b[31m603\u001b[39m\n\n\u001b[0m \u001b[90m 187 |\u001b[39m       \n \u001b[90m 188 |\u001b[39m       \u001b[36mconst\u001b[39m duration \u001b[33m=\u001b[39m \u001b[33mDate\u001b[39m\u001b[33m.\u001b[39mnow() \u001b[33m-\u001b[39m startTime\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 189 |\u001b[39m       expect(duration)\u001b[33m.\u001b[39mtoBeLessThan(\u001b[35m500\u001b[39m)\n \u001b[90m     |\u001b[39m                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 190 |\u001b[39m     })\n \u001b[90m 191 |\u001b[39m   })\n \u001b[90m 192 |\u001b[39m })\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js:189:24\u001b[22m"
+                              "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m400\u001b[39m\nReceived: \u001b[31m429\u001b[39m\n\n\u001b[0m \u001b[90m 220 |\u001b[39m       })\n \u001b[90m 221 |\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 222 |\u001b[39m       expect(response\u001b[33m.\u001b[39mstatus())\u001b[33m.\u001b[39mtoBe(\u001b[35m400\u001b[39m)\n \u001b[90m     |\u001b[39m                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 223 |\u001b[39m       \u001b[36mconst\u001b[39m data \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m response\u001b[33m.\u001b[39mjson()\n \u001b[90m 224 |\u001b[39m       expect(data)\u001b[33m.\u001b[39mtoHaveProperty(\u001b[32m'success'\u001b[39m\u001b[33m,\u001b[39m \u001b[36mfalse\u001b[39m)\n \u001b[90m 225 |\u001b[39m     })\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js:222:33\u001b[22m"
                             }
                           ],
                           "stdout": [],
                           "stderr": [],
                           "retry": 0,
-                          "startTime": "2025-11-12T18:34:52.660Z",
+                          "startTime": "2025-11-13T12:24:04.962Z",
                           "annotations": [],
                           "attachments": [],
                           "errorLocation": {
-                            "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js",
-                            "column": 24,
-                            "line": 189
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                            "column": 33,
+                            "line": 222
                           }
                         }
                       ],
                       "status": "unexpected"
                     }
                   ],
-                  "id": "41c4312642d799b42aff-d1b2f8e0f0e3a7487bf3",
-                  "file": "api/notes.api.spec.js",
-                  "line": 183,
+                  "id": "e1259fcfddf035549a56-e95c53309ffe2122c7f2",
+                  "file": "integration/api/auth.api.spec.js",
+                  "line": 214,
+                  "column": 5
+                }
+              ]
+            },
+            {
+              "title": "GET /api/auth/me",
+              "file": "integration/api/auth.api.spec.js",
+              "line": 228,
+              "column": 8,
+              "specs": [
+                {
+                  "title": "should get current user with valid token",
+                  "ok": false,
+                  "tags": [],
+                  "tests": [
+                    {
+                      "timeout": 30000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "API Tests",
+                      "projectName": "API Tests",
+                      "results": [
+                        {
+                          "workerIndex": 10,
+                          "parallelIndex": 1,
+                          "status": "failed",
+                          "duration": 156,
+                          "error": {
+                            "message": "TypeError: Cannot read properties of undefined (reading 'match')",
+                            "stack": "TypeError: Cannot read properties of undefined (reading 'match')\n    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js:249:34",
+                            "location": {
+                              "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                              "column": 34,
+                              "line": 249
+                            },
+                            "snippet": "\u001b[0m \u001b[90m 247 |\u001b[39m\n \u001b[90m 248 |\u001b[39m       \u001b[36mconst\u001b[39m cookies \u001b[33m=\u001b[39m loginResponse\u001b[33m.\u001b[39mheaders()[\u001b[32m'set-cookie'\u001b[39m]\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 249 |\u001b[39m       \u001b[36mconst\u001b[39m tokenMatch \u001b[33m=\u001b[39m cookies\u001b[33m.\u001b[39mmatch(\u001b[35m/token=([^;]+)/\u001b[39m)\n \u001b[90m     |\u001b[39m                                  \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 250 |\u001b[39m       \u001b[36mif\u001b[39m (tokenMatch) {\n \u001b[90m 251 |\u001b[39m         authToken \u001b[33m=\u001b[39m tokenMatch[\u001b[35m1\u001b[39m]\n \u001b[90m 252 |\u001b[39m       }\u001b[0m"
+                          },
+                          "errors": [
+                            {
+                              "location": {
+                                "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                                "column": 34,
+                                "line": 249
+                              },
+                              "message": "TypeError: Cannot read properties of undefined (reading 'match')\n\n\u001b[0m \u001b[90m 247 |\u001b[39m\n \u001b[90m 248 |\u001b[39m       \u001b[36mconst\u001b[39m cookies \u001b[33m=\u001b[39m loginResponse\u001b[33m.\u001b[39mheaders()[\u001b[32m'set-cookie'\u001b[39m]\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 249 |\u001b[39m       \u001b[36mconst\u001b[39m tokenMatch \u001b[33m=\u001b[39m cookies\u001b[33m.\u001b[39mmatch(\u001b[35m/token=([^;]+)/\u001b[39m)\n \u001b[90m     |\u001b[39m                                  \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 250 |\u001b[39m       \u001b[36mif\u001b[39m (tokenMatch) {\n \u001b[90m 251 |\u001b[39m         authToken \u001b[33m=\u001b[39m tokenMatch[\u001b[35m1\u001b[39m]\n \u001b[90m 252 |\u001b[39m       }\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js:249:34\u001b[22m"
+                            }
+                          ],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "startTime": "2025-11-13T12:24:05.221Z",
+                          "annotations": [],
+                          "attachments": [],
+                          "errorLocation": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                            "column": 34,
+                            "line": 249
+                          }
+                        }
+                      ],
+                      "status": "unexpected"
+                    }
+                  ],
+                  "id": "e1259fcfddf035549a56-4602ebdaa4cda4e65dc5",
+                  "file": "integration/api/auth.api.spec.js",
+                  "line": 255,
+                  "column": 5
+                },
+                {
+                  "title": "should reject request without token",
+                  "ok": false,
+                  "tags": [],
+                  "tests": [
+                    {
+                      "timeout": 30000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "API Tests",
+                      "projectName": "API Tests",
+                      "results": [
+                        {
+                          "workerIndex": 0,
+                          "parallelIndex": 0,
+                          "status": "failed",
+                          "duration": 49,
+                          "error": {
+                            "message": "TypeError: Cannot read properties of undefined (reading 'match')",
+                            "stack": "TypeError: Cannot read properties of undefined (reading 'match')\n    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js:249:34",
+                            "location": {
+                              "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                              "column": 34,
+                              "line": 249
+                            },
+                            "snippet": "\u001b[0m \u001b[90m 247 |\u001b[39m\n \u001b[90m 248 |\u001b[39m       \u001b[36mconst\u001b[39m cookies \u001b[33m=\u001b[39m loginResponse\u001b[33m.\u001b[39mheaders()[\u001b[32m'set-cookie'\u001b[39m]\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 249 |\u001b[39m       \u001b[36mconst\u001b[39m tokenMatch \u001b[33m=\u001b[39m cookies\u001b[33m.\u001b[39mmatch(\u001b[35m/token=([^;]+)/\u001b[39m)\n \u001b[90m     |\u001b[39m                                  \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 250 |\u001b[39m       \u001b[36mif\u001b[39m (tokenMatch) {\n \u001b[90m 251 |\u001b[39m         authToken \u001b[33m=\u001b[39m tokenMatch[\u001b[35m1\u001b[39m]\n \u001b[90m 252 |\u001b[39m       }\u001b[0m"
+                          },
+                          "errors": [
+                            {
+                              "location": {
+                                "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                                "column": 34,
+                                "line": 249
+                              },
+                              "message": "TypeError: Cannot read properties of undefined (reading 'match')\n\n\u001b[0m \u001b[90m 247 |\u001b[39m\n \u001b[90m 248 |\u001b[39m       \u001b[36mconst\u001b[39m cookies \u001b[33m=\u001b[39m loginResponse\u001b[33m.\u001b[39mheaders()[\u001b[32m'set-cookie'\u001b[39m]\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 249 |\u001b[39m       \u001b[36mconst\u001b[39m tokenMatch \u001b[33m=\u001b[39m cookies\u001b[33m.\u001b[39mmatch(\u001b[35m/token=([^;]+)/\u001b[39m)\n \u001b[90m     |\u001b[39m                                  \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 250 |\u001b[39m       \u001b[36mif\u001b[39m (tokenMatch) {\n \u001b[90m 251 |\u001b[39m         authToken \u001b[33m=\u001b[39m tokenMatch[\u001b[35m1\u001b[39m]\n \u001b[90m 252 |\u001b[39m       }\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js:249:34\u001b[22m"
+                            }
+                          ],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "startTime": "2025-11-13T12:24:00.575Z",
+                          "annotations": [],
+                          "attachments": [],
+                          "errorLocation": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                            "column": 34,
+                            "line": 249
+                          }
+                        }
+                      ],
+                      "status": "unexpected"
+                    }
+                  ],
+                  "id": "e1259fcfddf035549a56-7d4bd25062c025cc8d18",
+                  "file": "integration/api/auth.api.spec.js",
+                  "line": 273,
+                  "column": 5
+                },
+                {
+                  "title": "should reject request with invalid token",
+                  "ok": false,
+                  "tags": [],
+                  "tests": [
+                    {
+                      "timeout": 30000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "API Tests",
+                      "projectName": "API Tests",
+                      "results": [
+                        {
+                          "workerIndex": 11,
+                          "parallelIndex": 0,
+                          "status": "failed",
+                          "duration": 142,
+                          "error": {
+                            "message": "TypeError: Cannot read properties of undefined (reading 'match')",
+                            "stack": "TypeError: Cannot read properties of undefined (reading 'match')\n    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js:249:34",
+                            "location": {
+                              "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                              "column": 34,
+                              "line": 249
+                            },
+                            "snippet": "\u001b[0m \u001b[90m 247 |\u001b[39m\n \u001b[90m 248 |\u001b[39m       \u001b[36mconst\u001b[39m cookies \u001b[33m=\u001b[39m loginResponse\u001b[33m.\u001b[39mheaders()[\u001b[32m'set-cookie'\u001b[39m]\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 249 |\u001b[39m       \u001b[36mconst\u001b[39m tokenMatch \u001b[33m=\u001b[39m cookies\u001b[33m.\u001b[39mmatch(\u001b[35m/token=([^;]+)/\u001b[39m)\n \u001b[90m     |\u001b[39m                                  \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 250 |\u001b[39m       \u001b[36mif\u001b[39m (tokenMatch) {\n \u001b[90m 251 |\u001b[39m         authToken \u001b[33m=\u001b[39m tokenMatch[\u001b[35m1\u001b[39m]\n \u001b[90m 252 |\u001b[39m       }\u001b[0m"
+                          },
+                          "errors": [
+                            {
+                              "location": {
+                                "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                                "column": 34,
+                                "line": 249
+                              },
+                              "message": "TypeError: Cannot read properties of undefined (reading 'match')\n\n\u001b[0m \u001b[90m 247 |\u001b[39m\n \u001b[90m 248 |\u001b[39m       \u001b[36mconst\u001b[39m cookies \u001b[33m=\u001b[39m loginResponse\u001b[33m.\u001b[39mheaders()[\u001b[32m'set-cookie'\u001b[39m]\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 249 |\u001b[39m       \u001b[36mconst\u001b[39m tokenMatch \u001b[33m=\u001b[39m cookies\u001b[33m.\u001b[39mmatch(\u001b[35m/token=([^;]+)/\u001b[39m)\n \u001b[90m     |\u001b[39m                                  \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 250 |\u001b[39m       \u001b[36mif\u001b[39m (tokenMatch) {\n \u001b[90m 251 |\u001b[39m         authToken \u001b[33m=\u001b[39m tokenMatch[\u001b[35m1\u001b[39m]\n \u001b[90m 252 |\u001b[39m       }\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js:249:34\u001b[22m"
+                            }
+                          ],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "startTime": "2025-11-13T12:24:05.623Z",
+                          "annotations": [],
+                          "attachments": [],
+                          "errorLocation": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                            "column": 34,
+                            "line": 249
+                          }
+                        }
+                      ],
+                      "status": "unexpected"
+                    }
+                  ],
+                  "id": "e1259fcfddf035549a56-432011f8748be9f4ba27",
+                  "file": "integration/api/auth.api.spec.js",
+                  "line": 282,
+                  "column": 5
+                }
+              ]
+            },
+            {
+              "title": "POST /api/auth/logout",
+              "file": "integration/api/auth.api.spec.js",
+              "line": 295,
+              "column": 8,
+              "specs": [
+                {
+                  "title": "should logout successfully",
+                  "ok": false,
+                  "tags": [],
+                  "tests": [
+                    {
+                      "timeout": 30000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "API Tests",
+                      "projectName": "API Tests",
+                      "results": [
+                        {
+                          "workerIndex": 12,
+                          "parallelIndex": 2,
+                          "status": "failed",
+                          "duration": 193,
+                          "error": {
+                            "message": "TypeError: Cannot read properties of undefined (reading 'match')",
+                            "stack": "TypeError: Cannot read properties of undefined (reading 'match')\n    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js:316:34",
+                            "location": {
+                              "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                              "column": 34,
+                              "line": 316
+                            },
+                            "snippet": "\u001b[0m \u001b[90m 314 |\u001b[39m\n \u001b[90m 315 |\u001b[39m       \u001b[36mconst\u001b[39m cookies \u001b[33m=\u001b[39m loginResponse\u001b[33m.\u001b[39mheaders()[\u001b[32m'set-cookie'\u001b[39m]\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 316 |\u001b[39m       \u001b[36mconst\u001b[39m tokenMatch \u001b[33m=\u001b[39m cookies\u001b[33m.\u001b[39mmatch(\u001b[35m/token=([^;]+)/\u001b[39m)\n \u001b[90m     |\u001b[39m                                  \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 317 |\u001b[39m       \u001b[36mif\u001b[39m (tokenMatch) {\n \u001b[90m 318 |\u001b[39m         authToken \u001b[33m=\u001b[39m tokenMatch[\u001b[35m1\u001b[39m]\n \u001b[90m 319 |\u001b[39m       }\u001b[0m"
+                          },
+                          "errors": [
+                            {
+                              "location": {
+                                "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                                "column": 34,
+                                "line": 316
+                              },
+                              "message": "TypeError: Cannot read properties of undefined (reading 'match')\n\n\u001b[0m \u001b[90m 314 |\u001b[39m\n \u001b[90m 315 |\u001b[39m       \u001b[36mconst\u001b[39m cookies \u001b[33m=\u001b[39m loginResponse\u001b[33m.\u001b[39mheaders()[\u001b[32m'set-cookie'\u001b[39m]\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 316 |\u001b[39m       \u001b[36mconst\u001b[39m tokenMatch \u001b[33m=\u001b[39m cookies\u001b[33m.\u001b[39mmatch(\u001b[35m/token=([^;]+)/\u001b[39m)\n \u001b[90m     |\u001b[39m                                  \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 317 |\u001b[39m       \u001b[36mif\u001b[39m (tokenMatch) {\n \u001b[90m 318 |\u001b[39m         authToken \u001b[33m=\u001b[39m tokenMatch[\u001b[35m1\u001b[39m]\n \u001b[90m 319 |\u001b[39m       }\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js:316:34\u001b[22m"
+                            }
+                          ],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "startTime": "2025-11-13T12:24:09.069Z",
+                          "annotations": [],
+                          "attachments": [],
+                          "errorLocation": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                            "column": 34,
+                            "line": 316
+                          }
+                        }
+                      ],
+                      "status": "unexpected"
+                    }
+                  ],
+                  "id": "e1259fcfddf035549a56-ddda27c5f35266ef2e5b",
+                  "file": "integration/api/auth.api.spec.js",
+                  "line": 322,
+                  "column": 5
+                },
+                {
+                  "title": "should reject logout without token",
+                  "ok": false,
+                  "tags": [],
+                  "tests": [
+                    {
+                      "timeout": 30000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "API Tests",
+                      "projectName": "API Tests",
+                      "results": [
+                        {
+                          "workerIndex": 8,
+                          "parallelIndex": 3,
+                          "status": "failed",
+                          "duration": 49,
+                          "error": {
+                            "message": "TypeError: Cannot read properties of undefined (reading 'match')",
+                            "stack": "TypeError: Cannot read properties of undefined (reading 'match')\n    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js:316:34",
+                            "location": {
+                              "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                              "column": 34,
+                              "line": 316
+                            },
+                            "snippet": "\u001b[0m \u001b[90m 314 |\u001b[39m\n \u001b[90m 315 |\u001b[39m       \u001b[36mconst\u001b[39m cookies \u001b[33m=\u001b[39m loginResponse\u001b[33m.\u001b[39mheaders()[\u001b[32m'set-cookie'\u001b[39m]\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 316 |\u001b[39m       \u001b[36mconst\u001b[39m tokenMatch \u001b[33m=\u001b[39m cookies\u001b[33m.\u001b[39mmatch(\u001b[35m/token=([^;]+)/\u001b[39m)\n \u001b[90m     |\u001b[39m                                  \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 317 |\u001b[39m       \u001b[36mif\u001b[39m (tokenMatch) {\n \u001b[90m 318 |\u001b[39m         authToken \u001b[33m=\u001b[39m tokenMatch[\u001b[35m1\u001b[39m]\n \u001b[90m 319 |\u001b[39m       }\u001b[0m"
+                          },
+                          "errors": [
+                            {
+                              "location": {
+                                "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                                "column": 34,
+                                "line": 316
+                              },
+                              "message": "TypeError: Cannot read properties of undefined (reading 'match')\n\n\u001b[0m \u001b[90m 314 |\u001b[39m\n \u001b[90m 315 |\u001b[39m       \u001b[36mconst\u001b[39m cookies \u001b[33m=\u001b[39m loginResponse\u001b[33m.\u001b[39mheaders()[\u001b[32m'set-cookie'\u001b[39m]\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 316 |\u001b[39m       \u001b[36mconst\u001b[39m tokenMatch \u001b[33m=\u001b[39m cookies\u001b[33m.\u001b[39mmatch(\u001b[35m/token=([^;]+)/\u001b[39m)\n \u001b[90m     |\u001b[39m                                  \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 317 |\u001b[39m       \u001b[36mif\u001b[39m (tokenMatch) {\n \u001b[90m 318 |\u001b[39m         authToken \u001b[33m=\u001b[39m tokenMatch[\u001b[35m1\u001b[39m]\n \u001b[90m 319 |\u001b[39m       }\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js:316:34\u001b[22m"
+                            }
+                          ],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "startTime": "2025-11-13T12:24:05.110Z",
+                          "annotations": [],
+                          "attachments": [],
+                          "errorLocation": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                            "column": 34,
+                            "line": 316
+                          }
+                        }
+                      ],
+                      "status": "unexpected"
+                    }
+                  ],
+                  "id": "e1259fcfddf035549a56-f99802abebd87ba3f82c",
+                  "file": "integration/api/auth.api.spec.js",
+                  "line": 343,
+                  "column": 5
+                }
+              ]
+            },
+            {
+              "title": "POST /api/auth/refresh",
+              "file": "integration/api/auth.api.spec.js",
+              "line": 352,
+              "column": 8,
+              "specs": [
+                {
+                  "title": "should refresh token successfully",
+                  "ok": false,
+                  "tags": [],
+                  "tests": [
+                    {
+                      "timeout": 30000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "API Tests",
+                      "projectName": "API Tests",
+                      "results": [
+                        {
+                          "workerIndex": 13,
+                          "parallelIndex": 4,
+                          "status": "failed",
+                          "duration": 202,
+                          "error": {
+                            "message": "TypeError: Cannot read properties of undefined (reading 'match')",
+                            "stack": "TypeError: Cannot read properties of undefined (reading 'match')\n    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js:373:34",
+                            "location": {
+                              "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                              "column": 34,
+                              "line": 373
+                            },
+                            "snippet": "\u001b[0m \u001b[90m 371 |\u001b[39m\n \u001b[90m 372 |\u001b[39m       \u001b[36mconst\u001b[39m cookies \u001b[33m=\u001b[39m loginResponse\u001b[33m.\u001b[39mheaders()[\u001b[32m'set-cookie'\u001b[39m]\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 373 |\u001b[39m       \u001b[36mconst\u001b[39m tokenMatch \u001b[33m=\u001b[39m cookies\u001b[33m.\u001b[39mmatch(\u001b[35m/token=([^;]+)/\u001b[39m)\n \u001b[90m     |\u001b[39m                                  \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 374 |\u001b[39m       \u001b[36mif\u001b[39m (tokenMatch) {\n \u001b[90m 375 |\u001b[39m         authToken \u001b[33m=\u001b[39m tokenMatch[\u001b[35m1\u001b[39m]\n \u001b[90m 376 |\u001b[39m       }\u001b[0m"
+                          },
+                          "errors": [
+                            {
+                              "location": {
+                                "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                                "column": 34,
+                                "line": 373
+                              },
+                              "message": "TypeError: Cannot read properties of undefined (reading 'match')\n\n\u001b[0m \u001b[90m 371 |\u001b[39m\n \u001b[90m 372 |\u001b[39m       \u001b[36mconst\u001b[39m cookies \u001b[33m=\u001b[39m loginResponse\u001b[33m.\u001b[39mheaders()[\u001b[32m'set-cookie'\u001b[39m]\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 373 |\u001b[39m       \u001b[36mconst\u001b[39m tokenMatch \u001b[33m=\u001b[39m cookies\u001b[33m.\u001b[39mmatch(\u001b[35m/token=([^;]+)/\u001b[39m)\n \u001b[90m     |\u001b[39m                                  \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 374 |\u001b[39m       \u001b[36mif\u001b[39m (tokenMatch) {\n \u001b[90m 375 |\u001b[39m         authToken \u001b[33m=\u001b[39m tokenMatch[\u001b[35m1\u001b[39m]\n \u001b[90m 376 |\u001b[39m       }\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js:373:34\u001b[22m"
+                            }
+                          ],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "startTime": "2025-11-13T12:24:09.231Z",
+                          "annotations": [],
+                          "attachments": [],
+                          "errorLocation": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                            "column": 34,
+                            "line": 373
+                          }
+                        }
+                      ],
+                      "status": "unexpected"
+                    }
+                  ],
+                  "id": "e1259fcfddf035549a56-0aae2ef81c007b3e8036",
+                  "file": "integration/api/auth.api.spec.js",
+                  "line": 379,
+                  "column": 5
+                },
+                {
+                  "title": "should reject refresh without token",
+                  "ok": false,
+                  "tags": [],
+                  "tests": [
+                    {
+                      "timeout": 30000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "API Tests",
+                      "projectName": "API Tests",
+                      "results": [
+                        {
+                          "workerIndex": 14,
+                          "parallelIndex": 3,
+                          "status": "failed",
+                          "duration": 261,
+                          "error": {
+                            "message": "TypeError: Cannot read properties of undefined (reading 'match')",
+                            "stack": "TypeError: Cannot read properties of undefined (reading 'match')\n    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js:373:34",
+                            "location": {
+                              "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                              "column": 34,
+                              "line": 373
+                            },
+                            "snippet": "\u001b[0m \u001b[90m 371 |\u001b[39m\n \u001b[90m 372 |\u001b[39m       \u001b[36mconst\u001b[39m cookies \u001b[33m=\u001b[39m loginResponse\u001b[33m.\u001b[39mheaders()[\u001b[32m'set-cookie'\u001b[39m]\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 373 |\u001b[39m       \u001b[36mconst\u001b[39m tokenMatch \u001b[33m=\u001b[39m cookies\u001b[33m.\u001b[39mmatch(\u001b[35m/token=([^;]+)/\u001b[39m)\n \u001b[90m     |\u001b[39m                                  \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 374 |\u001b[39m       \u001b[36mif\u001b[39m (tokenMatch) {\n \u001b[90m 375 |\u001b[39m         authToken \u001b[33m=\u001b[39m tokenMatch[\u001b[35m1\u001b[39m]\n \u001b[90m 376 |\u001b[39m       }\u001b[0m"
+                          },
+                          "errors": [
+                            {
+                              "location": {
+                                "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                                "column": 34,
+                                "line": 373
+                              },
+                              "message": "TypeError: Cannot read properties of undefined (reading 'match')\n\n\u001b[0m \u001b[90m 371 |\u001b[39m\n \u001b[90m 372 |\u001b[39m       \u001b[36mconst\u001b[39m cookies \u001b[33m=\u001b[39m loginResponse\u001b[33m.\u001b[39mheaders()[\u001b[32m'set-cookie'\u001b[39m]\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 373 |\u001b[39m       \u001b[36mconst\u001b[39m tokenMatch \u001b[33m=\u001b[39m cookies\u001b[33m.\u001b[39mmatch(\u001b[35m/token=([^;]+)/\u001b[39m)\n \u001b[90m     |\u001b[39m                                  \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 374 |\u001b[39m       \u001b[36mif\u001b[39m (tokenMatch) {\n \u001b[90m 375 |\u001b[39m         authToken \u001b[33m=\u001b[39m tokenMatch[\u001b[35m1\u001b[39m]\n \u001b[90m 376 |\u001b[39m       }\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js:373:34\u001b[22m"
+                            }
+                          ],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "startTime": "2025-11-13T12:24:09.251Z",
+                          "annotations": [],
+                          "attachments": [],
+                          "errorLocation": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                            "column": 34,
+                            "line": 373
+                          }
+                        }
+                      ],
+                      "status": "unexpected"
+                    }
+                  ],
+                  "id": "e1259fcfddf035549a56-31c76f239e093d8edf78",
+                  "file": "integration/api/auth.api.spec.js",
+                  "line": 397,
+                  "column": 5
+                }
+              ]
+            },
+            {
+              "title": "POST /api/auth/forgot-password",
+              "file": "integration/api/auth.api.spec.js",
+              "line": 406,
+              "column": 8,
+              "specs": [
+                {
+                  "title": "should send reset email successfully",
+                  "ok": true,
+                  "tags": [],
+                  "tests": [
+                    {
+                      "timeout": 30000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "API Tests",
+                      "projectName": "API Tests",
+                      "results": [
+                        {
+                          "workerIndex": 15,
+                          "parallelIndex": 5,
+                          "status": "passed",
+                          "duration": 274,
+                          "errors": [],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "startTime": "2025-11-13T12:24:09.241Z",
+                          "annotations": [],
+                          "attachments": []
+                        }
+                      ],
+                      "status": "expected"
+                    }
+                  ],
+                  "id": "e1259fcfddf035549a56-fd28f194c6cff5e15457",
+                  "file": "integration/api/auth.api.spec.js",
+                  "line": 419,
+                  "column": 5
+                },
+                {
+                  "title": "should return success even for non-existent email (security)",
+                  "ok": true,
+                  "tags": [],
+                  "tests": [
+                    {
+                      "timeout": 30000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "API Tests",
+                      "projectName": "API Tests",
+                      "results": [
+                        {
+                          "workerIndex": 16,
+                          "parallelIndex": 1,
+                          "status": "passed",
+                          "duration": 203,
+                          "errors": [],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "startTime": "2025-11-13T12:24:09.437Z",
+                          "annotations": [],
+                          "attachments": []
+                        }
+                      ],
+                      "status": "expected"
+                    }
+                  ],
+                  "id": "e1259fcfddf035549a56-816778ab04e347fb9b14",
+                  "file": "integration/api/auth.api.spec.js",
+                  "line": 434,
+                  "column": 5
+                },
+                {
+                  "title": "should reject request with invalid email format",
+                  "ok": false,
+                  "tags": [],
+                  "tests": [
+                    {
+                      "timeout": 30000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "API Tests",
+                      "projectName": "API Tests",
+                      "results": [
+                        {
+                          "workerIndex": 17,
+                          "parallelIndex": 0,
+                          "status": "failed",
+                          "duration": 179,
+                          "error": {
+                            "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m400\u001b[39m\nReceived: \u001b[31m429\u001b[39m",
+                            "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m400\u001b[39m\nReceived: \u001b[31m429\u001b[39m\n    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js:454:33",
+                            "location": {
+                              "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                              "column": 33,
+                              "line": 454
+                            },
+                            "snippet": "\u001b[0m \u001b[90m 452 |\u001b[39m       })\n \u001b[90m 453 |\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 454 |\u001b[39m       expect(response\u001b[33m.\u001b[39mstatus())\u001b[33m.\u001b[39mtoBe(\u001b[35m400\u001b[39m)\n \u001b[90m     |\u001b[39m                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 455 |\u001b[39m       \u001b[36mconst\u001b[39m data \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m response\u001b[33m.\u001b[39mjson()\n \u001b[90m 456 |\u001b[39m       expect(data)\u001b[33m.\u001b[39mtoHaveProperty(\u001b[32m'success'\u001b[39m\u001b[33m,\u001b[39m \u001b[36mfalse\u001b[39m)\n \u001b[90m 457 |\u001b[39m     })\u001b[0m"
+                          },
+                          "errors": [
+                            {
+                              "location": {
+                                "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                                "column": 33,
+                                "line": 454
+                              },
+                              "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m400\u001b[39m\nReceived: \u001b[31m429\u001b[39m\n\n\u001b[0m \u001b[90m 452 |\u001b[39m       })\n \u001b[90m 453 |\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 454 |\u001b[39m       expect(response\u001b[33m.\u001b[39mstatus())\u001b[33m.\u001b[39mtoBe(\u001b[35m400\u001b[39m)\n \u001b[90m     |\u001b[39m                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 455 |\u001b[39m       \u001b[36mconst\u001b[39m data \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m response\u001b[33m.\u001b[39mjson()\n \u001b[90m 456 |\u001b[39m       expect(data)\u001b[33m.\u001b[39mtoHaveProperty(\u001b[32m'success'\u001b[39m\u001b[33m,\u001b[39m \u001b[36mfalse\u001b[39m)\n \u001b[90m 457 |\u001b[39m     })\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js:454:33\u001b[22m"
+                            }
+                          ],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "startTime": "2025-11-13T12:24:09.921Z",
+                          "annotations": [],
+                          "attachments": [],
+                          "errorLocation": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                            "column": 33,
+                            "line": 454
+                          }
+                        }
+                      ],
+                      "status": "unexpected"
+                    }
+                  ],
+                  "id": "e1259fcfddf035549a56-4b1a50980e1aca5f82e7",
+                  "file": "integration/api/auth.api.spec.js",
+                  "line": 447,
+                  "column": 5
+                },
+                {
+                  "title": "should reject request without email",
+                  "ok": false,
+                  "tags": [],
+                  "tests": [
+                    {
+                      "timeout": 30000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "API Tests",
+                      "projectName": "API Tests",
+                      "results": [
+                        {
+                          "workerIndex": 18,
+                          "parallelIndex": 2,
+                          "status": "failed",
+                          "duration": 190,
+                          "error": {
+                            "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m400\u001b[39m\nReceived: \u001b[31m429\u001b[39m",
+                            "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m400\u001b[39m\nReceived: \u001b[31m429\u001b[39m\n    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js:464:33",
+                            "location": {
+                              "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                              "column": 33,
+                              "line": 464
+                            },
+                            "snippet": "\u001b[0m \u001b[90m 462 |\u001b[39m       })\n \u001b[90m 463 |\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 464 |\u001b[39m       expect(response\u001b[33m.\u001b[39mstatus())\u001b[33m.\u001b[39mtoBe(\u001b[35m400\u001b[39m)\n \u001b[90m     |\u001b[39m                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 465 |\u001b[39m       \u001b[36mconst\u001b[39m data \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m response\u001b[33m.\u001b[39mjson()\n \u001b[90m 466 |\u001b[39m       expect(data)\u001b[33m.\u001b[39mtoHaveProperty(\u001b[32m'success'\u001b[39m\u001b[33m,\u001b[39m \u001b[36mfalse\u001b[39m)\n \u001b[90m 467 |\u001b[39m     })\u001b[0m"
+                          },
+                          "errors": [
+                            {
+                              "location": {
+                                "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                                "column": 33,
+                                "line": 464
+                              },
+                              "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m400\u001b[39m\nReceived: \u001b[31m429\u001b[39m\n\n\u001b[0m \u001b[90m 462 |\u001b[39m       })\n \u001b[90m 463 |\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 464 |\u001b[39m       expect(response\u001b[33m.\u001b[39mstatus())\u001b[33m.\u001b[39mtoBe(\u001b[35m400\u001b[39m)\n \u001b[90m     |\u001b[39m                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 465 |\u001b[39m       \u001b[36mconst\u001b[39m data \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m response\u001b[33m.\u001b[39mjson()\n \u001b[90m 466 |\u001b[39m       expect(data)\u001b[33m.\u001b[39mtoHaveProperty(\u001b[32m'success'\u001b[39m\u001b[33m,\u001b[39m \u001b[36mfalse\u001b[39m)\n \u001b[90m 467 |\u001b[39m     })\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js:464:33\u001b[22m"
+                            }
+                          ],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "startTime": "2025-11-13T12:24:13.451Z",
+                          "annotations": [],
+                          "attachments": [],
+                          "errorLocation": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                            "column": 33,
+                            "line": 464
+                          }
+                        }
+                      ],
+                      "status": "unexpected"
+                    }
+                  ],
+                  "id": "e1259fcfddf035549a56-3f4485c361f5047fc0c1",
+                  "file": "integration/api/auth.api.spec.js",
+                  "line": 459,
+                  "column": 5
+                }
+              ]
+            },
+            {
+              "title": "POST /api/auth/reset-password",
+              "file": "integration/api/auth.api.spec.js",
+              "line": 470,
+              "column": 8,
+              "specs": [
+                {
+                  "title": "should reject reset with invalid token",
+                  "ok": false,
+                  "tags": [],
+                  "tests": [
+                    {
+                      "timeout": 30000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "API Tests",
+                      "projectName": "API Tests",
+                      "results": [
+                        {
+                          "workerIndex": 19,
+                          "parallelIndex": 4,
+                          "status": "failed",
+                          "duration": 188,
+                          "error": {
+                            "message": "TypeError: Cannot read properties of undefined (reading 'toLowerCase')",
+                            "stack": "TypeError: Cannot read properties of undefined (reading 'toLowerCase')\n    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js:497:27",
+                            "location": {
+                              "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                              "column": 27,
+                              "line": 497
+                            },
+                            "snippet": "\u001b[0m \u001b[90m 495 |\u001b[39m       \u001b[36mconst\u001b[39m data \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m response\u001b[33m.\u001b[39mjson()\n \u001b[90m 496 |\u001b[39m       expect(data)\u001b[33m.\u001b[39mtoHaveProperty(\u001b[32m'success'\u001b[39m\u001b[33m,\u001b[39m \u001b[36mfalse\u001b[39m)\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 497 |\u001b[39m       expect(data\u001b[33m.\u001b[39mmessage\u001b[33m.\u001b[39mtoLowerCase())\u001b[33m.\u001b[39mtoMatch(\u001b[35m/token|invalid|hết hạn/\u001b[39m)\n \u001b[90m     |\u001b[39m                           \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 498 |\u001b[39m     })\n \u001b[90m 499 |\u001b[39m\n \u001b[90m 500 |\u001b[39m     test(\u001b[32m'should reject reset with weak password'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ request }) \u001b[33m=>\u001b[39m {\u001b[0m"
+                          },
+                          "errors": [
+                            {
+                              "location": {
+                                "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                                "column": 27,
+                                "line": 497
+                              },
+                              "message": "TypeError: Cannot read properties of undefined (reading 'toLowerCase')\n\n\u001b[0m \u001b[90m 495 |\u001b[39m       \u001b[36mconst\u001b[39m data \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m response\u001b[33m.\u001b[39mjson()\n \u001b[90m 496 |\u001b[39m       expect(data)\u001b[33m.\u001b[39mtoHaveProperty(\u001b[32m'success'\u001b[39m\u001b[33m,\u001b[39m \u001b[36mfalse\u001b[39m)\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 497 |\u001b[39m       expect(data\u001b[33m.\u001b[39mmessage\u001b[33m.\u001b[39mtoLowerCase())\u001b[33m.\u001b[39mtoMatch(\u001b[35m/token|invalid|hết hạn/\u001b[39m)\n \u001b[90m     |\u001b[39m                           \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 498 |\u001b[39m     })\n \u001b[90m 499 |\u001b[39m\n \u001b[90m 500 |\u001b[39m     test(\u001b[32m'should reject reset with weak password'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ request }) \u001b[33m=>\u001b[39m {\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js:497:27\u001b[22m"
+                            }
+                          ],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "startTime": "2025-11-13T12:24:13.653Z",
+                          "annotations": [],
+                          "attachments": [],
+                          "errorLocation": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                            "column": 27,
+                            "line": 497
+                          }
+                        }
+                      ],
+                      "status": "unexpected"
+                    }
+                  ],
+                  "id": "e1259fcfddf035549a56-20f8732a9e1b6c0b4e92",
+                  "file": "integration/api/auth.api.spec.js",
+                  "line": 486,
+                  "column": 5
+                },
+                {
+                  "title": "should reject reset with weak password",
+                  "ok": false,
+                  "tags": [],
+                  "tests": [
+                    {
+                      "timeout": 30000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "API Tests",
+                      "projectName": "API Tests",
+                      "results": [
+                        {
+                          "workerIndex": 15,
+                          "parallelIndex": 5,
+                          "status": "failed",
+                          "duration": 56,
+                          "error": {
+                            "message": "TypeError: Cannot read properties of undefined (reading 'toLowerCase')",
+                            "stack": "TypeError: Cannot read properties of undefined (reading 'toLowerCase')\n    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js:511:27",
+                            "location": {
+                              "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                              "column": 27,
+                              "line": 511
+                            },
+                            "snippet": "\u001b[0m \u001b[90m 509 |\u001b[39m       \u001b[36mconst\u001b[39m data \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m response\u001b[33m.\u001b[39mjson()\n \u001b[90m 510 |\u001b[39m       expect(data)\u001b[33m.\u001b[39mtoHaveProperty(\u001b[32m'success'\u001b[39m\u001b[33m,\u001b[39m \u001b[36mfalse\u001b[39m)\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 511 |\u001b[39m       expect(data\u001b[33m.\u001b[39mmessage\u001b[33m.\u001b[39mtoLowerCase())\u001b[33m.\u001b[39mtoMatch(\u001b[35m/password|mật khẩu/\u001b[39m)\n \u001b[90m     |\u001b[39m                           \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 512 |\u001b[39m     })\n \u001b[90m 513 |\u001b[39m\n \u001b[90m 514 |\u001b[39m     test(\u001b[32m'should reject reset without required fields'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ request }) \u001b[33m=>\u001b[39m {\u001b[0m"
+                          },
+                          "errors": [
+                            {
+                              "location": {
+                                "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                                "column": 27,
+                                "line": 511
+                              },
+                              "message": "TypeError: Cannot read properties of undefined (reading 'toLowerCase')\n\n\u001b[0m \u001b[90m 509 |\u001b[39m       \u001b[36mconst\u001b[39m data \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m response\u001b[33m.\u001b[39mjson()\n \u001b[90m 510 |\u001b[39m       expect(data)\u001b[33m.\u001b[39mtoHaveProperty(\u001b[32m'success'\u001b[39m\u001b[33m,\u001b[39m \u001b[36mfalse\u001b[39m)\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 511 |\u001b[39m       expect(data\u001b[33m.\u001b[39mmessage\u001b[33m.\u001b[39mtoLowerCase())\u001b[33m.\u001b[39mtoMatch(\u001b[35m/password|mật khẩu/\u001b[39m)\n \u001b[90m     |\u001b[39m                           \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 512 |\u001b[39m     })\n \u001b[90m 513 |\u001b[39m\n \u001b[90m 514 |\u001b[39m     test(\u001b[32m'should reject reset without required fields'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ request }) \u001b[33m=>\u001b[39m {\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js:511:27\u001b[22m"
+                            }
+                          ],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "startTime": "2025-11-13T12:24:09.622Z",
+                          "annotations": [],
+                          "attachments": [],
+                          "errorLocation": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                            "column": 27,
+                            "line": 511
+                          }
+                        }
+                      ],
+                      "status": "unexpected"
+                    }
+                  ],
+                  "id": "e1259fcfddf035549a56-0b3dd21790b4e7024726",
+                  "file": "integration/api/auth.api.spec.js",
+                  "line": 500,
+                  "column": 5
+                },
+                {
+                  "title": "should reject reset without required fields",
+                  "ok": true,
+                  "tags": [],
+                  "tests": [
+                    {
+                      "timeout": 30000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "API Tests",
+                      "projectName": "API Tests",
+                      "results": [
+                        {
+                          "workerIndex": 20,
+                          "parallelIndex": 3,
+                          "status": "passed",
+                          "duration": 174,
+                          "errors": [],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "startTime": "2025-11-13T12:24:13.587Z",
+                          "annotations": [],
+                          "attachments": []
+                        }
+                      ],
+                      "status": "expected"
+                    }
+                  ],
+                  "id": "e1259fcfddf035549a56-202f8fd730e6e6e08f24",
+                  "file": "integration/api/auth.api.spec.js",
+                  "line": 514,
+                  "column": 5
+                }
+              ]
+            },
+            {
+              "title": "Security & Rate Limiting",
+              "file": "integration/api/auth.api.spec.js",
+              "line": 528,
+              "column": 8,
+              "specs": [
+                {
+                  "title": "should not reveal if user exists in error messages",
+                  "ok": false,
+                  "tags": [],
+                  "tests": [
+                    {
+                      "timeout": 30000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "API Tests",
+                      "projectName": "API Tests",
+                      "results": [
+                        {
+                          "workerIndex": 21,
+                          "parallelIndex": 5,
+                          "status": "failed",
+                          "duration": 135,
+                          "error": {
+                            "message": "TypeError: Cannot read properties of undefined (reading 'toLowerCase')",
+                            "stack": "TypeError: Cannot read properties of undefined (reading 'toLowerCase')\n    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js:540:27",
+                            "location": {
+                              "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                              "column": 27,
+                              "line": 540
+                            },
+                            "snippet": "\u001b[0m \u001b[90m 538 |\u001b[39m       \u001b[36mconst\u001b[39m data \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m response\u001b[33m.\u001b[39mjson()\n \u001b[90m 539 |\u001b[39m       \u001b[90m// Error message should be generic, not \"User not found\"\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 540 |\u001b[39m       expect(data\u001b[33m.\u001b[39mmessage\u001b[33m.\u001b[39mtoLowerCase())\u001b[33m.\u001b[39mnot\u001b[33m.\u001b[39mtoContain(\u001b[32m'user not found'\u001b[39m)\n \u001b[90m     |\u001b[39m                           \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 541 |\u001b[39m       expect(data\u001b[33m.\u001b[39mmessage\u001b[33m.\u001b[39mtoLowerCase())\u001b[33m.\u001b[39mnot\u001b[33m.\u001b[39mtoContain(\u001b[32m'không tồn tại'\u001b[39m)\n \u001b[90m 542 |\u001b[39m     })\n \u001b[90m 543 |\u001b[39m\u001b[0m"
+                          },
+                          "errors": [
+                            {
+                              "location": {
+                                "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                                "column": 27,
+                                "line": 540
+                              },
+                              "message": "TypeError: Cannot read properties of undefined (reading 'toLowerCase')\n\n\u001b[0m \u001b[90m 538 |\u001b[39m       \u001b[36mconst\u001b[39m data \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m response\u001b[33m.\u001b[39mjson()\n \u001b[90m 539 |\u001b[39m       \u001b[90m// Error message should be generic, not \"User not found\"\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 540 |\u001b[39m       expect(data\u001b[33m.\u001b[39mmessage\u001b[33m.\u001b[39mtoLowerCase())\u001b[33m.\u001b[39mnot\u001b[33m.\u001b[39mtoContain(\u001b[32m'user not found'\u001b[39m)\n \u001b[90m     |\u001b[39m                           \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 541 |\u001b[39m       expect(data\u001b[33m.\u001b[39mmessage\u001b[33m.\u001b[39mtoLowerCase())\u001b[33m.\u001b[39mnot\u001b[33m.\u001b[39mtoContain(\u001b[32m'không tồn tại'\u001b[39m)\n \u001b[90m 542 |\u001b[39m     })\n \u001b[90m 543 |\u001b[39m\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js:540:27\u001b[22m"
+                            }
+                          ],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "startTime": "2025-11-13T12:24:13.806Z",
+                          "annotations": [],
+                          "attachments": [],
+                          "errorLocation": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                            "column": 27,
+                            "line": 540
+                          }
+                        }
+                      ],
+                      "status": "unexpected"
+                    }
+                  ],
+                  "id": "e1259fcfddf035549a56-619f040c59c4b11ef6ec",
+                  "file": "integration/api/auth.api.spec.js",
+                  "line": 530,
+                  "column": 5
+                },
+                {
+                  "title": "should not return password hash in any response",
+                  "ok": true,
+                  "tags": [],
+                  "tests": [
+                    {
+                      "timeout": 30000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "API Tests",
+                      "projectName": "API Tests",
+                      "results": [
+                        {
+                          "workerIndex": 16,
+                          "parallelIndex": 1,
+                          "status": "passed",
+                          "duration": 63,
+                          "errors": [],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "startTime": "2025-11-13T12:24:09.805Z",
+                          "annotations": [],
+                          "attachments": []
+                        }
+                      ],
+                      "status": "expected"
+                    }
+                  ],
+                  "id": "e1259fcfddf035549a56-38e3b37d20d44ed51204",
+                  "file": "integration/api/auth.api.spec.js",
+                  "line": 544,
+                  "column": 5
+                },
+                {
+                  "title": "should set httpOnly cookie for security",
+                  "ok": false,
+                  "tags": [],
+                  "tests": [
+                    {
+                      "timeout": 30000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "API Tests",
+                      "projectName": "API Tests",
+                      "results": [
+                        {
+                          "workerIndex": 16,
+                          "parallelIndex": 1,
+                          "status": "failed",
+                          "duration": 32,
+                          "error": {
+                            "message": "TypeError: Cannot read properties of undefined (reading 'toLowerCase')",
+                            "stack": "TypeError: Cannot read properties of undefined (reading 'toLowerCase')\n    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js:582:22",
+                            "location": {
+                              "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                              "column": 22,
+                              "line": 582
+                            },
+                            "snippet": "\u001b[0m \u001b[90m 580 |\u001b[39m\n \u001b[90m 581 |\u001b[39m       \u001b[36mconst\u001b[39m cookies \u001b[33m=\u001b[39m response\u001b[33m.\u001b[39mheaders()[\u001b[32m'set-cookie'\u001b[39m]\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 582 |\u001b[39m       expect(cookies\u001b[33m.\u001b[39mtoLowerCase())\u001b[33m.\u001b[39mtoContain(\u001b[32m'httponly'\u001b[39m)\n \u001b[90m     |\u001b[39m                      \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 583 |\u001b[39m     })\n \u001b[90m 584 |\u001b[39m   })\n \u001b[90m 585 |\u001b[39m\u001b[0m"
+                          },
+                          "errors": [
+                            {
+                              "location": {
+                                "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                                "column": 22,
+                                "line": 582
+                              },
+                              "message": "TypeError: Cannot read properties of undefined (reading 'toLowerCase')\n\n\u001b[0m \u001b[90m 580 |\u001b[39m\n \u001b[90m 581 |\u001b[39m       \u001b[36mconst\u001b[39m cookies \u001b[33m=\u001b[39m response\u001b[33m.\u001b[39mheaders()[\u001b[32m'set-cookie'\u001b[39m]\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 582 |\u001b[39m       expect(cookies\u001b[33m.\u001b[39mtoLowerCase())\u001b[33m.\u001b[39mtoContain(\u001b[32m'httponly'\u001b[39m)\n \u001b[90m     |\u001b[39m                      \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 583 |\u001b[39m     })\n \u001b[90m 584 |\u001b[39m   })\n \u001b[90m 585 |\u001b[39m\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js:582:22\u001b[22m"
+                            }
+                          ],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "startTime": "2025-11-13T12:24:09.921Z",
+                          "annotations": [],
+                          "attachments": [],
+                          "errorLocation": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                            "column": 22,
+                            "line": 582
+                          }
+                        }
+                      ],
+                      "status": "unexpected"
+                    }
+                  ],
+                  "id": "e1259fcfddf035549a56-5d41fa9071208104bd69",
+                  "file": "integration/api/auth.api.spec.js",
+                  "line": 572,
+                  "column": 5
+                }
+              ]
+            },
+            {
+              "title": "Performance",
+              "file": "integration/api/auth.api.spec.js",
+              "line": 586,
+              "column": 8,
+              "specs": [
+                {
+                  "title": "login should respond within 500ms",
+                  "ok": true,
+                  "tags": [],
+                  "tests": [
+                    {
+                      "timeout": 30000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "API Tests",
+                      "projectName": "API Tests",
+                      "results": [
+                        {
+                          "workerIndex": 22,
+                          "parallelIndex": 1,
+                          "status": "passed",
+                          "duration": 113,
+                          "errors": [],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "startTime": "2025-11-13T12:24:13.916Z",
+                          "annotations": [],
+                          "attachments": []
+                        }
+                      ],
+                      "status": "expected"
+                    }
+                  ],
+                  "id": "e1259fcfddf035549a56-96327ed01e593f758f21",
+                  "file": "integration/api/auth.api.spec.js",
+                  "line": 588,
+                  "column": 5
+                },
+                {
+                  "title": "token verification should be fast (<100ms)",
+                  "ok": false,
+                  "tags": [],
+                  "tests": [
+                    {
+                      "timeout": 30000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "API Tests",
+                      "projectName": "API Tests",
+                      "results": [
+                        {
+                          "workerIndex": 23,
+                          "parallelIndex": 0,
+                          "status": "failed",
+                          "duration": 78,
+                          "error": {
+                            "message": "TypeError: Cannot read properties of undefined (reading 'match')",
+                            "stack": "TypeError: Cannot read properties of undefined (reading 'match')\n    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js:631:34",
+                            "location": {
+                              "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                              "column": 34,
+                              "line": 631
+                            },
+                            "snippet": "\u001b[0m \u001b[90m 629 |\u001b[39m\n \u001b[90m 630 |\u001b[39m       \u001b[36mconst\u001b[39m cookies \u001b[33m=\u001b[39m loginResponse\u001b[33m.\u001b[39mheaders()[\u001b[32m'set-cookie'\u001b[39m]\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 631 |\u001b[39m       \u001b[36mconst\u001b[39m tokenMatch \u001b[33m=\u001b[39m cookies\u001b[33m.\u001b[39mmatch(\u001b[35m/token=([^;]+)/\u001b[39m)\n \u001b[90m     |\u001b[39m                                  \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 632 |\u001b[39m       \u001b[36mconst\u001b[39m token \u001b[33m=\u001b[39m tokenMatch \u001b[33m?\u001b[39m tokenMatch[\u001b[35m1\u001b[39m] \u001b[33m:\u001b[39m \u001b[32m''\u001b[39m\n \u001b[90m 633 |\u001b[39m\n \u001b[90m 634 |\u001b[39m       \u001b[36mconst\u001b[39m startTime \u001b[33m=\u001b[39m \u001b[33mDate\u001b[39m\u001b[33m.\u001b[39mnow()\u001b[0m"
+                          },
+                          "errors": [
+                            {
+                              "location": {
+                                "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                                "column": 34,
+                                "line": 631
+                              },
+                              "message": "TypeError: Cannot read properties of undefined (reading 'match')\n\n\u001b[0m \u001b[90m 629 |\u001b[39m\n \u001b[90m 630 |\u001b[39m       \u001b[36mconst\u001b[39m cookies \u001b[33m=\u001b[39m loginResponse\u001b[33m.\u001b[39mheaders()[\u001b[32m'set-cookie'\u001b[39m]\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 631 |\u001b[39m       \u001b[36mconst\u001b[39m tokenMatch \u001b[33m=\u001b[39m cookies\u001b[33m.\u001b[39mmatch(\u001b[35m/token=([^;]+)/\u001b[39m)\n \u001b[90m     |\u001b[39m                                  \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 632 |\u001b[39m       \u001b[36mconst\u001b[39m token \u001b[33m=\u001b[39m tokenMatch \u001b[33m?\u001b[39m tokenMatch[\u001b[35m1\u001b[39m] \u001b[33m:\u001b[39m \u001b[32m''\u001b[39m\n \u001b[90m 633 |\u001b[39m\n \u001b[90m 634 |\u001b[39m       \u001b[36mconst\u001b[39m startTime \u001b[33m=\u001b[39m \u001b[33mDate\u001b[39m\u001b[33m.\u001b[39mnow()\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js:631:34\u001b[22m"
+                            }
+                          ],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "startTime": "2025-11-13T12:24:14.063Z",
+                          "annotations": [],
+                          "attachments": [],
+                          "errorLocation": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\integration\\api\\auth.api.spec.js",
+                            "column": 34,
+                            "line": 631
+                          }
+                        }
+                      ],
+                      "status": "unexpected"
+                    }
+                  ],
+                  "id": "e1259fcfddf035549a56-d788b327083228d5f747",
+                  "file": "integration/api/auth.api.spec.js",
+                  "line": 612,
                   "column": 5
                 }
               ]
@@ -855,11 +1695,11 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2025-11-12T18:34:43.878Z",
-    "duration": 9745.547999999999,
-    "expected": 6,
+    "startTime": "2025-11-13T12:23:54.503Z",
+    "duration": 19728.755999999998,
+    "expected": 7,
     "skipped": 0,
-    "unexpected": 8,
+    "unexpected": 22,
     "flaky": 0
   }
 }

@@ -8,8 +8,8 @@ import { defineConfig, devices } from '@playwright/test'
 export default defineConfig({
   // Test directory
   testDir: './tests',
-  testMatch: '**/*.spec.js',
-  testIgnore: ['**/frontend/**', '**/tests/fashion.test.js', '**/tests/integration/**', '**/tests/mocks/**'],
+  testMatch: ['**/*.spec.js', '**/*.api.spec.js', '**/*.integration.spec.js'],
+  testIgnore: ['**/frontend/**', '**/tests/fashion.test.js', '**/tests/mocks/**'],
   
   // Parallel execution for faster tests
   fullyParallel: true,

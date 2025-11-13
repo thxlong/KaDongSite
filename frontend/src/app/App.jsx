@@ -6,6 +6,7 @@ import { Toaster } from 'react-hot-toast'
 import Header from '../shared/components/Header'
 import SidebarMenu from '../shared/components/SidebarMenu'
 import Footer from '../shared/components/Footer'
+import PrivateRoute from '../shared/components/PrivateRoute'
 
 // Feature Pages
 import HomePage from '../features/home/HomePage'
@@ -19,6 +20,12 @@ import WeatherPage from '../features/weather/WeatherPage'
 import WishlistPage from '../features/wishlist/WishlistPage'
 import WeddingPage from '../features/wedding/WeddingPage'
 
+// Auth Pages
+import LoginPage from '../features/auth/LoginPage'
+import RegisterPage from '../features/auth/RegisterPage'
+import ForgotPasswordPage from '../features/auth/ForgotPasswordPage'
+import ResetPasswordPage from '../features/auth/ResetPasswordPage'
+
 function App() {
   return (
     <Router>
@@ -30,16 +37,23 @@ function App() {
           <main className="flex-1 p-4 lg:p-8">
             <AnimatePresence mode="wait">
               <Routes>
+                {/* Public Routes */}
                 <Route path="/" element={<HomePage />} />
-                <Route path="/countdown" element={<CountdownPage />} />
-                <Route path="/calendar" element={<CalendarPage />} />
-                <Route path="/notes" element={<NotesPage />} />
-                <Route path="/currency" element={<CurrencyPage />} />
-                <Route path="/fashion" element={<FashionPage />} />
-                <Route path="/gold" element={<GoldPricesPage />} />
-                <Route path="/weather" element={<WeatherPage />} />
-                <Route path="/wishlist" element={<WishlistPage />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/register" element={<RegisterPage />} />
+                <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+                <Route path="/reset-password" element={<ResetPasswordPage />} />
                 <Route path="/wedding-invitation" element={<WeddingPage />} />
+                
+                {/* Protected Routes - Require Authentication */}
+                <Route path="/countdown" element={<PrivateRoute><CountdownPage /></PrivateRoute>} />
+                <Route path="/calendar" element={<PrivateRoute><CalendarPage /></PrivateRoute>} />
+                <Route path="/notes" element={<PrivateRoute><NotesPage /></PrivateRoute>} />
+                <Route path="/currency" element={<PrivateRoute><CurrencyPage /></PrivateRoute>} />
+                <Route path="/fashion" element={<PrivateRoute><FashionPage /></PrivateRoute>} />
+                <Route path="/gold" element={<PrivateRoute><GoldPricesPage /></PrivateRoute>} />
+                <Route path="/weather" element={<PrivateRoute><WeatherPage /></PrivateRoute>} />
+                <Route path="/wishlist" element={<PrivateRoute><WishlistPage /></PrivateRoute>} />
               </Routes>
             </AnimatePresence>
           </main>

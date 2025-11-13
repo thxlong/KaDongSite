@@ -1,11 +1,20 @@
 # 🌸 KaDong Tools - Website Tiện Ích Cá Nhân
 
-**Version:** 1.3.0  
-**Last Updated:** 2025-11-11
+**Version:** 2.0.0  
+**Last Updated:** 2025-11-13
 
-Website tiện ích cá nhân dễ thương với thiết kế hiện đại, dành cho hai vợ chồng dễ dàng truy cập và sử dụng các công cụ hàng ngày. Full-stack application với React + Node.js + PostgreSQL.
+Website tiện ích cá nhân dễ thương với thiết kế hiện đại, dành cho hai vợ chồng dễ dàng truy cập và sử dụng các công cụ hàng ngày. Full-stack application với React + Node.js + PostgreSQL, bảo mật với JWT authentication.
 
 ## ✨ Tính năng
+
+### 🔐 Xác thực & Bảo mật (NEW v2.0):
+
+- **🔑 Đăng nhập/Đăng ký**: Hệ thống xác thực an toàn với JWT tokens
+- **🔒 Bảo vệ dữ liệu**: Routes được bảo vệ, chỉ user đã đăng nhập mới truy cập được
+- **🔄 Quên mật khẩu**: Flow đặt lại mật khẩu qua email
+- **🍪 Session management**: httpOnly cookies, SameSite protection
+- **⏱️ Remember me**: Phiên đăng nhập kéo dài 30 ngày
+- **🛡️ Security best practices**: bcrypt password hashing, rate limiting, CSRF protection
 
 ### 🎯 Các công cụ hiện có:
 
@@ -15,7 +24,7 @@ Website tiện ích cá nhân dễ thương với thiết kế hiện đại, d�
 - **💱 Chuyển đổi tiền tệ**: Tính toán và chuyển đổi 8 loại tiền tệ phổ biến với rate realtime
 - **👔 Phối đồ màu sắc**: Chọn và lưu trang phục với preview realtime, SVG rendering
 - **💰 Giá vàng**: Theo dõi giá vàng Việt Nam realtime với 7 loại vàng, biểu đồ lịch sử, auto-refresh
-- **💒 Wedding Invitation URL Encoder** ⭐ NEW: Tạo links thiệp cưới cá nhân hóa với UTF-8 encoding cho tên tiếng Việt, hỗ trợ upload Excel/TXT/CSV
+- **💒 Wedding Invitation URL Encoder**: Tạo links thiệp cưới cá nhân hóa với UTF-8 encoding cho tên tiếng Việt, hỗ trợ upload Excel/TXT/CSV
 
 ### 🎨 Đặc điểm thiết kế:
 
@@ -47,6 +56,11 @@ Website tiện ích cá nhân dễ thương với thiết kế hiện đại, d�
 - **Express 4.18.2** - Minimalist web framework
 - **PostgreSQL 13+** - Relational database
 - **pg 8.11.3** - PostgreSQL driver
+- **bcrypt 5.1.1** - Password hashing
+- **jsonwebtoken 9.0.2** - JWT token generation/verification
+- **cookie-parser 1.4.7** - Cookie parsing middleware
+- **express-rate-limit 8.2.1** - Rate limiting middleware
+- **validator 13.15.23** - Input validation
 - **node-cron** - Cron job scheduler cho auto-fetch giá vàng
 - **RESTful API** - API architecture chuẩn
 - **CORS** - Cross-origin resource sharing
