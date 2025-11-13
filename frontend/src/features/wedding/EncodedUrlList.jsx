@@ -8,7 +8,7 @@
 import { useState } from 'react'
 import { Copy, CheckCircle, ExternalLink, Download, QrCode } from 'lucide-react'
 import PropTypes from 'prop-types'
-import { copyToClipboard, downloadAsTextFile, downloadAsCSVFile } from '../../services/weddingService'
+import { copyToClipboard, downloadAsTextFile, downloadAsCSVFile } from './weddingService'
 import QRCodeDisplay from './QRCodeDisplay'
 
 const EncodedUrlList = ({ urls, onCopyAll }) => {

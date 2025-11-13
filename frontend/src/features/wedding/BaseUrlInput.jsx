@@ -8,7 +8,7 @@
 import { useState } from 'react'
 import { Save, Check, AlertCircle } from 'lucide-react'
 import PropTypes from 'prop-types'
-import { isValidUrl } from '../../utils/urlEncoder'
+import { isValidUrl } from '../../shared/utils/urlEncoder'
 
 const BaseUrlInput = ({ value, onChange, onSave, lastUpdated, loading }) => {
   const [error, setError] = useState('')

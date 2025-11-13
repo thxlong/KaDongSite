@@ -21,7 +21,7 @@ import {
   ChevronUp
 } from 'lucide-react'
 import CommentItem from './CommentItem'
-import * as wishlistService from '../../services/wishlistService'
+import * as wishlistService from './wishlistService'
 
 const WishlistCard = ({
   item,

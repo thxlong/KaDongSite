@@ -8,7 +8,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Loader, Image as ImageIcon, DollarSign } from 'lucide-react'
-import * as wishlistService from '../../services/wishlistService'
+import * as wishlistService from './wishlistService'
 
 const CATEGORIES = [
   { value: '', label: '-- Chọn danh mục --' },

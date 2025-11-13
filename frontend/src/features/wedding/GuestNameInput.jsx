@@ -8,8 +8,8 @@
 import { useState, useRef } from 'react'
 import { Upload, Users, FileText, AlertCircle, CheckCircle } from 'lucide-react'
 import PropTypes from 'prop-types'
-import { parseFile, validateFile, formatFileSize, getFileExtension } from '../../utils/fileParser'
-import { parseGuestNames, removeDuplicateNames } from '../../utils/urlEncoder'
+import { parseFile, validateFile, formatFileSize, getFileExtension } from '../../shared/utils/fileParser'
+import { parseGuestNames, removeDuplicateNames } from '../../shared/utils/urlEncoder'
 
 const GuestNameInput = ({ onNamesChange }) => {
   const [text, setText] = useState('')
