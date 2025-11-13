@@ -1,0 +1,1259 @@
+# Implementation Plan - Login Authentication System
+
+**Plan ID:** `08_login`  
+**Spec:** `specs/specs/08_login.spec`  
+**Version:** 1.0.0  
+**Status:** 📝 Planning  
+**Created:** 2025-11-13  
+**Last Updated:** 2025-11-13
+
+---
+
+## 📋 Overview
+
+**Feature:** User Login & Authentication System  
+**Priority:** 🔴 Critical  
+**Overall Progress:** 0%
+
+**Objectives:**
+1. Implement secure JWT-based authentication system
+2. Create user registration and login flows
+3. Protect routes và resources với authentication
+4. Ensure security best practices (bcrypt, parameterized queries, httpOnly cookies)
+5. Achieve 90%+ test coverage
+
+**Success Criteria:**
+- [x] Users có thể register với email + password
+- [x] Users có thể login và receive JWT token
+- [x] Protected routes require authentication
+- [x] Password hashing với bcrypt (10 rounds)
+- [x] SQL injection prevention (parameterized queries)
+- [x] Rate limiting (5 attempts/15min)
+- [x] Token verification < 50ms
+- [x] 90%+ test coverage
+- [x] Zero security vulnerabilities
+
+---
+
+## 📅 Timeline
+
+**Estimated Duration:** 3 weeks (15 working days)  
+**Start Date:** 2025-11-13  
+**Target Completion:** 2025-12-04
+
+### Key Milestones
+
+| Milestone | Target Date | Status | Completion Date |
+|-----------|-------------|--------|-----------------|
+| M1: Database & Backend Setup | 2025-11-15 | ⏳ | - |
+| M2: Auth API Endpoints | 2025-11-19 | ⏳ | - |
+| M3: Frontend Auth UI | 2025-11-25 | ⏳ | - |
+| M4: Testing Complete | 2025-11-29 | ⏳ | - |
+| M5: Production Deployment | 2025-12-04 | ⏳ | - |
+
+---
+
+## 📦 Phases
+
+### Phase 1: Database Design & Setup
+**Duration:** 2 days (Nov 13-15)  
+**Status:** 📝 Not Started  
+**Progress:** 0%
+
+#### Tasks
+
+- [ ] **Task 1.1:** Design database schema
+  - Create ERD diagram cho users, sessions, login_attempts, password_reset_tokens
+  - Define relationships (users → sessions: one-to-many)
+  - Plan indexes cho performance
+  - **Deliverable:** Database schema diagram (Mermaid hoặc draw.io)
+
+- [ ] **Task 1.2:** Write migration files
+  - File: `backend/database/migrations/008_up_auth_system.sql`
+  - CREATE TABLE users (email UNIQUE, password_hash, role, email_verified)
+  - CREATE TABLE sessions (user_id FK, token UNIQUE, expires_at, ip_address, user_agent)
+  - CREATE TABLE login_attempts (email, ip_address, success, created_at)
+  - CREATE TABLE password_reset_tokens (user_id FK, token UNIQUE, expires_at, used_at)
+  - CREATE INDEXES (users.email, sessions.token, sessions.expires_at)
+  - CREATE TRIGGER update_users_updated_at
+  - **Deliverable:** Migration up SQL file
+
+- [ ] **Task 1.3:** Write rollback migration
+  - File: `backend/database/migrations/008_down_auth_system.sql`
+  - DROP TABLES (cascade order: password_reset_tokens, sessions, login_attempts, users)
+  - DROP TRIGGER update_users_updated_at
+  - **Deliverable:** Migration down SQL file
+
+- [ ] **Task 1.4:** Create seed data
+  - File: `backend/database/seeds/008_auth_seed.js`
+  - Seed 3 users: admin@kadong.com, user@kadong.com, guest@kadong.com
+  - Hash passwords với bcrypt
+  - Set roles: admin, user, guest
+  - **Deliverable:** Seed script
+
+- [ ] **Task 1.5:** Run migrations locally
+  - Command: `npm run db:migrate:up`
+  - Verify tables created: `\dt` in psql
+  - Check indexes: `\di`
+  - Seed data: `npm run db:seed`
+  - Query test: `SELECT * FROM users;`
+  - **Deliverable:** Database ready với test data
+
+#### Deliverables
+```
+✓ ERD diagram documented
+✓ Migration 008_up_auth_system.sql created
+✓ Migration 008_down_auth_system.sql created  
+✓ Seed script 008_auth_seed.js created
+✓ Database migrated và seeded locally
+```
+
+---
+
+### Phase 2: Backend - Utilities & Middleware
+**Duration:** 2 days (Nov 15-17)  
+**Status:** 📝 Not Started  
+**Progress:** 0%
+
+#### Milestone 2.1: Security Utilities
+
+- [ ] **Task 2.1.1:** Password utilities
+  - File: `backend/utils/passwordUtils.js`
+  - Function: `hashPassword(plainText)` → bcrypt.hash(plainText, 10)
+  - Function: `comparePassword(plainText, hash)` → bcrypt.compare()
+  - Add validation: min 8 chars, 1 uppercase, 1 lowercase, 1 number
+  - **Deliverable:** passwordUtils.js with unit tests
+
+- [ ] **Task 2.1.2:** Token utilities
+  - File: `backend/utils/tokenUtils.js`
+  - Function: `generateToken(payload, expiresIn)` → jwt.sign()
+  - Function: `verifyToken(token)` → jwt.verify()
+  - Function: `decodeToken(token)` → jwt.decode()
+  - Use JWT_SECRET từ .env
+  - **Deliverable:** tokenUtils.js with unit tests
+
+- [ ] **Task 2.1.3:** Validation utilities
+  - File: `backend/utils/validators.js`
+  - Function: `isValidEmail(email)` → regex + validator.isEmail()
+  - Function: `isStrongPassword(password)` → complexity check
+  - Function: `sanitizeInput(input)` → XSS prevention
+  - **Deliverable:** validators.js with unit tests
+
+#### Milestone 2.2: Auth Middleware
+
+- [ ] **Task 2.2.1:** Authentication middleware
+  - File: `backend/middleware/authMiddleware.js`
+  - Function: `verifyToken(req, res, next)`
+    - Extract token from cookie hoặc Authorization header
+    - Verify JWT signature
+    - Check expiration
+    - Query sessions table (verify not revoked)
+    - Attach user to req.user
+    - Call next() hoặc return 401
+  - **Deliverable:** authMiddleware.js with tests
+
+- [ ] **Task 2.2.2:** Role-based access middleware
+  - File: `backend/middleware/roleMiddleware.js`
+  - Function: `requireRole(...roles)`
+    - Check req.user.role in allowed roles
+    - Return 403 if not authorized
+  - Example: `requireRole('admin')`, `requireRole('admin', 'user')`
+  - **Deliverable:** roleMiddleware.js with tests
+
+- [ ] **Task 2.2.3:** Rate limiting middleware
+  - File: `backend/middleware/rateLimitMiddleware.js`
+  - Use express-rate-limit package
+  - Login limit: 5 requests/15min per IP
+  - Register limit: 3 requests/15min per IP
+  - **Deliverable:** rateLimitMiddleware.js configured
+
+#### Deliverables
+```javascript
+// backend/utils/passwordUtils.js
+const hashPassword = async (plainText) => { /* bcrypt */ }
+const comparePassword = async (plainText, hash) => { /* bcrypt */ }
+
+// backend/utils/tokenUtils.js
+const generateToken = (payload, expiresIn) => { /* jwt.sign */ }
+const verifyToken = (token) => { /* jwt.verify */ }
+
+// backend/middleware/authMiddleware.js
+const verifyToken = async (req, res, next) => { /* verify JWT + session */ }
+
+// backend/middleware/roleMiddleware.js
+const requireRole = (...roles) => (req, res, next) => { /* check role */ }
+```
+
+---
+
+### Phase 3: Backend - Auth Controller & Routes
+**Duration:** 3 days (Nov 17-20)  
+**Status:** 📝 Not Started  
+**Progress:** 0%
+
+#### Milestone 3.1: Auth Controller
+
+- [ ] **Task 3.1.1:** Register controller
+  - File: `backend/controllers/authController.js`
+  - Function: `register(req, res)`
+    - Extract { email, password, name } from req.body
+    - Validate inputs (email format, password strength)
+    - Check email unique (query users table)
+    - Hash password với passwordUtils.hashPassword()
+    - INSERT INTO users (email, password_hash, name, role='user')
+    - Generate JWT token với tokenUtils.generateToken()
+    - INSERT INTO sessions (user_id, token, expires_at, ip, user_agent)
+    - Set httpOnly cookie
+    - Return { success: true, data: { user, token } }
+  - Error handling: duplicate email, validation errors
+  - **Deliverable:** register() function với tests
+
+- [ ] **Task 3.1.2:** Login controller
+  - Function: `login(req, res)`
+    - Extract { email, password, rememberMe } from req.body
+    - Check rate limit (query login_attempts)
+    - Query user by email
+    - Compare password với passwordUtils.comparePassword()
+    - Log attempt to login_attempts table
+    - If success:
+      - Generate JWT (7d hoặc 30d nếu rememberMe)
+      - INSERT INTO sessions
+      - Set httpOnly cookie
+      - Return { user, token, expiresIn }
+    - If fail:
+      - Return generic error (don't reveal if user exists)
+  - **Deliverable:** login() function với tests
+
+- [ ] **Task 3.1.3:** Logout controller
+  - Function: `logout(req, res)`
+    - Extract token from req.cookies
+    - UPDATE sessions SET revoked_at = NOW() WHERE token = $1
+    - Clear cookie
+    - Return { success: true, message: 'Logout successful' }
+  - **Deliverable:** logout() function
+
+- [ ] **Task 3.1.4:** Get current user controller
+  - Function: `getCurrentUser(req, res)`
+    - req.user already attached by authMiddleware
+    - Query full user profile from database
+    - Return { id, email, name, role, emailVerified, createdAt }
+  - **Deliverable:** getCurrentUser() function
+
+- [ ] **Task 3.1.5:** Refresh token controller
+  - Function: `refreshToken(req, res)`
+    - Verify current token
+    - Generate new token với same payload
+    - UPDATE session với new token và expires_at
+    - Return { token, expiresIn }
+  - **Deliverable:** refreshToken() function
+
+- [ ] **Task 3.1.6:** Forgot password controller
+  - Function: `forgotPassword(req, res)`
+    - Extract { email } from req.body
+    - Query user by email
+    - Generate random reset token
+    - INSERT INTO password_reset_tokens (user_id, token, expires_at=1h)
+    - Send email với reset link (mock for now)
+    - Always return success (security: don't reveal if email exists)
+  - **Deliverable:** forgotPassword() function
+
+- [ ] **Task 3.1.7:** Reset password controller
+  - Function: `resetPassword(req, res)`
+    - Extract { token, newPassword } from req.body
+    - Query password_reset_tokens WHERE token = $1 AND used_at IS NULL AND expires_at > NOW()
+    - If valid:
+      - Hash new password
+      - UPDATE users SET password_hash = $1
+      - UPDATE password_reset_tokens SET used_at = NOW()
+      - Return success
+    - If invalid: return error
+  - **Deliverable:** resetPassword() function
+
+#### Milestone 3.2: Auth Routes
+
+- [ ] **Task 3.2.1:** Create auth routes file
+  - File: `backend/routes/auth.js`
+  - Import authController functions
+  - Import middleware (rateLimitMiddleware, authMiddleware)
+  - Define routes:
+    ```javascript
+    const router = express.Router()
+    
+    router.post('/register', rateLimitMiddleware.register, authController.register)
+    router.post('/login', rateLimitMiddleware.login, authController.login)
+    router.post('/logout', authMiddleware.verifyToken, authController.logout)
+    router.get('/me', authMiddleware.verifyToken, authController.getCurrentUser)
+    router.post('/refresh', authMiddleware.verifyToken, authController.refreshToken)
+    router.post('/forgot-password', rateLimitMiddleware.forgotPassword, authController.forgotPassword)
+    router.post('/reset-password', authController.resetPassword)
+    
+    module.exports = router
+    ```
+  - **Deliverable:** auth.js routes file
+
+- [ ] **Task 3.2.2:** Register routes in main server
+  - File: `backend/app.js` (or server.js)
+  - Import auth routes: `const authRoutes = require('./routes/auth')`
+  - Use routes: `app.use('/api/auth', authRoutes)`
+  - Install dependencies:
+    - `npm install bcryptjs jsonwebtoken cookie-parser express-rate-limit validator`
+  - **Deliverable:** Auth routes registered
+
+#### Deliverables
+```javascript
+// backend/controllers/authController.js
+module.exports = {
+  register,      // POST /api/auth/register
+  login,         // POST /api/auth/login
+  logout,        // POST /api/auth/logout
+  getCurrentUser,// GET /api/auth/me
+  refreshToken,  // POST /api/auth/refresh
+  forgotPassword,// POST /api/auth/forgot-password
+  resetPassword  // POST /api/auth/reset-password
+}
+
+// backend/routes/auth.js
+router.post('/register', rateLimitMiddleware.register, authController.register)
+router.post('/login', rateLimitMiddleware.login, authController.login)
+// ... all routes defined
+
+// backend/app.js
+app.use('/api/auth', authRoutes)
+```
+
+---
+
+### Phase 4: Frontend - Auth Context & Service
+**Duration:** 2 days (Nov 20-22)  
+**Status:** 📝 Not Started  
+**Progress:** 0%
+
+#### Milestone 4.1: Auth Service (API Calls)
+
+- [ ] **Task 4.1.1:** Create auth service
+  - File: `frontend/src/services/authService.js`
+  - Function: `register(email, password, name)` → POST /api/auth/register
+  - Function: `login(email, password, rememberMe)` → POST /api/auth/login
+  - Function: `logout()` → POST /api/auth/logout
+  - Function: `getCurrentUser()` → GET /api/auth/me
+  - Function: `refreshToken()` → POST /api/auth/refresh
+  - Function: `forgotPassword(email)` → POST /api/auth/forgot-password
+  - Function: `resetPassword(token, newPassword)` → POST /api/auth/reset-password
+  - Add error handling (network errors, API errors)
+  - **Deliverable:** authService.js with all API functions
+
+#### Milestone 4.2: Auth Context (Global State)
+
+- [ ] **Task 4.2.1:** Create AuthContext
+  - File: `frontend/src/contexts/AuthContext.jsx`
+  - State:
+    ```javascript
+    {
+      user: null | { id, email, name, role },
+      isAuthenticated: false,
+      loading: true,
+      error: null
+    }
+    ```
+  - Functions:
+    ```javascript
+    {
+      login: async (email, password, rememberMe),
+      register: async (email, password, name),
+      logout: async (),
+      checkAuth: async (), // verify token on app load
+      updateUser: (userData)
+    }
+    ```
+  - **Deliverable:** AuthContext.jsx with provider
+
+- [ ] **Task 4.2.2:** Wrap App với AuthProvider
+  - File: `frontend/src/main.jsx`
+  - Import AuthProvider
+  - Wrap <App /> với <AuthProvider>:
+    ```jsx
+    <AuthProvider>
+      <App />
+    </AuthProvider>
+    ```
+  - **Deliverable:** App wrapped with auth context
+
+#### Deliverables
+```javascript
+// frontend/src/services/authService.js
+export const authService = {
+  register: async (email, password, name) => { /* API call */ },
+  login: async (email, password, rememberMe) => { /* API call */ },
+  logout: async () => { /* API call */ }
+}
+
+// frontend/src/contexts/AuthContext.jsx
+export const AuthContext = createContext()
+export const AuthProvider = ({ children }) => { /* state + functions */ }
+export const useAuth = () => useContext(AuthContext)
+
+// frontend/src/main.jsx
+<AuthProvider>
+  <App />
+</AuthProvider>
+```
+
+---
+
+### Phase 5: Frontend - Auth Pages & Components
+**Duration:** 3 days (Nov 22-25)  
+**Status:** 📝 Not Started  
+**Progress:** 0%
+
+#### Milestone 5.1: Login Page
+
+- [ ] **Task 5.1.1:** Create LoginPage component
+  - File: `frontend/src/pages/LoginPage.jsx`
+  - Form fields: email (input), password (input type="password"), rememberMe (checkbox)
+  - State: { email, password, rememberMe, errors, loading }
+  - Validation:
+    - Email: required, valid format
+    - Password: required
+  - onSubmit:
+    - Call useAuth().login(email, password, rememberMe)
+    - If success: redirect to dashboard hoặc returnUrl
+    - If error: show error message
+  - UI: Pastel theme, Tailwind CSS, loading spinner
+  - **Deliverable:** LoginPage.jsx with form
+
+- [ ] **Task 5.1.2:** Add password visibility toggle
+  - Button to show/hide password
+  - Icon: Eye / EyeOff from lucide-react
+  - Toggle input type between "password" và "text"
+  - **Deliverable:** Password toggle functionality
+
+- [ ] **Task 5.1.3:** Add "Forgot Password" link
+  - Link to /forgot-password route
+  - Below login form
+  - **Deliverable:** Link to forgot password
+
+- [ ] **Task 5.1.4:** Add "Register" link
+  - Link to /register route
+  - "Don't have an account? Register"
+  - **Deliverable:** Link to registration
+
+#### Milestone 5.2: Register Page
+
+- [ ] **Task 5.2.1:** Create RegisterPage component
+  - File: `frontend/src/pages/RegisterPage.jsx`
+  - Form fields: name, email, password, confirmPassword, agreeToTerms (checkbox)
+  - State: { name, email, password, confirmPassword, agreeToTerms, errors, loading }
+  - Validation:
+    - Name: optional
+    - Email: required, valid format, check availability (debounced API call)
+    - Password: min 8 chars, 1 uppercase, 1 lowercase, 1 number
+    - ConfirmPassword: match password
+    - AgreeToTerms: required (must be true)
+  - onSubmit:
+    - Call useAuth().register(email, password, name)
+    - If success: redirect to dashboard
+    - If error: show error
+  - **Deliverable:** RegisterPage.jsx with form
+
+- [ ] **Task 5.2.2:** Add password strength meter
+  - Visual indicator: weak (red) / medium (yellow) / strong (green)
+  - Calculate strength based on length, complexity
+  - Display below password input
+  - **Deliverable:** Password strength meter
+
+- [ ] **Task 5.2.3:** Add "Login" link
+  - "Already have an account? Login"
+  - Link to /login route
+  - **Deliverable:** Link to login
+
+#### Milestone 5.3: Forgot Password Flow
+
+- [ ] **Task 5.3.1:** Create ForgotPasswordPage
+  - File: `frontend/src/pages/ForgotPasswordPage.jsx`
+  - Form field: email
+  - onSubmit: Call authService.forgotPassword(email)
+  - Show success message: "Reset link sent to email"
+  - **Deliverable:** ForgotPasswordPage.jsx
+
+- [ ] **Task 5.3.2:** Create ResetPasswordPage
+  - File: `frontend/src/pages/ResetPasswordPage.jsx`
+  - Extract token from URL query param: ?token=xxx
+  - Form fields: newPassword, confirmNewPassword
+  - Validation: same as registration password
+  - onSubmit: Call authService.resetPassword(token, newPassword)
+  - If success: redirect to /login with success message
+  - **Deliverable:** ResetPasswordPage.jsx
+
+#### Milestone 5.4: Private Route Component
+
+- [ ] **Task 5.4.1:** Create PrivateRoute wrapper
+  - File: `frontend/src/components/auth/PrivateRoute.jsx`
+  - Check useAuth().isAuthenticated
+  - If loading: show <LoadingSpinner />
+  - If !isAuthenticated: redirect to /login với state={{ from: location }}
+  - If isAuthenticated: render children (protected component)
+  - **Deliverable:** PrivateRoute.jsx
+
+- [ ] **Task 5.4.2:** Wrap protected routes với PrivateRoute
+  - File: `frontend/src/App.jsx`
+  - Wrap Notes, Countdown, Calendar, Currency, Fashion routes:
+    ```jsx
+    <Route path="/notes" element={
+      <PrivateRoute>
+        <NotesTool />
+      </PrivateRoute>
+    } />
+    ```
+  - Public routes: Login, Register, Home (no auth required)
+  - **Deliverable:** Protected routes configured
+
+#### Deliverables
+```jsx
+// frontend/src/pages/LoginPage.jsx
+const LoginPage = () => {
+  const { login } = useAuth()
+  // Form + validation + submit
+}
+
+// frontend/src/pages/RegisterPage.jsx
+const RegisterPage = () => {
+  const { register } = useAuth()
+  // Form + password strength + validation
+}
+
+// frontend/src/components/auth/PrivateRoute.jsx
+const PrivateRoute = ({ children }) => {
+  const { isAuthenticated, loading } = useAuth()
+  if (loading) return <LoadingSpinner />
+  if (!isAuthenticated) return <Navigate to="/login" />
+  return children
+}
+
+// frontend/src/App.jsx
+<Route path="/login" element={<LoginPage />} />
+<Route path="/register" element={<RegisterPage />} />
+<Route path="/notes" element={<PrivateRoute><NotesTool /></PrivateRoute>} />
+```
+
+---
+
+### Phase 6: Testing
+**Duration:** 3 days (Nov 25-28)  
+**Status:** 📝 Not Started  
+**Progress:** 0%
+
+#### Milestone 6.1: Backend Unit Tests
+
+- [ ] **Task 6.1.1:** Test password utilities
+  - File: `backend/tests/unit/passwordUtils.test.js`
+  - Test hashPassword() returns different hash mỗi lần
+  - Test comparePassword() returns true for correct password
+  - Test comparePassword() returns false for wrong password
+  - **Coverage:** 100%
+
+- [ ] **Task 6.1.2:** Test token utilities
+  - File: `backend/tests/unit/tokenUtils.test.js`
+  - Test generateToken() creates valid JWT
+  - Test verifyToken() validates signature
+  - Test verifyToken() rejects expired token
+  - Test verifyToken() rejects tampered token
+  - **Coverage:** 100%
+
+- [ ] **Task 6.1.3:** Test validators
+  - File: `backend/tests/unit/validators.test.js`
+  - Test isValidEmail() with valid/invalid emails
+  - Test isStrongPassword() with weak/strong passwords
+  - **Coverage:** 100%
+
+- [ ] **Task 6.1.4:** Test auth controller
+  - File: `backend/tests/unit/authController.test.js`
+  - Mock database queries
+  - Test register() success case
+  - Test register() duplicate email error
+  - Test login() success case
+  - Test login() wrong password error
+  - Test logout() revokes session
+  - **Coverage:** 90%+
+
+#### Milestone 6.2: Backend Integration Tests
+
+- [ ] **Task 6.2.1:** Test registration endpoint
+  - File: `backend/tests/integration/auth.test.js`
+  - Test POST /api/auth/register with valid data → 201 + token
+  - Test POST /api/auth/register with duplicate email → 400
+  - Test POST /api/auth/register with invalid email → 400
+  - Test POST /api/auth/register with weak password → 400
+  - Verify user created in database
+  - Verify session created
+
+- [ ] **Task 6.2.2:** Test login endpoint
+  - Test POST /api/auth/login with correct credentials → 200 + token
+  - Test POST /api/auth/login with wrong password → 401
+  - Test POST /api/auth/login with non-existent user → 401
+  - Test rate limiting: 6th attempt → 429
+  - Verify login_attempts logged
+
+- [ ] **Task 6.2.3:** Test protected endpoints
+  - Test GET /api/auth/me without token → 401
+  - Test GET /api/auth/me with valid token → 200 + user data
+  - Test GET /api/auth/me with expired token → 401
+  - Test GET /api/auth/me with revoked token → 401
+
+- [ ] **Task 6.2.4:** Test logout endpoint
+  - Test POST /api/auth/logout → 200
+  - Verify session revoked in database
+  - Verify subsequent requests with same token → 401
+
+#### Milestone 6.3: Frontend Component Tests
+
+- [ ] **Task 6.3.1:** Test LoginPage component
+  - File: `frontend/src/pages/__tests__/LoginPage.test.jsx`
+  - Test form renders correctly
+  - Test validation errors show
+  - Test successful login redirects
+  - Test failed login shows error
+  - Mock useAuth() hook
+
+- [ ] **Task 6.3.2:** Test RegisterPage component
+  - File: `frontend/src/pages/__tests__/RegisterPage.test.jsx`
+  - Test password strength meter updates
+  - Test confirm password validation
+  - Test successful registration redirects
+  - Mock API calls
+
+- [ ] **Task 6.3.3:** Test PrivateRoute component
+  - File: `frontend/src/components/auth/__tests__/PrivateRoute.test.jsx`
+  - Test shows loading when loading=true
+  - Test redirects to login when not authenticated
+  - Test renders children when authenticated
+
+#### Milestone 6.4: E2E Tests
+
+- [ ] **Task 6.4.1:** Test complete registration flow
+  - File: `frontend/tests/e2e/auth.spec.js`
+  - Navigate to /register
+  - Fill form (email, password, name)
+  - Submit
+  - Verify redirect to dashboard
+  - Verify user logged in
+
+- [ ] **Task 6.4.2:** Test complete login flow
+  - Navigate to /login
+  - Fill credentials
+  - Check "Remember me"
+  - Submit
+  - Verify redirect to returnUrl (if set) hoặc dashboard
+  - Verify authenticated state
+
+- [ ] **Task 6.4.3:** Test protected route access
+  - Try access /notes without login → redirect to /login
+  - Login
+  - Verify redirect to /notes
+  - Verify notes page renders
+
+- [ ] **Task 6.4.4:** Test logout flow
+  - Login
+  - Click logout button
+  - Verify redirect to /login
+  - Verify user state cleared
+  - Try access /notes → redirect to /login
+
+- [ ] **Task 6.4.5:** Test password reset flow
+  - Navigate to /forgot-password
+  - Submit email
+  - Verify success message
+  - (Mock email) Extract reset link
+  - Navigate to reset link
+  - Submit new password
+  - Verify redirect to login
+  - Login with new password → success
+
+#### Milestone 6.5: Security Tests
+
+- [ ] **Task 6.5.1:** Test SQL injection prevention
+  - Try inject SQL in email field: `' OR '1'='1`
+  - Verify parameterized query prevents injection
+  - Verify no data leak
+
+- [ ] **Task 6.5.2:** Test XSS prevention
+  - Try inject script in name field: `<script>alert('xss')</script>`
+  - Verify React auto-escapes
+  - Verify no script execution
+
+- [ ] **Task 6.5.3:** Test invalid JWT handling
+  - Send request với tampered token
+  - Send request với expired token
+  - Send request với invalid signature
+  - Verify all rejected với 401
+
+- [ ] **Task 6.5.4:** Test rate limiting
+  - Send 10 login requests rapidly
+  - Verify 6th-10th rejected với 429
+  - Wait 15 minutes
+  - Verify next request succeeds
+
+#### Deliverables
+```
+✓ Backend unit tests: 25+ tests, 90%+ coverage
+✓ Backend integration tests: 15+ tests, all endpoints
+✓ Frontend component tests: 10+ tests
+✓ E2E tests: 5 complete user flows
+✓ Security tests: 4 attack scenarios verified
+✓ Total test count: 55+ tests
+✓ Overall coverage: 90%+
+```
+
+---
+
+### Phase 7: Documentation
+**Duration:** 2 days (Nov 28-30)  
+**Status:** 📝 Not Started  
+**Progress:** 0%
+
+#### Tasks
+
+- [ ] **Task 7.1:** Update API documentation
+  - File: `docs/API_DOCUMENTATION.md`
+  - Add "Authentication" section
+  - Document all 7 auth endpoints:
+    - POST /api/auth/register
+    - POST /api/auth/login
+    - POST /api/auth/logout
+    - GET /api/auth/me
+    - POST /api/auth/refresh
+    - POST /api/auth/forgot-password
+    - POST /api/auth/reset-password
+  - Include request/response examples
+  - Document error codes
+  - Document rate limits
+  - **Deliverable:** API docs updated
+
+- [ ] **Task 7.2:** Update database schema docs
+  - File: `docs/DATABASE_SCHEMA.md`
+  - Add 4 new tables: users, sessions, login_attempts, password_reset_tokens
+  - Document columns, constraints, indexes
+  - Show relationships (ERD diagram)
+  - **Deliverable:** Database schema docs updated
+
+- [ ] **Task 7.3:** Create user guides
+  - File: `docs/user-guides/LOGIN_GUIDE.md`
+  - How to register
+  - How to login
+  - Password requirements
+  - Forgot password flow
+  - Troubleshooting common issues
+  - **Deliverable:** User login guide
+
+  - File: `docs/user-guides/SECURITY_TIPS.md`
+  - Choose strong passwords
+  - Enable remember me safely
+  - Logout on shared devices
+  - Recognize phishing
+  - **Deliverable:** Security tips guide
+
+- [ ] **Task 7.4:** Create auth architecture doc
+  - File: `docs/dev-notes/features/login-auth-architecture.md`
+  - System design diagram
+  - Security model explanation
+  - Token flow diagram
+  - Best practices for developers
+  - **Deliverable:** Auth architecture doc
+
+- [ ] **Task 7.5:** Create migration guide
+  - File: `docs/MIGRATION_TO_AUTH.md`
+  - Impact on existing features (Notes, Countdown now require login)
+  - Data migration steps (if any)
+  - Breaking changes list
+  - Upgrade path for users
+  - **Deliverable:** Migration guide
+
+- [ ] **Task 7.6:** Update CHANGELOG
+  - File: `CHANGELOG.md`
+  - Add version 2.0.0 section (major change: authentication)
+  - List all new features:
+    - User registration và login
+    - JWT-based authentication
+    - Protected routes
+    - Password reset flow
+    - Session management
+  - Document breaking changes:
+    - Notes, Countdown, Calendar now require authentication
+    - Guest mode limited functionality
+  - **Deliverable:** CHANGELOG updated
+
+- [ ] **Task 7.7:** Update README
+  - File: `README.md`
+  - Add authentication feature to features list
+  - Update setup instructions (new env vars: JWT_SECRET)
+  - Update screenshots with login page
+  - **Deliverable:** README updated
+
+#### Deliverables
+```
+✓ docs/API_DOCUMENTATION.md - Auth endpoints documented
+✓ docs/DATABASE_SCHEMA.md - Auth tables added
+✓ docs/user-guides/LOGIN_GUIDE.md - User guide created
+✓ docs/user-guides/SECURITY_TIPS.md - Security tips created
+✓ docs/dev-notes/features/login-auth-architecture.md - Architecture documented
+✓ docs/MIGRATION_TO_AUTH.md - Migration guide created
+✓ CHANGELOG.md - Version 2.0.0 added
+✓ README.md - Updated with auth info
+```
+
+---
+
+### Phase 8: Deployment & Monitoring
+**Duration:** 2 days (Nov 30 - Dec 4)  
+**Status:** 📝 Not Started  
+**Progress:** 0%
+
+#### Tasks
+
+- [ ] **Task 8.1:** Setup production environment variables
+  - Vercel (Frontend):
+    - VITE_API_BASE_URL=https://api.kadong-tools.com
+  - Railway (Backend):
+    - JWT_SECRET=<strong_random_string_32_chars>
+    - DATABASE_URL=<supabase_connection_string>
+    - NODE_ENV=production
+    - COOKIE_SECURE=true (HTTPS only)
+  - Generate JWT_SECRET: `openssl rand -base64 32`
+  - **Deliverable:** Env vars configured
+
+- [ ] **Task 8.2:** Run database migrations on production
+  - SSH to Railway backend
+  - Run: `npm run db:migrate:up`
+  - Verify tables created:
+    ```sql
+    SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';
+    ```
+  - Seed admin user:
+    ```sql
+    INSERT INTO users (email, password_hash, name, role) 
+    VALUES ('admin@kadong.com', '<bcrypt_hash>', 'Admin', 'admin');
+    ```
+  - **Deliverable:** Production database ready
+
+- [ ] **Task 8.3:** Deploy backend to Railway
+  - Push code to GitHub main branch
+  - Railway auto-deploy triggers
+  - Verify deployment success
+  - Check logs for errors
+  - **Deliverable:** Backend deployed
+
+- [ ] **Task 8.4:** Deploy frontend to Vercel
+  - Push code to GitHub main branch
+  - Vercel auto-deploy triggers
+  - Verify build success
+  - Check deployment preview
+  - **Deliverable:** Frontend deployed
+
+- [ ] **Task 8.5:** Smoke testing on production
+  - Navigate to https://kadong-tools.vercel.app/register
+  - Test registration: create test account
+  - Test login: login with test account
+  - Test protected route: access /notes
+  - Test logout: logout and verify redirect
+  - Test API health: GET /api/health
+  - **Deliverable:** Production smoke test passed
+
+- [ ] **Task 8.6:** Setup monitoring
+  - Sentry error tracking (backend + frontend)
+  - UptimeRobot health checks (ping /api/health every 5 min)
+  - Cloudflare analytics (page views, performance)
+  - Setup email alerts for errors
+  - **Deliverable:** Monitoring active
+
+- [ ] **Task 8.7:** Monitor metrics for 24 hours
+  - Track error rate (target: <1%)
+  - Track response time (target: <300ms avg)
+  - Track login success rate (target: >95%)
+  - Monitor database connections
+  - Check for security incidents
+  - **Deliverable:** 24h monitoring report
+
+- [ ] **Task 8.8:** Create rollback plan
+  - Document rollback steps:
+    1. Revert code deployment (Git revert)
+    2. Run down migration: `npm run db:migrate:down`
+    3. Restore previous frontend build
+    4. Clear Redis cache (if any)
+  - Test rollback on staging
+  - **Deliverable:** Rollback plan documented
+
+#### Deliverables
+```
+✓ Production env vars configured
+✓ Database migrated on production
+✓ Backend deployed to Railway
+✓ Frontend deployed to Vercel
+✓ Smoke tests passed
+✓ Monitoring setup (Sentry, UptimeRobot)
+✓ 24h stability report
+✓ Rollback plan documented
+```
+
+---
+
+## 📊 Progress Tracking
+
+### Overall Status
+
+| Phase | Progress | Status | Est. Days | Actual Days |
+|-------|----------|--------|-----------|-------------|
+| 1. Database Setup | 0% | ⏳ | 2 | - |
+| 2. Backend Utils | 0% | ⏳ | 2 | - |
+| 3. Backend API | 0% | ⏳ | 3 | - |
+| 4. Frontend Context | 0% | ⏳ | 2 | - |
+| 5. Frontend UI | 0% | ⏳ | 3 | - |
+| 6. Testing | 0% | ⏳ | 3 | - |
+| 7. Documentation | 0% | ⏳ | 2 | - |
+| 8. Deployment | 0% | ⏳ | 2 | - |
+| **Total** | **0%** | **⏳** | **19** | **-** |
+
+### Velocity Metrics
+- **Planned velocity:** 3-4 tasks/day
+- **Actual velocity:** TBD tasks/day
+- **Completion rate:** TBD%
+
+---
+
+## 🐛 Issues & Risks
+
+### Active Issues
+None yet (planning phase)
+
+### Risks
+
+| Risk | Probability | Impact | Mitigation |
+|------|-------------|--------|------------|
+| bcrypt hashing too slow (>500ms) | Medium | Medium | Adjust salt rounds (10→8), optimize on worker thread |
+| Token expiry causes bad UX | Low | High | Implement auto-refresh 1 day before expiry |
+| Rate limiting blocks legitimate users | Low | Medium | Whitelist known IPs, add CAPTCHA fallback |
+| Database migration fails on production | Low | High | Test migrations on staging first, have rollback ready |
+| CORS issues with cookies | Medium | High | Configure CORS properly (credentials: true, specific origin) |
+| Session hijacking | Low | Critical | Use httpOnly + secure + SameSite cookies, monitor suspicious activity |
+
+---
+
+## 💡 Technical Decisions
+
+### Decision 1: JWT vs Session-based Authentication
+**Date:** 2025-11-13  
+**Status:** ✅ Approved
+
+**Context:**  
+Need to choose authentication strategy for KaDong Tools.
+
+**Options Considered:**
+1. **Session-based (Redis)**
+   - Pros: Easy to revoke, server control, no token size limit
+   - Cons: Stateful, requires Redis, more infrastructure
+
+2. **Pure JWT (stateless)**
+   - Pros: Stateless, scalable, no Redis dependency
+   - Cons: Hard to revoke, token bloat, security concerns
+
+3. **Hybrid (JWT + sessions table in PostgreSQL)**
+   - Pros: Stateless verification, can revoke, no Redis needed
+   - Cons: Slightly more storage, DB query on logout
+
+**Decision:** Hybrid approach (JWT + sessions table)
+
+**Reasoning:**  
+- JWT cho fast stateless verification (no DB query on every request)
+- Sessions table cho revocation capability (logout, security)
+- No Redis dependency (simpler deployment)
+- PostgreSQL already used, no new infrastructure
+- Balance between performance và security
+
+**Trade-offs:**  
+- Extra storage in sessions table (acceptable: ~100 bytes/session)
+- DB query on logout (acceptable: infrequent operation)
+
+**Impact:**  
+- Faster authentication (no Redis lookup)
+- Simpler deployment (one database)
+- Better security (can revoke tokens)
+
+---
+
+### Decision 2: bcrypt vs argon2 for Password Hashing
+**Date:** 2025-11-13  
+**Status:** ✅ Approved
+
+**Context:**  
+Need strong password hashing algorithm.
+
+**Options Considered:**
+1. **bcrypt**
+   - Pros: Battle-tested (20+ years), excellent npm package, industry standard
+   - Cons: Slower than some alternatives, fixed memory usage
+
+2. **argon2**
+   - Pros: Winner of Password Hashing Competition, resistant to GPU attacks
+   - Cons: Newer (less battle-tested in production), complex configuration
+
+3. **scrypt**
+   - Pros: Memory-hard (resistant to hardware attacks)
+   - Cons: Less popular, fewer resources/support
+
+**Decision:** bcrypt with 10 salt rounds
+
+**Reasoning:**  
+- Industry standard, proven security track record
+- Excellent npm package (bcryptjs) with 15M+ weekly downloads
+- Performance adequate for our scale (<100 auth req/s)
+- 10 rounds = ~250ms hash time (acceptable for login/register)
+- Simpler than argon2 (no memory/thread config needed)
+
+**Trade-offs:**  
+- Not the "newest" algorithm (but security > novelty)
+- Slightly vulnerable to GPU attacks (but adequate for our threat model)
+
+**Impact:**  
+- Reliable, well-tested password security
+- No configuration complexity
+- Good developer experience
+
+---
+
+### Decision 3: httpOnly Cookie vs localStorage for Token Storage
+**Date:** 2025-11-13  
+**Status:** ✅ Approved
+
+**Context:**  
+Need to decide where to store JWT token on client.
+
+**Options Considered:**
+1. **localStorage**
+   - Pros: Easy to access from JavaScript, persists across sessions
+   - Cons: Vulnerable to XSS attacks (any script can read), no expiry
+
+2. **sessionStorage**
+   - Pros: Cleared on tab close, isolated per tab
+   - Cons: Still vulnerable to XSS, lost on tab close (bad UX)
+
+3. **httpOnly cookie**
+   - Pros: Not accessible from JavaScript (XSS protection), auto-sent with requests
+   - Cons: CSRF risk (mitigated by SameSite), more complex CORS
+
+**Decision:** httpOnly cookie with SameSite=Strict
+
+**Reasoning:**  
+- XSS protection (most common web attack)
+- SameSite=Strict prevents CSRF attacks
+- Automatic sending with API requests (no manual header)
+- Secure flag in production (HTTPS only)
+- Better security than localStorage
+
+**Trade-offs:**  
+- Slightly more complex CORS configuration
+- Cookie size limits (4KB, but JWT ~500 bytes OK)
+- Requires backend support for cookie parsing
+
+**Impact:**  
+- Significantly more secure than localStorage
+- Protection against XSS (critical for auth tokens)
+- Professional security practice
+
+---
+
+## 📝 Notes & Best Practices
+
+### Technical Notes
+- JWT secret phải ≥32 characters random string (use `openssl rand -base64 32`)
+- Password hash với bcrypt NEVER với synchronous method (blocks event loop)
+- Token expiry: 7 days default, 30 days with remember me
+- Sessions table cần periodic cleanup (DELETE WHERE revoked_at IS NOT NULL AND revoked_at < NOW() - INTERVAL '30 days')
+- Rate limiting based on IP address (consider X-Forwarded-For header)
+
+### Best Practices
+
+**Code Style:**
+- Follow ESLint configuration
+- Use async/await (not callbacks)
+- Destructure request body: `const { email, password } = req.body`
+- Always validate inputs on backend (không trust frontend)
+
+**Security:**
+- NEVER log passwords (even hashed)
+- NEVER return password_hash in API responses
+- Generic error messages: "Invalid credentials" (not "User not found" or "Wrong password")
+- Check token expiry BEFORE verifying signature (performance)
+
+**Testing:**
+- Write tests BEFORE implementation (TDD)
+- Mock database in unit tests
+- Use real database in integration tests (test DB)
+- Test both happy path và error cases
+- Test edge cases: empty strings, null, undefined, very long inputs
+
+**Commit Messages:**
+```
+feat(auth): implement user registration endpoint
+
+- Add register controller with bcrypt hashing
+- Add email validation and uniqueness check
+- Add JWT token generation
+- Add rate limiting (3 req/15min)
+- Add unit tests (90% coverage)
+
+Closes #auth-register
+```
+
+### Lessons Learned
+(Sẽ update sau khi implementation)
+
+---
+
+## 🔗 Related Documentation
+
+- **Specification:** `specs/specs/08_login.spec`
+- **API Docs:** `docs/API_DOCUMENTATION.md` (to be updated)
+- **Database Schema:** `docs/DATABASE_SCHEMA.md` (to be updated)
+- **User Guide:** `docs/user-guides/LOGIN_GUIDE.md` (to be created)
+- **Feature Status:** `docs/dev-notes/features/login-implementation-status.md` (to be created)
+- **Prompt Templates:**
+  - `specs/templates/PROMPT_FIX_BUG.md` - For bug fixes
+  - `specs/templates/PROMPT_ENHANCE_FEATURE.md` - For enhancements
+
+---
+
+## 👥 Team
+
+**Plan Owner:** Senior AI Developer  
+**Contributors:** Full-stack Development Team  
+**Reviewers:** Security Team, Backend Team, Frontend Team  
+**Stakeholders:** Product Owner, KaDong Users
+
+---
+
+## 📊 Metrics & KPIs
+
+### Development Metrics
+- **Lines of Code:** Target: 2000-3000 LOC (backend + frontend)
+- **Test Coverage:** Target: 90%+
+- **Test Count:** Target: 55+ tests
+- **Bug Count:** Target: <10 bugs found during testing
+- **Code Reviews:** All PRs reviewed before merge
+
+### Performance Metrics
+- **API Response Time:**
+  - Registration: Target <500ms, Critical <800ms
+  - Login: Target <300ms, Critical <500ms
+  - Token verification: Target <50ms, Critical <100ms
+- **Page Load Time:** Target <2s for login page
+- **Database Query Time:** Target <100ms per query
+
+### Security Metrics
+- **Password Strength:** 100% passwords meet requirements
+- **SQL Injection:** 0 vulnerabilities
+- **XSS:** 0 vulnerabilities
+- **Failed Login Rate:** <5% (indicates good UX)
+- **Token Revocation:** 100% on logout
+
+### Business Metrics
+- **User Adoption:** Target 80%+ of visitors register
+- **Login Success Rate:** Target >95%
+- **Password Reset Usage:** Track usage (indicates forgotten passwords)
+- **Session Duration:** Average session time (indicates engagement)
+
+---
+
+## 🔄 Review History
+
+| Date | Version | Changes | Updated By |
+|------|---------|---------|------------|
+| 2025-11-13 | 1.0.0 | Initial implementation plan created | AI Developer |
+
+---
+
+## ✅ Sign-off
+
+- [ ] Plan reviewed by backend team
+- [ ] Plan reviewed by frontend team
+- [ ] Plan reviewed by security team
+- [ ] Timeline approved by stakeholders
+- [ ] Resources allocated (3 weeks dedicated time)
+- [ ] Dependencies identified and documented
+- [ ] Risks assessed and mitigated
+- [ ] Ready to begin implementation
+
+**Approved By:** (Pending)  
+**Approval Date:** (Pending)
+
+---
+
+**Next Review:** 2025-11-20 (after Phase 3 complete)  
+**Review Frequency:** Weekly during implementation  
+**Last Updated By:** AI Developer  
+**Status:** Ready for review and approval
+
+---
+
+## 📋 Quick Reference - Command Cheatsheet
+
+### Database Commands
+```bash
+# Run migrations
+npm run db:migrate:up
+
+# Rollback migrations
+npm run db:migrate:down
+
+# Seed database
+npm run db:seed
+
+# Check migration status
+npm run db:migrate:status
+```
+
+### Development Commands
+```bash
+# Backend
+cd backend
+npm run dev        # Start with nodemon
+
+# Frontend
+cd frontend
+npm run dev        # Start Vite dev server
+
+# Both (from root)
+npm run dev:all    # Requires concurrently package
+```
+
+### Testing Commands
+```bash
+# Backend tests
+cd backend
+npm test                    # All tests
+npm test -- authController  # Specific file
+npm run test:coverage       # With coverage report
+
+# Frontend tests
+cd frontend
+npm test                    # All tests
+npm test -- LoginPage       # Specific component
+
+# E2E tests
+cd frontend
+npx playwright test         # All E2E tests
+npx playwright test --ui    # Interactive mode
+npx playwright test --debug # Debug mode
+```
+
+### Deployment Commands
+```bash
+# Production build
+npm run build              # Frontend
+npm run start              # Backend production mode
+
+# Database migrations (production)
+npm run db:migrate:up      # Run migrations
+npm run db:migrate:status  # Verify
+```
+
+---
+
+**END OF IMPLEMENTATION PLAN**
