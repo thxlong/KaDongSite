@@ -24,6 +24,7 @@
     "db:setup": "npm run db:migrate:up && npm run db:seed",
     "gold:fetch": "node scripts/cron/fetch-gold-prices.js",
     "gold:fetch:cron": "node scripts/cron/fetch-gold-prices.js --cron",
+    "verify:production": "node scripts/verify-production.js",
     "test": "playwright test",
     "test:api": "playwright test --grep @api",
     "test:watch": "playwright test --ui",

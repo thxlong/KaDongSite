@@ -180,6 +180,8 @@ LANG: VN
         "FRONTEND_GUIDE.md": "React components and state management",
         "MIGRATION_SUMMARY.md": "localStorage to PostgreSQL migration details",
         "DEPLOYMENT_GUIDE.md": "Deployment instructions",
+        "DEPLOYMENT_CHECKLIST.md": "Production deployment checklist and step-by-step guide",
+        "CRITICAL_ISSUES_FIXED.md": "Critical deployment issues resolution summary",
         "MAINTENANCE.md": "Maintenance and monitoring tasks",
         "CONTRIBUTING.md": "Contribution guidelines",
         "TROUBLESHOOTING.md": "Common issues and solutions",
@@ -881,10 +883,76 @@ LANG: VN
     "discussions": "https://github.com/username/KaDongSite/discussions"
   },
   
+  "deploy": {
+    "environments": {
+      "development": {
+        "frontendUrl": "http://localhost:5173",
+        "backendUrl": "http://localhost:5000",
+        "databaseUrl": "postgresql://localhost:5432/kadong_tools"
+      },
+      "production": {
+        "frontend": "vercel",
+        "backend": "railway",
+        "database": "supabase",
+        "frontendUrl": "https://kadong-tools.vercel.app",
+        "backendUrl": "https://api.kadong-tools.com",
+        "ssl": true,
+        "cdn": true
+      }
+    },
+    "configFiles": {
+      "frontend": "frontend/vercel.json",
+      "backend": "backend/railway.json",
+      "frontendEnv": "frontend/.env.example",
+      "backendEnv": "backend/.env.example"
+    },
+    "verification": {
+      "script": "backend/scripts/verify-production.js",
+      "command": "npm run verify:production",
+      "checks": [
+        "Environment variables configured",
+        "Required files exist",
+        "Dependencies installed",
+        "Database migrations ready",
+        "Security settings correct",
+        "No secrets in Git"
+      ]
+    },
+    "documentation": {
+      "deploymentSpec": "specs/specs/09_deployment_production.spec",
+      "deploymentChecklist": "docs/DEPLOYMENT_CHECKLIST.md",
+      "criticalIssuesFixes": "docs/CRITICAL_ISSUES_FIXED.md"
+    },
+    "ci": "github-actions",
+    "ciFile": ".github/workflows/deploy.yml",
+    "buildCommands": {
+      "frontend": [
+        "cd frontend",
+        "npm ci",
+        "npm run build"
+      ],
+      "backend": [
+        "cd backend",
+        "npm ci",
+        "npm run migrate:up"
+      ]
+    },
+    "migrations": {
+      "runBefore": "deployment",
+      "backupBefore": true,
+      "rollbackStrategy": "migrate:down"
+    },
+    "healthCheck": {
+      "endpoint": "/api/health",
+      "interval": "5m",
+      "timeout": "10s"
+    }
+  },
+  
   "metadata": {
     "created": "2024-11-01",
     "lastUpdated": "2025-11-13",
-    "manifestVersion": "1.4.4",
+    "manifestVersion": "1.4.5",
     "generatedBy": "Senior AI Developer Assistant",
     "purpose": "Standardize development workflow and maintain consistency",
     "autoUpdate": {
@@ -892,6 +960,25 @@ LANG: VN
       "instructions": "When adding new features, AI must automatically update this manifest with: (1) new tools in 'tools.available', (2) new DB tables in 'database.tables', (3) new API endpoints in 'api.endpoints', (4) new dependencies in 'dependencies' section, (5) update 'metadata.lastUpdated' and increment 'metadata.manifestVersion'"
     },
     "changes": {
+      "v1.4.5": {
+        "date": "2025-11-13",
+        "description": "Production Deployment Preparation - Created deployment configuration and critical issues fixes",
+        "updates": [
+          "Created frontend/vercel.json with security headers (X-Frame-Options, CSP, HSTS, etc.)",
+          "Created backend/railway.json with health check and auto-restart configuration",
+          "Created frontend/.env.example with production environment variables template",
+          "Updated backend/.env.example with COOKIE_SECURE, LOG_LEVEL, production examples",
+          "Enhanced backend/app.js with production-safe CORS configuration (origin validation, credentials support)",
+          "Enhanced /api/health endpoint with uptime, environment, version tracking",
+          "Created backend/scripts/verify-production.js for production readiness verification",
+          "Added npm script 'verify:production' to check deployment readiness",
+          "Created docs/DEPLOYMENT_CHECKLIST.md with comprehensive step-by-step deployment guide",
+          "Created docs/CRITICAL_ISSUES_FIXED.md documenting all critical deployment issues resolved",
+          "Updated deploy section in project_manifest.json with configFiles, verification, documentation",
+          "Fixed 6 critical deployment issues: vercel.json, railway.json, CORS, env vars, health check, verification script",
+          "Production ready with security headers, HTTPS, SSL/TLS, monitoring setup"
+        ]
+      },
       "v1.4.4": {
         "date": "2025-11-13",
         "description": "Test Documentation Organization - Centralized testing docs in docs/03-development/",
