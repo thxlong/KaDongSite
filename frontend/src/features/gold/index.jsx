@@ -194,24 +194,63 @@ export const GoldChart = ({ data, selectedTypes, period, loading }) => {
     )
   }
 
+  // Check if data exists and is not empty
+  if (!data || Object.keys(data).length === 0) {
+    return (
+      <div className="bg-white rounded-xl shadow-sm p-6">
+        <h2 className="text-xl font-bold text-gray-800 mb-4">
+          📈 Biểu đồ giá vàng
+        </h2>
+        <div className="text-center py-8 text-gray-500">
+          ⚠️ Chưa có dữ liệu lịch sử. Vui lòng chọn loại vàng để xem biểu đồ.
+        </div>
+      </div>
+    )
+  }
+
   // Transform data for recharts
   const chartData = []
   const typeData = {}
 
-  // Collect all timestamps
+  // Collect all timestamps from all selected types
   Object.entries(data).forEach(([type, records]) => {
+    if (!Array.isArray(records) || records.length === 0) {
+      console.warn(`[GoldChart] No records for type: ${type}`)
+      return
+    }
+
     records.forEach(record => {
-      const timestamp = new Date(record.time_bucket || record.period_start).getTime()
+      // Get timestamp from time_bucket or period_start
+      const timeField = record.time_bucket || record.period_start
+      if (!timeField) {
+        console.warn('[GoldChart] Missing time_bucket and period_start:', record)
+        return
+      }
+
+      const timestamp = new Date(timeField).getTime()
+      
       if (!typeData[timestamp]) {
         typeData[timestamp] = { timestamp }
       }
-      typeData[timestamp][type] = parseFloat(record.avg_mid_price || record.mid_price)
+
+      // Get price value (avg_mid_price or mid_price)
+      const priceValue = parseFloat(record.avg_mid_price || record.mid_price)
+      if (!isNaN(priceValue)) {
+        typeData[timestamp][type] = priceValue
+      }
     })
   })
 
-  // Convert to array and sort
+  // Convert to array and sort by timestamp
   Object.values(typeData).forEach(item => chartData.push(item))
   chartData.sort((a, b) => a.timestamp - b.timestamp)
+
+  console.log('[GoldChart] Processed chart data:', {
+    originalData: data,
+    chartData: chartData.slice(0, 3),
+    dataPoints: chartData.length,
+    selectedTypes
+  })
 
   const colors = ['#f59e0b', '#ef4444', '#10b981', '#3b82f6', '#8b5cf6', '#ec4899']
 
@@ -226,11 +265,15 @@ export const GoldChart = ({ data, selectedTypes, period, loading }) => {
   }
 
   const formatYAxis = (value) => {
+    if (!value || value === 0) return '0'
     if (value >= 1000000) {
       return (value / 1000000).toFixed(1) + 'M'
     }
     return value.toLocaleString()
   }
+
+  // Check if we have any data to display
+  const hasData = chartData.length > 0
 
   return (
     <div className="bg-white rounded-xl shadow-sm p-6">
@@ -238,48 +281,55 @@ export const GoldChart = ({ data, selectedTypes, period, loading }) => {
         📈 Biểu đồ giá vàng - {period === 'day' ? 'Hôm nay' : period === 'week' ? 'Tuần này' : period === 'month' ? 'Tháng này' : 'Năm nay'}
       </h2>
       
-      <ResponsiveContainer width="100%" height={400}>
-        <LineChart data={chartData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-          <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-          <XAxis 
-            dataKey="timestamp" 
-            tickFormatter={formatXAxis}
-            stroke="#9ca3af"
-          />
-          <YAxis 
-            tickFormatter={formatYAxis}
-            stroke="#9ca3af"
-          />
-          <Tooltip 
-            labelFormatter={(timestamp) => format(new Date(timestamp), 'dd/MM/yyyy HH:mm')}
-            formatter={(value) => [formatYAxis(value), '']}
-            contentStyle={{ 
-              backgroundColor: 'white', 
-              border: '1px solid #e5e7eb',
-              borderRadius: '8px'
-            }}
-          />
-          <Legend 
-            wrapperStyle={{ paddingTop: '20px' }}
-          />
-          {selectedTypes.map((type, index) => (
-            <Line
-              key={type}
-              type="monotone"
-              dataKey={type}
-              stroke={colors[index % colors.length]}
-              strokeWidth={2}
-              dot={{ r: 3 }}
-              activeDot={{ r: 5 }}
-              name={type}
+      {hasData ? (
+        <ResponsiveContainer width="100%" height={400}>
+          <LineChart data={chartData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+            <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+            <XAxis 
+              dataKey="timestamp" 
+              tickFormatter={formatXAxis}
+              stroke="#9ca3af"
             />
-          ))}
-        </LineChart>
-      </ResponsiveContainer>
-
-      {chartData.length === 0 && (
-        <div className="text-center py-8 text-gray-500">
-          Chưa có dữ liệu lịch sử cho loại vàng đã chọn
+            <YAxis 
+              tickFormatter={formatYAxis}
+              stroke="#9ca3af"
+            />
+            <Tooltip 
+              labelFormatter={(timestamp) => format(new Date(timestamp), 'dd/MM/yyyy HH:mm')}
+              formatter={(value) => [formatYAxis(value), '']}
+              contentStyle={{ 
+                backgroundColor: 'white', 
+                border: '1px solid #e5e7eb',
+                borderRadius: '8px'
+              }}
+            />
+            <Legend 
+              wrapperStyle={{ paddingTop: '20px' }}
+            />
+            {selectedTypes.map((type, index) => (
+              <Line
+                key={type}
+                type="monotone"
+                dataKey={type}
+                stroke={colors[index % colors.length]}
+                strokeWidth={2}
+                dot={{ r: 3 }}
+                activeDot={{ r: 5 }}
+                name={type}
+              />
+            ))}
+          </LineChart>
+        </ResponsiveContainer>
+      ) : (
+        <div className="text-center py-12 text-gray-500">
+          <div className="mb-4 text-4xl">📊</div>
+          <p className="text-lg font-medium mb-2">Chưa có dữ liệu lịch sử</p>
+          <p className="text-sm">
+            {selectedTypes.length === 0 
+              ? 'Vui lòng chọn loại vàng để xem biểu đồ'
+              : 'Dữ liệu lịch sử đang được thu thập. Vui lòng thử lại sau.'
+            }
+          </p>
         </div>
       )}
     </div>
