@@ -168,7 +168,7 @@ LANG: VN
           "devNotes": ["gold-implementation-status.md", "fix-uuid-validation.md"],
           "folders": ["01-getting-started/", "dev-notes/", "features/"]
         },
-        "reasoning": "UPPER_SNAKE_CASE for permanent reference docs (easy to spot), kebab-case for temporary dev notes"
+        "reasoning": "UPPER_SNAKE_CASE for permanent reference docs (easy to spot), kebab-case for dev notes"
       },
       "structure": {
         "README.md": "Main documentation index and navigation",
@@ -184,7 +184,8 @@ LANG: VN
         "CONTRIBUTING.md": "Contribution guidelines",
         "TROUBLESHOOTING.md": "Common issues and solutions",
         "CHANGELOG.md": "Version history and release notes",
-        "dev-notes/": "Development notes folder (features, bugfixes, enhancements)"
+        "dev-notes/": "Development notes folder (features, bugfixes, enhancements)",
+        "03-development/": "Development guides and testing documentation"
       },
       "devNotes": {
         "location": "docs/dev-notes/",
@@ -298,7 +299,44 @@ LANG: VN
         "Dev-notes are knowledge base (not temporary) - keep forever",
         "Spec Kit provides structured workflow for planning and tracking",
         "Distinguish: implementations/ (new features) vs enhancements/ (improvements to existing)"
-      ]
+      ],
+      "testDocumentation": {
+        "location": "docs/03-development/",
+        "purpose": "Centralize all testing documentation, guides, and reports",
+        "structure": {
+          "TESTING_GUIDE.md": "Comprehensive testing best practices and architecture (Page Object Model, self-healing selectors, etc.)",
+          "TEST_SPECIFICATIONS.md": "Detailed test cases with acceptance criteria, scope, plan, and task management",
+          "MANUAL_TESTING_RESULTS.md": "Manual testing results and checklists for feature verification",
+          "E2E_TEST_EXECUTION_REPORT.md": "Automated E2E test execution results and comparison metrics"
+        },
+        "fileLocations": {
+          "testReports": "docs/03-development/E2E_TEST_EXECUTION_REPORT.md",
+          "testResults": "docs/03-development/MANUAL_TESTING_RESULTS.md",
+          "testGuides": "docs/03-development/TESTING_GUIDE.md",
+          "testSpecs": "docs/03-development/TEST_SPECIFICATIONS.md"
+        },
+        "aiInstructions": [
+          "NEVER create test reports in project root - always use docs/03-development/",
+          "Test execution reports go to docs/03-development/E2E_TEST_EXECUTION_REPORT.md",
+          "Manual testing results go to docs/03-development/MANUAL_TESTING_RESULTS.md",
+          "Update existing test reports instead of creating new files",
+          "Keep test documentation centralized in docs/03-development/ for easy navigation",
+          "Test artifacts (screenshots, videos, traces) belong in frontend/test-results/ (gitignored)",
+          "Playwright HTML reports belong in frontend/playwright-report/ (gitignored)"
+        ],
+        "namingConventions": {
+          "testReports": "E2E_TEST_EXECUTION_REPORT.md (UPPER_SNAKE_CASE)",
+          "manualTests": "MANUAL_TESTING_RESULTS.md (UPPER_SNAKE_CASE)",
+          "testGuides": "TESTING_GUIDE.md (UPPER_SNAKE_CASE)",
+          "testSpecs": "TEST_SPECIFICATIONS.md (UPPER_SNAKE_CASE)"
+        },
+        "doNotCreate": [
+          "test-report.md in project root",
+          "E2E_TEST_REPORT.md in project root",
+          "test-results.md in project root",
+          "Any test documentation outside docs/03-development/"
+        ]
+      }
     }
   },
   
@@ -436,6 +474,20 @@ LANG: VN
       "api": "http://localhost:5000",
       "frontend": "http://localhost:3000"
     },
+    "fileStructure": {
+      "testCode": "frontend/tests/ (test files, page objects, utilities)",
+      "testDocs": "docs/03-development/ (guides, specs, reports, results)",
+      "testArtifacts": "frontend/test-results/ (screenshots, videos, traces - gitignored)",
+      "testReports": "frontend/playwright-report/ (HTML reports - gitignored)"
+    },
+    "documentationLocations": {
+      "testingGuide": "docs/03-development/TESTING_GUIDE.md",
+      "testSpecifications": "docs/03-development/TEST_SPECIFICATIONS.md",
+      "executionReports": "docs/03-development/E2E_TEST_EXECUTION_REPORT.md",
+      "manualResults": "docs/03-development/MANUAL_TESTING_RESULTS.md",
+      "pageObjects": "frontend/tests/pages/ (code, not docs)",
+      "testSuites": "frontend/tests/e2e/ (code, not docs)"
+    },
     "commands": {
       "test": "npx playwright test",
       "testAPI": "npx playwright test --grep @api",
@@ -463,6 +515,28 @@ LANG: VN
       "tools": 5,
       "feedback": 2,
       "fashion_outfits": 3
+    },
+    "reportingGuidelines": {
+      "executionReports": {
+        "location": "docs/03-development/E2E_TEST_EXECUTION_REPORT.md",
+        "when": "After running automated E2E test suites",
+        "includes": ["Test results summary", "Pass/fail statistics", "Browser compatibility", "Performance metrics", "Comparison with previous runs"]
+      },
+      "manualTestResults": {
+        "location": "docs/03-development/MANUAL_TESTING_RESULTS.md",
+        "when": "After manual feature verification or restructuring",
+        "includes": ["Feature-by-feature checklist", "Import path verification", "UI rendering checks", "Known limitations"]
+      },
+      "testSpecifications": {
+        "location": "docs/03-development/TEST_SPECIFICATIONS.md",
+        "when": "Planning test cases for new features",
+        "includes": ["Test case details", "Acceptance criteria", "Test scope", "Test plan", "Task management"]
+      },
+      "testingGuide": {
+        "location": "docs/03-development/TESTING_GUIDE.md",
+        "when": "Documenting testing architecture and best practices",
+        "includes": ["Technology stack", "Architecture patterns", "Selector strategies", "Self-healing implementation", "Troubleshooting"]
+      }
     },
     "reasoning": "Playwright chosen over Jest/Cypress for: (1) Unified testing - API + E2E + Component in one framework, (2) Better performance with parallel execution, (3) Cross-browser support (Chromium, Firefox, WebKit), (4) Built-in network interception and API mocking, (5) Microsoft support and modern architecture, (6) Better debugging with trace viewer and UI mode"
   },
@@ -809,8 +883,8 @@ LANG: VN
   
   "metadata": {
     "created": "2024-11-01",
-    "lastUpdated": "2025-11-12",
-    "manifestVersion": "1.4.3",
+    "lastUpdated": "2025-11-13",
+    "manifestVersion": "1.4.4",
     "generatedBy": "Senior AI Developer Assistant",
     "purpose": "Standardize development workflow and maintain consistency",
     "autoUpdate": {
@@ -818,6 +892,19 @@ LANG: VN
       "instructions": "When adding new features, AI must automatically update this manifest with: (1) new tools in 'tools.available', (2) new DB tables in 'database.tables', (3) new API endpoints in 'api.endpoints', (4) new dependencies in 'dependencies' section, (5) update 'metadata.lastUpdated' and increment 'metadata.manifestVersion'"
     },
     "changes": {
+      "v1.4.4": {
+        "date": "2025-11-13",
+        "description": "Test Documentation Organization - Centralized testing docs in docs/03-development/",
+        "updates": [
+          "Moved test-features.md to docs/03-development/MANUAL_TESTING_RESULTS.md with enhanced formatting",
+          "Updated project_manifest.json with testDocumentation section and clear AI instructions",
+          "Defined file locations: test reports, test results, test guides, test specs all in docs/03-development/",
+          "Added reportingGuidelines in tests section with when/where/what-to-include rules",
+          "Prevented future creation of test docs in project root with explicit doNotCreate list",
+          "Established naming conventions: UPPER_SNAKE_CASE for all test documentation files",
+          "Centralized test documentation structure: TESTING_GUIDE.md, TEST_SPECIFICATIONS.md, E2E_TEST_EXECUTION_REPORT.md, MANUAL_TESTING_RESULTS.md"
+        ]
+      },
       "v1.4.3": {
         "date": "2025-11-12",
         "description": "Currency Tool - Multiple API Fallback & Resilience",

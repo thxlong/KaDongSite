@@ -11,7 +11,7 @@
     "grepInvert": null,
     "maxFailures": 0,
     "metadata": {
-      "actualWorkers": 3
+      "actualWorkers": 1
     },
     "preserveOutput": "always",
     "reporter": [
@@ -44,7 +44,7 @@
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 3
+          "actualWorkers": 1
         },
         "id": "chromium-e2e",
         "name": "chromium-e2e",
@@ -60,7 +60,7 @@
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 3
+          "actualWorkers": 1
         },
         "id": "firefox-e2e",
         "name": "firefox-e2e",
@@ -76,7 +76,7 @@
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 3
+          "actualWorkers": 1
         },
         "id": "webkit-e2e",
         "name": "webkit-e2e",
@@ -92,7 +92,7 @@
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 3
+          "actualWorkers": 1
         },
         "id": "mobile-chrome",
         "name": "mobile-chrome",
@@ -108,7 +108,7 @@
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 3
+          "actualWorkers": 1
         },
         "id": "mobile-safari",
         "name": "mobile-safari",
@@ -124,7 +124,7 @@
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 3
+          "actualWorkers": 1
         },
         "id": "component-tests",
         "name": "component-tests",
@@ -181,7 +181,7 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 4807,
+                      "duration": 4528,
                       "errors": [],
                       "stdout": [
                         {
@@ -190,7 +190,7 @@
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-11-13T04:37:11.003Z",
+                      "startTime": "2025-11-13T06:53:02.180Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -222,7 +222,7 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 5597,
+                      "duration": 4968,
                       "errors": [],
                       "stdout": [
                         {
@@ -231,7 +231,7 @@
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-11-13T04:37:16.520Z",
+                      "startTime": "2025-11-13T06:53:07.146Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -263,7 +263,7 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 9428,
+                      "duration": 6336,
                       "errors": [],
                       "stdout": [
                         {
@@ -272,7 +272,7 @@
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-11-13T04:37:22.177Z",
+                      "startTime": "2025-11-13T06:53:12.154Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -318,7 +318,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-11-13T04:37:31.684Z",
+                      "startTime": "2025-11-13T06:53:18.521Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -373,7 +373,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-11-13T04:37:31.685Z",
+                      "startTime": "2025-11-13T06:53:18.521Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -414,7 +414,7 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 5786,
+                      "duration": 4766,
                       "errors": [],
                       "stdout": [
                         {
@@ -423,7 +423,7 @@
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-11-13T04:37:31.687Z",
+                      "startTime": "2025-11-13T06:53:18.522Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -455,7 +455,7 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 4976,
+                      "duration": 4703,
                       "errors": [],
                       "stdout": [
                         {
@@ -464,7 +464,7 @@
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-11-13T04:37:37.565Z",
+                      "startTime": "2025-11-13T06:53:23.312Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -510,7 +510,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-11-13T04:37:42.580Z",
+                      "startTime": "2025-11-13T06:53:28.043Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -528,746 +528,6 @@
                 }
               ],
               "id": "a6b79704d7f10e584936-0a12882d0e8c01e4fd88",
-              "file": "e2e/notes.modern.e2e.spec.js",
-              "line": 257,
-              "column": 8
-            },
-            {
-              "title": "TC01: Should load Notes page with all UI elements",
-              "ok": false,
-              "tags": [
-                "e2e",
-                "notes"
-              ],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox-e2e",
-                  "projectName": "firefox-e2e",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
-                      "status": "timedOut",
-                      "duration": 39247,
-                      "error": {
-                        "message": "\u001b[31mTest timeout of 30000ms exceeded while running \"beforeEach\" hook.\u001b[39m",
-                        "stack": "\u001b[31mTest timeout of 30000ms exceeded while running \"beforeEach\" hook.\u001b[39m\n    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.modern.e2e.spec.js:74:8",
-                        "location": {
-                          "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.modern.e2e.spec.js",
-                          "column": 8,
-                          "line": 74
-                        },
-                        "snippet": "\u001b[0m \u001b[90m 72 |\u001b[39m \u001b[90m   * Initialize page object and navigate\u001b[39m\n \u001b[90m 73 |\u001b[39m \u001b[90m   */\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 74 |\u001b[39m   test\u001b[33m.\u001b[39mbeforeEach(\u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m    |\u001b[39m        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 75 |\u001b[39m     notesPage \u001b[33m=\u001b[39m \u001b[36mnew\u001b[39m \u001b[33mNotesPage\u001b[39m(page)\n \u001b[90m 76 |\u001b[39m     \u001b[36mawait\u001b[39m notesPage\u001b[33m.\u001b[39mgoto()\n \u001b[90m 77 |\u001b[39m   })\u001b[0m"
-                      },
-                      "errors": [
-                        {
-                          "location": {
-                            "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.modern.e2e.spec.js",
-                            "column": 8,
-                            "line": 74
-                          },
-                          "message": "\u001b[31mTest timeout of 30000ms exceeded while running \"beforeEach\" hook.\u001b[39m\n\n\u001b[0m \u001b[90m 72 |\u001b[39m \u001b[90m   * Initialize page object and navigate\u001b[39m\n \u001b[90m 73 |\u001b[39m \u001b[90m   */\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 74 |\u001b[39m   test\u001b[33m.\u001b[39mbeforeEach(\u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m    |\u001b[39m        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 75 |\u001b[39m     notesPage \u001b[33m=\u001b[39m \u001b[36mnew\u001b[39m \u001b[33mNotesPage\u001b[39m(page)\n \u001b[90m 76 |\u001b[39m     \u001b[36mawait\u001b[39m notesPage\u001b[33m.\u001b[39mgoto()\n \u001b[90m 77 |\u001b[39m   })\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.modern.e2e.spec.js:74:8\u001b[22m"
-                        },
-                        {
-                          "location": {
-                            "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\pages\\NotesPage.js",
-                            "column": 21,
-                            "line": 262
-                          },
-                          "message": "Error: page.goto: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/notes\", waiting until \"load\"\u001b[22m\n\n\n\u001b[90m   at \u001b[39mpages\\NotesPage.js:262\n\n\u001b[0m \u001b[90m 260 |\u001b[39m   \n \u001b[90m 261 |\u001b[39m   \u001b[36masync\u001b[39m goto() {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 262 |\u001b[39m     \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mpage\u001b[33m.\u001b[39mgoto(\u001b[32m'/notes'\u001b[39m)\n \u001b[90m     |\u001b[39m                     \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 263 |\u001b[39m     \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mpage\u001b[33m.\u001b[39mwaitForLoadState(\u001b[32m'networkidle'\u001b[39m)\n \u001b[90m 264 |\u001b[39m   }\n \u001b[90m 265 |\u001b[39m\u001b[0m\n\u001b[2m    at NotesPage.goto (C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\pages\\NotesPage.js:262:21)\u001b[22m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.modern.e2e.spec.js:76:21\u001b[22m"
-                        }
-                      ],
-                      "stdout": [
-                        {
-                          "text": "❌ TC01: Should load Notes page with all UI elements - FAILED\n"
-                        }
-                      ],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-11-13T04:37:10.963Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Projects\\Personal\\KaDongSite\\frontend\\test-results\\e2e-notes.modern.e2e-Notes-d6b87-s-page-with-all-UI-elements-firefox-e2e\\video.webm"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "C:\\Projects\\Personal\\KaDongSite\\frontend\\test-results\\e2e-notes.modern.e2e-Notes-d6b87-s-page-with-all-UI-elements-firefox-e2e\\error-context.md"
-                        }
-                      ],
-                      "errorLocation": {
-                        "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.modern.e2e.spec.js",
-                        "column": 8,
-                        "line": 74
-                      }
-                    }
-                  ],
-                  "status": "unexpected"
-                }
-              ],
-              "id": "a6b79704d7f10e584936-d3dd57dc02a1a9cc3969",
-              "file": "e2e/notes.modern.e2e.spec.js",
-              "line": 85,
-              "column": 3
-            },
-            {
-              "title": "TC02: Should create a new note successfully",
-              "ok": true,
-              "tags": [
-                "e2e",
-                "notes"
-              ],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox-e2e",
-                  "projectName": "firefox-e2e",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-11-13T04:37:58.920Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "a6b79704d7f10e584936-41d87f2a1549bcc454d4",
-              "file": "e2e/notes.modern.e2e.spec.js",
-              "line": 104,
-              "column": 3
-            },
-            {
-              "title": "TC03: Should create notes with different colors",
-              "ok": true,
-              "tags": [
-                "e2e",
-                "notes"
-              ],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox-e2e",
-                  "projectName": "firefox-e2e",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-11-13T04:37:59.011Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "a6b79704d7f10e584936-963221b015c7cd7d1e29",
-              "file": "e2e/notes.modern.e2e.spec.js",
-              "line": 124,
-              "column": 3
-            },
-            {
-              "title": "TC04: Should edit existing note",
-              "ok": true,
-              "tags": [
-                "e2e",
-                "notes"
-              ],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "location": {
-                        "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.modern.e2e.spec.js",
-                        "line": 151,
-                        "column": 8
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "firefox-e2e",
-                  "projectName": "firefox-e2e",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-11-13T04:37:59.084Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "a6b79704d7f10e584936-b6c5c4925aef698359ae",
-              "file": "e2e/notes.modern.e2e.spec.js",
-              "line": 151,
-              "column": 8
-            },
-            {
-              "title": "TC05: Should delete note successfully",
-              "ok": true,
-              "tags": [
-                "e2e",
-                "notes"
-              ],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "location": {
-                        "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.modern.e2e.spec.js",
-                        "line": 180,
-                        "column": 8
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "firefox-e2e",
-                  "projectName": "firefox-e2e",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-11-13T04:37:59.128Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "a6b79704d7f10e584936-7d3a846d295962c8b188",
-              "file": "e2e/notes.modern.e2e.spec.js",
-              "line": 180,
-              "column": 8
-            },
-            {
-              "title": "TC06: Should cancel note creation without saving",
-              "ok": true,
-              "tags": [
-                "e2e",
-                "notes"
-              ],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox-e2e",
-                  "projectName": "firefox-e2e",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-11-13T04:37:59.214Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "a6b79704d7f10e584936-6dba6ad4cfe97b768926",
-              "file": "e2e/notes.modern.e2e.spec.js",
-              "line": 209,
-              "column": 3
-            },
-            {
-              "title": "TC07: Should handle special characters correctly",
-              "ok": true,
-              "tags": [
-                "e2e",
-                "notes"
-              ],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox-e2e",
-                  "projectName": "firefox-e2e",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-11-13T04:37:59.281Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "a6b79704d7f10e584936-2cec7bab8ca08fe08a91",
-              "file": "e2e/notes.modern.e2e.spec.js",
-              "line": 238,
-              "column": 3
-            },
-            {
-              "title": "TC08: Should display empty state when no notes",
-              "ok": true,
-              "tags": [
-                "e2e",
-                "notes"
-              ],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "location": {
-                        "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.modern.e2e.spec.js",
-                        "line": 257,
-                        "column": 8
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "firefox-e2e",
-                  "projectName": "firefox-e2e",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-11-13T04:37:59.383Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "a6b79704d7f10e584936-c5351dc8455c6fba109f",
-              "file": "e2e/notes.modern.e2e.spec.js",
-              "line": 257,
-              "column": 8
-            },
-            {
-              "title": "TC01: Should load Notes page with all UI elements",
-              "ok": true,
-              "tags": [
-                "e2e",
-                "notes"
-              ],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "webkit-e2e",
-                  "projectName": "webkit-e2e",
-                  "results": [
-                    {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 9112,
-                      "errors": [],
-                      "stdout": [
-                        {
-                          "text": "✅ TC01 PASSED: Page loaded successfully\n"
-                        }
-                      ],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-11-13T04:37:10.956Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "a6b79704d7f10e584936-18168bc68f19e1e88144",
-              "file": "e2e/notes.modern.e2e.spec.js",
-              "line": 85,
-              "column": 3
-            },
-            {
-              "title": "TC02: Should create a new note successfully",
-              "ok": true,
-              "tags": [
-                "e2e",
-                "notes"
-              ],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "webkit-e2e",
-                  "projectName": "webkit-e2e",
-                  "results": [
-                    {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 15151,
-                      "errors": [],
-                      "stdout": [
-                        {
-                          "text": "✅ TC02 PASSED: Note created successfully\n"
-                        }
-                      ],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-11-13T04:37:20.477Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "a6b79704d7f10e584936-c2d7d963d33bc4e2a152",
-              "file": "e2e/notes.modern.e2e.spec.js",
-              "line": 104,
-              "column": 3
-            },
-            {
-              "title": "TC03: Should create notes with different colors",
-              "ok": true,
-              "tags": [
-                "e2e",
-                "notes"
-              ],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "webkit-e2e",
-                  "projectName": "webkit-e2e",
-                  "results": [
-                    {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 23226,
-                      "errors": [],
-                      "stdout": [
-                        {
-                          "text": "✅ TC03 PASSED: Multiple colored notes created\n"
-                        }
-                      ],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-11-13T04:37:35.876Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "a6b79704d7f10e584936-826f029d0ffbe567b144",
-              "file": "e2e/notes.modern.e2e.spec.js",
-              "line": 124,
-              "column": 3
-            },
-            {
-              "title": "TC04: Should edit existing note",
-              "ok": true,
-              "tags": [
-                "e2e",
-                "notes"
-              ],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "location": {
-                        "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.modern.e2e.spec.js",
-                        "line": 151,
-                        "column": 8
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "webkit-e2e",
-                  "projectName": "webkit-e2e",
-                  "results": [
-                    {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-11-13T04:37:59.150Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "location": {
-                            "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.modern.e2e.spec.js",
-                            "line": 151,
-                            "column": 8
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "a6b79704d7f10e584936-e883970df118adde9c2c",
-              "file": "e2e/notes.modern.e2e.spec.js",
-              "line": 151,
-              "column": 8
-            },
-            {
-              "title": "TC05: Should delete note successfully",
-              "ok": true,
-              "tags": [
-                "e2e",
-                "notes"
-              ],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "location": {
-                        "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.modern.e2e.spec.js",
-                        "line": 180,
-                        "column": 8
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "webkit-e2e",
-                  "projectName": "webkit-e2e",
-                  "results": [
-                    {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-11-13T04:37:59.151Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "location": {
-                            "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.modern.e2e.spec.js",
-                            "line": 180,
-                            "column": 8
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "a6b79704d7f10e584936-9d7cf07c8f9aab55732c",
-              "file": "e2e/notes.modern.e2e.spec.js",
-              "line": 180,
-              "column": 8
-            },
-            {
-              "title": "TC06: Should cancel note creation without saving",
-              "ok": true,
-              "tags": [
-                "e2e",
-                "notes"
-              ],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "webkit-e2e",
-                  "projectName": "webkit-e2e",
-                  "results": [
-                    {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 7411,
-                      "errors": [],
-                      "stdout": [
-                        {
-                          "text": "✅ TC06 PASSED: Note creation cancelled\n"
-                        }
-                      ],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-11-13T04:37:59.152Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "a6b79704d7f10e584936-f770619a48bad31696fc",
-              "file": "e2e/notes.modern.e2e.spec.js",
-              "line": 209,
-              "column": 3
-            },
-            {
-              "title": "TC07: Should handle special characters correctly",
-              "ok": true,
-              "tags": [
-                "e2e",
-                "notes"
-              ],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "webkit-e2e",
-                  "projectName": "webkit-e2e",
-                  "results": [
-                    {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 6140,
-                      "errors": [],
-                      "stdout": [
-                        {
-                          "text": "✅ TC07 PASSED: Special characters handled\n"
-                        }
-                      ],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-11-13T04:38:06.598Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "a6b79704d7f10e584936-a464777d06b466157b35",
-              "file": "e2e/notes.modern.e2e.spec.js",
-              "line": 238,
-              "column": 3
-            },
-            {
-              "title": "TC08: Should display empty state when no notes",
-              "ok": true,
-              "tags": [
-                "e2e",
-                "notes"
-              ],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "location": {
-                        "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.modern.e2e.spec.js",
-                        "line": 257,
-                        "column": 8
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "webkit-e2e",
-                  "projectName": "webkit-e2e",
-                  "results": [
-                    {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-11-13T04:38:12.771Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "location": {
-                            "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.modern.e2e.spec.js",
-                            "line": 257,
-                            "column": 8
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "a6b79704d7f10e584936-e5b154e1eaf0cb3c7279",
               "file": "e2e/notes.modern.e2e.spec.js",
               "line": 257,
               "column": 8
@@ -1300,7 +560,7 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 5544,
+                      "duration": 5070,
                       "errors": [],
                       "stdout": [
                         {
@@ -1309,7 +569,7 @@
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-11-13T04:37:42.582Z",
+                      "startTime": "2025-11-13T06:53:28.044Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1342,7 +602,7 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 9061,
+                      "duration": 4679,
                       "errors": [],
                       "stdout": [
                         {
@@ -1351,7 +611,7 @@
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-11-13T04:37:48.185Z",
+                      "startTime": "2025-11-13T06:53:33.151Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1363,166 +623,6 @@
               "file": "e2e/notes.modern.e2e.spec.js",
               "line": 329,
               "column": 3
-            },
-            {
-              "title": "TC09: Should validate required title field",
-              "ok": true,
-              "tags": [
-                "e2e",
-                "notes",
-                "validation"
-              ],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox-e2e",
-                  "projectName": "firefox-e2e",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-11-13T04:37:59.450Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "a6b79704d7f10e584936-b46b017df623a05dfe24",
-              "file": "e2e/notes.modern.e2e.spec.js",
-              "line": 303,
-              "column": 3
-            },
-            {
-              "title": "TC10: Should handle long content gracefully",
-              "ok": true,
-              "tags": [
-                "e2e",
-                "notes",
-                "validation"
-              ],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox-e2e",
-                  "projectName": "firefox-e2e",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-11-13T04:37:59.582Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "a6b79704d7f10e584936-e718f056ea07fbfa8840",
-              "file": "e2e/notes.modern.e2e.spec.js",
-              "line": 329,
-              "column": 3
-            },
-            {
-              "title": "TC09: Should validate required title field",
-              "ok": true,
-              "tags": [
-                "e2e",
-                "notes",
-                "validation"
-              ],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "webkit-e2e",
-                  "projectName": "webkit-e2e",
-                  "results": [
-                    {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 5940,
-                      "errors": [],
-                      "stdout": [
-                        {
-                          "text": "✅ TC09 PASSED: Empty title validation works\n"
-                        }
-                      ],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-11-13T04:38:12.772Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "a6b79704d7f10e584936-087aff53267163f271c4",
-              "file": "e2e/notes.modern.e2e.spec.js",
-              "line": 303,
-              "column": 3
-            },
-            {
-              "title": "TC10: Should handle long content gracefully",
-              "ok": true,
-              "tags": [
-                "e2e",
-                "notes",
-                "validation"
-              ],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "webkit-e2e",
-                  "projectName": "webkit-e2e",
-                  "results": [
-                    {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 6634,
-                      "errors": [],
-                      "stdout": [
-                        {
-                          "text": "✅ TC10 PASSED: Long content handled\n"
-                        }
-                      ],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-11-13T04:38:18.740Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "a6b79704d7f10e584936-145bdb51f217e3ae20b3",
-              "file": "e2e/notes.modern.e2e.spec.js",
-              "line": 329,
-              "column": 3
             }
           ]
         }
@@ -1531,11 +631,11 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2025-11-13T04:37:07.713Z",
-    "duration": 77869.916,
-    "expected": 14,
-    "skipped": 15,
-    "unexpected": 1,
+    "startTime": "2025-11-13T06:53:00.323Z",
+    "duration": 37781.24,
+    "expected": 7,
+    "skipped": 3,
+    "unexpected": 0,
     "flaky": 0
   }
 }
