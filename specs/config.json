@@ -1,8 +1,8 @@
 {
-  "version": "1.0.0",
+  "version": "1.0.1",
   "name": "Spec Kit Configuration",
   "description": "Configuration for Spec Kit specification management system",
-  "lastUpdated": "2025-11-11",
+  "lastUpdated": "2025-11-13",
   
   "templatePaths": {
     "spec": "specs/templates/TEMPLATE_spec.md",
@@ -26,7 +26,8 @@
     "specs": "specs/specs/",
     "plans": "specs/plans/",
     "tasks": "specs/plans/tasks/",
-    "templates": "specs/templates/"
+    "templates": "specs/templates/",
+    "note": "Tasks folder moved from specs/tasks/ to specs/plans/tasks/ on 2025-11-13"
   },
   
   "statusValues": {
@@ -196,6 +197,7 @@
   },
   
   "aiInstructions": [
+    "CRITICAL: Tasks folder is at specs/plans/tasks/ NOT specs/tasks/",
     "When user requests new feature: Use /specify command to create spec",
     "After spec approved: Use /plan command to create implementation plan",
     "For complex phases: Use /tasks command to break down work",
@@ -203,7 +205,8 @@
     "Always link specs → plans → tasks → implementation status",
     "Update progress percentages in plans as tasks complete",
     "Document technical decisions in plans with reasoning",
-    "Keep specs focused on WHAT, plans on HOW, tasks on execution details"
+    "Keep specs focused on WHAT, plans on HOW, tasks on execution details",
+    "Always create task files in specs/plans/tasks/ with correct naming: {plan_id}_phase{X}_task{Y}.task"
   ],
   
   "examples": [
