@@ -8,10 +8,12 @@
 import express from 'express'
 import cors from 'cors'
 import bodyParser from 'body-parser'
+import cookieParser from 'cookie-parser'
 import logger from '#config/logger.config.js'
 import { config } from '#config/env.config.js'
 
 // Routes
+import authRoutes from '#api/routes/auth.js'
 import toolsRoutes from '#api/routes/tools.js'
 import notesRoutes from '#api/routes/notes.js'
 import eventsRoutes from '#api/routes/events.js'
@@ -37,6 +39,9 @@ app.use(cors({
 // Body parsing
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
+
+// Cookie parsing
+app.use(cookieParser())
 
 // Request logging middleware
 app.use((req, res, next) => {
@@ -66,6 +71,7 @@ app.use((req, res, next) => {
 
 // ============ API Routes ============
 
+app.use('/api/auth', authRoutes)
 app.use('/api/tools', toolsRoutes)
 app.use('/api/notes', notesRoutes)
 app.use('/api/events', eventsRoutes)
@@ -109,6 +115,7 @@ app.get('/', (req, res) => {
     architecture: 'Clean Architecture with ES6 Modules',
     endpoints: {
       health: '/api/health',
+      auth: '/api/auth',
       tools: '/api/tools',
       notes: '/api/notes',
       events: '/api/events',
