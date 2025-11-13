@@ -1,0 +1,47 @@
+{
+  "name": "kadongsite-frontend",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "playwright test",
+    "test:e2e": "playwright test --grep @e2e",
+    "test:component": "playwright test --grep @component",
+    "test:watch": "playwright test --ui",
+    "test:debug": "playwright test --debug",
+    "test:headed": "playwright test --headed",
+    "test:coverage": "playwright test --reporter=html --reporter=json",
+    "test:ci": "playwright test --reporter=html --reporter=json --workers=2",
+    "test:chromium": "playwright test --project=chromium-e2e",
+    "test:firefox": "playwright test --project=firefox-e2e",
+    "test:webkit": "playwright test --project=webkit-e2e",
+    "test:mobile": "playwright test --project=mobile-chrome --project=mobile-safari"
+  },
+  "dependencies": {
+    "date-fns": "^2.30.0",
+    "framer-motion": "^10.16.16",
+    "lucide-react": "^0.294.0",
+    "prop-types": "^15.8.1",
+    "qrcode.react": "^4.2.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-hot-toast": "^2.6.0",
+    "react-router-dom": "^6.20.0",
+    "recharts": "^3.4.1",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@playwright/experimental-ct-react": "^1.56.1",
+    "@playwright/test": "^1.56.1",
+    "@types/react": "^18.2.43",
+    "@types/react-dom": "^18.2.17",
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.32",
+    "tailwindcss": "^3.3.6",
+    "vite": "^5.0.8"
+  }
+}

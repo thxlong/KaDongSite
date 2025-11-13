@@ -415,21 +415,46 @@ LANG: VN
   },
   
   "tests": {
-    "unit": "jest",
-    "integration": "supertest",
-    "e2e": "cypress",
+    "framework": "playwright",
+    "version": "^1.40.0",
+    "types": {
+      "api": "Playwright API Testing",
+      "e2e": "Playwright E2E Testing",
+      "component": "Playwright Component Testing (experimental)"
+    },
     "coverageThreshold": 80,
-    "coverageReports": ["text", "html", "lcov"],
+    "coverageReports": ["html", "json", "lcov"],
     "testMatch": [
-      "**/__tests__/**/*.js",
-      "**/*.test.js",
-      "**/*.spec.js"
+      "**/__tests__/**/*.spec.js",
+      "**/tests/**/*.spec.js",
+      "**/*.test.js"
     ],
+    "browsers": ["chromium", "firefox", "webkit"],
+    "defaultBrowser": "chromium",
+    "headless": true,
+    "baseURL": {
+      "api": "http://localhost:5000",
+      "frontend": "http://localhost:3000"
+    },
     "commands": {
-      "test": "npm test",
-      "testWatch": "npm run test:watch",
-      "testCoverage": "npm run test:coverage",
-      "testE2E": "npm run test:e2e"
+      "test": "npx playwright test",
+      "testAPI": "npx playwright test --grep @api",
+      "testE2E": "npx playwright test --grep @e2e",
+      "testComponent": "npx playwright test --grep @component",
+      "testWatch": "npx playwright test --ui",
+      "testDebug": "npx playwright test --debug",
+      "testReport": "npx playwright show-report",
+      "testCodegen": "npx playwright codegen http://localhost:3000"
+    },
+    "features": {
+      "parallelExecution": true,
+      "retries": 2,
+      "screenshot": "only-on-failure",
+      "video": "retain-on-failure",
+      "trace": "on-first-retry",
+      "apiMocking": true,
+      "networkInterception": true,
+      "visualRegression": false
     },
     "mockData": {
       "users": 3,
@@ -438,7 +463,8 @@ LANG: VN
       "tools": 5,
       "feedback": 2,
       "fashion_outfits": 3
-    }
+    },
+    "reasoning": "Playwright chosen over Jest/Cypress for: (1) Unified testing - API + E2E + Component in one framework, (2) Better performance with parallel execution, (3) Cross-browser support (Chromium, Firefox, WebKit), (4) Built-in network interception and API mocking, (5) Microsoft support and modern architecture, (6) Better debugging with trace viewer and UI mode"
   },
   
   "security": {
@@ -937,6 +963,8 @@ LANG: VN
         "tailwindcss@3.3.6",
         "postcss@latest",
         "autoprefixer@latest",
+        "@playwright/test@^1.40.0",
+        "@playwright/experimental-ct-react@^1.40.0",
         "eslint@latest",
         "prettier@latest"
       ]
@@ -953,8 +981,7 @@ LANG: VN
       ],
       "devDependencies": [
         "nodemon@latest",
-        "jest@latest",
-        "supertest@latest",
+        "@playwright/test@^1.40.0",
         "eslint@latest",
         "prettier@latest"
       ]

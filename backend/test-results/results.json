@@ -1,0 +1,865 @@
+{
+  "config": {
+    "configFile": "C:\\Projects\\Personal\\KaDongSite\\backend\\playwright.config.js",
+    "rootDir": "C:/Projects/Personal/KaDongSite/backend/tests",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\global-setup.js",
+    "globalTeardown": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\global-teardown.js",
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 6
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "html",
+        {
+          "outputFolder": "playwright-report",
+          "open": "never"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results/results.json"
+        }
+      ],
+      [
+        "list",
+        null
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "C:/Projects/Personal/KaDongSite/backend/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 6
+        },
+        "id": "API Tests",
+        "name": "API Tests",
+        "testDir": "C:/Projects/Personal/KaDongSite/backend/tests",
+        "testIgnore": [
+          "**/frontend/**",
+          "**/tests/fashion.test.js",
+          "**/tests/integration/**",
+          "**/tests/mocks/**"
+        ],
+        "testMatch": [
+          "/.*\\.api\\.spec\\.js/"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "C:/Projects/Personal/KaDongSite/backend/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 6
+        },
+        "id": "Integration Tests",
+        "name": "Integration Tests",
+        "testDir": "C:/Projects/Personal/KaDongSite/backend/tests",
+        "testIgnore": [
+          "**/frontend/**",
+          "**/tests/fashion.test.js",
+          "**/tests/integration/**",
+          "**/tests/mocks/**"
+        ],
+        "testMatch": [
+          "/.*\\.integration\\.spec\\.js/"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.56.1",
+    "workers": 6,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "api\\notes.api.spec.js",
+      "file": "api/notes.api.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Notes API @api",
+          "file": "api/notes.api.spec.js",
+          "line": 11,
+          "column": 6,
+          "specs": [],
+          "suites": [
+            {
+              "title": "GET /api/notes",
+              "file": "api/notes.api.spec.js",
+              "line": 13,
+              "column": 8,
+              "specs": [
+                {
+                  "title": "should return all notes successfully",
+                  "ok": true,
+                  "tags": [
+                    "api"
+                  ],
+                  "tests": [
+                    {
+                      "timeout": 30000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "API Tests",
+                      "projectName": "API Tests",
+                      "results": [
+                        {
+                          "workerIndex": 0,
+                          "parallelIndex": 0,
+                          "status": "passed",
+                          "duration": 546,
+                          "errors": [],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "startTime": "2025-11-12T18:34:47.778Z",
+                          "annotations": [],
+                          "attachments": []
+                        }
+                      ],
+                      "status": "expected"
+                    }
+                  ],
+                  "id": "41c4312642d799b42aff-2fec8cfe0bb82de6ff9c",
+                  "file": "api/notes.api.spec.js",
+                  "line": 15,
+                  "column": 5
+                },
+                {
+                  "title": "should handle pagination parameters",
+                  "ok": true,
+                  "tags": [
+                    "api"
+                  ],
+                  "tests": [
+                    {
+                      "timeout": 30000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "API Tests",
+                      "projectName": "API Tests",
+                      "results": [
+                        {
+                          "workerIndex": 1,
+                          "parallelIndex": 1,
+                          "status": "passed",
+                          "duration": 512,
+                          "errors": [],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "startTime": "2025-11-12T18:34:47.796Z",
+                          "annotations": [],
+                          "attachments": []
+                        }
+                      ],
+                      "status": "expected"
+                    }
+                  ],
+                  "id": "41c4312642d799b42aff-0dbd3039d53e4ded993d",
+                  "file": "api/notes.api.spec.js",
+                  "line": 26,
+                  "column": 5
+                }
+              ]
+            },
+            {
+              "title": "POST /api/notes",
+              "file": "api/notes.api.spec.js",
+              "line": 35,
+              "column": 8,
+              "specs": [
+                {
+                  "title": "should create new note with valid data",
+                  "ok": false,
+                  "tags": [
+                    "api"
+                  ],
+                  "tests": [
+                    {
+                      "timeout": 30000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "API Tests",
+                      "projectName": "API Tests",
+                      "results": [
+                        {
+                          "workerIndex": 2,
+                          "parallelIndex": 2,
+                          "status": "failed",
+                          "duration": 601,
+                          "error": {
+                            "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m201\u001b[39m\nReceived: \u001b[31m500\u001b[39m",
+                            "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m201\u001b[39m\nReceived: \u001b[31m500\u001b[39m\n    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js:44:33",
+                            "location": {
+                              "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js",
+                              "column": 33,
+                              "line": 44
+                            },
+                            "snippet": "\u001b[0m \u001b[90m 42 |\u001b[39m       })\n \u001b[90m 43 |\u001b[39m       \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 44 |\u001b[39m       expect(response\u001b[33m.\u001b[39mstatus())\u001b[33m.\u001b[39mtoBe(\u001b[35m201\u001b[39m)\n \u001b[90m    |\u001b[39m                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 45 |\u001b[39m       \n \u001b[90m 46 |\u001b[39m       \u001b[36mconst\u001b[39m data \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m response\u001b[33m.\u001b[39mjson()\n \u001b[90m 47 |\u001b[39m       expect(data\u001b[33m.\u001b[39msuccess)\u001b[33m.\u001b[39mtoBe(\u001b[36mtrue\u001b[39m)\u001b[0m"
+                          },
+                          "errors": [
+                            {
+                              "location": {
+                                "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js",
+                                "column": 33,
+                                "line": 44
+                              },
+                              "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m201\u001b[39m\nReceived: \u001b[31m500\u001b[39m\n\n\u001b[0m \u001b[90m 42 |\u001b[39m       })\n \u001b[90m 43 |\u001b[39m       \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 44 |\u001b[39m       expect(response\u001b[33m.\u001b[39mstatus())\u001b[33m.\u001b[39mtoBe(\u001b[35m201\u001b[39m)\n \u001b[90m    |\u001b[39m                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 45 |\u001b[39m       \n \u001b[90m 46 |\u001b[39m       \u001b[36mconst\u001b[39m data \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m response\u001b[33m.\u001b[39mjson()\n \u001b[90m 47 |\u001b[39m       expect(data\u001b[33m.\u001b[39msuccess)\u001b[33m.\u001b[39mtoBe(\u001b[36mtrue\u001b[39m)\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js:44:33\u001b[22m"
+                            }
+                          ],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "startTime": "2025-11-12T18:34:47.799Z",
+                          "annotations": [],
+                          "attachments": [],
+                          "errorLocation": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js",
+                            "column": 33,
+                            "line": 44
+                          }
+                        }
+                      ],
+                      "status": "unexpected"
+                    }
+                  ],
+                  "id": "41c4312642d799b42aff-320bcfc2967df2df5611",
+                  "file": "api/notes.api.spec.js",
+                  "line": 37,
+                  "column": 5
+                },
+                {
+                  "title": "should reject note with missing title",
+                  "ok": true,
+                  "tags": [
+                    "api"
+                  ],
+                  "tests": [
+                    {
+                      "timeout": 30000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "API Tests",
+                      "projectName": "API Tests",
+                      "results": [
+                        {
+                          "workerIndex": 3,
+                          "parallelIndex": 3,
+                          "status": "passed",
+                          "duration": 157,
+                          "errors": [],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "startTime": "2025-11-12T18:34:47.775Z",
+                          "annotations": [],
+                          "attachments": []
+                        }
+                      ],
+                      "status": "expected"
+                    }
+                  ],
+                  "id": "41c4312642d799b42aff-d1e2b9763575bf61a63c",
+                  "file": "api/notes.api.spec.js",
+                  "line": 56,
+                  "column": 5
+                },
+                {
+                  "title": "should sanitize HTML in content",
+                  "ok": false,
+                  "tags": [
+                    "api"
+                  ],
+                  "tests": [
+                    {
+                      "timeout": 30000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "API Tests",
+                      "projectName": "API Tests",
+                      "results": [
+                        {
+                          "workerIndex": 4,
+                          "parallelIndex": 4,
+                          "status": "failed",
+                          "duration": 635,
+                          "error": {
+                            "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeTruthy\u001b[2m()\u001b[22m\n\nReceived: \u001b[31mfalse\u001b[39m",
+                            "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeTruthy\u001b[2m()\u001b[22m\n\nReceived: \u001b[31mfalse\u001b[39m\n    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js:79:29",
+                            "location": {
+                              "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js",
+                              "column": 29,
+                              "line": 79
+                            },
+                            "snippet": "\u001b[0m \u001b[90m 77 |\u001b[39m       })\n \u001b[90m 78 |\u001b[39m       \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 79 |\u001b[39m       expect(response\u001b[33m.\u001b[39mok())\u001b[33m.\u001b[39mtoBeTruthy()\n \u001b[90m    |\u001b[39m                             \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 80 |\u001b[39m       \u001b[36mconst\u001b[39m data \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m response\u001b[33m.\u001b[39mjson()\n \u001b[90m 81 |\u001b[39m       \u001b[90m// Content should be escaped or sanitized\u001b[39m\n \u001b[90m 82 |\u001b[39m       expect(data\u001b[33m.\u001b[39mdata\u001b[33m.\u001b[39mcontent)\u001b[33m.\u001b[39mnot\u001b[33m.\u001b[39mtoContain(\u001b[32m'<script>'\u001b[39m)\u001b[0m"
+                          },
+                          "errors": [
+                            {
+                              "location": {
+                                "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js",
+                                "column": 29,
+                                "line": 79
+                              },
+                              "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeTruthy\u001b[2m()\u001b[22m\n\nReceived: \u001b[31mfalse\u001b[39m\n\n\u001b[0m \u001b[90m 77 |\u001b[39m       })\n \u001b[90m 78 |\u001b[39m       \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 79 |\u001b[39m       expect(response\u001b[33m.\u001b[39mok())\u001b[33m.\u001b[39mtoBeTruthy()\n \u001b[90m    |\u001b[39m                             \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 80 |\u001b[39m       \u001b[36mconst\u001b[39m data \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m response\u001b[33m.\u001b[39mjson()\n \u001b[90m 81 |\u001b[39m       \u001b[90m// Content should be escaped or sanitized\u001b[39m\n \u001b[90m 82 |\u001b[39m       expect(data\u001b[33m.\u001b[39mdata\u001b[33m.\u001b[39mcontent)\u001b[33m.\u001b[39mnot\u001b[33m.\u001b[39mtoContain(\u001b[32m'<script>'\u001b[39m)\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js:79:29\u001b[22m"
+                            }
+                          ],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "startTime": "2025-11-12T18:34:47.914Z",
+                          "annotations": [],
+                          "attachments": [],
+                          "errorLocation": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js",
+                            "column": 29,
+                            "line": 79
+                          }
+                        }
+                      ],
+                      "status": "unexpected"
+                    }
+                  ],
+                  "id": "41c4312642d799b42aff-47e57ce29eafbaf02942",
+                  "file": "api/notes.api.spec.js",
+                  "line": 69,
+                  "column": 5
+                },
+                {
+                  "title": "should prevent SQL injection",
+                  "ok": false,
+                  "tags": [
+                    "api"
+                  ],
+                  "tests": [
+                    {
+                      "timeout": 30000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "API Tests",
+                      "projectName": "API Tests",
+                      "results": [
+                        {
+                          "workerIndex": 5,
+                          "parallelIndex": 5,
+                          "status": "failed",
+                          "duration": 570,
+                          "error": {
+                            "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeTruthy\u001b[2m()\u001b[22m\n\nReceived: \u001b[31mfalse\u001b[39m",
+                            "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeTruthy\u001b[2m()\u001b[22m\n\nReceived: \u001b[31mfalse\u001b[39m\n    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js:96:29",
+                            "location": {
+                              "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js",
+                              "column": 29,
+                              "line": 96
+                            },
+                            "snippet": "\u001b[0m \u001b[90m 94 |\u001b[39m       \n \u001b[90m 95 |\u001b[39m       \u001b[90m// Should succeed (parameterized queries prevent injection)\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 96 |\u001b[39m       expect(response\u001b[33m.\u001b[39mok())\u001b[33m.\u001b[39mtoBeTruthy()\n \u001b[90m    |\u001b[39m                             \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 97 |\u001b[39m       \n \u001b[90m 98 |\u001b[39m       \u001b[90m// Verify table still exists by fetching notes\u001b[39m\n \u001b[90m 99 |\u001b[39m       \u001b[36mconst\u001b[39m verifyResponse \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m request\u001b[33m.\u001b[39m\u001b[36mget\u001b[39m(\u001b[32m'/api/notes'\u001b[39m)\u001b[0m"
+                          },
+                          "errors": [
+                            {
+                              "location": {
+                                "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js",
+                                "column": 29,
+                                "line": 96
+                              },
+                              "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeTruthy\u001b[2m()\u001b[22m\n\nReceived: \u001b[31mfalse\u001b[39m\n\n\u001b[0m \u001b[90m 94 |\u001b[39m       \n \u001b[90m 95 |\u001b[39m       \u001b[90m// Should succeed (parameterized queries prevent injection)\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 96 |\u001b[39m       expect(response\u001b[33m.\u001b[39mok())\u001b[33m.\u001b[39mtoBeTruthy()\n \u001b[90m    |\u001b[39m                             \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 97 |\u001b[39m       \n \u001b[90m 98 |\u001b[39m       \u001b[90m// Verify table still exists by fetching notes\u001b[39m\n \u001b[90m 99 |\u001b[39m       \u001b[36mconst\u001b[39m verifyResponse \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m request\u001b[33m.\u001b[39m\u001b[36mget\u001b[39m(\u001b[32m'/api/notes'\u001b[39m)\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js:96:29\u001b[22m"
+                            }
+                          ],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "startTime": "2025-11-12T18:34:47.861Z",
+                          "annotations": [],
+                          "attachments": [],
+                          "errorLocation": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js",
+                            "column": 29,
+                            "line": 96
+                          }
+                        }
+                      ],
+                      "status": "unexpected"
+                    }
+                  ],
+                  "id": "41c4312642d799b42aff-0e2dc4f36ea6c55517db",
+                  "file": "api/notes.api.spec.js",
+                  "line": 85,
+                  "column": 5
+                }
+              ]
+            },
+            {
+              "title": "GET /api/notes/:id",
+              "file": "api/notes.api.spec.js",
+              "line": 104,
+              "column": 8,
+              "specs": [
+                {
+                  "title": "should return single note by ID",
+                  "ok": false,
+                  "tags": [
+                    "api"
+                  ],
+                  "tests": [
+                    {
+                      "timeout": 30000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "API Tests",
+                      "projectName": "API Tests",
+                      "results": [
+                        {
+                          "workerIndex": 3,
+                          "parallelIndex": 3,
+                          "status": "failed",
+                          "duration": 421,
+                          "error": {
+                            "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeTruthy\u001b[2m()\u001b[22m\n\nReceived: \u001b[31mfalse\u001b[39m",
+                            "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeTruthy\u001b[2m()\u001b[22m\n\nReceived: \u001b[31mfalse\u001b[39m\n    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js:109:29",
+                            "location": {
+                              "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js",
+                              "column": 29,
+                              "line": 109
+                            },
+                            "snippet": "\u001b[0m \u001b[90m 107 |\u001b[39m       \u001b[36mconst\u001b[39m response \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m request\u001b[33m.\u001b[39m\u001b[36mget\u001b[39m(\u001b[32m`/api/notes/${createdNoteId}`\u001b[39m)\n \u001b[90m 108 |\u001b[39m       \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 109 |\u001b[39m       expect(response\u001b[33m.\u001b[39mok())\u001b[33m.\u001b[39mtoBeTruthy()\n \u001b[90m     |\u001b[39m                             \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 110 |\u001b[39m       \u001b[36mconst\u001b[39m data \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m response\u001b[33m.\u001b[39mjson()\n \u001b[90m 111 |\u001b[39m       expect(data\u001b[33m.\u001b[39msuccess)\u001b[33m.\u001b[39mtoBe(\u001b[36mtrue\u001b[39m)\n \u001b[90m 112 |\u001b[39m       expect(data\u001b[33m.\u001b[39mdata\u001b[33m.\u001b[39mid)\u001b[33m.\u001b[39mtoBe(createdNoteId)\u001b[0m"
+                          },
+                          "errors": [
+                            {
+                              "location": {
+                                "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js",
+                                "column": 29,
+                                "line": 109
+                              },
+                              "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeTruthy\u001b[2m()\u001b[22m\n\nReceived: \u001b[31mfalse\u001b[39m\n\n\u001b[0m \u001b[90m 107 |\u001b[39m       \u001b[36mconst\u001b[39m response \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m request\u001b[33m.\u001b[39m\u001b[36mget\u001b[39m(\u001b[32m`/api/notes/${createdNoteId}`\u001b[39m)\n \u001b[90m 108 |\u001b[39m       \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 109 |\u001b[39m       expect(response\u001b[33m.\u001b[39mok())\u001b[33m.\u001b[39mtoBeTruthy()\n \u001b[90m     |\u001b[39m                             \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 110 |\u001b[39m       \u001b[36mconst\u001b[39m data \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m response\u001b[33m.\u001b[39mjson()\n \u001b[90m 111 |\u001b[39m       expect(data\u001b[33m.\u001b[39msuccess)\u001b[33m.\u001b[39mtoBe(\u001b[36mtrue\u001b[39m)\n \u001b[90m 112 |\u001b[39m       expect(data\u001b[33m.\u001b[39mdata\u001b[33m.\u001b[39mid)\u001b[33m.\u001b[39mtoBe(createdNoteId)\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js:109:29\u001b[22m"
+                            }
+                          ],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "startTime": "2025-11-12T18:34:48.027Z",
+                          "annotations": [],
+                          "attachments": [],
+                          "errorLocation": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js",
+                            "column": 29,
+                            "line": 109
+                          }
+                        }
+                      ],
+                      "status": "unexpected"
+                    }
+                  ],
+                  "id": "41c4312642d799b42aff-fbbb522f0c7196e41761",
+                  "file": "api/notes.api.spec.js",
+                  "line": 106,
+                  "column": 5
+                },
+                {
+                  "title": "should return 404 for non-existent note",
+                  "ok": true,
+                  "tags": [
+                    "api"
+                  ],
+                  "tests": [
+                    {
+                      "timeout": 30000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "API Tests",
+                      "projectName": "API Tests",
+                      "results": [
+                        {
+                          "workerIndex": 1,
+                          "parallelIndex": 1,
+                          "status": "passed",
+                          "duration": 53,
+                          "errors": [],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "startTime": "2025-11-12T18:34:48.390Z",
+                          "annotations": [],
+                          "attachments": []
+                        }
+                      ],
+                      "status": "expected"
+                    }
+                  ],
+                  "id": "41c4312642d799b42aff-fb190d5e9e37cf052065",
+                  "file": "api/notes.api.spec.js",
+                  "line": 115,
+                  "column": 5
+                },
+                {
+                  "title": "should return 400 for invalid UUID format",
+                  "ok": false,
+                  "tags": [
+                    "api"
+                  ],
+                  "tests": [
+                    {
+                      "timeout": 30000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "API Tests",
+                      "projectName": "API Tests",
+                      "results": [
+                        {
+                          "workerIndex": 0,
+                          "parallelIndex": 0,
+                          "status": "failed",
+                          "duration": 44,
+                          "error": {
+                            "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m400\u001b[39m\nReceived: \u001b[31m500\u001b[39m",
+                            "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m400\u001b[39m\nReceived: \u001b[31m500\u001b[39m\n    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js:127:33",
+                            "location": {
+                              "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js",
+                              "column": 33,
+                              "line": 127
+                            },
+                            "snippet": "\u001b[0m \u001b[90m 125 |\u001b[39m       \u001b[36mconst\u001b[39m response \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m request\u001b[33m.\u001b[39m\u001b[36mget\u001b[39m(\u001b[32m'/api/notes/invalid-uuid'\u001b[39m)\n \u001b[90m 126 |\u001b[39m       \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 127 |\u001b[39m       expect(response\u001b[33m.\u001b[39mstatus())\u001b[33m.\u001b[39mtoBe(\u001b[35m400\u001b[39m)\n \u001b[90m     |\u001b[39m                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 128 |\u001b[39m     })\n \u001b[90m 129 |\u001b[39m   })\n \u001b[90m 130 |\u001b[39m   \u001b[0m"
+                          },
+                          "errors": [
+                            {
+                              "location": {
+                                "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js",
+                                "column": 33,
+                                "line": 127
+                              },
+                              "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m400\u001b[39m\nReceived: \u001b[31m500\u001b[39m\n\n\u001b[0m \u001b[90m 125 |\u001b[39m       \u001b[36mconst\u001b[39m response \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m request\u001b[33m.\u001b[39m\u001b[36mget\u001b[39m(\u001b[32m'/api/notes/invalid-uuid'\u001b[39m)\n \u001b[90m 126 |\u001b[39m       \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 127 |\u001b[39m       expect(response\u001b[33m.\u001b[39mstatus())\u001b[33m.\u001b[39mtoBe(\u001b[35m400\u001b[39m)\n \u001b[90m     |\u001b[39m                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 128 |\u001b[39m     })\n \u001b[90m 129 |\u001b[39m   })\n \u001b[90m 130 |\u001b[39m   \u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js:127:33\u001b[22m"
+                            }
+                          ],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "startTime": "2025-11-12T18:34:48.432Z",
+                          "annotations": [],
+                          "attachments": [],
+                          "errorLocation": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js",
+                            "column": 33,
+                            "line": 127
+                          }
+                        }
+                      ],
+                      "status": "unexpected"
+                    }
+                  ],
+                  "id": "41c4312642d799b42aff-3309e70707f924d32db2",
+                  "file": "api/notes.api.spec.js",
+                  "line": 124,
+                  "column": 5
+                }
+              ]
+            },
+            {
+              "title": "PUT /api/notes/:id",
+              "file": "api/notes.api.spec.js",
+              "line": 131,
+              "column": 8,
+              "specs": [
+                {
+                  "title": "should update note successfully",
+                  "ok": false,
+                  "tags": [
+                    "api"
+                  ],
+                  "tests": [
+                    {
+                      "timeout": 30000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "API Tests",
+                      "projectName": "API Tests",
+                      "results": [
+                        {
+                          "workerIndex": 6,
+                          "parallelIndex": 2,
+                          "status": "failed",
+                          "duration": 632,
+                          "error": {
+                            "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeTruthy\u001b[2m()\u001b[22m\n\nReceived: \u001b[31mfalse\u001b[39m",
+                            "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeTruthy\u001b[2m()\u001b[22m\n\nReceived: \u001b[31mfalse\u001b[39m\n    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js:143:29",
+                            "location": {
+                              "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js",
+                              "column": 29,
+                              "line": 143
+                            },
+                            "snippet": "\u001b[0m \u001b[90m 141 |\u001b[39m       })\n \u001b[90m 142 |\u001b[39m       \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 143 |\u001b[39m       expect(response\u001b[33m.\u001b[39mok())\u001b[33m.\u001b[39mtoBeTruthy()\n \u001b[90m     |\u001b[39m                             \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 144 |\u001b[39m       \u001b[36mconst\u001b[39m data \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m response\u001b[33m.\u001b[39mjson()\n \u001b[90m 145 |\u001b[39m       expect(data\u001b[33m.\u001b[39mdata\u001b[33m.\u001b[39mtitle)\u001b[33m.\u001b[39mtoBe(updates\u001b[33m.\u001b[39mtitle)\n \u001b[90m 146 |\u001b[39m       expect(data\u001b[33m.\u001b[39mdata\u001b[33m.\u001b[39mcontent)\u001b[33m.\u001b[39mtoBe(updates\u001b[33m.\u001b[39mcontent)\u001b[0m"
+                          },
+                          "errors": [
+                            {
+                              "location": {
+                                "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js",
+                                "column": 29,
+                                "line": 143
+                              },
+                              "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeTruthy\u001b[2m()\u001b[22m\n\nReceived: \u001b[31mfalse\u001b[39m\n\n\u001b[0m \u001b[90m 141 |\u001b[39m       })\n \u001b[90m 142 |\u001b[39m       \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 143 |\u001b[39m       expect(response\u001b[33m.\u001b[39mok())\u001b[33m.\u001b[39mtoBeTruthy()\n \u001b[90m     |\u001b[39m                             \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 144 |\u001b[39m       \u001b[36mconst\u001b[39m data \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m response\u001b[33m.\u001b[39mjson()\n \u001b[90m 145 |\u001b[39m       expect(data\u001b[33m.\u001b[39mdata\u001b[33m.\u001b[39mtitle)\u001b[33m.\u001b[39mtoBe(updates\u001b[33m.\u001b[39mtitle)\n \u001b[90m 146 |\u001b[39m       expect(data\u001b[33m.\u001b[39mdata\u001b[33m.\u001b[39mcontent)\u001b[33m.\u001b[39mtoBe(updates\u001b[33m.\u001b[39mcontent)\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js:143:29\u001b[22m"
+                            }
+                          ],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "startTime": "2025-11-12T18:34:52.475Z",
+                          "annotations": [],
+                          "attachments": [],
+                          "errorLocation": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js",
+                            "column": 29,
+                            "line": 143
+                          }
+                        }
+                      ],
+                      "status": "unexpected"
+                    }
+                  ],
+                  "id": "41c4312642d799b42aff-8aaa177926bd9a5c31b6",
+                  "file": "api/notes.api.spec.js",
+                  "line": 133,
+                  "column": 5
+                },
+                {
+                  "title": "should return 404 for updating non-existent note",
+                  "ok": true,
+                  "tags": [
+                    "api"
+                  ],
+                  "tests": [
+                    {
+                      "timeout": 30000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "API Tests",
+                      "projectName": "API Tests",
+                      "results": [
+                        {
+                          "workerIndex": 1,
+                          "parallelIndex": 1,
+                          "status": "passed",
+                          "duration": 35,
+                          "errors": [],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "startTime": "2025-11-12T18:34:48.568Z",
+                          "annotations": [],
+                          "attachments": []
+                        }
+                      ],
+                      "status": "expected"
+                    }
+                  ],
+                  "id": "41c4312642d799b42aff-0d20dfa12bec2ec62de7",
+                  "file": "api/notes.api.spec.js",
+                  "line": 149,
+                  "column": 5
+                }
+              ]
+            },
+            {
+              "title": "DELETE /api/notes/:id",
+              "file": "api/notes.api.spec.js",
+              "line": 160,
+              "column": 8,
+              "specs": [
+                {
+                  "title": "should soft delete note",
+                  "ok": false,
+                  "tags": [
+                    "api"
+                  ],
+                  "tests": [
+                    {
+                      "timeout": 30000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "API Tests",
+                      "projectName": "API Tests",
+                      "results": [
+                        {
+                          "workerIndex": 7,
+                          "parallelIndex": 5,
+                          "status": "failed",
+                          "duration": 215,
+                          "error": {
+                            "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeTruthy\u001b[2m()\u001b[22m\n\nReceived: \u001b[31mfalse\u001b[39m",
+                            "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeTruthy\u001b[2m()\u001b[22m\n\nReceived: \u001b[31mfalse\u001b[39m\n    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js:165:29",
+                            "location": {
+                              "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js",
+                              "column": 29,
+                              "line": 165
+                            },
+                            "snippet": "\u001b[0m \u001b[90m 163 |\u001b[39m       \u001b[36mconst\u001b[39m response \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m request\u001b[33m.\u001b[39m\u001b[36mdelete\u001b[39m(\u001b[32m`/api/notes/${createdNoteId}`\u001b[39m)\n \u001b[90m 164 |\u001b[39m       \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 165 |\u001b[39m       expect(response\u001b[33m.\u001b[39mok())\u001b[33m.\u001b[39mtoBeTruthy()\n \u001b[90m     |\u001b[39m                             \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 166 |\u001b[39m       \n \u001b[90m 167 |\u001b[39m       \u001b[90m// Verify note is soft deleted (not in list)\u001b[39m\n \u001b[90m 168 |\u001b[39m       \u001b[36mconst\u001b[39m getResponse \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m request\u001b[33m.\u001b[39m\u001b[36mget\u001b[39m(\u001b[32m`/api/notes/${createdNoteId}`\u001b[39m)\u001b[0m"
+                          },
+                          "errors": [
+                            {
+                              "location": {
+                                "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js",
+                                "column": 29,
+                                "line": 165
+                              },
+                              "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeTruthy\u001b[2m()\u001b[22m\n\nReceived: \u001b[31mfalse\u001b[39m\n\n\u001b[0m \u001b[90m 163 |\u001b[39m       \u001b[36mconst\u001b[39m response \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m request\u001b[33m.\u001b[39m\u001b[36mdelete\u001b[39m(\u001b[32m`/api/notes/${createdNoteId}`\u001b[39m)\n \u001b[90m 164 |\u001b[39m       \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 165 |\u001b[39m       expect(response\u001b[33m.\u001b[39mok())\u001b[33m.\u001b[39mtoBeTruthy()\n \u001b[90m     |\u001b[39m                             \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 166 |\u001b[39m       \n \u001b[90m 167 |\u001b[39m       \u001b[90m// Verify note is soft deleted (not in list)\u001b[39m\n \u001b[90m 168 |\u001b[39m       \u001b[36mconst\u001b[39m getResponse \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m request\u001b[33m.\u001b[39m\u001b[36mget\u001b[39m(\u001b[32m`/api/notes/${createdNoteId}`\u001b[39m)\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js:165:29\u001b[22m"
+                            }
+                          ],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "startTime": "2025-11-12T18:34:52.407Z",
+                          "annotations": [],
+                          "attachments": [],
+                          "errorLocation": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js",
+                            "column": 29,
+                            "line": 165
+                          }
+                        }
+                      ],
+                      "status": "unexpected"
+                    }
+                  ],
+                  "id": "41c4312642d799b42aff-5dc3a85fedd3f28d77be",
+                  "file": "api/notes.api.spec.js",
+                  "line": 162,
+                  "column": 5
+                },
+                {
+                  "title": "should return 404 for deleting non-existent note",
+                  "ok": true,
+                  "tags": [
+                    "api"
+                  ],
+                  "tests": [
+                    {
+                      "timeout": 30000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "API Tests",
+                      "projectName": "API Tests",
+                      "results": [
+                        {
+                          "workerIndex": 9,
+                          "parallelIndex": 3,
+                          "status": "passed",
+                          "duration": 644,
+                          "errors": [],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "startTime": "2025-11-12T18:34:52.571Z",
+                          "annotations": [],
+                          "attachments": []
+                        }
+                      ],
+                      "status": "expected"
+                    }
+                  ],
+                  "id": "41c4312642d799b42aff-be8c8b227b0dbc132ed1",
+                  "file": "api/notes.api.spec.js",
+                  "line": 172,
+                  "column": 5
+                }
+              ]
+            },
+            {
+              "title": "Performance Tests",
+              "file": "api/notes.api.spec.js",
+              "line": 181,
+              "column": 8,
+              "specs": [
+                {
+                  "title": "should respond within 500ms",
+                  "ok": false,
+                  "tags": [
+                    "api"
+                  ],
+                  "tests": [
+                    {
+                      "timeout": 30000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "API Tests",
+                      "projectName": "API Tests",
+                      "results": [
+                        {
+                          "workerIndex": 8,
+                          "parallelIndex": 0,
+                          "status": "failed",
+                          "duration": 719,
+                          "error": {
+                            "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: < \u001b[32m500\u001b[39m\nReceived:   \u001b[31m603\u001b[39m",
+                            "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: < \u001b[32m500\u001b[39m\nReceived:   \u001b[31m603\u001b[39m\n    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js:189:24",
+                            "location": {
+                              "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js",
+                              "column": 24,
+                              "line": 189
+                            },
+                            "snippet": "\u001b[0m \u001b[90m 187 |\u001b[39m       \n \u001b[90m 188 |\u001b[39m       \u001b[36mconst\u001b[39m duration \u001b[33m=\u001b[39m \u001b[33mDate\u001b[39m\u001b[33m.\u001b[39mnow() \u001b[33m-\u001b[39m startTime\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 189 |\u001b[39m       expect(duration)\u001b[33m.\u001b[39mtoBeLessThan(\u001b[35m500\u001b[39m)\n \u001b[90m     |\u001b[39m                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 190 |\u001b[39m     })\n \u001b[90m 191 |\u001b[39m   })\n \u001b[90m 192 |\u001b[39m })\u001b[0m"
+                          },
+                          "errors": [
+                            {
+                              "location": {
+                                "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js",
+                                "column": 24,
+                                "line": 189
+                              },
+                              "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: < \u001b[32m500\u001b[39m\nReceived:   \u001b[31m603\u001b[39m\n\n\u001b[0m \u001b[90m 187 |\u001b[39m       \n \u001b[90m 188 |\u001b[39m       \u001b[36mconst\u001b[39m duration \u001b[33m=\u001b[39m \u001b[33mDate\u001b[39m\u001b[33m.\u001b[39mnow() \u001b[33m-\u001b[39m startTime\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 189 |\u001b[39m       expect(duration)\u001b[33m.\u001b[39mtoBeLessThan(\u001b[35m500\u001b[39m)\n \u001b[90m     |\u001b[39m                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 190 |\u001b[39m     })\n \u001b[90m 191 |\u001b[39m   })\n \u001b[90m 192 |\u001b[39m })\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js:189:24\u001b[22m"
+                            }
+                          ],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "startTime": "2025-11-12T18:34:52.660Z",
+                          "annotations": [],
+                          "attachments": [],
+                          "errorLocation": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\backend\\tests\\api\\notes.api.spec.js",
+                            "column": 24,
+                            "line": 189
+                          }
+                        }
+                      ],
+                      "status": "unexpected"
+                    }
+                  ],
+                  "id": "41c4312642d799b42aff-d1b2f8e0f0e3a7487bf3",
+                  "file": "api/notes.api.spec.js",
+                  "line": 183,
+                  "column": 5
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2025-11-12T18:34:43.878Z",
+    "duration": 9745.547999999999,
+    "expected": 6,
+    "skipped": 0,
+    "unexpected": 8,
+    "flaky": 0
+  }
+}

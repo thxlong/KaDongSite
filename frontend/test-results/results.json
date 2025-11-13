@@ -1,0 +1,2271 @@
+{
+  "config": {
+    "configFile": "C:\\Projects\\Personal\\KaDongSite\\frontend\\playwright.config.js",
+    "rootDir": "C:/Projects/Personal/KaDongSite/frontend/tests",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 6
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "html",
+        {
+          "outputFolder": "playwright-report",
+          "open": "never"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results/results.json"
+        }
+      ],
+      [
+        "list",
+        null
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "C:/Projects/Personal/KaDongSite/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 6
+        },
+        "id": "chromium-e2e",
+        "name": "chromium-e2e",
+        "testDir": "C:/Projects/Personal/KaDongSite/frontend/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "/.*\\.e2e\\.spec\\.js/"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "C:/Projects/Personal/KaDongSite/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 6
+        },
+        "id": "firefox-e2e",
+        "name": "firefox-e2e",
+        "testDir": "C:/Projects/Personal/KaDongSite/frontend/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "/.*\\.e2e\\.spec\\.js/"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "C:/Projects/Personal/KaDongSite/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 6
+        },
+        "id": "webkit-e2e",
+        "name": "webkit-e2e",
+        "testDir": "C:/Projects/Personal/KaDongSite/frontend/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "/.*\\.e2e\\.spec\\.js/"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "C:/Projects/Personal/KaDongSite/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 6
+        },
+        "id": "mobile-chrome",
+        "name": "mobile-chrome",
+        "testDir": "C:/Projects/Personal/KaDongSite/frontend/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "/.*\\.mobile\\.spec\\.js/"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "C:/Projects/Personal/KaDongSite/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 6
+        },
+        "id": "mobile-safari",
+        "name": "mobile-safari",
+        "testDir": "C:/Projects/Personal/KaDongSite/frontend/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "/.*\\.mobile\\.spec\\.js/"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "C:/Projects/Personal/KaDongSite/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 6
+        },
+        "id": "component-tests",
+        "name": "component-tests",
+        "testDir": "C:/Projects/Personal/KaDongSite/frontend/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "/.*\\.component\\.spec\\.js/"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.56.1",
+    "workers": 6,
+    "webServer": {
+      "command": "npm run dev",
+      "url": "http://localhost:3000",
+      "reuseExistingServer": true,
+      "timeout": 120000
+    }
+  },
+  "suites": [
+    {
+      "title": "e2e\\notes.e2e.spec.js",
+      "file": "e2e/notes.e2e.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Notes Tool - E2E @e2e",
+          "file": "e2e/notes.e2e.spec.js",
+          "line": 8,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should display notes page correctly",
+              "ok": false,
+              "tags": [
+                "e2e"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-e2e",
+                  "projectName": "chromium-e2e",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 22043,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveTitle\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: \u001b[32m/Notes/\u001b[39m\nReceived string:  \u001b[31m\"KaDong Tools - Tiện ích cho hai chúng mình ❤️\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveTitle\" with timeout 5000ms\u001b[22m\n\u001b[2m    8 × unexpected value \"KaDong Tools - Tiện ích cho hai chúng mình ❤️\"\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveTitle\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: \u001b[32m/Notes/\u001b[39m\nReceived string:  \u001b[31m\"KaDong Tools - Tiện ích cho hai chúng mình ❤️\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveTitle\" with timeout 5000ms\u001b[22m\n\u001b[2m    8 × unexpected value \"KaDong Tools - Tiện ích cho hai chúng mình ❤️\"\u001b[22m\n\n    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:20:24",
+                        "location": {
+                          "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
+                          "column": 24,
+                          "line": 20
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 18 |\u001b[39m   test(\u001b[32m'should display notes page correctly'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 19 |\u001b[39m     \u001b[90m// Verify page title\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 20 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page)\u001b[33m.\u001b[39mtoHaveTitle(\u001b[35m/Notes/\u001b[39m)\n \u001b[90m    |\u001b[39m                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 21 |\u001b[39m     \n \u001b[90m 22 |\u001b[39m     \u001b[90m// Verify main components\u001b[39m\n \u001b[90m 23 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'h1'\u001b[39m))\u001b[33m.\u001b[39mtoContainText(\u001b[32m'Notes'\u001b[39m)\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
+                            "column": 24,
+                            "line": 20
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveTitle\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: \u001b[32m/Notes/\u001b[39m\nReceived string:  \u001b[31m\"KaDong Tools - Tiện ích cho hai chúng mình ❤️\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveTitle\" with timeout 5000ms\u001b[22m\n\u001b[2m    8 × unexpected value \"KaDong Tools - Tiện ích cho hai chúng mình ❤️\"\u001b[22m\n\n\n\u001b[0m \u001b[90m 18 |\u001b[39m   test(\u001b[32m'should display notes page correctly'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 19 |\u001b[39m     \u001b[90m// Verify page title\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 20 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page)\u001b[33m.\u001b[39mtoHaveTitle(\u001b[35m/Notes/\u001b[39m)\n \u001b[90m    |\u001b[39m                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 21 |\u001b[39m     \n \u001b[90m 22 |\u001b[39m     \u001b[90m// Verify main components\u001b[39m\n \u001b[90m 23 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'h1'\u001b[39m))\u001b[33m.\u001b[39mtoContainText(\u001b[32m'Notes'\u001b[39m)\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:20:24\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-11-12T18:37:38.271Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---0f8ad-isplay-notes-page-correctly-chromium-e2e\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---0f8ad-isplay-notes-page-correctly-chromium-e2e\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---0f8ad-isplay-notes-page-correctly-chromium-e2e\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
+                        "column": 24,
+                        "line": 20
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "ff53ee29a0197f08488a-72e65174dd8f056aafe1",
+              "file": "e2e/notes.e2e.spec.js",
+              "line": 18,
+              "column": 3
+            },
+            {
+              "title": "should create new note",
+              "ok": false,
+              "tags": [
+                "e2e"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-e2e",
+                  "projectName": "chromium-e2e",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "timedOut",
+                      "duration": 31079,
+                      "error": {
+                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                      },
+                      "errors": [
+                        {
+                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                        },
+                        {
+                          "location": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
+                            "column": 16,
+                            "line": 30
+                          },
+                          "message": "Error: page.click: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-testid=\"add-note-button\"]')\u001b[22m\n\n\n\u001b[0m \u001b[90m 28 |\u001b[39m   test(\u001b[32m'should create new note'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 29 |\u001b[39m     \u001b[90m// Click add note button\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 30 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'[data-testid=\"add-note-button\"]'\u001b[39m)\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 31 |\u001b[39m     \n \u001b[90m 32 |\u001b[39m     \u001b[90m// Fill in note form\u001b[39m\n \u001b[90m 33 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mfill(\u001b[32m'[name=\"title\"]'\u001b[39m\u001b[33m,\u001b[39m \u001b[32m'E2E Test Note'\u001b[39m)\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:30:16\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-11-12T18:37:38.267Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---E2E-e2e-should-create-new-note-chromium-e2e\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---E2E-e2e-should-create-new-note-chromium-e2e\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---E2E-e2e-should-create-new-note-chromium-e2e\\error-context.md"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "ff53ee29a0197f08488a-4b51380f1795cd851406",
+              "file": "e2e/notes.e2e.spec.js",
+              "line": 28,
+              "column": 3
+            },
+            {
+              "title": "should search notes",
+              "ok": false,
+              "tags": [
+                "e2e"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-e2e",
+                  "projectName": "chromium-e2e",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "timedOut",
+                      "duration": 31425,
+                      "error": {
+                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                      },
+                      "errors": [
+                        {
+                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                        },
+                        {
+                          "location": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
+                            "column": 16,
+                            "line": 51
+                          },
+                          "message": "Error: page.fill: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-testid=\"search-input\"]')\u001b[22m\n\n\n\u001b[0m \u001b[90m 49 |\u001b[39m   test(\u001b[32m'should search notes'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 50 |\u001b[39m     \u001b[90m// Type in search box\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 51 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mfill(\u001b[32m'[data-testid=\"search-input\"]'\u001b[39m\u001b[33m,\u001b[39m \u001b[32m'test'\u001b[39m)\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 52 |\u001b[39m     \n \u001b[90m 53 |\u001b[39m     \u001b[90m// Wait for debounce/search\u001b[39m\n \u001b[90m 54 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m500\u001b[39m)\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:51:16\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-11-12T18:37:38.566Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---E2E-e2e-should-search-notes-chromium-e2e\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---E2E-e2e-should-search-notes-chromium-e2e\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---E2E-e2e-should-search-notes-chromium-e2e\\error-context.md"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "ff53ee29a0197f08488a-0426b4d1ebde5abf3fad",
+              "file": "e2e/notes.e2e.spec.js",
+              "line": 49,
+              "column": 3
+            },
+            {
+              "title": "should edit existing note",
+              "ok": false,
+              "tags": [
+                "e2e"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-e2e",
+                  "projectName": "chromium-e2e",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "timedOut",
+                      "duration": 31682,
+                      "error": {
+                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                      },
+                      "errors": [
+                        {
+                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                        },
+                        {
+                          "location": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
+                            "column": 16,
+                            "line": 69
+                          },
+                          "message": "Error: page.click: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.note-card:first-child')\u001b[22m\n\n\n\u001b[0m \u001b[90m 67 |\u001b[39m   test(\u001b[32m'should edit existing note'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 68 |\u001b[39m     \u001b[90m// Click first note\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 69 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'.note-card:first-child'\u001b[39m)\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 70 |\u001b[39m     \n \u001b[90m 71 |\u001b[39m     \u001b[90m// Click edit button\u001b[39m\n \u001b[90m 72 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'[aria-label=\"Edit\"], button:has-text(\"Edit\")'\u001b[39m)\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:69:16\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-11-12T18:37:38.233Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---E2E-e2e-should-edit-existing-note-chromium-e2e\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---E2E-e2e-should-edit-existing-note-chromium-e2e\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---E2E-e2e-should-edit-existing-note-chromium-e2e\\error-context.md"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "ff53ee29a0197f08488a-ed4461c72772889bc214",
+              "file": "e2e/notes.e2e.spec.js",
+              "line": 67,
+              "column": 3
+            },
+            {
+              "title": "should delete note",
+              "ok": false,
+              "tags": [
+                "e2e"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-e2e",
+                  "projectName": "chromium-e2e",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 4,
+                      "status": "timedOut",
+                      "duration": 31449,
+                      "error": {
+                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                      },
+                      "errors": [
+                        {
+                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                        },
+                        {
+                          "location": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
+                            "column": 66,
+                            "line": 88
+                          },
+                          "message": "Error: locator.textContent: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.note-card:first-child').locator('h3, .note-title')\u001b[22m\n\n\n\u001b[0m \u001b[90m 86 |\u001b[39m     \u001b[90m// Get first note title\u001b[39m\n \u001b[90m 87 |\u001b[39m     \u001b[36mconst\u001b[39m firstNote \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'.note-card:first-child'\u001b[39m)\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 88 |\u001b[39m     \u001b[36mconst\u001b[39m noteTitle \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m firstNote\u001b[33m.\u001b[39mlocator(\u001b[32m'h3, .note-title'\u001b[39m)\u001b[33m.\u001b[39mtextContent()\n \u001b[90m    |\u001b[39m                                                                  \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 89 |\u001b[39m     \n \u001b[90m 90 |\u001b[39m     \u001b[90m// Click delete button\u001b[39m\n \u001b[90m 91 |\u001b[39m     \u001b[36mawait\u001b[39m firstNote\u001b[33m.\u001b[39mlocator(\u001b[32m'[aria-label=\"Delete\"], button:has-text(\"Delete\")'\u001b[39m)\u001b[33m.\u001b[39mclick()\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:88:66\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-11-12T18:37:38.366Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---E2E-e2e-should-delete-note-chromium-e2e\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---E2E-e2e-should-delete-note-chromium-e2e\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---E2E-e2e-should-delete-note-chromium-e2e\\error-context.md"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "ff53ee29a0197f08488a-4232359e9d20a1286ab3",
+              "file": "e2e/notes.e2e.spec.js",
+              "line": 85,
+              "column": 3
+            },
+            {
+              "title": "should filter notes by color",
+              "ok": false,
+              "tags": [
+                "e2e"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-e2e",
+                  "projectName": "chromium-e2e",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 5,
+                      "status": "timedOut",
+                      "duration": 31451,
+                      "error": {
+                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                      },
+                      "errors": [
+                        {
+                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                        },
+                        {
+                          "location": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
+                            "column": 16,
+                            "line": 102
+                          },
+                          "message": "Error: page.click: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-filter=\"pink\"]')\u001b[22m\n\n\n\u001b[0m \u001b[90m 100 |\u001b[39m   test(\u001b[32m'should filter notes by color'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 101 |\u001b[39m     \u001b[90m// Click color filter\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 102 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'[data-filter=\"pink\"]'\u001b[39m)\n \u001b[90m     |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 103 |\u001b[39m     \n \u001b[90m 104 |\u001b[39m     \u001b[90m// Verify only pink notes shown\u001b[39m\n \u001b[90m 105 |\u001b[39m     \u001b[36mconst\u001b[39m notes \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'.note-card'\u001b[39m)\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:102:16\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-11-12T18:37:38.580Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---8cddd-hould-filter-notes-by-color-chromium-e2e\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---8cddd-hould-filter-notes-by-color-chromium-e2e\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---8cddd-hould-filter-notes-by-color-chromium-e2e\\error-context.md"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "ff53ee29a0197f08488a-2219f4c5435c99a23093",
+              "file": "e2e/notes.e2e.spec.js",
+              "line": 100,
+              "column": 3
+            },
+            {
+              "title": "should persist data after reload",
+              "ok": false,
+              "tags": [
+                "e2e"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-e2e",
+                  "projectName": "chromium-e2e",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 0,
+                      "status": "timedOut",
+                      "duration": 31676,
+                      "error": {
+                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                      },
+                      "errors": [
+                        {
+                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                        },
+                        {
+                          "location": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
+                            "column": 16,
+                            "line": 117
+                          },
+                          "message": "Error: page.click: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-testid=\"add-note-button\"]')\u001b[22m\n\n\n\u001b[0m \u001b[90m 115 |\u001b[39m     \u001b[36mconst\u001b[39m uniqueTitle \u001b[33m=\u001b[39m \u001b[32m'Persist Test '\u001b[39m \u001b[33m+\u001b[39m \u001b[33mDate\u001b[39m\u001b[33m.\u001b[39mnow()\n \u001b[90m 116 |\u001b[39m     \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 117 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'[data-testid=\"add-note-button\"]'\u001b[39m)\n \u001b[90m     |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 118 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mfill(\u001b[32m'[name=\"title\"]'\u001b[39m\u001b[33m,\u001b[39m uniqueTitle)\n \u001b[90m 119 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mfill(\u001b[32m'[name=\"content\"]'\u001b[39m\u001b[33m,\u001b[39m \u001b[32m'Should persist'\u001b[39m)\n \u001b[90m 120 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'button:has-text(\"Save\")'\u001b[39m)\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:117:16\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-11-12T18:38:08.203Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---aa00e-d-persist-data-after-reload-chromium-e2e\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---aa00e-d-persist-data-after-reload-chromium-e2e\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---aa00e-d-persist-data-after-reload-chromium-e2e\\error-context.md"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "ff53ee29a0197f08488a-e91fa47d264308d903d5",
+              "file": "e2e/notes.e2e.spec.js",
+              "line": 113,
+              "column": 3
+            },
+            {
+              "title": "should handle network errors gracefully",
+              "ok": false,
+              "tags": [
+                "e2e"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-e2e",
+                  "projectName": "chromium-e2e",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 1,
+                      "status": "timedOut",
+                      "duration": 30818,
+                      "error": {
+                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                      },
+                      "errors": [
+                        {
+                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                        },
+                        {
+                          "location": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
+                            "column": 16,
+                            "line": 138
+                          },
+                          "message": "Error: page.click: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-testid=\"add-note-button\"]')\u001b[22m\n\n\n\u001b[0m \u001b[90m 136 |\u001b[39m     \n \u001b[90m 137 |\u001b[39m     \u001b[90m// Try to create note\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 138 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'[data-testid=\"add-note-button\"]'\u001b[39m)\n \u001b[90m     |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 139 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mfill(\u001b[32m'[name=\"title\"]'\u001b[39m\u001b[33m,\u001b[39m \u001b[32m'Offline Note'\u001b[39m)\n \u001b[90m 140 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'button:has-text(\"Save\")'\u001b[39m)\n \u001b[90m 141 |\u001b[39m     \u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:138:16\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-11-12T18:38:16.618Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---2ee50-e-network-errors-gracefully-chromium-e2e\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---2ee50-e-network-errors-gracefully-chromium-e2e\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---2ee50-e-network-errors-gracefully-chromium-e2e\\error-context.md"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "ff53ee29a0197f08488a-2d1eed6270436460c16e",
+              "file": "e2e/notes.e2e.spec.js",
+              "line": 133,
+              "column": 3
+            },
+            {
+              "title": "should validate required fields",
+              "ok": false,
+              "tags": [
+                "e2e"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-e2e",
+                  "projectName": "chromium-e2e",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 2,
+                      "status": "timedOut",
+                      "duration": 30820,
+                      "error": {
+                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                      },
+                      "errors": [
+                        {
+                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                        },
+                        {
+                          "location": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
+                            "column": 16,
+                            "line": 151
+                          },
+                          "message": "Error: page.click: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-testid=\"add-note-button\"]')\u001b[22m\n\n\n\u001b[0m \u001b[90m 149 |\u001b[39m   test(\u001b[32m'should validate required fields'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 150 |\u001b[39m     \u001b[90m// Try to save empty note\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 151 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'[data-testid=\"add-note-button\"]'\u001b[39m)\n \u001b[90m     |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 152 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'button:has-text(\"Save\")'\u001b[39m)\n \u001b[90m 153 |\u001b[39m     \n \u001b[90m 154 |\u001b[39m     \u001b[90m// Verify validation error\u001b[39m\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:151:16\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-11-12T18:38:16.684Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---c15e2-ld-validate-required-fields-chromium-e2e\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---c15e2-ld-validate-required-fields-chromium-e2e\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---c15e2-ld-validate-required-fields-chromium-e2e\\error-context.md"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "ff53ee29a0197f08488a-94fe07d3f536d2c5b41e",
+              "file": "e2e/notes.e2e.spec.js",
+              "line": 149,
+              "column": 3
+            },
+            {
+              "title": "should support keyboard navigation",
+              "ok": false,
+              "tags": [
+                "e2e"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-e2e",
+                  "projectName": "chromium-e2e",
+                  "results": [
+                    {
+                      "workerIndex": 9,
+                      "parallelIndex": 4,
+                      "status": "failed",
+                      "duration": 23898,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeFocused\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"search-input\"]')\nExpected: focused\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeFocused\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"search-input\"]')\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeFocused\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"search-input\"]')\nExpected: focused\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeFocused\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"search-input\"]')\u001b[22m\n\n    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:163:64",
+                        "location": {
+                          "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
+                          "column": 64,
+                          "line": 163
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 161 |\u001b[39m     \n \u001b[90m 162 |\u001b[39m     \u001b[90m// Verify search focused\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 163 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-testid=\"search-input\"]'\u001b[39m))\u001b[33m.\u001b[39mtoBeFocused()\n \u001b[90m     |\u001b[39m                                                                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 164 |\u001b[39m     \n \u001b[90m 165 |\u001b[39m     \u001b[90m// Escape to close modal (if any open)\u001b[39m\n \u001b[90m 166 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mkeyboard\u001b[33m.\u001b[39mpress(\u001b[32m'Escape'\u001b[39m)\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
+                            "column": 64,
+                            "line": 163
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeFocused\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"search-input\"]')\nExpected: focused\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeFocused\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"search-input\"]')\u001b[22m\n\n\n\u001b[0m \u001b[90m 161 |\u001b[39m     \n \u001b[90m 162 |\u001b[39m     \u001b[90m// Verify search focused\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 163 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-testid=\"search-input\"]'\u001b[39m))\u001b[33m.\u001b[39mtoBeFocused()\n \u001b[90m     |\u001b[39m                                                                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 164 |\u001b[39m     \n \u001b[90m 165 |\u001b[39m     \u001b[90m// Escape to close modal (if any open)\u001b[39m\n \u001b[90m 166 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mkeyboard\u001b[33m.\u001b[39mpress(\u001b[32m'Escape'\u001b[39m)\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:163:64\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-11-12T18:38:16.731Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---3e0e0-support-keyboard-navigation-chromium-e2e\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---3e0e0-support-keyboard-navigation-chromium-e2e\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---3e0e0-support-keyboard-navigation-chromium-e2e\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
+                        "column": 64,
+                        "line": 163
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "ff53ee29a0197f08488a-40b2aef185d504085f79",
+              "file": "e2e/notes.e2e.spec.js",
+              "line": 158,
+              "column": 3
+            },
+            {
+              "title": "should display notes page correctly",
+              "ok": false,
+              "tags": [
+                "e2e"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox-e2e",
+                  "projectName": "firefox-e2e",
+                  "results": [
+                    {
+                      "workerIndex": 10,
+                      "parallelIndex": 5,
+                      "status": "timedOut",
+                      "duration": 30923,
+                      "error": {
+                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                      },
+                      "errors": [
+                        {
+                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                        },
+                        {
+                          "location": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
+                            "column": 24,
+                            "line": 20
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveTitle\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: \u001b[32m/Notes/\u001b[39m\nReceived string:  \u001b[31m\"KaDong Tools - Tiện ích cho hai chúng mình ❤️\"\u001b[39m\n\nCall log:\n\u001b[2m  - Expect \"toHaveTitle\" with timeout 5000ms\u001b[22m\n\u001b[2m    5 × unexpected value \"KaDong Tools - Tiện ích cho hai chúng mình ❤️\"\u001b[22m\n\n\n\u001b[0m \u001b[90m 18 |\u001b[39m   test(\u001b[32m'should display notes page correctly'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 19 |\u001b[39m     \u001b[90m// Verify page title\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 20 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page)\u001b[33m.\u001b[39mtoHaveTitle(\u001b[35m/Notes/\u001b[39m)\n \u001b[90m    |\u001b[39m                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 21 |\u001b[39m     \n \u001b[90m 22 |\u001b[39m     \u001b[90m// Verify main components\u001b[39m\n \u001b[90m 23 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'h1'\u001b[39m))\u001b[33m.\u001b[39mtoContainText(\u001b[32m'Notes'\u001b[39m)\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:20:24\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-11-12T18:38:16.720Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---0f8ad-isplay-notes-page-correctly-firefox-e2e\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---0f8ad-isplay-notes-page-correctly-firefox-e2e\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---0f8ad-isplay-notes-page-correctly-firefox-e2e\\error-context.md"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "ff53ee29a0197f08488a-ad4a1e9d1e6ed57012bc",
+              "file": "e2e/notes.e2e.spec.js",
+              "line": 18,
+              "column": 3
+            },
+            {
+              "title": "should create new note",
+              "ok": false,
+              "tags": [
+                "e2e"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox-e2e",
+                  "projectName": "firefox-e2e",
+                  "results": [
+                    {
+                      "workerIndex": 11,
+                      "parallelIndex": 3,
+                      "status": "timedOut",
+                      "duration": 31700,
+                      "error": {
+                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                      },
+                      "errors": [
+                        {
+                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                        },
+                        {
+                          "location": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
+                            "column": 16,
+                            "line": 30
+                          },
+                          "message": "Error: page.click: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-testid=\"add-note-button\"]')\u001b[22m\n\n\n\u001b[0m \u001b[90m 28 |\u001b[39m   test(\u001b[32m'should create new note'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 29 |\u001b[39m     \u001b[90m// Click add note button\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 30 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'[data-testid=\"add-note-button\"]'\u001b[39m)\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 31 |\u001b[39m     \n \u001b[90m 32 |\u001b[39m     \u001b[90m// Fill in note form\u001b[39m\n \u001b[90m 33 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mfill(\u001b[32m'[name=\"title\"]'\u001b[39m\u001b[33m,\u001b[39m \u001b[32m'E2E Test Note'\u001b[39m)\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:30:16\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-11-12T18:38:16.842Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---E2E-e2e-should-create-new-note-firefox-e2e\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---E2E-e2e-should-create-new-note-firefox-e2e\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---E2E-e2e-should-create-new-note-firefox-e2e\\error-context.md"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "ff53ee29a0197f08488a-edf5905f7ce29353cc7b",
+              "file": "e2e/notes.e2e.spec.js",
+              "line": 28,
+              "column": 3
+            },
+            {
+              "title": "should search notes",
+              "ok": false,
+              "tags": [
+                "e2e"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox-e2e",
+                  "projectName": "firefox-e2e",
+                  "results": [
+                    {
+                      "workerIndex": 12,
+                      "parallelIndex": 0,
+                      "status": "timedOut",
+                      "duration": 35299,
+                      "error": {
+                        "message": "\u001b[31mTest timeout of 30000ms exceeded while running \"beforeEach\" hook.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 30000ms exceeded while running \"beforeEach\" hook.\u001b[39m\n    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:10:8",
+                        "location": {
+                          "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
+                          "column": 8,
+                          "line": 10
+                        },
+                        "snippet": "\u001b[0m \u001b[90m  8 |\u001b[39m test\u001b[33m.\u001b[39mdescribe(\u001b[32m'Notes Tool - E2E @e2e'\u001b[39m\u001b[33m,\u001b[39m () \u001b[33m=>\u001b[39m {\n \u001b[90m  9 |\u001b[39m   \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 10 |\u001b[39m   test\u001b[33m.\u001b[39mbeforeEach(\u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m    |\u001b[39m        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 11 |\u001b[39m     \u001b[90m// Navigate to notes page\u001b[39m\n \u001b[90m 12 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/notes'\u001b[39m)\n \u001b[90m 13 |\u001b[39m     \u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
+                            "column": 8,
+                            "line": 10
+                          },
+                          "message": "\u001b[31mTest timeout of 30000ms exceeded while running \"beforeEach\" hook.\u001b[39m\n\n\u001b[0m \u001b[90m  8 |\u001b[39m test\u001b[33m.\u001b[39mdescribe(\u001b[32m'Notes Tool - E2E @e2e'\u001b[39m\u001b[33m,\u001b[39m () \u001b[33m=>\u001b[39m {\n \u001b[90m  9 |\u001b[39m   \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 10 |\u001b[39m   test\u001b[33m.\u001b[39mbeforeEach(\u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m    |\u001b[39m        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 11 |\u001b[39m     \u001b[90m// Navigate to notes page\u001b[39m\n \u001b[90m 12 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/notes'\u001b[39m)\n \u001b[90m 13 |\u001b[39m     \u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:10:8\u001b[22m"
+                        },
+                        {
+                          "location": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
+                            "column": 16,
+                            "line": 12
+                          },
+                          "message": "Error: page.goto: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/notes\", waiting until \"load\"\u001b[22m\n\n\n\u001b[0m \u001b[90m 10 |\u001b[39m   test\u001b[33m.\u001b[39mbeforeEach(\u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 11 |\u001b[39m     \u001b[90m// Navigate to notes page\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 12 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/notes'\u001b[39m)\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 13 |\u001b[39m     \n \u001b[90m 14 |\u001b[39m     \u001b[90m// Wait for page to load\u001b[39m\n \u001b[90m 15 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForLoadState(\u001b[32m'networkidle'\u001b[39m)\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:12:16\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-11-12T18:38:55.671Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---E2E-e2e-should-search-notes-firefox-e2e\\video.webm"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
+                        "column": 8,
+                        "line": 10
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "ff53ee29a0197f08488a-7d60b11016e9f93a3f90",
+              "file": "e2e/notes.e2e.spec.js",
+              "line": 49,
+              "column": 3
+            },
+            {
+              "title": "should edit existing note",
+              "ok": false,
+              "tags": [
+                "e2e"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox-e2e",
+                  "projectName": "firefox-e2e",
+                  "results": [
+                    {
+                      "workerIndex": 13,
+                      "parallelIndex": 4,
+                      "status": "timedOut",
+                      "duration": 31172,
+                      "error": {
+                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                      },
+                      "errors": [
+                        {
+                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                        },
+                        {
+                          "location": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
+                            "column": 16,
+                            "line": 69
+                          },
+                          "message": "Error: page.click: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.note-card:first-child')\u001b[22m\n\n\n\u001b[0m \u001b[90m 67 |\u001b[39m   test(\u001b[32m'should edit existing note'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 68 |\u001b[39m     \u001b[90m// Click first note\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 69 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'.note-card:first-child'\u001b[39m)\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 70 |\u001b[39m     \n \u001b[90m 71 |\u001b[39m     \u001b[90m// Click edit button\u001b[39m\n \u001b[90m 72 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'[aria-label=\"Edit\"], button:has-text(\"Edit\")'\u001b[39m)\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:69:16\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-11-12T18:38:56.094Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---E2E-e2e-should-edit-existing-note-firefox-e2e\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---E2E-e2e-should-edit-existing-note-firefox-e2e\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---E2E-e2e-should-edit-existing-note-firefox-e2e\\error-context.md"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "ff53ee29a0197f08488a-b700b93ffc470dcd9e7a",
+              "file": "e2e/notes.e2e.spec.js",
+              "line": 67,
+              "column": 3
+            },
+            {
+              "title": "should delete note",
+              "ok": false,
+              "tags": [
+                "e2e"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox-e2e",
+                  "projectName": "firefox-e2e",
+                  "results": [
+                    {
+                      "workerIndex": 14,
+                      "parallelIndex": 1,
+                      "status": "timedOut",
+                      "duration": 30926,
+                      "error": {
+                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                      },
+                      "errors": [
+                        {
+                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                        },
+                        {
+                          "location": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
+                            "column": 66,
+                            "line": 88
+                          },
+                          "message": "Error: locator.textContent: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.note-card:first-child').locator('h3, .note-title')\u001b[22m\n\n\n\u001b[0m \u001b[90m 86 |\u001b[39m     \u001b[90m// Get first note title\u001b[39m\n \u001b[90m 87 |\u001b[39m     \u001b[36mconst\u001b[39m firstNote \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'.note-card:first-child'\u001b[39m)\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 88 |\u001b[39m     \u001b[36mconst\u001b[39m noteTitle \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m firstNote\u001b[33m.\u001b[39mlocator(\u001b[32m'h3, .note-title'\u001b[39m)\u001b[33m.\u001b[39mtextContent()\n \u001b[90m    |\u001b[39m                                                                  \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 89 |\u001b[39m     \n \u001b[90m 90 |\u001b[39m     \u001b[90m// Click delete button\u001b[39m\n \u001b[90m 91 |\u001b[39m     \u001b[36mawait\u001b[39m firstNote\u001b[33m.\u001b[39mlocator(\u001b[32m'[aria-label=\"Delete\"], button:has-text(\"Delete\")'\u001b[39m)\u001b[33m.\u001b[39mclick()\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:88:66\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-11-12T18:38:59.107Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---E2E-e2e-should-delete-note-firefox-e2e\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---E2E-e2e-should-delete-note-firefox-e2e\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---E2E-e2e-should-delete-note-firefox-e2e\\error-context.md"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "ff53ee29a0197f08488a-f82a6cdf420e77951cfb",
+              "file": "e2e/notes.e2e.spec.js",
+              "line": 85,
+              "column": 3
+            },
+            {
+              "title": "should filter notes by color",
+              "ok": false,
+              "tags": [
+                "e2e"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox-e2e",
+                  "projectName": "firefox-e2e",
+                  "results": [
+                    {
+                      "workerIndex": 15,
+                      "parallelIndex": 2,
+                      "status": "timedOut",
+                      "duration": 35251,
+                      "error": {
+                        "message": "\u001b[31mTest timeout of 30000ms exceeded while running \"beforeEach\" hook.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 30000ms exceeded while running \"beforeEach\" hook.\u001b[39m\n    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:10:8",
+                        "location": {
+                          "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
+                          "column": 8,
+                          "line": 10
+                        },
+                        "snippet": "\u001b[0m \u001b[90m  8 |\u001b[39m test\u001b[33m.\u001b[39mdescribe(\u001b[32m'Notes Tool - E2E @e2e'\u001b[39m\u001b[33m,\u001b[39m () \u001b[33m=>\u001b[39m {\n \u001b[90m  9 |\u001b[39m   \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 10 |\u001b[39m   test\u001b[33m.\u001b[39mbeforeEach(\u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m    |\u001b[39m        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 11 |\u001b[39m     \u001b[90m// Navigate to notes page\u001b[39m\n \u001b[90m 12 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/notes'\u001b[39m)\n \u001b[90m 13 |\u001b[39m     \u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
+                            "column": 8,
+                            "line": 10
+                          },
+                          "message": "\u001b[31mTest timeout of 30000ms exceeded while running \"beforeEach\" hook.\u001b[39m\n\n\u001b[0m \u001b[90m  8 |\u001b[39m test\u001b[33m.\u001b[39mdescribe(\u001b[32m'Notes Tool - E2E @e2e'\u001b[39m\u001b[33m,\u001b[39m () \u001b[33m=>\u001b[39m {\n \u001b[90m  9 |\u001b[39m   \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 10 |\u001b[39m   test\u001b[33m.\u001b[39mbeforeEach(\u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m    |\u001b[39m        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 11 |\u001b[39m     \u001b[90m// Navigate to notes page\u001b[39m\n \u001b[90m 12 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/notes'\u001b[39m)\n \u001b[90m 13 |\u001b[39m     \u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:10:8\u001b[22m"
+                        },
+                        {
+                          "location": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
+                            "column": 16,
+                            "line": 12
+                          },
+                          "message": "Error: page.goto: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/notes\", waiting until \"load\"\u001b[22m\n\n\n\u001b[0m \u001b[90m 10 |\u001b[39m   test\u001b[33m.\u001b[39mbeforeEach(\u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 11 |\u001b[39m     \u001b[90m// Navigate to notes page\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 12 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/notes'\u001b[39m)\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 13 |\u001b[39m     \n \u001b[90m 14 |\u001b[39m     \u001b[90m// Wait for page to load\u001b[39m\n \u001b[90m 15 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForLoadState(\u001b[32m'networkidle'\u001b[39m)\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:12:16\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-11-12T18:38:59.071Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---8cddd-hould-filter-notes-by-color-firefox-e2e\\video.webm"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
+                        "column": 8,
+                        "line": 10
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "ff53ee29a0197f08488a-9770a21b64b1c3ba41ee",
+              "file": "e2e/notes.e2e.spec.js",
+              "line": 100,
+              "column": 3
+            },
+            {
+              "title": "should persist data after reload",
+              "ok": false,
+              "tags": [
+                "e2e"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox-e2e",
+                  "projectName": "firefox-e2e",
+                  "results": [
+                    {
+                      "workerIndex": 16,
+                      "parallelIndex": 3,
+                      "status": "timedOut",
+                      "duration": 31002,
+                      "error": {
+                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                      },
+                      "errors": [
+                        {
+                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                        },
+                        {
+                          "location": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
+                            "column": 16,
+                            "line": 117
+                          },
+                          "message": "Error: page.click: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-testid=\"add-note-button\"]')\u001b[22m\n\n\n\u001b[0m \u001b[90m 115 |\u001b[39m     \u001b[36mconst\u001b[39m uniqueTitle \u001b[33m=\u001b[39m \u001b[32m'Persist Test '\u001b[39m \u001b[33m+\u001b[39m \u001b[33mDate\u001b[39m\u001b[33m.\u001b[39mnow()\n \u001b[90m 116 |\u001b[39m     \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 117 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'[data-testid=\"add-note-button\"]'\u001b[39m)\n \u001b[90m     |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 118 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mfill(\u001b[32m'[name=\"title\"]'\u001b[39m\u001b[33m,\u001b[39m uniqueTitle)\n \u001b[90m 119 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mfill(\u001b[32m'[name=\"content\"]'\u001b[39m\u001b[33m,\u001b[39m \u001b[32m'Should persist'\u001b[39m)\n \u001b[90m 120 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'button:has-text(\"Save\")'\u001b[39m)\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:117:16\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-11-12T18:39:40.559Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---aa00e-d-persist-data-after-reload-firefox-e2e\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---aa00e-d-persist-data-after-reload-firefox-e2e\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---aa00e-d-persist-data-after-reload-firefox-e2e\\error-context.md"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "ff53ee29a0197f08488a-9c8986797661d85afc5f",
+              "file": "e2e/notes.e2e.spec.js",
+              "line": 113,
+              "column": 3
+            },
+            {
+              "title": "should handle network errors gracefully",
+              "ok": false,
+              "tags": [
+                "e2e"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox-e2e",
+                  "projectName": "firefox-e2e",
+                  "results": [
+                    {
+                      "workerIndex": 17,
+                      "parallelIndex": 5,
+                      "status": "timedOut",
+                      "duration": 30660,
+                      "error": {
+                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                      },
+                      "errors": [
+                        {
+                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                        },
+                        {
+                          "location": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
+                            "column": 16,
+                            "line": 138
+                          },
+                          "message": "Error: page.click: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-testid=\"add-note-button\"]')\u001b[22m\n\n\n\u001b[0m \u001b[90m 136 |\u001b[39m     \n \u001b[90m 137 |\u001b[39m     \u001b[90m// Try to create note\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 138 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'[data-testid=\"add-note-button\"]'\u001b[39m)\n \u001b[90m     |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 139 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mfill(\u001b[32m'[name=\"title\"]'\u001b[39m\u001b[33m,\u001b[39m \u001b[32m'Offline Note'\u001b[39m)\n \u001b[90m 140 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'button:has-text(\"Save\")'\u001b[39m)\n \u001b[90m 141 |\u001b[39m     \u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:138:16\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-11-12T18:39:40.774Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---2ee50-e-network-errors-gracefully-firefox-e2e\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---2ee50-e-network-errors-gracefully-firefox-e2e\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---2ee50-e-network-errors-gracefully-firefox-e2e\\error-context.md"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "ff53ee29a0197f08488a-3eb3cf465423817d1774",
+              "file": "e2e/notes.e2e.spec.js",
+              "line": 133,
+              "column": 3
+            },
+            {
+              "title": "should validate required fields",
+              "ok": false,
+              "tags": [
+                "e2e"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox-e2e",
+                  "projectName": "firefox-e2e",
+                  "results": [
+                    {
+                      "workerIndex": 18,
+                      "parallelIndex": 4,
+                      "status": "timedOut",
+                      "duration": 30840,
+                      "error": {
+                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                      },
+                      "errors": [
+                        {
+                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                        },
+                        {
+                          "location": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
+                            "column": 16,
+                            "line": 151
+                          },
+                          "message": "Error: page.click: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-testid=\"add-note-button\"]')\u001b[22m\n\n\n\u001b[0m \u001b[90m 149 |\u001b[39m   test(\u001b[32m'should validate required fields'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 150 |\u001b[39m     \u001b[90m// Try to save empty note\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 151 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'[data-testid=\"add-note-button\"]'\u001b[39m)\n \u001b[90m     |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 152 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'button:has-text(\"Save\")'\u001b[39m)\n \u001b[90m 153 |\u001b[39m     \n \u001b[90m 154 |\u001b[39m     \u001b[90m// Verify validation error\u001b[39m\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:151:16\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-11-12T18:39:45.000Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---c15e2-ld-validate-required-fields-firefox-e2e\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---c15e2-ld-validate-required-fields-firefox-e2e\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---c15e2-ld-validate-required-fields-firefox-e2e\\error-context.md"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "ff53ee29a0197f08488a-ed0128e334451208b165",
+              "file": "e2e/notes.e2e.spec.js",
+              "line": 149,
+              "column": 3
+            },
+            {
+              "title": "should support keyboard navigation",
+              "ok": false,
+              "tags": [
+                "e2e"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox-e2e",
+                  "projectName": "firefox-e2e",
+                  "results": [
+                    {
+                      "workerIndex": 19,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 25311,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeFocused\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"search-input\"]')\nExpected: focused\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeFocused\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"search-input\"]')\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeFocused\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"search-input\"]')\nExpected: focused\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeFocused\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"search-input\"]')\u001b[22m\n\n    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:163:64",
+                        "location": {
+                          "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
+                          "column": 64,
+                          "line": 163
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 161 |\u001b[39m     \n \u001b[90m 162 |\u001b[39m     \u001b[90m// Verify search focused\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 163 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-testid=\"search-input\"]'\u001b[39m))\u001b[33m.\u001b[39mtoBeFocused()\n \u001b[90m     |\u001b[39m                                                                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 164 |\u001b[39m     \n \u001b[90m 165 |\u001b[39m     \u001b[90m// Escape to close modal (if any open)\u001b[39m\n \u001b[90m 166 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mkeyboard\u001b[33m.\u001b[39mpress(\u001b[32m'Escape'\u001b[39m)\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
+                            "column": 64,
+                            "line": 163
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeFocused\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"search-input\"]')\nExpected: focused\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeFocused\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"search-input\"]')\u001b[22m\n\n\n\u001b[0m \u001b[90m 161 |\u001b[39m     \n \u001b[90m 162 |\u001b[39m     \u001b[90m// Verify search focused\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 163 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-testid=\"search-input\"]'\u001b[39m))\u001b[33m.\u001b[39mtoBeFocused()\n \u001b[90m     |\u001b[39m                                                                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 164 |\u001b[39m     \n \u001b[90m 165 |\u001b[39m     \u001b[90m// Escape to close modal (if any open)\u001b[39m\n \u001b[90m 166 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mkeyboard\u001b[33m.\u001b[39mpress(\u001b[32m'Escape'\u001b[39m)\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:163:64\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-11-12T18:40:04.075Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---3e0e0-support-keyboard-navigation-firefox-e2e\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---3e0e0-support-keyboard-navigation-firefox-e2e\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---3e0e0-support-keyboard-navigation-firefox-e2e\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
+                        "column": 64,
+                        "line": 163
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "ff53ee29a0197f08488a-98d3a283c772b56e789e",
+              "file": "e2e/notes.e2e.spec.js",
+              "line": 158,
+              "column": 3
+            },
+            {
+              "title": "should display notes page correctly",
+              "ok": false,
+              "tags": [
+                "e2e"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit-e2e",
+                  "projectName": "webkit-e2e",
+                  "results": [
+                    {
+                      "workerIndex": 20,
+                      "parallelIndex": 2,
+                      "status": "failed",
+                      "duration": 17123,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveTitle\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: \u001b[32m/Notes/\u001b[39m\nReceived string:  \u001b[31m\"KaDong Tools - Tiện ích cho hai chúng mình ❤️\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveTitle\" with timeout 5000ms\u001b[22m\n\u001b[2m    8 × unexpected value \"KaDong Tools - Tiện ích cho hai chúng mình ❤️\"\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveTitle\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: \u001b[32m/Notes/\u001b[39m\nReceived string:  \u001b[31m\"KaDong Tools - Tiện ích cho hai chúng mình ❤️\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveTitle\" with timeout 5000ms\u001b[22m\n\u001b[2m    8 × unexpected value \"KaDong Tools - Tiện ích cho hai chúng mình ❤️\"\u001b[22m\n\n    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:20:24",
+                        "location": {
+                          "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
+                          "column": 24,
+                          "line": 20
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 18 |\u001b[39m   test(\u001b[32m'should display notes page correctly'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 19 |\u001b[39m     \u001b[90m// Verify page title\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 20 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page)\u001b[33m.\u001b[39mtoHaveTitle(\u001b[35m/Notes/\u001b[39m)\n \u001b[90m    |\u001b[39m                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 21 |\u001b[39m     \n \u001b[90m 22 |\u001b[39m     \u001b[90m// Verify main components\u001b[39m\n \u001b[90m 23 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'h1'\u001b[39m))\u001b[33m.\u001b[39mtoContainText(\u001b[32m'Notes'\u001b[39m)\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
+                            "column": 24,
+                            "line": 20
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveTitle\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: \u001b[32m/Notes/\u001b[39m\nReceived string:  \u001b[31m\"KaDong Tools - Tiện ích cho hai chúng mình ❤️\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveTitle\" with timeout 5000ms\u001b[22m\n\u001b[2m    8 × unexpected value \"KaDong Tools - Tiện ích cho hai chúng mình ❤️\"\u001b[22m\n\n\n\u001b[0m \u001b[90m 18 |\u001b[39m   test(\u001b[32m'should display notes page correctly'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 19 |\u001b[39m     \u001b[90m// Verify page title\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 20 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page)\u001b[33m.\u001b[39mtoHaveTitle(\u001b[35m/Notes/\u001b[39m)\n \u001b[90m    |\u001b[39m                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 21 |\u001b[39m     \n \u001b[90m 22 |\u001b[39m     \u001b[90m// Verify main components\u001b[39m\n \u001b[90m 23 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'h1'\u001b[39m))\u001b[33m.\u001b[39mtoContainText(\u001b[32m'Notes'\u001b[39m)\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:20:24\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-11-12T18:40:18.030Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---0f8ad-isplay-notes-page-correctly-webkit-e2e\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---0f8ad-isplay-notes-page-correctly-webkit-e2e\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---0f8ad-isplay-notes-page-correctly-webkit-e2e\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
+                        "column": 24,
+                        "line": 20
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "ff53ee29a0197f08488a-1b6b138f41949139add1",
+              "file": "e2e/notes.e2e.spec.js",
+              "line": 18,
+              "column": 3
+            },
+            {
+              "title": "should create new note",
+              "ok": false,
+              "tags": [
+                "e2e"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit-e2e",
+                  "projectName": "webkit-e2e",
+                  "results": [
+                    {
+                      "workerIndex": 21,
+                      "parallelIndex": 1,
+                      "status": "timedOut",
+                      "duration": 30944,
+                      "error": {
+                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                      },
+                      "errors": [
+                        {
+                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                        },
+                        {
+                          "location": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
+                            "column": 16,
+                            "line": 30
+                          },
+                          "message": "Error: page.click: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-testid=\"add-note-button\"]')\u001b[22m\n\n\n\u001b[0m \u001b[90m 28 |\u001b[39m   test(\u001b[32m'should create new note'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 29 |\u001b[39m     \u001b[90m// Click add note button\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 30 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'[data-testid=\"add-note-button\"]'\u001b[39m)\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 31 |\u001b[39m     \n \u001b[90m 32 |\u001b[39m     \u001b[90m// Fill in note form\u001b[39m\n \u001b[90m 33 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mfill(\u001b[32m'[name=\"title\"]'\u001b[39m\u001b[33m,\u001b[39m \u001b[32m'E2E Test Note'\u001b[39m)\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:30:16\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-11-12T18:40:24.280Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---E2E-e2e-should-create-new-note-webkit-e2e\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---E2E-e2e-should-create-new-note-webkit-e2e\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---E2E-e2e-should-create-new-note-webkit-e2e\\error-context.md"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "ff53ee29a0197f08488a-4de9749d174fc0d3257f",
+              "file": "e2e/notes.e2e.spec.js",
+              "line": 28,
+              "column": 3
+            },
+            {
+              "title": "should search notes",
+              "ok": false,
+              "tags": [
+                "e2e"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit-e2e",
+                  "projectName": "webkit-e2e",
+                  "results": [
+                    {
+                      "workerIndex": 22,
+                      "parallelIndex": 3,
+                      "status": "timedOut",
+                      "duration": 30871,
+                      "error": {
+                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                      },
+                      "errors": [
+                        {
+                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                        },
+                        {
+                          "location": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
+                            "column": 16,
+                            "line": 51
+                          },
+                          "message": "Error: page.fill: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-testid=\"search-input\"]')\u001b[22m\n\n\n\u001b[0m \u001b[90m 49 |\u001b[39m   test(\u001b[32m'should search notes'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 50 |\u001b[39m     \u001b[90m// Type in search box\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 51 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mfill(\u001b[32m'[data-testid=\"search-input\"]'\u001b[39m\u001b[33m,\u001b[39m \u001b[32m'test'\u001b[39m)\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 52 |\u001b[39m     \n \u001b[90m 53 |\u001b[39m     \u001b[90m// Wait for debounce/search\u001b[39m\n \u001b[90m 54 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m500\u001b[39m)\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:51:16\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-11-12T18:40:36.007Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---E2E-e2e-should-search-notes-webkit-e2e\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---E2E-e2e-should-search-notes-webkit-e2e\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---E2E-e2e-should-search-notes-webkit-e2e\\error-context.md"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "ff53ee29a0197f08488a-9b4e98fe6a88fb04d684",
+              "file": "e2e/notes.e2e.spec.js",
+              "line": 49,
+              "column": 3
+            },
+            {
+              "title": "should edit existing note",
+              "ok": false,
+              "tags": [
+                "e2e"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit-e2e",
+                  "projectName": "webkit-e2e",
+                  "results": [
+                    {
+                      "workerIndex": 23,
+                      "parallelIndex": 4,
+                      "status": "timedOut",
+                      "duration": 31279,
+                      "error": {
+                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                      },
+                      "errors": [
+                        {
+                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                        },
+                        {
+                          "location": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
+                            "column": 16,
+                            "line": 69
+                          },
+                          "message": "Error: page.click: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.note-card:first-child')\u001b[22m\n\n\n\u001b[0m \u001b[90m 67 |\u001b[39m   test(\u001b[32m'should edit existing note'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 68 |\u001b[39m     \u001b[90m// Click first note\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 69 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'.note-card:first-child'\u001b[39m)\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 70 |\u001b[39m     \n \u001b[90m 71 |\u001b[39m     \u001b[90m// Click edit button\u001b[39m\n \u001b[90m 72 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'[aria-label=\"Edit\"], button:has-text(\"Edit\")'\u001b[39m)\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:69:16\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-11-12T18:40:38.537Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---E2E-e2e-should-edit-existing-note-webkit-e2e\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---E2E-e2e-should-edit-existing-note-webkit-e2e\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---E2E-e2e-should-edit-existing-note-webkit-e2e\\error-context.md"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "ff53ee29a0197f08488a-414afccc4151a85ec01e",
+              "file": "e2e/notes.e2e.spec.js",
+              "line": 67,
+              "column": 3
+            },
+            {
+              "title": "should delete note",
+              "ok": false,
+              "tags": [
+                "e2e"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit-e2e",
+                  "projectName": "webkit-e2e",
+                  "results": [
+                    {
+                      "workerIndex": 24,
+                      "parallelIndex": 5,
+                      "status": "timedOut",
+                      "duration": 31260,
+                      "error": {
+                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                      },
+                      "errors": [
+                        {
+                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                        },
+                        {
+                          "location": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
+                            "column": 66,
+                            "line": 88
+                          },
+                          "message": "Error: locator.textContent: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.note-card:first-child').locator('h3, .note-title')\u001b[22m\n\n\n\u001b[0m \u001b[90m 86 |\u001b[39m     \u001b[90m// Get first note title\u001b[39m\n \u001b[90m 87 |\u001b[39m     \u001b[36mconst\u001b[39m firstNote \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'.note-card:first-child'\u001b[39m)\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 88 |\u001b[39m     \u001b[36mconst\u001b[39m noteTitle \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m firstNote\u001b[33m.\u001b[39mlocator(\u001b[32m'h3, .note-title'\u001b[39m)\u001b[33m.\u001b[39mtextContent()\n \u001b[90m    |\u001b[39m                                                                  \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 89 |\u001b[39m     \n \u001b[90m 90 |\u001b[39m     \u001b[90m// Click delete button\u001b[39m\n \u001b[90m 91 |\u001b[39m     \u001b[36mawait\u001b[39m firstNote\u001b[33m.\u001b[39mlocator(\u001b[32m'[aria-label=\"Delete\"], button:has-text(\"Delete\")'\u001b[39m)\u001b[33m.\u001b[39mclick()\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:88:66\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-11-12T18:40:38.654Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---E2E-e2e-should-delete-note-webkit-e2e\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---E2E-e2e-should-delete-note-webkit-e2e\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---E2E-e2e-should-delete-note-webkit-e2e\\error-context.md"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "ff53ee29a0197f08488a-a82d0a7a1a102ba7252c",
+              "file": "e2e/notes.e2e.spec.js",
+              "line": 85,
+              "column": 3
+            },
+            {
+              "title": "should filter notes by color",
+              "ok": false,
+              "tags": [
+                "e2e"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit-e2e",
+                  "projectName": "webkit-e2e",
+                  "results": [
+                    {
+                      "workerIndex": 25,
+                      "parallelIndex": 2,
+                      "status": "timedOut",
+                      "duration": 30930,
+                      "error": {
+                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                      },
+                      "errors": [
+                        {
+                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                        },
+                        {
+                          "location": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
+                            "column": 16,
+                            "line": 102
+                          },
+                          "message": "Error: page.click: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-filter=\"pink\"]')\u001b[22m\n\n\n\u001b[0m \u001b[90m 100 |\u001b[39m   test(\u001b[32m'should filter notes by color'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 101 |\u001b[39m     \u001b[90m// Click color filter\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 102 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'[data-filter=\"pink\"]'\u001b[39m)\n \u001b[90m     |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 103 |\u001b[39m     \n \u001b[90m 104 |\u001b[39m     \u001b[90m// Verify only pink notes shown\u001b[39m\n \u001b[90m 105 |\u001b[39m     \u001b[36mconst\u001b[39m notes \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'.note-card'\u001b[39m)\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:102:16\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-11-12T18:40:46.638Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---8cddd-hould-filter-notes-by-color-webkit-e2e\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---8cddd-hould-filter-notes-by-color-webkit-e2e\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---8cddd-hould-filter-notes-by-color-webkit-e2e\\error-context.md"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "ff53ee29a0197f08488a-7098d9c93a4fe196d18a",
+              "file": "e2e/notes.e2e.spec.js",
+              "line": 100,
+              "column": 3
+            },
+            {
+              "title": "should persist data after reload",
+              "ok": false,
+              "tags": [
+                "e2e"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit-e2e",
+                  "projectName": "webkit-e2e",
+                  "results": [
+                    {
+                      "workerIndex": 26,
+                      "parallelIndex": 0,
+                      "status": "timedOut",
+                      "duration": 30897,
+                      "error": {
+                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                      },
+                      "errors": [
+                        {
+                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                        },
+                        {
+                          "location": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
+                            "column": 16,
+                            "line": 117
+                          },
+                          "message": "Error: page.click: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-testid=\"add-note-button\"]')\u001b[22m\n\n\n\u001b[0m \u001b[90m 115 |\u001b[39m     \u001b[36mconst\u001b[39m uniqueTitle \u001b[33m=\u001b[39m \u001b[32m'Persist Test '\u001b[39m \u001b[33m+\u001b[39m \u001b[33mDate\u001b[39m\u001b[33m.\u001b[39mnow()\n \u001b[90m 116 |\u001b[39m     \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 117 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'[data-testid=\"add-note-button\"]'\u001b[39m)\n \u001b[90m     |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 118 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mfill(\u001b[32m'[name=\"title\"]'\u001b[39m\u001b[33m,\u001b[39m uniqueTitle)\n \u001b[90m 119 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mfill(\u001b[32m'[name=\"content\"]'\u001b[39m\u001b[33m,\u001b[39m \u001b[32m'Should persist'\u001b[39m)\n \u001b[90m 120 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'button:has-text(\"Save\")'\u001b[39m)\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:117:16\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-11-12T18:40:49.949Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---aa00e-d-persist-data-after-reload-webkit-e2e\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---aa00e-d-persist-data-after-reload-webkit-e2e\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---aa00e-d-persist-data-after-reload-webkit-e2e\\error-context.md"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "ff53ee29a0197f08488a-16acf22b1a1430c0c609",
+              "file": "e2e/notes.e2e.spec.js",
+              "line": 113,
+              "column": 3
+            },
+            {
+              "title": "should handle network errors gracefully",
+              "ok": false,
+              "tags": [
+                "e2e"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit-e2e",
+                  "projectName": "webkit-e2e",
+                  "results": [
+                    {
+                      "workerIndex": 27,
+                      "parallelIndex": 1,
+                      "status": "timedOut",
+                      "duration": 30630,
+                      "error": {
+                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                      },
+                      "errors": [
+                        {
+                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                        },
+                        {
+                          "location": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
+                            "column": 16,
+                            "line": 138
+                          },
+                          "message": "Error: page.click: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-testid=\"add-note-button\"]')\u001b[22m\n\n\n\u001b[0m \u001b[90m 136 |\u001b[39m     \n \u001b[90m 137 |\u001b[39m     \u001b[90m// Try to create note\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 138 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'[data-testid=\"add-note-button\"]'\u001b[39m)\n \u001b[90m     |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 139 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mfill(\u001b[32m'[name=\"title\"]'\u001b[39m\u001b[33m,\u001b[39m \u001b[32m'Offline Note'\u001b[39m)\n \u001b[90m 140 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'button:has-text(\"Save\")'\u001b[39m)\n \u001b[90m 141 |\u001b[39m     \u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:138:16\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-11-12T18:41:00.241Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---2ee50-e-network-errors-gracefully-webkit-e2e\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---2ee50-e-network-errors-gracefully-webkit-e2e\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---2ee50-e-network-errors-gracefully-webkit-e2e\\error-context.md"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "ff53ee29a0197f08488a-0a4e0cc040fab874423d",
+              "file": "e2e/notes.e2e.spec.js",
+              "line": 133,
+              "column": 3
+            },
+            {
+              "title": "should validate required fields",
+              "ok": false,
+              "tags": [
+                "e2e"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit-e2e",
+                  "projectName": "webkit-e2e",
+                  "results": [
+                    {
+                      "workerIndex": 28,
+                      "parallelIndex": 3,
+                      "status": "timedOut",
+                      "duration": 30652,
+                      "error": {
+                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                      },
+                      "errors": [
+                        {
+                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                        },
+                        {
+                          "location": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
+                            "column": 16,
+                            "line": 151
+                          },
+                          "message": "Error: page.click: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-testid=\"add-note-button\"]')\u001b[22m\n\n\n\u001b[0m \u001b[90m 149 |\u001b[39m   test(\u001b[32m'should validate required fields'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 150 |\u001b[39m     \u001b[90m// Try to save empty note\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 151 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'[data-testid=\"add-note-button\"]'\u001b[39m)\n \u001b[90m     |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 152 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'button:has-text(\"Save\")'\u001b[39m)\n \u001b[90m 153 |\u001b[39m     \n \u001b[90m 154 |\u001b[39m     \u001b[90m// Verify validation error\u001b[39m\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:151:16\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-11-12T18:41:13.841Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---c15e2-ld-validate-required-fields-webkit-e2e\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---c15e2-ld-validate-required-fields-webkit-e2e\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---c15e2-ld-validate-required-fields-webkit-e2e\\error-context.md"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "ff53ee29a0197f08488a-44bce112c374f32ddee5",
+              "file": "e2e/notes.e2e.spec.js",
+              "line": 149,
+              "column": 3
+            },
+            {
+              "title": "should support keyboard navigation",
+              "ok": false,
+              "tags": [
+                "e2e"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit-e2e",
+                  "projectName": "webkit-e2e",
+                  "results": [
+                    {
+                      "workerIndex": 29,
+                      "parallelIndex": 4,
+                      "status": "failed",
+                      "duration": 12496,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeFocused\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"search-input\"]')\nExpected: focused\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeFocused\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"search-input\"]')\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeFocused\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"search-input\"]')\nExpected: focused\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeFocused\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"search-input\"]')\u001b[22m\n\n    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:163:64",
+                        "location": {
+                          "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
+                          "column": 64,
+                          "line": 163
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 161 |\u001b[39m     \n \u001b[90m 162 |\u001b[39m     \u001b[90m// Verify search focused\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 163 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-testid=\"search-input\"]'\u001b[39m))\u001b[33m.\u001b[39mtoBeFocused()\n \u001b[90m     |\u001b[39m                                                                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 164 |\u001b[39m     \n \u001b[90m 165 |\u001b[39m     \u001b[90m// Escape to close modal (if any open)\u001b[39m\n \u001b[90m 166 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mkeyboard\u001b[33m.\u001b[39mpress(\u001b[32m'Escape'\u001b[39m)\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
+                            "column": 64,
+                            "line": 163
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeFocused\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"search-input\"]')\nExpected: focused\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeFocused\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"search-input\"]')\u001b[22m\n\n\n\u001b[0m \u001b[90m 161 |\u001b[39m     \n \u001b[90m 162 |\u001b[39m     \u001b[90m// Verify search focused\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 163 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-testid=\"search-input\"]'\u001b[39m))\u001b[33m.\u001b[39mtoBeFocused()\n \u001b[90m     |\u001b[39m                                                                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 164 |\u001b[39m     \n \u001b[90m 165 |\u001b[39m     \u001b[90m// Escape to close modal (if any open)\u001b[39m\n \u001b[90m 166 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mkeyboard\u001b[33m.\u001b[39mpress(\u001b[32m'Escape'\u001b[39m)\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:163:64\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-11-12T18:41:15.521Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---3e0e0-support-keyboard-navigation-webkit-e2e\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---3e0e0-support-keyboard-navigation-webkit-e2e\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\test-results\\e2e-notes.e2e-Notes-Tool---3e0e0-support-keyboard-navigation-webkit-e2e\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
+                        "column": 64,
+                        "line": 163
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "ff53ee29a0197f08488a-45941ea9417fe2ac7c20",
+              "file": "e2e/notes.e2e.spec.js",
+              "line": 158,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2025-11-12T18:37:33.545Z",
+    "duration": 251472.733,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 30,
+    "flaky": 0
+  }
+}
