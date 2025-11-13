@@ -1,7 +1,7 @@
 # Login Authentication System
 
 **Spec ID:** `08_login`  
-**Version:** 1.0.0  
+**Version:** 1.1.0  
 **Status:** 📝 Draft  
 **Created:** 2025-11-13  
 **Last Updated:** 2025-11-13
@@ -44,9 +44,15 @@ Hiện tại, ứng dụng đang sử dụng localStorage để lưu dữ liệu
 
 3. **Access Control**
    - Protected routes cho authenticated users
-   - Guest mode với limited features
+   - Guest mode với localStorage (no database persistence)
    - Admin role cho quản lý hệ thống
    - Permission-based access control
+
+4. **Dual Storage Strategy**
+   - Guest users: Data lưu trong localStorage (temporary)
+   - Registered users: Data lưu trong database (persistent)
+   - Migration path từ Guest → Registered User
+   - Clear warnings cho Guest về data loss risks
 
 ### Secondary Goals
 - Remember me functionality
@@ -179,6 +185,41 @@ Hiện tại, ứng dụng đang sử dụng localStorage để lưu dữ liệu
   - Password history (prevent reuse)
   - Force password change after X days
 
+- [ ] **AC21:** Logout button trong UI (ENHANCEMENT)
+  - Nút Logout hiển thị trong Header khi đã login
+  - Position: Top-right corner, dropdown menu dưới avatar/name
+  - Icon: Log out icon với text "Đăng xuất"
+  - Confirmation dialog: "Bạn có chắc muốn đăng xuất?"
+  - Loading state: Disable button + spinner khi đang logout
+  - Success: Redirect về /login với message "Đã đăng xuất thành công"
+
+- [ ] **AC22:** Guest Mode - Login không cần database (ENHANCEMENT)
+  - User có thể click "Tiếp tục với Guest" trên login page
+  - Guest user có email cố định: "guest@kadong.local"
+  - Không yêu cầu password cho Guest
+  - Không tạo record trong database (users, sessions)
+  - Guest token lưu trong localStorage (không dùng httpOnly cookie)
+  - Guest session hết hạn sau 24 giờ hoặc khi clear browser data
+  - Warning banner: "Bạn đang dùng chế độ Guest. Dữ liệu sẽ bị mất nếu xóa cache."
+  - CTA button: "Tạo tài khoản để lưu dữ liệu vĩnh viễn"
+
+- [ ] **AC23:** Data Storage Strategy - localStorage vs database (ENHANCEMENT)
+  - **Guest Mode:**
+    - Tất cả data lưu trong localStorage với prefix `guest_`
+    - Notes: `guest_notes`, Countdown: `guest_countdowns`, Wishlist: `guest_wishlist`
+    - Không gọi API để save/load data (pure client-side)
+    - Max storage: 5MB (browser limit)
+  - **Registered Mode:**
+    - Data lưu trong PostgreSQL database
+    - API calls: POST/PUT/DELETE cho mọi thao tác
+    - Sync data realtime giữa devices
+  - **Migration từ Guest → User:**
+    - Khi Guest click "Tạo tài khoản" → show registration form
+    - Sau register thành công → auto-import data từ localStorage
+    - API endpoint: POST /api/auth/migrate-guest-data
+    - Clear localStorage sau migrate thành công
+    - Show confirmation: "Đã chuyển X notes, Y countdowns, Z wishlist items"
+
 ### Test Cases
 
 - [ ] **T1:** Unit tests for auth controller functions
@@ -207,6 +248,21 @@ Hiện tại, ứng dụng đang sử dụng localStorage để lưu dữ liệu
   - Rate limiting enforced
 
 - [ ] **T5:** Coverage target: 90%+
+
+- [ ] **T6:** Guest Mode tests (NEW)
+  - Guest login: Click button → no API call → isGuest = true
+  - Guest data storage: Save note → localStorage updated, no API call
+  - Guest data load: Reload page → localStorage read, no API call
+  - Guest logout: Clear localStorage, redirect to login
+  - Guest migration: Register → migrate data → API call → localStorage cleared
+  - Guest session expiry: After 24h → auto-logout
+
+- [ ] **T7:** Logout Button tests (NEW)
+  - Logout button visible: isAuthenticated = true → button shows
+  - Confirmation dialog: Click logout → dialog appears
+  - Cancel logout: Click "Hủy" → dialog closes, still logged in
+  - Confirm logout: Click "Đăng xuất" → logout API called → redirect
+  - Guest logout: isGuest = true → no API call → localStorage cleared
 
 ---
 
@@ -581,6 +637,59 @@ CREATE TRIGGER update_users_updated_at
 }
 ```
 
+---
+
+#### POST /api/auth/migrate-guest-data (NEW)
+**Purpose:** Migrate Guest data từ localStorage sang database  
+**Auth Required:** Yes (Registered user only, isGuest must be false)
+
+**Request Body:**
+```json
+{
+  "notes": [
+    { "title": "Note 1", "content": "...", "created_at": "2025-11-13T10:00:00Z" }
+  ],
+  "countdowns": [
+    { "name": "Event 1", "target_date": "2025-12-31T00:00:00Z" }
+  ],
+  "wishlist": [
+    { "product_url": "https://...", "title": "Product 1" }
+  ]
+}
+```
+
+**Validation:**
+- User must be authenticated (JWT token)
+- User must NOT be guest (check role !== 'guest')
+- Arrays can be empty (no data to migrate)
+- Max 1000 items per array
+
+**Response Success (200):**
+```json
+{
+  "success": true,
+  "data": {
+    "migrated": {
+      "notes": 5,
+      "countdowns": 3,
+      "wishlist": 10
+    }
+  },
+  "message": "Đã chuyển 5 notes, 3 countdowns, 10 wishlist items"
+}
+```
+
+**Response Error (403):**
+```json
+{
+  "success": false,
+  "error": {
+    "code": "GUEST_MIGRATION_NOT_ALLOWED",
+    "message": "Guest users cannot migrate data. Please register first."
+  }
+}
+```
+
 ### Frontend Components
 
 #### 1. LoginPage Component
@@ -596,7 +705,8 @@ CREATE TRIGGER update_users_updated_at
   password: '',
   rememberMe: false,
   errors: {},
-  loading: false
+  loading: false,
+  guestLoading: false // NEW: Loading state cho Guest login
 }
 ```
 
@@ -607,6 +717,13 @@ CREATE TRIGGER update_users_updated_at
 - Error messages display
 - Link to registration
 - Link to forgot password
+- **NEW: Guest Mode Button**
+  - Text: "Tiếp tục với Guest" hoặc "Dùng thử không cần đăng ký"
+  - Style: Secondary button (outline style)
+  - Icon: User icon
+  - Position: Dưới login form, trước footer
+  - Divider: "─── hoặc ───"
+  - Tooltip: "Dữ liệu sẽ lưu tạm trong trình duyệt"
 
 ---
 
@@ -644,6 +761,7 @@ CREATE TRIGGER update_users_updated_at
 {
   user: null | { id, email, name, role },
   isAuthenticated: false,
+  isGuest: false, // NEW: true nếu đang dùng Guest mode
   loading: true,
   error: null
 }
@@ -653,10 +771,12 @@ CREATE TRIGGER update_users_updated_at
 ```javascript
 {
   login: async (email, password, rememberMe) => {},
+  loginAsGuest: async () => {}, // NEW: Login Guest mode
   register: async (email, password, name) => {},
   logout: async () => {},
   checkAuth: async () => {},
-  updateUser: (userData) => {}
+  updateUser: (userData) => {},
+  migrateGuestData: async () => {} // NEW: Migrate localStorage → database
 }
 ```
 
@@ -691,12 +811,83 @@ return <Outlet />
 {
   register: async (email, password, name) => POST /api/auth/register,
   login: async (email, password, rememberMe) => POST /api/auth/login,
+  loginAsGuest: () => { /* Client-side only, no API call */ },
   logout: async () => POST /api/auth/logout,
   getCurrentUser: async () => GET /api/auth/me,
   refreshToken: async () => POST /api/auth/refresh,
   forgotPassword: async (email) => POST /api/auth/forgot-password,
-  resetPassword: async (token, newPassword) => POST /api/auth/reset-password
+  resetPassword: async (token, newPassword) => POST /api/auth/reset-password,
+  migrateGuestData: async (data) => POST /api/auth/migrate-guest-data
 }
+```
+
+---
+
+#### 6. LogoutButton Component (NEW)
+**File:** `frontend/src/components/auth/LogoutButton.jsx`  
+**Purpose:** Logout button trong Header với confirmation
+
+**Props:**
+```javascript
+{
+  variant: 'dropdown' | 'button', // dropdown (in menu) or standalone button
+  onLogoutComplete: () => {} // Callback sau khi logout thành công
+}
+```
+
+**Features:**
+- Icon: Log out icon (Lucide React: LogOut)
+- Text: "Đăng xuất"
+- Confirmation dialog:
+  - Title: "Xác nhận đăng xuất"
+  - Message: "Bạn có chắc muốn đăng xuất khỏi tài khoản?"
+  - Buttons: "Hủy" (secondary) + "Đăng xuất" (danger)
+- Loading state: Spinner + disabled button
+- Success: Show toast "Đã đăng xuất thành công"
+
+**Usage:**
+```jsx
+// In Header dropdown
+<DropdownMenu>
+  <DropdownMenuItem>
+    <LogoutButton variant="dropdown" />
+  </DropdownMenuItem>
+</DropdownMenu>
+
+// Standalone
+<LogoutButton variant="button" onLogoutComplete={() => console.log('Logged out')} />
+```
+
+---
+
+#### 7. GuestWarningBanner Component (NEW)
+**File:** `frontend/src/components/auth/GuestWarningBanner.jsx`  
+**Purpose:** Warning banner cho Guest users về data loss risk
+
+**Props:**
+```javascript
+{
+  onUpgrade: () => {} // Callback khi click "Tạo tài khoản"
+}
+```
+
+**Features:**
+- Style: Yellow/warning banner (bg-yellow-50, text-yellow-800)
+- Icon: Alert triangle icon
+- Message: "Bạn đang sử dụng chế độ Guest. Dữ liệu của bạn sẽ bị mất nếu xóa cache trình duyệt."
+- CTA Button: "Tạo tài khoản để lưu vĩnh viễn" (primary button)
+- Dismissible: Close button (X) → hide banner for session
+- Position: Top of dashboard, below header
+- Animation: Slide down on mount
+
+**Usage:**
+```jsx
+// In Dashboard/Layout component
+{isGuest && (
+  <GuestWarningBanner 
+    onUpgrade={() => navigate('/register')} 
+  />
+)}
 ```
 
 ---
@@ -762,16 +953,61 @@ return <Outlet />
 
 ### Logout Flow
 ```
-1. User click logout button
-2. POST /api/auth/logout
-3. Backend:
-   a. Extract token from cookie
-   b. UPDATE sessions SET revoked_at = NOW()
-   c. Return success
-4. Frontend:
-   a. Clear cookie
-   b. Reset AuthContext (user = null, isAuthenticated = false)
-   c. Redirect to /login
+1. User click logout button (Header dropdown)
+2. Show confirmation dialog: "Bạn có chắc muốn đăng xuất?"
+3. If confirmed:
+   a. If isGuest:
+      - Clear localStorage (guest token + data)
+      - Reset AuthContext
+      - Redirect to /login
+   b. If registered user:
+      - POST /api/auth/logout
+      - Backend: Revoke session, return success
+      - Frontend: Clear cookie, reset state, redirect
+```
+
+### Guest Login Flow (NEW)
+```
+1. User click "Tiếp tục với Guest" trên LoginPage
+2. Frontend:
+   a. Generate guest token (client-side only):
+      {
+        user: { id: 'guest', email: 'guest@kadong.local', name: 'Guest', role: 'guest' },
+        isGuest: true,
+        expiresAt: Date.now() + 24h
+      }
+   b. Store token in localStorage (key: 'guest_session')
+   c. Update AuthContext:
+      - user = guest user object
+      - isAuthenticated = true
+      - isGuest = true
+   d. Redirect to dashboard
+3. No backend API call (pure client-side)
+4. Show warning banner: "Chế độ Guest - dữ liệu sẽ mất nếu xóa cache"
+```
+
+### Guest Data Migration Flow (NEW)
+```
+1. Guest user click "Tạo tài khoản" (CTA button trong warning banner)
+2. Show RegisterPage với pre-filled data từ localStorage
+3. User complete registration form
+4. POST /api/auth/register → create account
+5. POST /api/auth/migrate-guest-data:
+   Request body:
+   {
+     "notes": JSON.parse(localStorage.getItem('guest_notes')),
+     "countdowns": JSON.parse(localStorage.getItem('guest_countdowns')),
+     "wishlist": JSON.parse(localStorage.getItem('guest_wishlist'))
+   }
+6. Backend:
+   a. Validate user_id from JWT
+   b. Bulk INSERT notes, countdowns, wishlist
+   c. Return migration summary
+7. Frontend:
+   a. Show success message: "Đã chuyển X notes, Y countdowns..."
+   b. Clear guest data từ localStorage
+   c. Update AuthContext (isGuest = false)
+   d. Redirect to dashboard
 ```
 
 ---
@@ -1170,6 +1406,7 @@ return <Outlet />
 | Date | Version | Changes | Updated By |
 |------|---------|---------|------------|
 | 2025-11-13 | 1.0.0 | Initial specification | AI Developer |
+| 2025-11-13 | 1.1.0 | **ENHANCEMENTS:** <br>- Thêm AC21: Logout Button trong UI (Header dropdown, confirmation dialog)<br>- Thêm AC22: Guest Mode - Login không cần database (localStorage only)<br>- Thêm AC23: Data Storage Strategy - Guest vs Registered users<br>- Update AuthContext: Thêm isGuest flag, loginAsGuest(), migrateGuestData()<br>- Thêm 2 components: LogoutButton, GuestWarningBanner<br>- Thêm API: POST /api/auth/migrate-guest-data<br>- Thêm 3 Data Flows: Logout, Guest Login, Guest Migration<br>- Update Architecture diagram với Guest flow<br>- Thêm Test Cases: T6 (Guest Mode), T7 (Logout Button) | AI Developer |
 
 ---
 

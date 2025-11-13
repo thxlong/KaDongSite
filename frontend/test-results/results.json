@@ -10,9 +10,7 @@
     "grep": {},
     "grepInvert": null,
     "maxFailures": 0,
-    "metadata": {
-      "actualWorkers": 1
-    },
+    "metadata": {},
     "preserveOutput": "always",
     "reporter": [
       [
@@ -43,9 +41,7 @@
         "outputDir": "C:/Projects/Personal/KaDongSite/frontend/test-results",
         "repeatEach": 1,
         "retries": 0,
-        "metadata": {
-          "actualWorkers": 1
-        },
+        "metadata": {},
         "id": "chromium-e2e",
         "name": "chromium-e2e",
         "testDir": "C:/Projects/Personal/KaDongSite/frontend/tests",
@@ -59,9 +55,7 @@
         "outputDir": "C:/Projects/Personal/KaDongSite/frontend/test-results",
         "repeatEach": 1,
         "retries": 0,
-        "metadata": {
-          "actualWorkers": 1
-        },
+        "metadata": {},
         "id": "firefox-e2e",
         "name": "firefox-e2e",
         "testDir": "C:/Projects/Personal/KaDongSite/frontend/tests",
@@ -75,9 +69,7 @@
         "outputDir": "C:/Projects/Personal/KaDongSite/frontend/test-results",
         "repeatEach": 1,
         "retries": 0,
-        "metadata": {
-          "actualWorkers": 1
-        },
+        "metadata": {},
         "id": "webkit-e2e",
         "name": "webkit-e2e",
         "testDir": "C:/Projects/Personal/KaDongSite/frontend/tests",
@@ -91,9 +83,7 @@
         "outputDir": "C:/Projects/Personal/KaDongSite/frontend/test-results",
         "repeatEach": 1,
         "retries": 0,
-        "metadata": {
-          "actualWorkers": 1
-        },
+        "metadata": {},
         "id": "mobile-chrome",
         "name": "mobile-chrome",
         "testDir": "C:/Projects/Personal/KaDongSite/frontend/tests",
@@ -107,9 +97,7 @@
         "outputDir": "C:/Projects/Personal/KaDongSite/frontend/test-results",
         "repeatEach": 1,
         "retries": 0,
-        "metadata": {
-          "actualWorkers": 1
-        },
+        "metadata": {},
         "id": "mobile-safari",
         "name": "mobile-safari",
         "testDir": "C:/Projects/Personal/KaDongSite/frontend/tests",
@@ -123,9 +111,7 @@
         "outputDir": "C:/Projects/Personal/KaDongSite/frontend/test-results",
         "repeatEach": 1,
         "retries": 0,
-        "metadata": {
-          "actualWorkers": 1
-        },
+        "metadata": {},
         "id": "component-tests",
         "name": "component-tests",
         "testDir": "C:/Projects/Personal/KaDongSite/frontend/tests",
@@ -148,493 +134,18 @@
       "timeout": 120000
     }
   },
-  "suites": [
+  "suites": [],
+  "errors": [
     {
-      "title": "e2e\\notes.modern.e2e.spec.js",
-      "file": "e2e/notes.modern.e2e.spec.js",
-      "column": 0,
-      "line": 0,
-      "specs": [],
-      "suites": [
-        {
-          "title": "Notes E2E - Modern Approach @e2e @notes",
-          "file": "e2e/notes.modern.e2e.spec.js",
-          "line": 66,
-          "column": 6,
-          "specs": [
-            {
-              "title": "TC01: Should load Notes page with all UI elements",
-              "ok": true,
-              "tags": [
-                "e2e",
-                "notes"
-              ],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium-e2e",
-                  "projectName": "chromium-e2e",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 4528,
-                      "errors": [],
-                      "stdout": [
-                        {
-                          "text": "✅ TC01 PASSED: Page loaded successfully\n"
-                        }
-                      ],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-11-13T06:53:02.180Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "a6b79704d7f10e584936-3bac413b11e0e1a371ca",
-              "file": "e2e/notes.modern.e2e.spec.js",
-              "line": 85,
-              "column": 3
-            },
-            {
-              "title": "TC02: Should create a new note successfully",
-              "ok": true,
-              "tags": [
-                "e2e",
-                "notes"
-              ],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium-e2e",
-                  "projectName": "chromium-e2e",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 4968,
-                      "errors": [],
-                      "stdout": [
-                        {
-                          "text": "✅ TC02 PASSED: Note created successfully\n"
-                        }
-                      ],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-11-13T06:53:07.146Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "a6b79704d7f10e584936-f8351b4a779e87ff2a74",
-              "file": "e2e/notes.modern.e2e.spec.js",
-              "line": 104,
-              "column": 3
-            },
-            {
-              "title": "TC03: Should create notes with different colors",
-              "ok": true,
-              "tags": [
-                "e2e",
-                "notes"
-              ],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium-e2e",
-                  "projectName": "chromium-e2e",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 6336,
-                      "errors": [],
-                      "stdout": [
-                        {
-                          "text": "✅ TC03 PASSED: Multiple colored notes created\n"
-                        }
-                      ],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-11-13T06:53:12.154Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "a6b79704d7f10e584936-d457cade94f92df620ca",
-              "file": "e2e/notes.modern.e2e.spec.js",
-              "line": 124,
-              "column": 3
-            },
-            {
-              "title": "TC04: Should edit existing note",
-              "ok": true,
-              "tags": [
-                "e2e",
-                "notes"
-              ],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "location": {
-                        "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.modern.e2e.spec.js",
-                        "line": 151,
-                        "column": 8
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "chromium-e2e",
-                  "projectName": "chromium-e2e",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-11-13T06:53:18.521Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "location": {
-                            "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.modern.e2e.spec.js",
-                            "line": 151,
-                            "column": 8
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "a6b79704d7f10e584936-d7de5e41b0542de06c90",
-              "file": "e2e/notes.modern.e2e.spec.js",
-              "line": 151,
-              "column": 8
-            },
-            {
-              "title": "TC05: Should delete note successfully",
-              "ok": true,
-              "tags": [
-                "e2e",
-                "notes"
-              ],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "location": {
-                        "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.modern.e2e.spec.js",
-                        "line": 180,
-                        "column": 8
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "chromium-e2e",
-                  "projectName": "chromium-e2e",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-11-13T06:53:18.521Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "location": {
-                            "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.modern.e2e.spec.js",
-                            "line": 180,
-                            "column": 8
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "a6b79704d7f10e584936-da4e190fa7b798bc47bd",
-              "file": "e2e/notes.modern.e2e.spec.js",
-              "line": 180,
-              "column": 8
-            },
-            {
-              "title": "TC06: Should cancel note creation without saving",
-              "ok": true,
-              "tags": [
-                "e2e",
-                "notes"
-              ],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium-e2e",
-                  "projectName": "chromium-e2e",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 4766,
-                      "errors": [],
-                      "stdout": [
-                        {
-                          "text": "✅ TC06 PASSED: Note creation cancelled\n"
-                        }
-                      ],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-11-13T06:53:18.522Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "a6b79704d7f10e584936-2ab713816b8359f446d8",
-              "file": "e2e/notes.modern.e2e.spec.js",
-              "line": 209,
-              "column": 3
-            },
-            {
-              "title": "TC07: Should handle special characters correctly",
-              "ok": true,
-              "tags": [
-                "e2e",
-                "notes"
-              ],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium-e2e",
-                  "projectName": "chromium-e2e",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 4703,
-                      "errors": [],
-                      "stdout": [
-                        {
-                          "text": "✅ TC07 PASSED: Special characters handled\n"
-                        }
-                      ],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-11-13T06:53:23.312Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "a6b79704d7f10e584936-977e37b5ed66bdde5eed",
-              "file": "e2e/notes.modern.e2e.spec.js",
-              "line": 238,
-              "column": 3
-            },
-            {
-              "title": "TC08: Should display empty state when no notes",
-              "ok": true,
-              "tags": [
-                "e2e",
-                "notes"
-              ],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "location": {
-                        "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.modern.e2e.spec.js",
-                        "line": 257,
-                        "column": 8
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "chromium-e2e",
-                  "projectName": "chromium-e2e",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-11-13T06:53:28.043Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "location": {
-                            "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.modern.e2e.spec.js",
-                            "line": 257,
-                            "column": 8
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "a6b79704d7f10e584936-0a12882d0e8c01e4fd88",
-              "file": "e2e/notes.modern.e2e.spec.js",
-              "line": 257,
-              "column": 8
-            }
-          ]
-        },
-        {
-          "title": "Notes E2E - Validation & Edge Cases @e2e @notes @validation",
-          "file": "e2e/notes.modern.e2e.spec.js",
-          "line": 288,
-          "column": 6,
-          "specs": [
-            {
-              "title": "TC09: Should validate required title field",
-              "ok": true,
-              "tags": [
-                "e2e",
-                "notes",
-                "validation"
-              ],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium-e2e",
-                  "projectName": "chromium-e2e",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 5070,
-                      "errors": [],
-                      "stdout": [
-                        {
-                          "text": "✅ TC09 PASSED: Empty title validation works\n"
-                        }
-                      ],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-11-13T06:53:28.044Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "a6b79704d7f10e584936-3d4880535e08d9362c59",
-              "file": "e2e/notes.modern.e2e.spec.js",
-              "line": 303,
-              "column": 3
-            },
-            {
-              "title": "TC10: Should handle long content gracefully",
-              "ok": true,
-              "tags": [
-                "e2e",
-                "notes",
-                "validation"
-              ],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium-e2e",
-                  "projectName": "chromium-e2e",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 4679,
-                      "errors": [],
-                      "stdout": [
-                        {
-                          "text": "✅ TC10 PASSED: Long content handled\n"
-                        }
-                      ],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-11-13T06:53:33.151Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "a6b79704d7f10e584936-4fe3efae696fe7b994d3",
-              "file": "e2e/notes.modern.e2e.spec.js",
-              "line": 329,
-              "column": 3
-            }
-          ]
-        }
-      ]
+      "message": "Error: No tests found.\nMake sure that arguments are regular expressions matching test files.\nYou may need to escape symbols like \"$\" or \"*\" and quote the arguments.",
+      "stack": "Error: No tests found.\nMake sure that arguments are regular expressions matching test files.\nYou may need to escape symbols like \"$\" or \"*\" and quote the arguments."
     }
   ],
-  "errors": [],
   "stats": {
-    "startTime": "2025-11-13T06:53:00.323Z",
-    "duration": 37781.24,
-    "expected": 7,
-    "skipped": 3,
+    "startTime": "2025-11-13T17:49:25.768Z",
+    "duration": 52.94200000000001,
+    "expected": 0,
+    "skipped": 0,
     "unexpected": 0,
     "flaky": 0
   }

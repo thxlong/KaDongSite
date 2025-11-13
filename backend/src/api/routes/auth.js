@@ -12,7 +12,8 @@ import {
   getCurrentUser,
   refreshToken,
   forgotPassword,
-  resetPassword
+  resetPassword,
+  migrateGuestData
 } from '../controllers/authController.js'
 import { verifyToken } from '../middlewares/authMiddleware.js'
 
@@ -129,5 +130,12 @@ router.post('/logout', verifyToken, logout)
  * @access  Private
  */
 router.post('/refresh', verifyToken, refreshToken)
+
+/**
+ * @route   POST /api/auth/migrate-guest-data
+ * @desc    Migrate guest data from localStorage to database
+ * @access  Private (Registered users only, not guests)
+ */
+router.post('/migrate-guest-data', verifyToken, migrateGuestData)
 
 export default router

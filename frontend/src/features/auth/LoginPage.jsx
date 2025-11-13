@@ -5,13 +5,13 @@
 
 import { useState } from 'react'
 import { useNavigate, useLocation, Link } from 'react-router-dom'
-import { Eye, EyeOff, LogIn, Loader2 } from 'lucide-react'
+import { Eye, EyeOff, LogIn, Loader2, UserCircle } from 'lucide-react'
 import { useAuth } from '../../shared/contexts/AuthContext'
 
 const LoginPage = () => {
   const navigate = useNavigate()
   const location = useLocation()
-  const { login } = useAuth()
+  const { login, loginAsGuest } = useAuth()
 
   const [formData, setFormData] = useState({
     email: '',
@@ -21,6 +21,7 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false)
   const [errors, setErrors] = useState({})
   const [loading, setLoading] = useState(false)
+  const [guestLoading, setGuestLoading] = useState(false)
   const [apiError, setApiError] = useState('')
 
   // Get return URL from navigation state (for redirect after login)
@@ -88,6 +89,25 @@ const LoginPage = () => {
         ...prev,
         [name]: ''
       }))
+    }
+  }
+
+  /**
+   * Handle Guest login (client-side only)
+   */
+  const handleGuestLogin = () => {
+    try {
+      setGuestLoading(true)
+      setApiError('')
+
+      loginAsGuest()
+      
+      // Redirect to tools page
+      navigate('/tools', { replace: true })
+    } catch (error) {
+      setApiError('Không thể tạo phiên Guest')
+    } finally {
+      setGuestLoading(false)
     }
   }
 
@@ -217,6 +237,38 @@ const LoginPage = () => {
               )}
             </button>
           </form>
+
+          {/* Divider */}
+          <div className="mt-6 flex items-center">
+            <div className="flex-1 border-t border-gray-300"></div>
+            <span className="px-4 text-sm text-gray-500">hoặc</span>
+            <div className="flex-1 border-t border-gray-300"></div>
+          </div>
+
+          {/* Guest Login Button */}
+          <button
+            type="button"
+            onClick={handleGuestLogin}
+            disabled={guestLoading || loading}
+            className="mt-4 w-full border-2 border-purple-300 text-purple-700 py-3 rounded-lg font-medium hover:bg-purple-50 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center group"
+            title="Dữ liệu sẽ lưu tạm trong trình duyệt"
+          >
+            {guestLoading ? (
+              <>
+                <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                Đang tạo phiên Guest...
+              </>
+            ) : (
+              <>
+                <UserCircle className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
+                Tiếp tục với Guest
+              </>
+            )}
+          </button>
+
+          <p className="mt-2 text-xs text-gray-500 text-center">
+            💡 Dữ liệu Guest lưu tạm trong trình duyệt và sẽ bị mất khi xóa cache
+          </p>
 
           {/* Register Link */}
           <div className="mt-6 text-center">

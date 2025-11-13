@@ -5,6 +5,7 @@
 
 import { createContext, useContext, useState, useEffect, useCallback } from 'react'
 import * as authService from '../services/authService'
+import * as guestStorage from '../utils/guestStorage'
 
 const AuthContext = createContext(null)
 
@@ -14,6 +15,7 @@ const AuthContext = createContext(null)
  */
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null)
+  const [isGuest, setIsGuest] = useState(false)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
@@ -23,14 +25,27 @@ export const AuthProvider = ({ children }) => {
   const checkAuth = useCallback(async () => {
     try {
       setLoading(true)
+      
+      // First check for guest session
+      const guestSession = guestStorage.getGuestSession()
+      if (guestSession) {
+        setUser(guestSession.user)
+        setIsGuest(true)
+        setLoading(false)
+        return
+      }
+
+      // Then check for registered user
       const response = await authService.getCurrentUser()
       
       if (response.success) {
         setUser(response.data)
+        setIsGuest(false)
       }
     } catch (err) {
       // User not authenticated, this is OK
       setUser(null)
+      setIsGuest(false)
     } finally {
       setLoading(false)
     }
@@ -70,11 +85,33 @@ export const AuthProvider = ({ children }) => {
       
       if (response.success) {
         setUser(response.data.user)
+        setIsGuest(false)
         return { success: true, user: response.data.user }
       }
     } catch (err) {
       setError(err.message)
       throw err
+    } finally {
+      setLoading(false)
+    }
+  }, [])
+
+  /**
+   * Login as Guest (client-side only, no API call)
+   */
+  const loginAsGuest = useCallback(() => {
+    try {
+      setLoading(true)
+      setError(null)
+
+      const guestSession = guestStorage.createGuestSession()
+      setUser(guestSession.user)
+      setIsGuest(true)
+
+      return { success: true, user: guestSession.user }
+    } catch (err) {
+      setError('Không thể tạo phiên Guest')
+      throw new Error('Failed to create guest session')
     } finally {
       setLoading(false)
     }
@@ -88,18 +125,29 @@ export const AuthProvider = ({ children }) => {
       setLoading(true)
       setError(null)
 
+      // If guest, just clear localStorage
+      if (isGuest) {
+        guestStorage.clearGuestSession()
+        setUser(null)
+        setIsGuest(false)
+        return { success: true }
+      }
+
+      // For registered users, call API
       await authService.logout()
       setUser(null)
+      setIsGuest(false)
       return { success: true }
     } catch (err) {
       setError(err.message)
       // Even if API call fails, clear local user state
       setUser(null)
+      setIsGuest(false)
       throw err
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [isGuest])
 
   /**
    * Update user data (after profile edit)
@@ -165,6 +213,34 @@ export const AuthProvider = ({ children }) => {
     }
   }, [])
 
+  /**
+   * Migrate guest data to registered user account
+   */
+  const migrateGuestData = useCallback(async () => {
+    try {
+      setLoading(true)
+      setError(null)
+
+      // Get all guest data from localStorage
+      const guestData = guestStorage.getGuestDataForMigration()
+
+      // Call migration API
+      const response = await authService.migrateGuestData(guestData)
+
+      if (response.success) {
+        // Clear guest data after successful migration
+        guestStorage.clearGuestSession()
+        setIsGuest(false)
+        return response
+      }
+    } catch (err) {
+      setError(err.message)
+      throw err
+    } finally {
+      setLoading(false)
+    }
+  }, [])
+
   // Check authentication on mount
   useEffect(() => {
     checkAuth()
@@ -189,18 +265,21 @@ export const AuthProvider = ({ children }) => {
     // State
     user,
     isAuthenticated: !!user,
+    isGuest,
     loading,
     error,
 
     // Functions
     register,
     login,
+    loginAsGuest,
     logout,
     updateUser,
     checkAuth,
     refresh,
     forgotPassword,
-    resetPassword
+    resetPassword,
+    migrateGuestData
   }
 
   return (

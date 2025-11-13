@@ -322,9 +322,11 @@ export const logout = async (req, res) => {
     const token = req.cookies.token || req.headers.authorization?.substring(7)
 
     if (token) {
-      // Revoke session in database
+      // Revoke session in database (soft delete with revoked_at timestamp)
       await pool.query(
-        `DELETE FROM sessions WHERE token_hash = $1`,
+        `UPDATE sessions 
+         SET revoked_at = NOW() 
+         WHERE token_hash = $1 AND revoked_at IS NULL`,
         [token]
       )
     }
@@ -640,6 +642,131 @@ export const resetPassword = async (req, res) => {
   }
 }
 
+/**
+ * POST /api/auth/migrate-guest-data
+ * Migrate guest data from localStorage to database
+ * Requires authenticated user (not guest)
+ */
+export const migrateGuestData = async (req, res) => {
+  try {
+    const { userId, role } = req.user
+    const { notes = [], countdowns = [], wishlist = [] } = req.body
+
+    // Validation: Must be authenticated registered user
+    if (!userId) {
+      return res.status(401).json({
+        success: false,
+        error: {
+          code: 'UNAUTHORIZED',
+          message: 'Authentication required'
+        }
+      })
+    }
+
+    // Validation: Guest users cannot migrate (they need to register first)
+    if (role === 'guest') {
+      return res.status(403).json({
+        success: false,
+        error: {
+          code: 'GUEST_MIGRATION_NOT_ALLOWED',
+          message: 'Guest users cannot migrate data. Please register first.'
+        }
+      })
+    }
+
+    // Validation: Check array limits
+    if (notes.length > 1000 || countdowns.length > 1000 || wishlist.length > 1000) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          code: 'MIGRATION_LIMIT_EXCEEDED',
+          message: 'Maximum 1000 items per category'
+        }
+      })
+    }
+
+    const client = await pool.connect()
+    let migratedCounts = { notes: 0, countdowns: 0, wishlist: 0 }
+
+    try {
+      await client.query('BEGIN')
+
+      // Migrate Notes
+      if (notes.length > 0) {
+        for (const note of notes) {
+          const { title, content, created_at } = note
+          await client.query(
+            `INSERT INTO notes (user_id, title, content, created_at)
+             VALUES ($1, $2, $3, $4)`,
+            [userId, title || 'Untitled', content || '', created_at || new Date()]
+          )
+          migratedCounts.notes++
+        }
+      }
+
+      // Migrate Countdowns
+      if (countdowns.length > 0) {
+        for (const countdown of countdowns) {
+          const { name, target_date, created_at } = countdown
+          await client.query(
+            `INSERT INTO countdowns (user_id, name, target_date, created_at)
+             VALUES ($1, $2, $3, $4)`,
+            [userId, name || 'Untitled Event', target_date, created_at || new Date()]
+          )
+          migratedCounts.countdowns++
+        }
+      }
+
+      // Migrate Wishlist
+      if (wishlist.length > 0) {
+        for (const item of wishlist) {
+          const { product_url, title, price, image_url, created_at } = item
+          await client.query(
+            `INSERT INTO wishlist (user_id, product_url, title, price, image_url, created_at)
+             VALUES ($1, $2, $3, $4, $5, $6)`,
+            [userId, product_url || '', title || 'Untitled Product', price, image_url, created_at || new Date()]
+          )
+          migratedCounts.wishlist++
+        }
+      }
+
+      await client.query('COMMIT')
+
+      // Build success message
+      const parts = []
+      if (migratedCounts.notes > 0) parts.push(`${migratedCounts.notes} ghi chú`)
+      if (migratedCounts.countdowns > 0) parts.push(`${migratedCounts.countdowns} đếm ngược`)
+      if (migratedCounts.wishlist > 0) parts.push(`${migratedCounts.wishlist} wishlist`)
+      
+      const message = parts.length > 0
+        ? `Đã chuyển ${parts.join(', ')}`
+        : 'Không có dữ liệu để chuyển'
+
+      res.json({
+        success: true,
+        data: {
+          migrated: migratedCounts
+        },
+        message
+      })
+    } catch (error) {
+      await client.query('ROLLBACK')
+      throw error
+    } finally {
+      client.release()
+    }
+  } catch (error) {
+    logError('migrateGuestData', error)
+    res.status(500).json({
+      success: false,
+      error: {
+        code: 'MIGRATION_FAILED',
+        message: 'Failed to migrate guest data'
+      }
+    })
+  }
+}
+
 export default {
   register,
   login,
@@ -647,5 +774,6 @@ export default {
   getCurrentUser,
   refreshToken,
   forgotPassword,
-  resetPassword
+  resetPassword,
+  migrateGuestData
 }

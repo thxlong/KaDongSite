@@ -3,14 +3,15 @@
  * User registration page with email/password/name form
  */
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import { Eye, EyeOff, UserPlus, Loader2, Check, X } from 'lucide-react'
+import { Eye, EyeOff, UserPlus, Loader2, Check, X, Database } from 'lucide-react'
 import { useAuth } from '../../shared/contexts/AuthContext'
+import * as guestStorage from '../../shared/utils/guestStorage'
 
 const RegisterPage = () => {
   const navigate = useNavigate()
-  const { register } = useAuth()
+  const { register, isGuest, migrateGuestData } = useAuth()
 
   const [formData, setFormData] = useState({
     name: '',
@@ -23,7 +24,20 @@ const RegisterPage = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [errors, setErrors] = useState({})
   const [loading, setLoading] = useState(false)
+  const [migrationLoading, setMigrationLoading] = useState(false)
   const [apiError, setApiError] = useState('')
+  const [guestDataInfo, setGuestDataInfo] = useState(null)
+
+  // Check for guest data on mount
+  useEffect(() => {
+    if (isGuest) {
+      const info = guestStorage.getGuestStorageInfo()
+      const hasData = info.notes > 0 || info.countdowns > 0 || info.wishlist > 0
+      if (hasData) {
+        setGuestDataInfo(info)
+      }
+    }
+  }, [isGuest])
 
   /**
    * Calculate password strength
@@ -113,6 +127,31 @@ const RegisterPage = () => {
       
       await register(formData.email, formData.password, formData.name)
       
+      // If guest with data, migrate automatically
+      if (guestDataInfo) {
+        try {
+          setMigrationLoading(true)
+          const migrationResult = await migrateGuestData()
+          
+          if (migrationResult.success) {
+            // Show success message with migration summary
+            navigate('/tools', { 
+              replace: true,
+              state: { 
+                message: migrationResult.message,
+                migrated: migrationResult.data.migrated
+              }
+            })
+            return
+          }
+        } catch (migrationError) {
+          console.error('Migration failed:', migrationError)
+          // Continue anyway, user is registered
+        } finally {
+          setMigrationLoading(false)
+        }
+      }
+      
       // Redirect to tools page after successful registration
       navigate('/tools', { replace: true })
     } catch (error) {
@@ -164,6 +203,23 @@ const RegisterPage = () => {
           {apiError && (
             <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
               <p className="text-red-600 text-sm">{apiError}</p>
+            </div>
+          )}
+
+          {/* Guest Data Migration Info */}
+          {guestDataInfo && (
+            <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+              <div className="flex items-start gap-3">
+                <Database className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                <div>
+                  <p className="text-sm font-medium text-blue-800 mb-1">
+                    🎉 Dữ liệu Guest của bạn sẽ được chuyển sang tài khoản mới
+                  </p>
+                  <p className="text-sm text-blue-700">
+                    {guestDataInfo.notes} ghi chú, {guestDataInfo.countdowns} đếm ngược, {guestDataInfo.wishlist} wishlist sẽ được tự động lưu vào database
+                  </p>
+                </div>
+              </div>
             </div>
           )}
 
@@ -361,18 +417,18 @@ const RegisterPage = () => {
             {/* Submit Button */}
             <button
               type="submit"
-              disabled={loading}
+              disabled={loading || migrationLoading}
               className="w-full bg-gradient-to-r from-pink-500 to-purple-600 text-white py-3 rounded-lg font-medium hover:from-pink-600 hover:to-purple-700 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
             >
-              {loading ? (
+              {loading || migrationLoading ? (
                 <>
                   <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                  Đang đăng ký...
+                  {migrationLoading ? 'Đang chuyển dữ liệu...' : 'Đang đăng ký...'}
                 </>
               ) : (
                 <>
                   <UserPlus className="w-5 h-5 mr-2" />
-                  Đăng ký
+                  {guestDataInfo ? 'Đăng ký & Chuyển dữ liệu' : 'Đăng ký'}
                 </>
               )}
             </button>

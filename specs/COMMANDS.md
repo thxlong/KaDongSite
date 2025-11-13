@@ -1042,72 +1042,361 @@ LANG: VN
 /status 01_init
 /status 03_wishlist_management
 /status 04_api_testing_framework
+/status 08_login
 ```
 
 ### 📝 Prompt:
 
 ```
-TASK: Kiểm tra progress của spec {spec_id}
+TASK: Kiểm tra progress của spec {spec_id} và tạo implementation status report
 DETAIL:
-Hãy tổng hợp progress của spec này.
+Hãy tổng hợp progress của spec này và tạo file status vào folder đúng.
 
-**Thu thập thông tin:**
-1. Đọc spec: specs/{spec_id}.spec
+**BƯỚC 1: Thu thập thông tin**
+1. Đọc spec: specs/specs/{spec_id}.spec
 2. Đọc plan: specs/plans/{spec_id}.plan
-3. Đọc feature status: docs/dev-notes/features/{feature}-implementation-status.md
+3. Check existing status: docs/dev-notes/implementations/{feature}-implementation-status.md
 4. Đọc tasks: specs/tasks/{spec_id}_*.md
+5. Check codebase:
+   - Backend: backend/src/, backend/database/
+   - Frontend: frontend/src/
+   - Tests: backend/tests/, frontend/tests/
+   - Docs: docs/
 
-**Tính toán progress:**
+**BƯỚC 2: Tính toán progress**
 - Spec status: Draft/In Progress/Completed
 - Plan progress: X%
-- Phases completed: Y/7
+- Phases completed: Y/Total
 - Tasks completed: Z/Total
+- Acceptance Criteria: X/Y completed
+- Test coverage: X%
+- Files created/modified: Count
 
-**Output format:**
-Tạo comprehensive progress report bao gồm:
+**BƯỚC 3: Tạo Implementation Status Report**
 
-1. **Executive Summary:**
-   - Spec ID, name, status
-   - Overall progress percentage
-   - Priority level
+**Output File:** `docs/dev-notes/implementations/{feature}-implementation-status.md`
 
-2. **Phase Progress Table:**
-   | Phase | Name | Progress | Status | Tasks |
-   |-------|------|----------|--------|-------|
-   | 1 | Setup | 100% | ✅ Complete | 6/6 |
-   | 2 | Backend | 60% | 🚧 In Progress | 18/30 |
+**Naming Convention:**
+- Spec ID `08_login` → File: `login-auth-implementation-status.md`
+- Spec ID `03_wishlist_management` → File: `wishlist-management-implementation-status.md`
+- Spec ID `05_gold_prices` → File: `gold-prices-implementation-status.md`
 
-3. **Acceptance Criteria Status:**
-   - Must Have: X/Y completed
-   - Should Have: X/Y completed
-   - Nice to Have: X/Y completed
+**File Structure:**
 
-4. **Coverage Metrics (nếu có testing):**
-   - Code coverage: X%
-   - Tests written: X/Y
-   - Tests passing: X/Y
+```markdown
+# {Feature Name} - Implementation Status
 
-5. **Critical Findings:**
-   - ✅ Completed features
-   - ⚠️ Gaps/blockers
-   - 🔴 Risk assessment
+**Feature ID:** `{spec_id}`  
+**Spec:** `specs/specs/{spec_id}.spec` v{version}  
+**Plan:** `specs/plans/{spec_id}.plan` v{version}  
+**Status:** {Draft/In Progress/Complete}  
+**Priority:** {🔴 Critical/🟡 High/🟢 Medium/⚪ Low}  
+**Last Updated:** {YYYY-MM-DD}
 
-6. **Next Steps (Priority Order):**
-   - Urgent tasks
-   - Important tasks
-   - Nice to have tasks
+---
 
-7. **Timeline Status:**
-   - Started: Date
-   - Current day: X
-   - Progress: On Track/Delayed
-   - ETA: Date
+## 📊 Executive Summary
 
-**Lưu ý:**
-- Format output dễ đọc với tables, emoji, sections rõ ràng
-- Highlight critical issues bằng ⚠️ hoặc 🔴
-- Đưa ra recommendations cụ thể
-- Link đến related specs nếu có
+**Overall Progress:** X% Complete  
+**Timeline Status:** {✅ On Track/⚠️ At Risk/🔴 Delayed}  
+**Blocking Issues:** X (list if any)  
+**Next Milestone:** {Name} ({Date})
+
+### Quick Stats
+- **Days Elapsed:** X days
+- **Estimated Completion:** {Date}
+- **Original Target:** {Date}
+- **Velocity:** X% faster/slower than planned
+
+---
+
+## 🎯 Phase Progress
+
+| Phase | Name | Progress | Status | Tasks | Duration |
+|-------|------|----------|--------|-------|----------|
+| 1 | {Phase Name} | X% | {✅/⏳/📝} | X/Y | X days |
+| 2 | {Phase Name} | X% | {✅/⏳/📝} | X/Y | X days |
+| ... | ... | ... | ... | ... | ... |
+
+**Total Progress:** X/Y phases complete (Z% phase completion)  
+**Task Completion:** X/Y tasks (Z% task completion)  
+**Weighted Progress:** X% (accounting for phase importance)
+
+---
+
+## ✅ Acceptance Criteria Status
+
+### Must Have (Required) - X/Y Complete (Z%)
+
+- [x] **AC1:** {Description} ✅ {Date}
+- [ ] **AC2:** {Description} ⏳ In Progress
+- [ ] **AC3:** {Description} ⚠️ Blocked
+
+### Should Have (Important) - X/Y Complete (Z%)
+
+- [x] **AC4:** {Description} ✅ {Date}
+- [ ] **AC5:** {Description} ⏳ In Progress
+
+### Nice to Have (Optional) - X/Y Complete (Z%)
+
+- [x] **AC6:** {Description} ✅ {Date}
+- [ ] **AC7:** {Description} 📝 Planned
+
+### Test Cases - X/Y Complete (Z%)
+
+- [x] **T1:** {Description} ✅ {Date}
+- [ ] **T2:** {Description} ⏳ In Progress
+
+**Overall AC Status:** X/Y complete (Z%)
+
+---
+
+## 💻 Implementation Details
+
+### Backend Implementation - X% {✅/⏳/📝}
+
+#### Database Schema {✅/⏳/📝}
+**Files Created:**
+- List migration files
+- List seed files
+
+**Tables:**
+- ✅ {table_name} - Description
+- ⏳ {table_name} - In progress
+
+#### Controllers & Routes {✅/⏳/📝}
+**Files Created:**
+- List controller files
+- List route files
+
+**Endpoints:**
+- ✅ {METHOD} {endpoint} - Description
+- ⏳ {METHOD} {endpoint} - In progress
+
+### Frontend Implementation - X% {✅/⏳/📝}
+
+#### Components {✅/⏳/📝}
+**Files Created:**
+- List component files
+
+**Features:**
+- ✅ {Feature} - Description
+- ⏳ {Feature} - In progress
+
+#### Pages {✅/⏳/📝}
+**Files Created:**
+- List page files
+
+### Documentation - X% {✅/⏳/📝}
+
+**Files Created:**
+- List documentation files
+
+**Coverage:**
+- ✅ API documentation
+- ✅ User guides
+- ⏳ Architecture diagrams
+
+---
+
+## 🧪 Testing Status - X% {✅/⏳/📝}
+
+### Backend Tests
+**File:** {test_file_path}
+
+**Test Results:**
+- ✅ X tests passing
+- ❌ Y tests failing
+- **Pass Rate:** Z%
+
+**Working Tests:**
+- ✅ {Test description}
+
+**Failing Tests:**
+- ❌ {Test description}
+  - Issue: {Root cause}
+  - Impact: {High/Medium/Low}
+
+### Test Coverage
+**Current:** X%  
+**Target:** Y%  
+**Gap:** Z%
+
+**Missing Tests:**
+- [ ] {Test category}
+- [ ] {Test category}
+
+---
+
+## 🐛 Active Issues
+
+### Issue #{X}: {Title} {⚠️/🔴}
+**Severity:** {Critical/High/Medium/Low}  
+**Status:** {Open/In Progress/Resolved}  
+**Created:** {Date}
+
+**Details:**
+{Description of issue}
+
+**Impact:**
+{Impact description}
+
+**Root Cause Analysis:**
+{Analysis}
+
+**Proposed Solutions:**
+1. {Solution 1}
+2. {Solution 2}
+
+**Next Steps:**
+1. {Action item}
+2. {Action item}
+
+**Priority:** {High/Medium/Low}  
+**Assigned To:** {Team/Person}  
+**ETA:** {Date}
+
+---
+
+## 🎯 Next Steps (Priority Order)
+
+### Critical ({Date Range})
+1. **{Task}** {⚠️/🔴}
+   - {Details}
+   - Target: {Goal}
+
+### Important ({Date Range})
+2. **{Task}**
+   - {Details}
+   - Target: {Goal}
+
+### Medium ({Date Range})
+3. **{Task}**
+   - {Details}
+   - Target: {Goal}
+
+---
+
+## 📊 Metrics Summary
+
+### Code Statistics
+- **Backend LOC:** ~{X} lines
+- **Frontend LOC:** ~{X} lines
+- **Documentation LOC:** ~{X} lines
+- **Total LOC:** ~{X} lines
+- **Files Created:** {X} files
+- **Files Modified:** {X} files
+
+### Development Velocity
+- **Planned Velocity:** {X} tasks/day
+- **Actual Velocity:** {X} tasks/day
+- **Efficiency:** {X}% faster/slower than planned
+- **Days Saved/Lost:** {X} days
+
+### Quality Metrics
+- **Test Coverage:** {X}% (target: {Y}%)
+- **Lint Errors:** {X}
+- **Security Vulnerabilities:** {X}
+- **Performance Issues:** {X}
+
+---
+
+## 🔗 Related Documentation
+
+### Specifications
+- **Main Spec:** `specs/specs/{spec_id}.spec` v{version}
+- **Implementation Plan:** `specs/plans/{spec_id}.plan` v{version}
+
+### Implementation Guides
+- **{Guide Name}:** {path}
+
+### API Documentation
+- **Endpoints:** {path}
+- **Database Schema:** {path}
+- **Testing Guide:** {path}
+
+---
+
+## 📅 Timeline
+
+### Completed Milestones ✅
+- **{Date}:** {Milestone} (M{X})
+
+### In Progress ⏳
+- **{Date Range}:** {Milestone} (M{X}) - {X}% done
+
+### Upcoming 📝
+- **{Date Range}:** {Milestone} (M{X})
+
+### Original vs Actual
+- **Original Timeline:** {Start} - {End} ({X} days)
+- **Projected Completion:** {Date} ({X} days)
+- **Time Saved/Lost:** {X} days
+- **Status:** {✅ Ahead/⏳ On track/⚠️ Delayed}
+
+---
+
+## 🏆 Success Criteria Scorecard
+
+| Criterion | Target | Actual | Status |
+|-----------|--------|--------|--------|
+| {Criterion} | {Target} | {Actual} | {✅/⏳/❌} |
+
+**Overall Score:** X/Y criteria met (Z%) {✅/⚠️/❌}
+
+---
+
+## 💡 Recommendations
+
+### Immediate Actions
+1. **{Action}** - {Description}
+
+### Future Enhancements
+1. **{Enhancement}** - {Description}
+
+### Risk Mitigation
+1. **{Risk}** - {Mitigation strategy}
+
+---
+
+**Status Report Generated:** {YYYY-MM-DD}  
+**Next Review:** {YYYY-MM-DD}  
+**Reviewed By:** {Team/Person}  
+**Overall Assessment:** {Summary}
+```
+
+**BƯỚC 4: Display Summary**
+
+Sau khi tạo file, hiển thị summary ngắn gọn:
+
+```
+✅ Implementation Status Report Created
+
+**File:** docs/dev-notes/implementations/{feature}-implementation-status.md
+**Overall Progress:** X%
+**Status:** {In Progress/Complete}
+**Blocking Issues:** {X}
+
+**Key Findings:**
+- ✅ {Major achievement}
+- ⚠️ {Critical issue}
+- 🔴 {Blocker}
+
+**Next Actions:**
+1. {Priority action}
+2. {Priority action}
+
+**Full report:** See file for detailed analysis
+```
+
+**Lưu ý quan trọng:**
+- ✅ LUÔN tạo file vào folder: `docs/dev-notes/implementations/`
+- ✅ Naming: `{feature-name}-implementation-status.md` (lowercase, hyphen-separated)
+- ✅ Include ALL sections (Executive Summary, Phase Progress, AC Status, Implementation Details, Testing, Issues, Next Steps, Metrics, Timeline)
+- ✅ Use emoji để highlight status (✅ ⏳ 📝 ⚠️ 🔴)
+- ✅ Provide actionable recommendations
+- ✅ Link to related docs (spec, plan, code files)
+- ✅ Update Last Updated date mỗi lần chạy command
 
 LANG: VN
 

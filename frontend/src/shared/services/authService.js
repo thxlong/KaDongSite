@@ -199,6 +199,35 @@ export const resetPassword = async (token, newPassword) => {
   }
 }
 
+/**
+ * Migrate guest data from localStorage to database
+ * @param {object} guestData - Guest data {notes, countdowns, wishlist}
+ * @returns {Promise<{success: boolean, data?: object, error?: object}>}
+ */
+export const migrateGuestData = async (guestData) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/auth/migrate-guest-data`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include',
+      body: JSON.stringify(guestData)
+    })
+
+    const data = await response.json()
+
+    if (!response.ok) {
+      throw new Error(data.error?.message || 'Data migration failed')
+    }
+
+    return data
+  } catch (error) {
+    console.error('Migrate guest data error:', error)
+    throw error
+  }
+}
+
 export default {
   register,
   login,
@@ -206,5 +235,6 @@ export default {
   getCurrentUser,
   refreshToken,
   forgotPassword,
-  resetPassword
+  resetPassword,
+  migrateGuestData
 }

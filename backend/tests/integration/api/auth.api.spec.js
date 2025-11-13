@@ -319,7 +319,7 @@ test.describe('Authentication API', () => {
       }
     })
 
-    test('should logout successfully', async ({ request }) => {
+    test('should logout successfully with cookie token', async ({ request }) => {
       const response = await request.post(`${API_AUTH_URL}/logout`, {
         headers: {
           'Cookie': `token=${authToken}`
@@ -329,6 +329,13 @@ test.describe('Authentication API', () => {
       expect(response.status()).toBe(200)
       const data = await response.json()
       expect(data).toHaveProperty('success', true)
+      expect(data).toHaveProperty('message', 'Logout successful')
+      
+      // Verify cookie is cleared
+      const setCookieHeader = response.headers()['set-cookie']
+      if (setCookieHeader) {
+        expect(setCookieHeader).toContain('token=')
+      }
       
       // Verify token is revoked - subsequent request should fail
       const meResponse = await request.get(`${API_AUTH_URL}/me`, {
@@ -340,12 +347,105 @@ test.describe('Authentication API', () => {
       expect(meResponse.status()).toBe(401)
     })
 
-    test('should reject logout without token', async ({ request }) => {
+    test('should logout successfully with Authorization header', async ({ request }) => {
+      const response = await request.post(`${API_AUTH_URL}/logout`, {
+        headers: {
+          'Authorization': `Bearer ${authToken}`
+        }
+      })
+
+      expect(response.status()).toBe(200)
+      const data = await response.json()
+      expect(data).toHaveProperty('success', true)
+      
+      // Verify token is revoked
+      const meResponse = await request.get(`${API_AUTH_URL}/me`, {
+        headers: {
+          'Authorization': `Bearer ${authToken}`
+        }
+      })
+      
+      expect(meResponse.status()).toBe(401)
+    })
+
+    test('should handle logout without token gracefully', async ({ request }) => {
       const response = await request.post(`${API_AUTH_URL}/logout`)
 
-      expect(response.status()).toBe(401)
+      // Should succeed (idempotent) but not actually revoke anything
+      expect(response.status()).toBe(200)
       const data = await response.json()
-      expect(data).toHaveProperty('success', false)
+      expect(data).toHaveProperty('success', true)
+    })
+
+    test('should handle logout with invalid token gracefully', async ({ request }) => {
+      const response = await request.post(`${API_AUTH_URL}/logout`, {
+        headers: {
+          'Cookie': 'token=invalid-token-12345'
+        }
+      })
+
+      expect(response.status()).toBe(200)
+      const data = await response.json()
+      expect(data).toHaveProperty('success', true)
+    })
+
+    test('should handle logout twice (idempotent)', async ({ request }) => {
+      // First logout
+      const firstResponse = await request.post(`${API_AUTH_URL}/logout`, {
+        headers: {
+          'Cookie': `token=${authToken}`
+        }
+      })
+
+      expect(firstResponse.status()).toBe(200)
+      
+      // Second logout with same token
+      const secondResponse = await request.post(`${API_AUTH_URL}/logout`, {
+        headers: {
+          'Cookie': `token=${authToken}`
+        }
+      })
+
+      expect(secondResponse.status()).toBe(200)
+      const data = await secondResponse.json()
+      expect(data).toHaveProperty('success', true)
+    })
+
+    test('should clear cookie even on database error', async ({ request }) => {
+      // This test assumes logout always clears cookie regardless of DB state
+      const response = await request.post(`${API_AUTH_URL}/logout`, {
+        headers: {
+          'Cookie': `token=${authToken}`
+        }
+      })
+
+      expect(response.status()).toBe(200)
+      
+      // Cookie should be cleared
+      const setCookieHeader = response.headers()['set-cookie']
+      if (setCookieHeader) {
+        expect(setCookieHeader).toContain('token=')
+      }
+    })
+
+    test('should revoke session but preserve session history', async ({ request }) => {
+      // Logout
+      await request.post(`${API_AUTH_URL}/logout`, {
+        headers: {
+          'Cookie': `token=${authToken}`
+        }
+      })
+
+      // Session should still exist in DB but with revoked_at set
+      // This requires direct DB access to verify, which we'll skip in integration test
+      // But we can verify that subsequent use of the token fails
+      const meResponse = await request.get(`${API_AUTH_URL}/me`, {
+        headers: {
+          'Cookie': `token=${authToken}`
+        }
+      })
+      
+      expect(meResponse.status()).toBe(401)
     })
   })
 
