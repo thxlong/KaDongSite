@@ -1,0 +1,629 @@
+# Task Breakdown
+
+**Task ID:** `TASK-06-TEST-03`  
+**Plan:** `06_gold_prices_tool.plan`  
+**Phase:** Phase 1E - Testing & Polish  
+**Status:** 📝 Todo  
+**Created:** 2025-11-13  
+**Last Updated:** 2025-11-13
+
+---
+
+## 📋 Task Overview
+
+**Title:** Write E2E Tests for Gold Prices Page  
+**Priority:** 🟠 High  
+**Estimate:** 6 hours  
+**Actual Time:** TBD
+
+**Description:**  
+Viết E2E tests với Playwright để test toàn bộ user flow trên Gold Prices page: load page, refresh prices, select gold types, view chart, change period filters.
+
+**Assigned To:** QA Engineer / Frontend Developer  
+**Due Date:** 2025-11-22
+
+---
+
+## 🎯 Objectives
+
+1. **Primary Objective**
+   - Test page load và initial data display
+   - Test refresh functionality
+   - Test gold type selection for chart
+   - Test period filters (day/week/month/year)
+   - Test chart visibility toggle
+
+2. **Secondary Objectives**
+   - Test error handling (API failures)
+   - Test mobile responsive behavior
+   - Test accessibility (keyboard navigation)
+
+---
+
+## ✅ Acceptance Criteria
+
+- [ ] Test suite có 10+ test cases covering main flows
+- [ ] Tests pass trên 3 browsers (Chromium, Firefox, WebKit)
+- [ ] Page Object Model pattern được sử dụng
+- [ ] Self-healing selectors với fallback
+- [ ] All tests pass trong < 2 minutes
+- [ ] Screenshots được capture khi test fails
+- [ ] Test documentation đầy đủ
+
+---
+
+## 📝 Subtasks
+
+### Setup & Configuration
+- [ ] **Subtask 1:** Create Playwright config for Gold page
+  - File: `frontend/playwright.config.js`
+  - Add gold-e2e project
+  - Configure baseURL, timeout, retries
+  
+- [ ] **Subtask 2:** Create Page Object Model
+  - File: `frontend/tests/pages/GoldPage.js`
+  - Encapsulate selectors
+  - Create helper methods (refreshPrices, selectGoldType, etc.)
+  - Self-healing selector strategy
+
+### Test Cases Implementation
+- [ ] **Subtask 3:** Test TC01 - Page Load
+  - File: `frontend/tests/e2e/gold.e2e.spec.js`
+  - Navigate to /gold
+  - Verify header displays
+  - Verify price cards display
+  - Verify last update timestamp
+  
+- [ ] **Subtask 4:** Test TC02 - Refresh Prices
+  - Click refresh button
+  - Verify loading state
+  - Verify new timestamp
+  - Verify prices updated
+  
+- [ ] **Subtask 5:** Test TC03 - Select Gold Types
+  - Click on price card
+  - Verify card selection (ring border)
+  - Verify chart updates
+  - Verify selected count
+  
+- [ ] **Subtask 6:** Test TC04 - Period Filters
+  - Click period buttons (day/week/month/year)
+  - Verify active state
+  - Verify chart updates with new data
+  - Verify X-axis labels change
+  
+- [ ] **Subtask 7:** Test TC05 - Chart Visibility Toggle
+  - Click chart visibility checkbox
+  - Verify chart hides
+  - Click again
+  - Verify chart appears
+  
+- [ ] **Subtask 8:** Test TC06 - Multiple Gold Comparison
+  - Select 3 gold types
+  - Verify 3 lines appear on chart
+  - Verify legend shows all 3
+  - Verify different colors
+
+### Error Scenarios
+- [ ] **Subtask 9:** Test TC07 - API Error Handling
+  - Mock API failure
+  - Verify error message displays
+  - Verify retry button appears
+  - Click retry
+  - Verify data loads
+
+### Documentation
+- [ ] **Subtask 10:** Create test specifications
+  - File: `frontend/tests/gold/TEST_SPECIFICATIONS.md`
+  - Document all test cases
+  - Acceptance criteria
+  - Expected vs actual
+
+---
+
+## 📂 Files to Create/Modify
+
+### New Files
+```
+frontend/tests/pages/GoldPage.js
+frontend/tests/e2e/gold.e2e.spec.js
+frontend/tests/gold/TEST_SPECIFICATIONS.md
+```
+
+### Modified Files
+```
+frontend/playwright.config.js - Add gold-e2e project
+frontend/package.json - Add test:gold script
+```
+
+---
+
+## 🔧 Implementation Details
+
+### Step 1: Page Object Model
+```javascript
+// frontend/tests/pages/GoldPage.js
+import { expect } from '@playwright/test'
+
+export class GoldPage {
+  constructor(page) {
+    this.page = page
+    
+    // Selectors with fallback
+    this.selectors = {
+      header: {
+        primary: 'h1:has-text("Giá Vàng")',
+        fallback: '[data-testid="gold-header"]'
+      },
+      refreshButton: {
+        primary: 'button:has-text("Làm mới")',
+        fallback: 'button[aria-label="Làm mới dữ liệu"]'
+      },
+      lastUpdate: {
+        primary: 'p:has-text("Cập nhật:")',
+        fallback: '[data-testid="last-update"]'
+      },
+      priceCard: {
+        primary: '.grid > div[role="button"]',
+        fallback: '[data-testid="gold-card"]'
+      },
+      chart: {
+        primary: '.recharts-wrapper',
+        fallback: '[data-testid="gold-chart"]'
+      },
+      periodButtons: {
+        day: 'button:has-text("Ngày")',
+        week: 'button:has-text("Tuần")',
+        month: 'button:has-text("Tháng")',
+        year: 'button:has-text("Năm")'
+      },
+      chartToggle: {
+        primary: 'input[type="checkbox"]',
+        fallback: '[data-testid="chart-toggle"]'
+      }
+    }
+  }
+
+  async goto() {
+    await this.page.goto('/gold')
+    await this.waitForLoad()
+  }
+
+  async waitForLoad() {
+    await this.page.waitForSelector(this.selectors.header.primary, { 
+      timeout: 10000 
+    })
+  }
+
+  async getSelector(key) {
+    const selector = this.selectors[key]
+    try {
+      await this.page.waitForSelector(selector.primary, { timeout: 5000 })
+      return selector.primary
+    } catch {
+      return selector.fallback
+    }
+  }
+
+  async refreshPrices() {
+    const refreshBtn = await this.getSelector('refreshButton')
+    await this.page.click(refreshBtn)
+    
+    // Wait for loading to complete (spinner disappears)
+    await this.page.waitForTimeout(2000)
+  }
+
+  async getLastUpdateTime() {
+    const updateText = await this.page.textContent(
+      this.selectors.lastUpdate.primary
+    )
+    return updateText
+  }
+
+  async getPriceCards() {
+    return await this.page.$$(this.selectors.priceCard.primary)
+  }
+
+  async selectGoldType(index) {
+    const cards = await this.getPriceCards()
+    await cards[index].click()
+  }
+
+  async isCardSelected(index) {
+    const cards = await this.getPriceCards()
+    const classes = await cards[index].getAttribute('class')
+    return classes.includes('ring-2')
+  }
+
+  async clickPeriod(period) {
+    await this.page.click(this.selectors.periodButtons[period])
+  }
+
+  async isPeriodActive(period) {
+    const button = await this.page.$(this.selectors.periodButtons[period])
+    const classes = await button.getAttribute('class')
+    return classes.includes('bg-yellow-500')
+  }
+
+  async toggleChart() {
+    await this.page.click(this.selectors.chartToggle.primary)
+  }
+
+  async isChartVisible() {
+    return await this.page.isVisible(this.selectors.chart.primary)
+  }
+
+  async getChartLines() {
+    return await this.page.$$('.recharts-line')
+  }
+
+  async waitForChartUpdate() {
+    // Wait for chart animation to complete
+    await this.page.waitForTimeout(1000)
+  }
+}
+```
+
+### Step 2: E2E Test Suite
+```javascript
+// frontend/tests/e2e/gold.e2e.spec.js
+import { test, expect } from '@playwright/test'
+import { GoldPage } from '../pages/GoldPage'
+
+test.describe('Gold Prices Tool - E2E Tests', () => {
+  let goldPage
+
+  test.beforeEach(async ({ page }) => {
+    goldPage = new GoldPage(page)
+    await goldPage.goto()
+  })
+
+  /**
+   * TC01: Page Load Verification
+   * Given: User navigates to /gold
+   * When: Page loads
+   * Then: Header, price cards, and timestamp should be visible
+   */
+  test('TC01: Should load gold prices page correctly', async ({ page }) => {
+    // Verify header
+    await expect(page.locator('h1')).toContainText('Giá Vàng')
+
+    // Verify price cards
+    const cards = await goldPage.getPriceCards()
+    expect(cards.length).toBeGreaterThan(0)
+
+    // Verify last update timestamp
+    const updateTime = await goldPage.getLastUpdateTime()
+    expect(updateTime).toContain('Cập nhật:')
+  })
+
+  /**
+   * TC02: Refresh Prices
+   * Given: Page is loaded with initial data
+   * When: User clicks refresh button
+   * Then: Timestamp should update, prices may change
+   */
+  test('TC02: Should refresh prices when refresh button clicked', async ({ page }) => {
+    // Get initial timestamp
+    const initialTime = await goldPage.getLastUpdateTime()
+
+    // Wait 2 seconds to ensure time difference
+    await page.waitForTimeout(2000)
+
+    // Refresh prices
+    await goldPage.refreshPrices()
+
+    // Get new timestamp
+    const newTime = await goldPage.getLastUpdateTime()
+
+    // Timestamps should be different
+    expect(newTime).not.toBe(initialTime)
+  })
+
+  /**
+   * TC03: Select Gold Type for Chart
+   * Given: Page is loaded with price cards
+   * When: User clicks on a price card
+   * Then: Card should be selected (ring border), chart should update
+   */
+  test('TC03: Should select gold type and update chart', async ({ page }) => {
+    // Initially no card selected or default selection
+    const initialSelected = await goldPage.isCardSelected(0)
+
+    // Click first card
+    await goldPage.selectGoldType(0)
+
+    // Card should be selected
+    const nowSelected = await goldPage.isCardSelected(0)
+    expect(nowSelected).toBe(!initialSelected)
+
+    // Chart should be visible (default)
+    const chartVisible = await goldPage.isChartVisible()
+    expect(chartVisible).toBe(true)
+  })
+
+  /**
+   * TC04: Change Period Filter
+   * Given: Page is loaded
+   * When: User clicks period buttons (day, week, month, year)
+   * Then: Active button should change, chart should update
+   */
+  test('TC04: Should change period filter and update chart', async ({ page }) => {
+    // Click Week
+    await goldPage.clickPeriod('week')
+    await goldPage.waitForChartUpdate()
+
+    // Week should be active
+    const weekActive = await goldPage.isPeriodActive('week')
+    expect(weekActive).toBe(true)
+
+    // Click Month
+    await goldPage.clickPeriod('month')
+    await goldPage.waitForChartUpdate()
+
+    // Month should be active, Week should not
+    const monthActive = await goldPage.isPeriodActive('month')
+    const weekStillActive = await goldPage.isPeriodActive('week')
+    expect(monthActive).toBe(true)
+    expect(weekStillActive).toBe(false)
+  })
+
+  /**
+   * TC05: Toggle Chart Visibility
+   * Given: Chart is visible
+   * When: User clicks chart visibility checkbox
+   * Then: Chart should hide/show
+   */
+  test('TC05: Should toggle chart visibility', async ({ page }) => {
+    // Chart should be visible initially
+    let chartVisible = await goldPage.isChartVisible()
+    expect(chartVisible).toBe(true)
+
+    // Toggle off
+    await goldPage.toggleChart()
+    await page.waitForTimeout(500)
+
+    // Chart should be hidden
+    chartVisible = await goldPage.isChartVisible()
+    expect(chartVisible).toBe(false)
+
+    // Toggle on
+    await goldPage.toggleChart()
+    await page.waitForTimeout(500)
+
+    // Chart should be visible again
+    chartVisible = await goldPage.isChartVisible()
+    expect(chartVisible).toBe(true)
+  })
+
+  /**
+   * TC06: Multiple Gold Type Comparison
+   * Given: Page is loaded
+   * When: User selects 3 different gold types
+   * Then: Chart should show 3 lines with different colors
+   */
+  test('TC06: Should compare multiple gold types on chart', async ({ page }) => {
+    // Select first 3 cards
+    await goldPage.selectGoldType(0)
+    await goldPage.selectGoldType(1)
+    await goldPage.selectGoldType(2)
+
+    await goldPage.waitForChartUpdate()
+
+    // Get chart lines
+    const lines = await goldPage.getChartLines()
+    
+    // Should have at least 3 lines (may have more if defaults selected)
+    expect(lines.length).toBeGreaterThanOrEqual(3)
+  })
+
+  /**
+   * TC07: API Error Handling
+   * Given: Backend API is unavailable
+   * When: Page tries to load data
+   * Then: Error message should display with retry button
+   */
+  test.skip('TC07: Should show error message when API fails', async ({ page }) => {
+    // Note: This requires mocking API failure
+    // Skip for now, implement with network interception
+    
+    // Mock API failure
+    await page.route('**/api/gold/latest', route => {
+      route.abort('failed')
+    })
+
+    // Navigate to page
+    await goldPage.goto()
+
+    // Should show error message
+    const errorMsg = page.locator('text=Lỗi tải dữ liệu')
+    await expect(errorMsg).toBeVisible()
+
+    // Should show retry button
+    const retryBtn = page.locator('button:has-text("Thử lại")')
+    await expect(retryBtn).toBeVisible()
+  })
+
+  /**
+   * TC08: Responsive Design (Mobile)
+   * Given: Page is loaded on mobile viewport
+   * When: User interacts with page
+   * Then: Layout should adapt to mobile screen
+   */
+  test('TC08: Should display correctly on mobile viewport', async ({ page }) => {
+    // Set mobile viewport
+    await page.setViewportSize({ width: 375, height: 667 })
+
+    // Reload page
+    await goldPage.goto()
+
+    // Cards should stack vertically (1 column)
+    const cards = await goldPage.getPriceCards()
+    const firstCard = cards[0]
+    const firstCardBox = await firstCard.boundingBox()
+
+    // Check card width is close to viewport width (accounting for padding)
+    expect(firstCardBox.width).toBeGreaterThan(300)
+    expect(firstCardBox.width).toBeLessThan(375)
+  })
+
+  /**
+   * TC09: Keyboard Navigation
+   * Given: Page is loaded
+   * When: User uses Tab and Enter keys
+   * Then: Should be able to navigate and interact
+   */
+  test('TC09: Should support keyboard navigation', async ({ page }) => {
+    // Focus first interactive element
+    await page.keyboard.press('Tab')
+
+    // Should focus refresh button
+    const focused = await page.evaluate(() => document.activeElement.textContent)
+    expect(focused).toContain('Làm mới')
+
+    // Press Enter to trigger refresh
+    await page.keyboard.press('Enter')
+
+    // Wait for refresh
+    await page.waitForTimeout(2000)
+
+    // Should have updated timestamp
+    const updateTime = await goldPage.getLastUpdateTime()
+    expect(updateTime).toContain('Cập nhật:')
+  })
+
+  /**
+   * TC10: Performance Test
+   * Given: Page has loaded
+   * When: User interacts with page
+   * Then: Interactions should be fast (<1s response)
+   */
+  test('TC10: Should have good performance', async ({ page }) => {
+    const startTime = Date.now()
+
+    // Click period filter
+    await goldPage.clickPeriod('month')
+    await goldPage.waitForChartUpdate()
+
+    const endTime = Date.now()
+    const duration = endTime - startTime
+
+    // Should complete in < 2 seconds
+    expect(duration).toBeLessThan(2000)
+  })
+})
+```
+
+### Step 3: Playwright Configuration
+```javascript
+// frontend/playwright.config.js (add gold-e2e project)
+{
+  name: 'gold-e2e',
+  use: {
+    ...devices['Desktop Chrome'],
+    baseURL: 'http://localhost:3000',
+    screenshot: 'only-on-failure',
+    video: 'retain-on-failure',
+    trace: 'on-first-retry'
+  },
+  testMatch: '**/gold.e2e.spec.js'
+}
+```
+
+---
+
+## 🧪 Testing Plan
+
+### Run E2E Tests
+```bash
+# Run gold E2E tests
+npm run test:e2e:gold
+
+# Run on specific browser
+npx playwright test gold.e2e.spec.js --project=chromium-e2e
+
+# Debug mode
+npx playwright test gold.e2e.spec.js --debug
+
+# UI mode
+npx playwright test gold.e2e.spec.js --ui
+```
+
+### Success Criteria
+- All 10 tests pass on Chromium
+- At least 9/10 pass on Firefox
+- At least 9/10 pass on WebKit
+- Total execution time < 2 minutes
+- No flaky tests (3 consecutive runs pass)
+
+---
+
+## 🔗 Dependencies
+
+### Blocking Dependencies
+- Frontend dev server running (http://localhost:3000)
+- Backend API running (http://localhost:5000)
+- Database seeded with gold data
+
+### Related Tasks
+- TASK-06-TEST-01: Provider unit tests
+- TASK-06-TEST-02: Controller unit tests
+
+### External Dependencies
+- Playwright installed
+- Browsers installed (chromium, firefox, webkit)
+
+---
+
+## 📝 Notes
+
+### Technical Notes
+- Use Page Object Model for maintainability
+- Self-healing selectors with primary + fallback
+- Wait for animations to complete before assertions
+- Mock API failures with page.route()
+
+### Known Issues
+- Chart animation may cause flaky tests → Add waitForChartUpdate()
+- Mobile viewport tests may differ on CI → Use consistent viewport sizes
+
+### Resources
+- [Playwright Best Practices](https://playwright.dev/docs/best-practices)
+- [Page Object Model](https://playwright.dev/docs/pom)
+- [Network Mocking](https://playwright.dev/docs/network)
+
+---
+
+## ✅ Checklist Before Marking Done
+
+### Code Quality
+- [ ] Page Object Model implemented
+- [ ] Selectors use semantic approach
+- [ ] Tests follow Given-When-Then pattern
+- [ ] Code has descriptive comments
+
+### Testing
+- [ ] All tests pass on 3 browsers
+- [ ] Tests pass 3 consecutive times (no flaky tests)
+- [ ] Screenshots/videos captured on failure
+- [ ] Test execution time < 2 minutes
+
+### Documentation
+- [ ] Test specifications document created
+- [ ] README updated with test commands
+- [ ] Known issues documented
+
+---
+
+## 🔄 Progress Log
+
+### 2025-11-13 - Created
+- Task created
+- Test cases defined
+- Page Object Model designed
+
+---
+
+**Next Task:** `TASK-06-AUTO-01` (Automated Gold Fetching)  
+**Related Plan:** `plans/06_gold_prices_tool.plan`  
+**Related Spec:** `specs/06_gold_prices_tool.spec`

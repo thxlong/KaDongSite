@@ -1,0 +1,469 @@
+# Task Breakdown
+
+**Task ID:** `TASK-06-TEST-01`  
+**Plan:** `06_gold_prices_tool.plan`  
+**Phase:** Phase 1E - Testing & Polish  
+**Status:** 📝 Todo  
+**Created:** 2025-11-13  
+**Last Updated:** 2025-11-13
+
+---
+
+## 📋 Task Overview
+
+**Title:** Write Unit Tests for Gold Prices Providers  
+**Priority:** 🟠 High  
+**Estimate:** 4 hours  
+**Actual Time:** TBD
+
+**Description:**  
+Viết unit tests cho tất cả providers (mockProvider, realProvider) để đảm bảo data fetching logic hoạt động đúng. Mock axios calls và test error handling.
+
+**Assigned To:** Backend Developer  
+**Due Date:** 2025-11-20
+
+---
+
+## 🎯 Objectives
+
+1. **Primary Objective**
+   - Test fetchGoldPrices() trả về đúng format
+   - Test getProviderInfo() trả về đúng metadata
+   - Test error handling khi API fails
+   - Test fallback chain trong realProvider
+
+2. **Secondary Objectives**
+   - Test retry logic
+   - Test timeout handling
+   - Test manual price fallback
+
+---
+
+## ✅ Acceptance Criteria
+
+- [ ] mockProvider tests cover 100% code
+- [ ] realProvider tests mock all axios calls
+- [ ] Test VNAppMob API success response
+- [ ] Test VNAppMob API failure + fallback to GoldPrice.org
+- [ ] Test all APIs fail → use manual prices from .env
+- [ ] Test provider registry (getActiveProviders, fetchFromAllProviders)
+- [ ] All tests pass with `npm test`
+- [ ] Code coverage > 80% for providers
+
+---
+
+## 📝 Subtasks
+
+### Backend Testing
+- [ ] **Subtask 1:** Setup Vitest configuration
+  - File: `backend/vitest.config.js`
+  - Configure test environment
+  - Add coverage settings
+  
+- [ ] **Subtask 2:** Test mockProvider
+  - File: `backend/providers/__tests__/mockProvider.test.js`
+  - Test fetchGoldPrices returns 5 rates
+  - Test getProviderInfo returns correct metadata
+  - Test all rates have required fields
+  
+- [ ] **Subtask 3:** Test realProvider with mocks
+  - File: `backend/providers/__tests__/realProvider.test.js`
+  - Mock axios.get for VNAppMob API
+  - Mock axios.get for GoldPrice.org
+  - Test success scenario (VNAppMob works)
+  - Test fallback scenario (VNAppMob fails, GoldPrice works)
+  - Test all fail → manual prices
+  
+- [ ] **Subtask 4:** Test provider registry
+  - File: `backend/providers/__tests__/index.test.js`
+  - Test getActiveProviders returns only enabled providers
+  - Test fetchFromAllProviders calls all providers
+  - Test error aggregation when some providers fail
+
+### Test Data Setup
+- [ ] **Subtask 5:** Create mock API responses
+  - File: `backend/providers/__tests__/fixtures/apiResponses.js`
+  - VNAppMob SJC response
+  - VNAppMob DOJI response
+  - GoldPrice.org response
+  - Error responses
+
+---
+
+## 📂 Files to Create/Modify
+
+### New Files
+```
+backend/vitest.config.js
+backend/providers/__tests__/mockProvider.test.js
+backend/providers/__tests__/realProvider.test.js
+backend/providers/__tests__/index.test.js
+backend/providers/__tests__/fixtures/apiResponses.js
+```
+
+### Modified Files
+```
+backend/package.json - Add test scripts and vitest dependency
+```
+
+---
+
+## 🔧 Implementation Details
+
+### Step 1: Vitest Configuration
+```javascript
+// backend/vitest.config.js
+import { defineConfig } from 'vitest/config'
+
+export default defineConfig({
+  test: {
+    globals: true,
+    environment: 'node',
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'html', 'lcov'],
+      include: ['providers/**/*.js', 'controllers/**/*.js'],
+      exclude: ['**/__tests__/**', '**/node_modules/**'],
+      all: true,
+      lines: 80,
+      functions: 80,
+      branches: 80,
+      statements: 80
+    }
+  }
+})
+```
+
+### Step 2: Mock Provider Tests
+```javascript
+// backend/providers/__tests__/mockProvider.test.js
+import { describe, it, expect } from 'vitest'
+import mockProvider from '../mockProvider.js'
+
+describe('mockProvider', () => {
+  describe('fetchGoldPrices', () => {
+    it('should return array of 5 gold rates', async () => {
+      const rates = await mockProvider.fetchGoldPrices()
+      
+      expect(rates).toBeInstanceOf(Array)
+      expect(rates).toHaveLength(5)
+    })
+
+    it('should return rates with required fields', async () => {
+      const rates = await mockProvider.fetchGoldPrices()
+      
+      rates.forEach(rate => {
+        expect(rate).toHaveProperty('type')
+        expect(rate).toHaveProperty('source', 'mock')
+        expect(rate).toHaveProperty('buy_price')
+        expect(rate).toHaveProperty('sell_price')
+        expect(rate).toHaveProperty('mid_price')
+        expect(rate).toHaveProperty('currency')
+        expect(rate).toHaveProperty('fetched_at')
+        expect(rate).toHaveProperty('meta')
+      })
+    })
+
+    it('should have valid price values', async () => {
+      const rates = await mockProvider.fetchGoldPrices()
+      
+      rates.forEach(rate => {
+        expect(rate.buy_price).toBeGreaterThan(0)
+        expect(rate.sell_price).toBeGreaterThan(rate.buy_price)
+        expect(rate.mid_price).toBeGreaterThanOrEqual(rate.buy_price)
+        expect(rate.mid_price).toBeLessThanOrEqual(rate.sell_price)
+      })
+    })
+  })
+
+  describe('getProviderInfo', () => {
+    it('should return provider metadata', () => {
+      const info = mockProvider.getProviderInfo()
+      
+      expect(info).toHaveProperty('name', 'mock')
+      expect(info).toHaveProperty('display_name')
+      expect(info).toHaveProperty('enabled', false)
+      expect(info).toHaveProperty('types_supported')
+      expect(info.types_supported).toBeInstanceOf(Array)
+    })
+  })
+})
+```
+
+### Step 3: Real Provider Tests with Mocks
+```javascript
+// backend/providers/__tests__/realProvider.test.js
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+import axios from 'axios'
+import realProvider from '../realProvider.js'
+import { vnappMobSJCResponse, goldPriceOrgResponse } from './fixtures/apiResponses.js'
+
+// Mock axios
+vi.mock('axios')
+
+describe('realProvider', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+    // Reset env variables
+    process.env.MANUAL_SJC_9999_BUY = undefined
+    process.env.MANUAL_XAU_USD = undefined
+  })
+
+  describe('fetchGoldPrices - Success Scenario', () => {
+    it('should fetch from VNAppMob API successfully', async () => {
+      // Mock VNAppMob SJC
+      axios.get.mockResolvedValueOnce({ 
+        data: vnappMobSJCResponse 
+      })
+      // Mock VNAppMob DOJI
+      axios.get.mockResolvedValueOnce({ 
+        data: { results: [] } 
+      })
+      // Mock VNAppMob PNJ
+      axios.get.mockResolvedValueOnce({ 
+        data: { results: [] } 
+      })
+      // Mock GoldPrice.org
+      axios.get.mockResolvedValueOnce({ 
+        data: goldPriceOrgResponse 
+      })
+
+      const rates = await realProvider.fetchGoldPrices()
+
+      expect(rates).toBeInstanceOf(Array)
+      expect(rates.length).toBeGreaterThan(0)
+      expect(axios.get).toHaveBeenCalled()
+    })
+  })
+
+  describe('fetchGoldPrices - Fallback Scenario', () => {
+    it('should fallback to GoldPrice.org when VNAppMob fails', async () => {
+      // VNAppMob fails
+      axios.get.mockRejectedValueOnce(new Error('VNAppMob API Error'))
+      axios.get.mockRejectedValueOnce(new Error('VNAppMob API Error'))
+      axios.get.mockRejectedValueOnce(new Error('VNAppMob API Error'))
+      
+      // GoldPrice.org succeeds
+      axios.get.mockResolvedValueOnce({ 
+        data: goldPriceOrgResponse 
+      })
+
+      const rates = await realProvider.fetchGoldPrices()
+
+      expect(rates.length).toBeGreaterThanOrEqual(1)
+      expect(rates[0].type).toBe('XAU_USD')
+      expect(rates[0].source).toBe('real')
+    })
+
+    it('should use manual prices when all APIs fail', async () => {
+      // Set manual prices
+      process.env.MANUAL_SJC_9999_BUY = '79000000'
+      process.env.MANUAL_SJC_9999_SELL = '79500000'
+      process.env.MANUAL_XAU_USD = '2650.50'
+
+      // All APIs fail
+      axios.get.mockRejectedValue(new Error('Network Error'))
+
+      const rates = await realProvider.fetchGoldPrices()
+
+      expect(rates.length).toBeGreaterThanOrEqual(2)
+      
+      const sjcRate = rates.find(r => r.type === 'SJC_9999')
+      expect(sjcRate).toBeDefined()
+      expect(sjcRate.buy_price).toBe(79000000)
+      expect(sjcRate.meta.provider).toBe('Manual Override')
+    })
+  })
+
+  describe('getProviderInfo', () => {
+    it('should return provider metadata', () => {
+      const info = realProvider.getProviderInfo()
+
+      expect(info.name).toBe('real')
+      expect(info.enabled).toBe(true)
+      expect(info.types_supported).toContain('SJC_9999')
+      expect(info.types_supported).toContain('XAU_USD')
+    })
+  })
+})
+```
+
+### Step 4: API Response Fixtures
+```javascript
+// backend/providers/__tests__/fixtures/apiResponses.js
+export const vnappMobSJCResponse = {
+  results: [{
+    datetime: 1731484800,
+    buy_1l: 78800000,
+    sell_1l: 79500000,
+    buy_nutrang_9999: 78500000,
+    sell_nutrang_9999: 79200000
+  }]
+}
+
+export const goldPriceOrgResponse = [
+  [1731484800000, 2650.50],
+  [1731488400000, 2651.25],
+  [1731492000000, 2652.00]
+]
+
+export const errorResponse = {
+  error: 'API Error',
+  message: 'Service unavailable'
+}
+```
+
+### Step 5: Provider Registry Tests
+```javascript
+// backend/providers/__tests__/index.test.js
+import { describe, it, expect, vi } from 'vitest'
+import { getActiveProviders, fetchFromAllProviders, getAllProviderInfo } from '../index.js'
+
+describe('Provider Registry', () => {
+  describe('getActiveProviders', () => {
+    it('should return only enabled providers', () => {
+      const active = getActiveProviders()
+
+      expect(active).toHaveProperty('real')
+      expect(active).not.toHaveProperty('mock') // mock is disabled
+    })
+  })
+
+  describe('fetchFromAllProviders', () => {
+    it('should aggregate rates from all active providers', async () => {
+      const { rates, errors } = await fetchFromAllProviders()
+
+      expect(rates).toBeInstanceOf(Array)
+      expect(errors).toBeInstanceOf(Array)
+    })
+
+    it('should handle provider errors gracefully', async () => {
+      // This will test error aggregation
+      const { rates, errors } = await fetchFromAllProviders()
+
+      // Even if some providers fail, should not throw
+      expect(rates).toBeDefined()
+      expect(errors).toBeDefined()
+    })
+  })
+
+  describe('getAllProviderInfo', () => {
+    it('should return info for all providers', () => {
+      const infos = getAllProviderInfo()
+
+      expect(infos).toBeInstanceOf(Array)
+      expect(infos.length).toBeGreaterThan(0)
+      
+      infos.forEach(info => {
+        expect(info).toHaveProperty('name')
+        expect(info).toHaveProperty('enabled')
+      })
+    })
+  })
+})
+```
+
+---
+
+## 🧪 Testing Plan
+
+### Run Tests
+```bash
+# Install vitest
+npm install -D vitest @vitest/coverage-v8
+
+# Run tests
+npm test
+
+# Run with coverage
+npm run test:coverage
+
+# Watch mode
+npm run test:watch
+```
+
+### Coverage Goals
+- **Lines:** > 80%
+- **Functions:** > 80%
+- **Branches:** > 80%
+- **Statements:** > 80%
+
+### Test Output Expected
+```
+✓ backend/providers/__tests__/mockProvider.test.js (5 tests)
+✓ backend/providers/__tests__/realProvider.test.js (8 tests)
+✓ backend/providers/__tests__/index.test.js (4 tests)
+
+Test Files  3 passed (3)
+     Tests  17 passed (17)
+  Duration  2.5s
+```
+
+---
+
+## 🔗 Dependencies
+
+### Blocking Dependencies
+- None (can start immediately)
+
+### Related Tasks
+- TASK-06-TEST-02: Controller unit tests
+- TASK-06-TEST-03: E2E tests
+
+### External Dependencies
+- `vitest` package installed
+- `axios` already installed
+- Test files can import providers
+
+---
+
+## 📝 Notes
+
+### Technical Notes
+- Mock axios instead of making real API calls
+- Test both success and failure scenarios
+- Test fallback chain thoroughly
+- Use fixtures for consistent test data
+
+### Questions
+- [x] Should we test actual API calls in integration tests? → Yes, in separate integration test suite
+- [x] Coverage threshold 80% acceptable? → Yes
+
+### Resources
+- [Vitest Documentation](https://vitest.dev)
+- [Mocking Axios](https://vitest.dev/guide/mocking.html)
+
+---
+
+## ✅ Checklist Before Marking Done
+
+### Code Quality
+- [ ] All tests follow naming convention
+- [ ] Tests are isolated (no shared state)
+- [ ] Mock setup/teardown in beforeEach/afterEach
+- [ ] Test descriptions are clear
+
+### Testing
+- [ ] All tests pass
+- [ ] Coverage > 80%
+- [ ] Tests run in < 5 seconds
+- [ ] No flaky tests
+
+### Documentation
+- [ ] Test files have descriptive comments
+- [ ] Complex mocks explained
+- [ ] README updated with test commands
+
+---
+
+## 🔄 Progress Log
+
+### 2025-11-13 - Created
+- Task created
+- Acceptance criteria defined
+
+---
+
+**Next Task:** `TASK-06-TEST-02` (Controller Unit Tests)  
+**Related Plan:** `plans/06_gold_prices_tool.plan`  
+**Related Spec:** `specs/06_gold_prices_tool.spec`

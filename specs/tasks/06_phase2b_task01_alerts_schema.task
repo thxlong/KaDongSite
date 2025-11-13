@@ -1,0 +1,376 @@
+# TASK-06-ALERT-01: Create Price Alerts Database Schema
+
+**Plan ID:** PLAN-06  
+**Phase:** 2B - Price Alerts  
+**Task ID:** TASK-06-ALERT-01  
+**Priority:** HIGH  
+**Status:** NOT STARTED  
+**Estimated Effort:** 0.5 day  
+**Assigned To:** Database Admin + Backend Developer
+
+---
+
+## OBJECTIVE
+Tạo database schema để lưu trữ price alerts của người dùng, cho phép họ nhận thông báo khi giá vàng đạt mục tiêu.
+
+---
+
+## ACCEPTANCE CRITERIA
+- [ ] Tạo bảng price_alerts với đầy đủ columns
+- [ ] Tạo indexes cho performance (user_id, gold_type, enabled)
+- [ ] Tạo foreign key constraint với users table
+- [ ] Tạo trigger để auto-update updated_at
+- [ ] Migration up/down scripts hoàn chỉnh
+- [ ] Seed data mẫu cho testing
+
+---
+
+## DATABASE SCHEMA
+
+### Table: price_alerts
+
+```sql
+CREATE TABLE price_alerts (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    gold_type VARCHAR(100) NOT NULL,  -- 'SJC_9999', 'XAU_USD', etc.
+    target_price DECIMAL(15, 2) NOT NULL,  -- VND or USD
+    condition VARCHAR(20) NOT NULL CHECK (condition IN ('>', '<', '>=', '<=', '=')),
+    price_type VARCHAR(20) NOT NULL DEFAULT 'sell_price' CHECK (price_type IN ('buy_price', 'sell_price', 'mid_price')),
+    enabled BOOLEAN DEFAULT true,
+    notification_type VARCHAR(50) NOT NULL DEFAULT 'both' CHECK (notification_type IN ('email', 'push', 'both')),
+    triggered_at TIMESTAMPTZ,  -- When alert was last triggered
+    trigger_count INTEGER DEFAULT 0,  -- How many times triggered
+    metadata JSONB DEFAULT '{}',  -- User notes, custom settings, etc.
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    
+    -- Constraints
+    CONSTRAINT valid_target_price CHECK (target_price > 0)
+);
+
+-- Indexes
+CREATE INDEX idx_price_alerts_user_id ON price_alerts(user_id);
+CREATE INDEX idx_price_alerts_gold_type ON price_alerts(gold_type);
+CREATE INDEX idx_price_alerts_enabled ON price_alerts(enabled) WHERE enabled = true;
+CREATE INDEX idx_price_alerts_user_enabled ON price_alerts(user_id, enabled);
+CREATE INDEX idx_price_alerts_type_enabled ON price_alerts(gold_type, enabled);
+
+-- GIN index for JSONB metadata
+CREATE INDEX idx_price_alerts_metadata ON price_alerts USING GIN (metadata);
+
+-- Auto-update trigger
+CREATE TRIGGER update_price_alerts_timestamp
+    BEFORE UPDATE ON price_alerts
+    FOR EACH ROW
+    EXECUTE FUNCTION update_updated_at_column();  -- Reuse existing function
+
+-- Comments
+COMMENT ON TABLE price_alerts IS 'User price alerts for gold prices';
+COMMENT ON COLUMN price_alerts.condition IS 'Price comparison operator: >, <, >=, <=, =';
+COMMENT ON COLUMN price_alerts.price_type IS 'Which price to monitor: buy_price, sell_price, or mid_price';
+COMMENT ON COLUMN price_alerts.notification_type IS 'How to notify: email, push, or both';
+COMMENT ON COLUMN price_alerts.triggered_at IS 'Last time this alert was triggered';
+COMMENT ON COLUMN price_alerts.trigger_count IS 'Number of times alert has been triggered';
+```
+
+---
+
+## MIGRATION FILES
+
+### File: backend/database/migrations/007_up_price_alerts.sql
+
+```sql
+-- ========================================
+-- Migration: 007_up_price_alerts.sql
+-- Description: Create price_alerts table for gold price notifications
+-- Author: KaDong Team
+-- Created: 2025-11-13
+-- ========================================
+
+-- Enable UUID extension if not already enabled
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+-- Create price_alerts table
+CREATE TABLE price_alerts (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    gold_type VARCHAR(100) NOT NULL,
+    target_price DECIMAL(15, 2) NOT NULL,
+    condition VARCHAR(20) NOT NULL CHECK (condition IN ('>', '<', '>=', '<=', '=')),
+    price_type VARCHAR(20) NOT NULL DEFAULT 'sell_price' CHECK (price_type IN ('buy_price', 'sell_price', 'mid_price')),
+    enabled BOOLEAN DEFAULT true,
+    notification_type VARCHAR(50) NOT NULL DEFAULT 'both' CHECK (notification_type IN ('email', 'push', 'both')),
+    triggered_at TIMESTAMPTZ,
+    trigger_count INTEGER DEFAULT 0,
+    metadata JSONB DEFAULT '{}',
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    
+    CONSTRAINT valid_target_price CHECK (target_price > 0)
+);
+
+-- Create indexes
+CREATE INDEX idx_price_alerts_user_id ON price_alerts(user_id);
+CREATE INDEX idx_price_alerts_gold_type ON price_alerts(gold_type);
+CREATE INDEX idx_price_alerts_enabled ON price_alerts(enabled) WHERE enabled = true;
+CREATE INDEX idx_price_alerts_user_enabled ON price_alerts(user_id, enabled);
+CREATE INDEX idx_price_alerts_type_enabled ON price_alerts(gold_type, enabled);
+CREATE INDEX idx_price_alerts_metadata ON price_alerts USING GIN (metadata);
+
+-- Create trigger for auto-update updated_at
+CREATE TRIGGER update_price_alerts_timestamp
+    BEFORE UPDATE ON price_alerts
+    FOR EACH ROW
+    EXECUTE FUNCTION update_updated_at_column();
+
+-- Comments
+COMMENT ON TABLE price_alerts IS 'User price alerts for gold prices';
+COMMENT ON COLUMN price_alerts.user_id IS 'User who created this alert';
+COMMENT ON COLUMN price_alerts.gold_type IS 'Gold type to monitor (SJC_9999, XAU_USD, etc.)';
+COMMENT ON COLUMN price_alerts.target_price IS 'Target price in VND or USD';
+COMMENT ON COLUMN price_alerts.condition IS 'Price comparison operator: >, <, >=, <=, =';
+COMMENT ON COLUMN price_alerts.price_type IS 'Which price to monitor: buy_price, sell_price, or mid_price';
+COMMENT ON COLUMN price_alerts.notification_type IS 'How to notify: email, push, or both';
+COMMENT ON COLUMN price_alerts.enabled IS 'Whether alert is active';
+COMMENT ON COLUMN price_alerts.triggered_at IS 'Last time alert was triggered';
+COMMENT ON COLUMN price_alerts.trigger_count IS 'Number of times alert has been triggered';
+COMMENT ON COLUMN price_alerts.metadata IS 'User notes and custom settings in JSON';
+
+-- Success message
+DO $$
+BEGIN
+    RAISE NOTICE '✅ Migration 007_up_price_alerts.sql completed successfully';
+    RAISE NOTICE '📊 Created table: price_alerts';
+    RAISE NOTICE '📇 Created indexes: 6 indexes including GIN for JSONB';
+END $$;
+```
+
+### File: backend/database/migrations/007_down_price_alerts.sql
+
+```sql
+-- ========================================
+-- Migration: 007_down_price_alerts.sql
+-- Description: Rollback price_alerts table
+-- Author: KaDong Team
+-- Created: 2025-11-13
+-- ========================================
+
+-- Drop table (CASCADE to drop foreign key constraints)
+DROP TABLE IF EXISTS price_alerts CASCADE;
+
+-- Success message
+DO $$
+BEGIN
+    RAISE NOTICE '✅ Rollback 007_down_price_alerts.sql completed';
+    RAISE NOTICE '🗑️  Dropped table: price_alerts';
+END $$;
+```
+
+---
+
+## SEED DATA
+
+### File: backend/database/seeds/007_price_alerts.sql
+
+```sql
+-- ========================================
+-- Seed: 007_price_alerts.sql
+-- Description: Sample price alerts for testing
+-- Author: KaDong Team
+-- ========================================
+
+-- Get test user IDs (assuming users exist from previous seeds)
+DO $$
+DECLARE
+    v_user_id_1 UUID;
+    v_user_id_2 UUID;
+BEGIN
+    -- Get first two user IDs
+    SELECT id INTO v_user_id_1 FROM users LIMIT 1;
+    SELECT id INTO v_user_id_2 FROM users LIMIT 1 OFFSET 1;
+    
+    -- Alert 1: Notify when SJC_9999 sell price > 80,000,000 VND
+    INSERT INTO price_alerts (
+        user_id, gold_type, target_price, condition, price_type, notification_type, metadata
+    ) VALUES (
+        v_user_id_1,
+        'SJC_9999',
+        80000000,
+        '>',
+        'sell_price',
+        'both',
+        '{"note": "Bán vàng khi giá cao", "auto_disable_after_trigger": true}'::JSONB
+    );
+    
+    -- Alert 2: Notify when SJC_9999 buy price < 78,000,000 VND
+    INSERT INTO price_alerts (
+        user_id, gold_type, target_price, condition, price_type, notification_type, metadata
+    ) VALUES (
+        v_user_id_1,
+        'SJC_9999',
+        78000000,
+        '<',
+        'buy_price',
+        'email',
+        '{"note": "Mua vàng khi giá thấp", "auto_disable_after_trigger": false}'::JSONB
+    );
+    
+    -- Alert 3: Notify when XAU_USD >= $2700
+    INSERT INTO price_alerts (
+        user_id, gold_type, target_price, condition, price_type, notification_type, metadata
+    ) VALUES (
+        v_user_id_2,
+        'XAU_USD',
+        2700.00,
+        '>=',
+        'mid_price',
+        'push',
+        '{"note": "Vàng quốc tế đạt mục tiêu"}'::JSONB
+    );
+    
+    -- Alert 4: Disabled alert (for testing)
+    INSERT INTO price_alerts (
+        user_id, gold_type, target_price, condition, price_type, enabled, metadata
+    ) VALUES (
+        v_user_id_2,
+        'DOJI_24K',
+        79500000,
+        '<=',
+        'sell_price',
+        false,
+        '{"note": "Alert tạm dừng"}'::JSONB
+    );
+    
+    RAISE NOTICE '✅ Seeded 4 sample price alerts';
+END $$;
+```
+
+---
+
+## VALIDATION QUERIES
+
+### Check Table Structure
+```sql
+-- List all columns
+SELECT column_name, data_type, column_default, is_nullable
+FROM information_schema.columns
+WHERE table_name = 'price_alerts'
+ORDER BY ordinal_position;
+
+-- List all indexes
+SELECT indexname, indexdef
+FROM pg_indexes
+WHERE tablename = 'price_alerts';
+
+-- List all constraints
+SELECT conname, contype, pg_get_constraintdef(oid)
+FROM pg_constraint
+WHERE conrelid = 'price_alerts'::regclass;
+```
+
+### Test Queries
+```sql
+-- Get all active alerts for a user
+SELECT * FROM price_alerts
+WHERE user_id = 'user-uuid-here'
+  AND enabled = true
+ORDER BY created_at DESC;
+
+-- Get all alerts for a specific gold type
+SELECT * FROM price_alerts
+WHERE gold_type = 'SJC_9999'
+  AND enabled = true;
+
+-- Count alerts by gold type
+SELECT gold_type, COUNT(*) as alert_count
+FROM price_alerts
+WHERE enabled = true
+GROUP BY gold_type;
+
+-- Get recently triggered alerts
+SELECT * FROM price_alerts
+WHERE triggered_at IS NOT NULL
+ORDER BY triggered_at DESC
+LIMIT 10;
+```
+
+---
+
+## TESTING PLAN
+
+### Unit Tests (Database Level)
+- [ ] Insert alert succeeds with valid data
+- [ ] Insert fails with invalid condition (not in enum)
+- [ ] Insert fails with negative target_price
+- [ ] Foreign key constraint works (user_id must exist)
+- [ ] Cascade delete works (delete user → delete alerts)
+- [ ] Auto-update trigger updates updated_at
+
+### Integration Tests
+- [ ] Create alert via API endpoint
+- [ ] Update alert enabled status
+- [ ] Delete alert
+- [ ] Query alerts by user_id uses index (EXPLAIN ANALYZE)
+- [ ] Query alerts by gold_type uses index
+
+### Performance Tests
+- [ ] Insert 1000 alerts in < 1 second
+- [ ] Query alerts by user_id in < 50ms
+- [ ] Check enabled alerts for all gold types in < 100ms
+
+---
+
+## DEPLOYMENT CHECKLIST
+- [ ] Review migration files
+- [ ] Test migration up on local database
+- [ ] Test migration down (rollback)
+- [ ] Run seed data
+- [ ] Verify indexes created correctly
+- [ ] Test foreign key constraints
+- [ ] Run validation queries
+- [ ] Document in docs/DATABASE_SCHEMA.md
+- [ ] Deploy to staging
+- [ ] Test on staging
+- [ ] Deploy to production
+- [ ] Verify production migration succeeded
+
+---
+
+## ROLLBACK PLAN
+If migration causes issues:
+```bash
+# Run down migration
+psql -U user -d kadong_tools -f backend/database/migrations/007_down_price_alerts.sql
+
+# Verify table dropped
+psql -U user -d kadong_tools -c "\dt price_alerts"  # Should show "Did not find any relation"
+```
+
+---
+
+## DEPENDENCIES
+- Users table must exist (from earlier migration)
+- update_updated_at_column() function must exist
+- uuid-ossp extension must be enabled
+
+---
+
+## ESTIMATED TIME
+- Write migration files: 1 hour
+- Write seed data: 30 minutes
+- Testing: 1 hour
+- Documentation: 30 minutes
+- **Total: 3 hours (0.5 day)**
+
+---
+
+## NEXT STEPS AFTER COMPLETION
+1. Create API endpoints (TASK-06-ALERT-02)
+2. Implement alert checking logic (TASK-06-ALERT-03)
+3. Build frontend UI (TASK-06-ALERT-04)
+
+---
+
+**Status:** NOT STARTED  
+**Next Task:** TASK-06-ALERT-02 (API Endpoints for Alerts)

@@ -1,0 +1,401 @@
+# TASK-06-AUTO-01: Create Automated Gold Price Fetching (Cron Job)
+
+**Plan ID:** PLAN-06  
+**Phase:** 2A - Automated Fetching  
+**Task ID:** TASK-06-AUTO-01  
+**Priority:** HIGH  
+**Status:** NOT STARTED  
+**Estimated Effort:** 1 day  
+**Assigned To:** Backend Developer
+
+---
+
+## OBJECTIVE
+Tạo cron job tự động fetch giá vàng từ các providers mỗi 5 phút trong giờ làm việc (8AM-8PM), lưu vào database, và log kết quả.
+
+---
+
+## ACCEPTANCE CRITERIA
+- [ ] Cron job chạy mỗi 5 phút trong khung giờ 8AM-8PM
+- [ ] Gọi fetchFromAllProviders() để lấy giá từ tất cả providers
+- [ ] Lưu tất cả giá vào bảng gold_rates
+- [ ] Log kết quả (success/failure) vào file
+- [ ] Không chạy vào ban đêm (8PM-8AM) để tiết kiệm API quota
+- [ ] Có thể bật/tắt cron job qua ENV variable
+- [ ] Error handling: Retry 3 lần nếu fail
+- [ ] Send email alert nếu tất cả providers fail
+
+---
+
+## IMPLEMENTATION STEPS
+
+### Step 1: Install Dependencies
+```bash
+npm install node-cron --save
+npm install nodemailer --save  # For email alerts
+```
+
+### Step 2: Create Cron Service
+**File:** `backend/services/goldFetchCron.js`
+
+```javascript
+import cron from 'node-cron'
+import { fetchFromAllProviders } from '../providers/index.js'
+import { query } from '../config/database.js'
+import { sendAlertEmail } from '../utils/emailService.js'
+
+let cronJob = null
+let lastFetchTime = null
+let lastFetchStatus = null
+
+/**
+ * Start gold price fetching cron job
+ * Runs every 5 minutes from 8AM to 8PM
+ */
+export const startGoldFetchCron = () => {
+  if (process.env.GOLD_FETCH_CRON_ENABLED !== 'true') {
+    console.log('[Cron] Gold fetch cron DISABLED via ENV')
+    return
+  }
+
+  // Cron expression: */5 8-20 * * * (every 5 min, 8AM-8PM)
+  cronJob = cron.schedule('*/5 8-20 * * *', async () => {
+    console.log('[Cron] 🕐 Gold fetch cron triggered')
+    await fetchAndSaveGoldPrices()
+  }, {
+    timezone: 'Asia/Ho_Chi_Minh'
+  })
+
+  cronJob.start()
+  console.log('[Cron] ✅ Gold fetch cron started (every 5 min, 8AM-8PM)')
+}
+
+/**
+ * Stop cron job
+ */
+export const stopGoldFetchCron = () => {
+  if (cronJob) {
+    cronJob.stop()
+    console.log('[Cron] ⏹️  Gold fetch cron stopped')
+  }
+}
+
+/**
+ * Get cron job status
+ */
+export const getCronStatus = () => {
+  return {
+    enabled: process.env.GOLD_FETCH_CRON_ENABLED === 'true',
+    running: cronJob ? cronJob.getStatus() === 'running' : false,
+    lastFetchTime,
+    lastFetchStatus
+  }
+}
+
+/**
+ * Fetch and save gold prices (with retry logic)
+ */
+const fetchAndSaveGoldPrices = async () => {
+  const maxRetries = 3
+  let attempt = 0
+  let success = false
+
+  while (attempt < maxRetries && !success) {
+    attempt++
+    
+    try {
+      console.log(`[Cron] 📡 Fetching gold prices (attempt ${attempt}/${maxRetries})...`)
+      
+      // Fetch from all providers
+      const { rates, errors } = await fetchFromAllProviders()
+      
+      if (rates.length === 0) {
+        throw new Error('No rates fetched from any provider')
+      }
+      
+      // Save to database
+      let savedCount = 0
+      for (const rate of rates) {
+        try {
+          await query(`
+            INSERT INTO gold_rates (
+              type, source, buy_price, sell_price, mid_price,
+              currency, fetched_at, meta
+            ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+          `, [
+            rate.type,
+            rate.source,
+            rate.buy_price,
+            rate.sell_price,
+            rate.mid_price,
+            rate.currency,
+            rate.fetched_at,
+            JSON.stringify(rate.meta)
+          ])
+          savedCount++
+        } catch (saveError) {
+          console.error(`[Cron] ❌ Failed to save ${rate.type}:`, saveError.message)
+        }
+      }
+      
+      // Update status
+      lastFetchTime = new Date()
+      lastFetchStatus = {
+        success: true,
+        fetched: rates.length,
+        saved: savedCount,
+        errors: errors.length,
+        attempt
+      }
+      
+      console.log(`[Cron] ✅ Success: Fetched ${rates.length}, Saved ${savedCount}`)
+      success = true
+      
+      // Log success to file
+      await logFetchResult(lastFetchStatus)
+      
+    } catch (error) {
+      console.error(`[Cron] ❌ Attempt ${attempt} failed:`, error.message)
+      
+      if (attempt >= maxRetries) {
+        // All retries failed
+        lastFetchTime = new Date()
+        lastFetchStatus = {
+          success: false,
+          error: error.message,
+          attempts: maxRetries
+        }
+        
+        // Log failure
+        await logFetchResult(lastFetchStatus)
+        
+        // Send alert email
+        await sendAlertEmail({
+          subject: '🚨 Gold Price Fetch Failed',
+          body: `All ${maxRetries} attempts failed.\n\nError: ${error.message}`
+        })
+      } else {
+        // Wait 10 seconds before retry
+        await new Promise(resolve => setTimeout(resolve, 10000))
+      }
+    }
+  }
+}
+
+/**
+ * Log fetch result to file
+ */
+const logFetchResult = async (status) => {
+  const fs = await import('fs/promises')
+  const logLine = `${new Date().toISOString()} - ${JSON.stringify(status)}\n`
+  
+  try {
+    await fs.appendFile('logs/gold-fetch.log', logLine)
+  } catch (error) {
+    console.error('[Cron] Failed to write log:', error.message)
+  }
+}
+
+export default {
+  startGoldFetchCron,
+  stopGoldFetchCron,
+  getCronStatus
+}
+```
+
+### Step 3: Create Email Service
+**File:** `backend/utils/emailService.js`
+
+```javascript
+import nodemailer from 'nodemailer'
+
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.ALERT_EMAIL_USER,
+    pass: process.env.ALERT_EMAIL_PASS
+  }
+})
+
+export const sendAlertEmail = async ({ subject, body }) => {
+  if (!process.env.ALERT_EMAIL_TO) {
+    console.warn('[Email] No ALERT_EMAIL_TO configured, skipping email')
+    return
+  }
+
+  try {
+    await transporter.sendMail({
+      from: process.env.ALERT_EMAIL_USER,
+      to: process.env.ALERT_EMAIL_TO,
+      subject,
+      text: body
+    })
+    
+    console.log('[Email] ✅ Alert email sent')
+  } catch (error) {
+    console.error('[Email] ❌ Failed to send email:', error.message)
+  }
+}
+```
+
+### Step 4: Start Cron in app.js
+**File:** `backend/app.js`
+
+```javascript
+// Add after database connection
+import { startGoldFetchCron } from './services/goldFetchCron.js'
+
+// Start cron job
+startGoldFetchCron()
+```
+
+### Step 5: Add ENV Variables
+**File:** `backend/.env`
+
+```env
+# Gold Fetch Cron
+GOLD_FETCH_CRON_ENABLED=true
+
+# Email Alerts
+ALERT_EMAIL_USER=your-email@gmail.com
+ALERT_EMAIL_PASS=your-app-password
+ALERT_EMAIL_TO=admin@kadong-tools.com
+```
+
+### Step 6: Create Health Check Endpoint
+**File:** `backend/controllers/goldController.js`
+
+```javascript
+export const getGoldFetchStatus = async (req, res) => {
+  try {
+    const { getCronStatus } = await import('../services/goldFetchCron.js')
+    const cronStatus = getCronStatus()
+    
+    // Get latest record from DB
+    const { rows } = await query(`
+      SELECT MAX(fetched_at) as last_db_fetch
+      FROM gold_rates
+    `)
+    
+    res.json({
+      success: true,
+      data: {
+        cron: cronStatus,
+        database: {
+          last_fetch: rows[0].last_db_fetch
+        }
+      }
+    })
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error.message
+    })
+  }
+}
+```
+
+**File:** `backend/routes/gold.js`
+
+```javascript
+router.get('/status', getGoldFetchStatus)
+```
+
+---
+
+## TESTING PLAN
+
+### Unit Tests
+```javascript
+// backend/tests/goldFetchCron.test.js
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+import { startGoldFetchCron, stopGoldFetchCron, getCronStatus } from '../services/goldFetchCron.js'
+
+describe('Gold Fetch Cron', () => {
+  beforeEach(() => {
+    process.env.GOLD_FETCH_CRON_ENABLED = 'true'
+  })
+
+  afterEach(() => {
+    stopGoldFetchCron()
+  })
+
+  it('should start cron job when enabled', () => {
+    startGoldFetchCron()
+    const status = getCronStatus()
+    expect(status.enabled).toBe(true)
+    expect(status.running).toBe(true)
+  })
+
+  it('should not start when disabled', () => {
+    process.env.GOLD_FETCH_CRON_ENABLED = 'false'
+    startGoldFetchCron()
+    const status = getCronStatus()
+    expect(status.enabled).toBe(false)
+  })
+})
+```
+
+### Integration Tests
+- [ ] Trigger cron manually, verify data saved to DB
+- [ ] Simulate API failure, verify retry logic
+- [ ] Verify email sent after 3 failed retries
+
+### Manual Testing
+- [ ] Set cron to run every minute for testing
+- [ ] Check logs/gold-fetch.log for entries
+- [ ] Verify database has new records
+- [ ] Trigger failure, verify email received
+
+---
+
+## DEPLOYMENT CHECKLIST
+- [ ] Install node-cron and nodemailer
+- [ ] Create goldFetchCron.js service
+- [ ] Create emailService.js utility
+- [ ] Update app.js to start cron
+- [ ] Add ENV variables
+- [ ] Create logs/ directory
+- [ ] Test cron with */1 * * * * (every minute)
+- [ ] Change back to */5 8-20 * * * (production)
+- [ ] Deploy to production
+- [ ] Monitor logs for first 24 hours
+
+---
+
+## ROLLBACK PLAN
+If cron causes issues:
+1. Set GOLD_FETCH_CRON_ENABLED=false in ENV
+2. Restart backend server
+3. Cron will not start
+4. Manual fetch via POST /api/gold/fetch still works
+
+---
+
+## DEPENDENCIES
+- node-cron package
+- nodemailer package
+- Existing providers system
+- Database connection
+- Email account (Gmail with app password)
+
+---
+
+## ESTIMATED TIME
+- Implementation: 4 hours
+- Testing: 2 hours
+- Deployment: 1 hour
+- **Total: 7 hours (1 day)**
+
+---
+
+## NOTES
+- Cron runs in server timezone (set to Asia/Ho_Chi_Minh)
+- Email uses Gmail (may need app password if 2FA enabled)
+- Log file grows over time (add log rotation later)
+- Consider using bull.js for more robust job queue in future
+
+---
+
+**Status:** NOT STARTED  
+**Next Task:** TASK-06-AUTO-02 (Health Check Endpoint)
