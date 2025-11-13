@@ -1,261 +1,224 @@
-# Spec Kit - Specification Management System
+# 📚 Spec Kit - Specification Management System
 
-**Version:** 1.0.0  
-**Last Updated:** 2025-11-11
-
----
-
-## 📋 Overview
-
-**Spec Kit** is a structured workflow system for managing feature specifications, implementation plans, and task breakdowns. It provides a consistent framework for planning, implementing, and tracking development work.
-
-### What is Spec Kit?
-
-Spec Kit helps you:
-- **Define** what needs to be built (Specifications)
-- **Plan** how to build it (Implementation Plans)
-- **Break down** work into actionable tasks (Task Breakdown)
-- **Track** progress systematically
-- **Document** decisions and learnings
+**Version:** 1.0.1  
+**Last Updated:** 2025-11-13
 
 ---
 
-## 📁 Directory Structure
+## 🎯 Tổng Quan
+
+**Spec Kit** là hệ thống quản lý workflow development có cấu trúc, giúp team định nghĩa, lập kế hoạch, và thực thi features một cách có hệ thống.
 
 ```
-specs/
-├── README.md                    ← This file
-├── COMMANDS.md                  ← Command reference guide
-├── config.json                  ← Configuration settings
-├── specs/                       ← Feature specifications
-│   ├── 01_init.spec            ← Project initialization spec
-│   ├── 02_weather_tool.spec    ← Weather tool spec
-│   └── {id}_{name}.spec        ← More specifications
-├── plans/                       ← Implementation plans
-│   ├── 01_init.plan            ← Project initialization plan
-│   ├── {spec_id}.plan          ← Plan for each spec
-│   └── tasks/                   ← Task breakdown files (optional)
-│       └── {plan_id}_phase{X}_task{Y}.task
-└── templates/                   ← Reusable templates
-    ├── TEMPLATE_spec.md        ← Specification template
-    ├── TEMPLATE_plan.md        ← Implementation plan template
-    └── TEMPLATE_task.md        ← Task breakdown template
+💡 Idea → 📝 Spec (WHAT) → 📋 Plan (HOW) → ✅ Tasks (DO) → 🚀 Code
 ```
-
----
-
-## 🔄 Workflow
-
-### The Spec Kit Process
-
-```mermaid
-graph LR
-    A[/specify/] --> B[Create .spec]
-    B --> C[/plan/]
-    C --> D[Create .plan]
-    D --> E[/tasks/]
-    E --> F[Create .task files]
-    F --> G[/implement/]
-    G --> H[Execute & Track]
-    H --> I{Complete?}
-    I -->|No| G
-    I -->|Yes| J[Update Status]
-```
-
-### 4 Commands
-
-1. **`/specify`** - Create a new specification
-2. **`/plan`** - Create an implementation plan for a spec
-3. **`/tasks`** - Break down a plan into tasks
-4. **`/implement`** - Execute and track implementation
 
 ---
 
 ## 🚀 Quick Start
 
-### 1. Create a Specification (`/specify`)
+### Bắt Đầu Nhanh
 
-**When to use:** You have a new feature or change to define
+**Lần đầu sử dụng?** → Đọc [QUICKSTART.md](QUICKSTART.md) (10 phút)
 
-**Command:**
-```
-/specify {feature_name}
-```
+**Cần hướng dẫn chi tiết?** → Đọc [USAGE_GUIDE.md](USAGE_GUIDE.md)
 
-**What it does:**
-- Creates `specs/{id}_{feature}.spec` using template
-- Prompts you to fill in:
-  - Overview & goals
-  - Acceptance criteria
-  - Technical design
-  - Security considerations
-  - Success metrics
+**Tìm spec/plan/task cụ thể?** → Xem [INDEX.md](INDEX.md)
 
-**Example:**
-```
-/specify user_authentication
-```
-
-Creates: `specs/specs/06_user_authentication.spec`
+**Làm việc với AI Copilot?** → Xem [COMMANDS.md](COMMANDS.md)
 
 ---
 
-### 2. Create an Implementation Plan (`/plan`)
+## 📁 Cấu Trúc Folder
 
-**When to use:** You have a completed spec and need to plan implementation
-
-**Command:**
 ```
-/plan {spec_id}
+specs/
+├── 📄 INDEX.md                     # Navigation hub
+├── 🚀 QUICKSTART.md                # Hướng dẫn nhanh
+├── 📚 USAGE_GUIDE.md               # Hướng dẫn chi tiết
+├── 📖 README.md                    # File này
+├── 🤖 COMMANDS.md                  # AI prompts
+├── ⚙️ config.json                  # Configuration
+│
+├── 📝 specs/                       # Specifications (WHAT)
+│   ├── 01_init.spec
+│   ├── 06_gold_prices_tool.spec
+│   └── ...
+│
+├── 📋 plans/                       # Plans (HOW)
+│   ├── 01_init.plan
+│   ├── 06_gold_prices_tool.plan
+│   └── tasks/                      # Tasks (ACTION)
+│       ├── 06_phase1e_task01_unit_tests.task
+│       └── ...
+│
+└── 📄 templates/                   # Templates
+    ├── TEMPLATE_spec.md
+    ├── TEMPLATE_plan.md
+    └── TEMPLATE_task.md
 ```
-
-**What it does:**
-- Creates `specs/plans/{spec_id}.plan` using template
-- Links to the spec
-- Breaks work into phases
-- Sets timeline and milestones
-
-**Example:**
-```
-/plan 06_user_authentication
-```
-
-Creates: `specs/plans/06_user_authentication.plan`
 
 ---
 
-### 3. Break Down Tasks (`/tasks`)
+## 🔄 Workflow Cơ Bản
 
-**When to use:** You need granular task breakdown for a phase
+### 4 Bước
 
-**Command:**
+### 4 Bước
+
+**1. Tạo Spec** - Định nghĩa WHAT cần build
 ```
-/tasks {plan_id} {phase_number}
-```
-
-**What it does:**
-- Creates `specs/plans/tasks/{plan_id}_phase{X}_task{Y}.task`
-- Lists all subtasks
-- Defines acceptance criteria
-- Includes implementation details
-
-**Example:**
-```
-/tasks 06_user_authentication 3
+Template: specs/templates/TEMPLATE_spec.md
+Output: specs/specs/{id}_{name}.spec
+Example: specs/specs/06_gold_prices_tool.spec
 ```
 
-Creates: `specs/plans/tasks/06_user_authentication_phase3_task1.task`
-
----
-
-### 4. Implement & Track (`/implement`)
-
-**When to use:** Ready to start coding
-
-**Command:**
+**2. Tạo Plan** - Lập kế hoạch HOW để build
 ```
-/implement {task_id}
+Template: specs/templates/TEMPLATE_plan.md
+Output: specs/plans/{id}_{name}.plan
+Example: specs/plans/06_gold_prices_tool.plan
 ```
 
-**What it does:**
-- Marks task as "In Progress"
-- Creates feature status file in `docs/dev-notes/features/`
-- Tracks progress with checkboxes
-- Updates plan progress
-
-**Example:**
+**3. Tạo Tasks** - Chi tiết ACTION cần làm (optional)
 ```
-/implement 06_user_authentication_phase3_task1
+Template: specs/templates/TEMPLATE_task.md
+Output: specs/plans/tasks/{id}_phase{X}_task{Y}.task
+Example: specs/plans/tasks/06_phase1e_task01_unit_tests.task
 ```
 
-Creates: `docs/dev-notes/features/user-authentication-implementation-status.md`
+**4. Implement** - Code và track progress
+```
+- Follow subtasks trong task file
+- Mark checkboxes khi complete
+- Update progress trong plan
+- Commit code với Conventional Commits format
+```
 
 ---
 
 ## 📝 Document Types
 
-### 1. Specification (`.spec`)
+### Specification (.spec)
 
-**Purpose:** Define WHAT to build
+**Mục đích:** Định nghĩa WHAT cần build
+
+**Khi nào tạo:**
+- ✅ Feature mới
+- ✅ Major refactor
+- ✅ Breaking changes
+- ✅ Database schema changes
+
+**Không cần tạo:**
+- ❌ Bug fixes nhỏ
+- ❌ UI tweaks
+- ❌ Typo fixes
 
 **Key Sections:**
 - Overview & Goals
 - Acceptance Criteria (Must/Should/Nice to Have)
 - Technical Design (Architecture, API, Database)
-- Security Considerations
-- Performance Requirements
+- Security & Performance
 - Testing Strategy
-- Timeline & Dependencies
 
 **Template:** `specs/templates/TEMPLATE_spec.md`
 
-**Example:** `specs/specs/05_gold_prices.spec`
-
 ---
 
-### 2. Implementation Plan (`.plan`)
+### Implementation Plan (.plan)
 
-**Purpose:** Define HOW to build it
+**Mục đích:** Lập kế hoạch HOW để build
+
+**Khi nào tạo:**
+- Sau khi spec được approve
+- Trước khi bắt đầu code
 
 **Key Sections:**
 - Timeline & Milestones
-- Phases (Setup, Database, Backend, Frontend, Testing, Docs, Deployment)
-- Tasks with checkboxes
-- Progress tracking
-- Issues & Risks
+- 7 Phases (Setup → Database → Backend → Frontend → Testing → Docs → Deploy)
+- Progress Tracking Table
 - Technical Decisions
+- Issues & Risks
 
 **Template:** `specs/templates/TEMPLATE_plan.md`
 
-**Example:** `specs/plans/05_gold_prices.plan`
-
 ---
 
-### 3. Task Breakdown (`.task`)
+### Task Breakdown (.task)
 
-**Purpose:** Granular implementation steps
+**Mục đích:** Chi tiết ACTION cần làm
+
+**Khi nào tạo:**
+- Phase phức tạp (> 5 subtasks)
+- Cần code examples cụ thể
+- Team cần assign tasks riêng
 
 **Key Sections:**
-- Subtasks with checkboxes
-- Files to create/modify
-- Implementation code snippets
-- Testing plan
+- Objectives & Acceptance Criteria
+- Subtasks với checkboxes
+- Files to Create/Modify
+- Implementation Details với code
+- Testing Plan
 - Dependencies
-- Success criteria
 
 **Template:** `specs/templates/TEMPLATE_task.md`
 
-**Example:** `specs/plans/tasks/05_gold_prices_phase3_task1.task`
+---
+
+## 📊 Naming Conventions
+
+### Specs
+```
+Format: {id}_{feature_name}.spec
+Examples:
+- 01_init.spec
+- 06_gold_prices_tool.spec
+- 08_user_authentication.spec
+```
+
+### Plans
+```
+Format: {id}_{feature_name}.plan (same ID as spec)
+Examples:
+- 01_init.plan
+- 06_gold_prices_tool.plan
+```
+
+### Tasks
+```
+Format: {plan_id}_phase{X}_task{Y}.task
+Examples:
+- 06_phase1e_task01_unit_tests.task
+- 06_phase2a_task01_automated_fetch.task
+```
 
 ---
 
-## 🎯 Best Practices
+## ✨ Best Practices
 
-### Writing Specifications
+### Writing Specs
 
-✅ **Do:**
+✅ **DO:**
 - Define clear, measurable acceptance criteria
 - Include technical diagrams and examples
 - Consider security and performance upfront
 - Link to related specs and documentation
-- Keep it focused on WHAT, not HOW
 
-❌ **Don't:**
-- Mix implementation details into specs
+❌ **DON'T:**
+- Mix implementation details into specs (that's for plans)
 - Skip acceptance criteria
 - Ignore edge cases and error handling
 - Forget to define success metrics
 
 ### Creating Plans
 
-✅ **Do:**
-- Break work into logical phases
+✅ **DO:**
+- Break work into logical phases (7 phases chuẩn)
 - Set realistic timelines
 - Track progress with percentages
-- Document technical decisions
-- Include rollback plans
+- Document technical decisions with reasoning
 
-❌ **Don't:**
+❌ **DON'T:**
 - Create overly detailed plans upfront
 - Skip risk assessment
 - Ignore dependencies
@@ -263,14 +226,13 @@ Creates: `docs/dev-notes/features/user-authentication-implementation-status.md`
 
 ### Managing Tasks
 
-✅ **Do:**
-- Keep tasks small (< 1 day)
+✅ **DO:**
+- Keep tasks small (2-8 hours)
 - Include code examples
 - Define clear acceptance criteria
-- Link to parent plan and spec
 - Update status regularly
 
-❌ **Don't:**
+❌ **DON'T:**
 - Create tasks without context
 - Skip testing checklist
 - Ignore dependencies
@@ -278,216 +240,191 @@ Creates: `docs/dev-notes/features/user-authentication-implementation-status.md`
 
 ---
 
-## 📊 Status Tracking
+## 📚 Ví Dụ Thực Tế
 
-### Spec Status
-- 📝 **Draft** - Initial creation, needs review
-- 🚧 **In Progress** - Under active development
-- ✅ **Completed** - Fully implemented and deployed
-- ❌ **Cancelled** - No longer needed
+### Gold Prices Tool (Complete Example)
 
-### Plan Status
-- 📝 **Planning** - Creating the plan
-- 🚧 **In Progress** - Active implementation
-- ✅ **Completed** - All phases done
-- ❌ **Cancelled** - Project cancelled
+**Spec:** `specs/specs/06_gold_prices_tool.spec`
+- ✅ Requirements: Display 7 gold types from multiple sources
+- ✅ Acceptance Criteria: < 500ms response, 80% coverage
+- ✅ Technical Design: Provider pattern, PostgreSQL, React
+- ✅ Status: Complete
 
-### Task Status
-- 📝 **Todo** - Not started
-- 🚧 **In Progress** - Actively working
-- ✅ **Done** - Completed and verified
-- ❌ **Blocked** - Cannot proceed
+**Plan:** `specs/plans/06_gold_prices_tool.plan`
+- ✅ Phase 1A: Database (100%)
+- ✅ Phase 1B: Providers (100%)
+- ✅ Phase 1C: Backend API (100%)
+- ✅ Phase 1D: Frontend UI (100%)
+- 🚧 Phase 1E: Testing (20%)
+- ⏳ Phase 2A: Auto-fetch (0%)
+- ⏳ Phase 2B: Alerts (0%)
+- Overall: 85%
+
+**Tasks:**
+- `06_phase1e_task01_unit_tests.task` - Vitest setup, provider tests
+- `06_phase1e_task03_e2e_tests.task` - Playwright E2E tests
+- `06_phase2a_task01_automated_fetch.task` - Cron job implementation
+- `06_phase2b_task01_alerts_schema.task` - Price alerts database
 
 ---
 
-## 🔗 Integration with Project
+## 🔗 Liên Kết Tài Liệu
 
-### Links to Existing Systems
+| Tài liệu | Mục đích | Link |
+|----------|----------|------|
+| **INDEX.md** | Navigation & tổng quan | [INDEX.md](INDEX.md) |
+| **QUICKSTART.md** | Hướng dẫn nhanh | [QUICKSTART.md](QUICKSTART.md) |
+| **USAGE_GUIDE.md** | Hướng dẫn chi tiết | [USAGE_GUIDE.md](USAGE_GUIDE.md) |
+| **COMMANDS.md** | AI prompts reference | [COMMANDS.md](COMMANDS.md) |
+| **config.json** | Configuration | [config.json](config.json) |
 
-**Dev Notes:**
-- Feature Status: `docs/dev-notes/features/{feature}-implementation-status.md`
-- Bug Fixes: `docs/dev-notes/bugfixes/fix-{bug}.md`
-- Commits: `docs/dev-notes/commits/{feature}-commit.md`
+---
 
-**Documentation:**
-- API Docs: `docs/API_DOCUMENTATION.md`
-- Database Schema: `docs/DATABASE_SCHEMA.md`
-- User Guides: `docs/USER_GUIDE.md`
+## 📊 Status Tracking
 
-**Project Files:**
-- Manifest: `project_manifest.json`
-- README: `README.md`
-- CHANGELOG: `CHANGELOG.md`
+### Spec Status
+- 📝 **Draft** - Đang viết spec
+- 🚧 **In Progress** - Đang implement
+- ✅ **Completed** - Hoàn thành
+- ❌ **Cancelled** - Hủy bỏ
+
+### Plan Progress
+```markdown
+| Phase | Progress | Status |
+|-------|----------|--------|
+| 1. Setup | 100% | ✅ Complete |
+| 2. Database | 100% | ✅ Complete |
+| 3. Backend | 60% | 🚧 In Progress |
+```
+
+### Task Checklist
+```markdown
+- [x] Setup environment ✅
+- [x] Create database schema ✅
+- [ ] Write unit tests ⏳
+- [ ] Deploy to production ⏳
+```
 
 ---
 
 ## 🛠️ Configuration
 
-Configuration is stored in `specs/config.json`:
+Configuration được lưu trong `specs/config.json`:
 
 ```json
 {
-  "version": "1.0.0",
-  "templatePaths": {
-    "spec": "specs/templates/TEMPLATE_spec.md",
-    "plan": "specs/templates/TEMPLATE_plan.md",
-    "task": "specs/templates/TEMPLATE_task.md"
+  "version": "1.0.1",
+  "directories": {
+    "specs": "specs/specs/",
+    "plans": "specs/plans/",
+    "tasks": "specs/plans/tasks/",
+    "templates": "specs/templates/"
   },
   "namingConventions": {
     "specs": "{id}_{name}.spec",
     "plans": "{spec_id}.plan",
     "tasks": "{plan_id}_phase{X}_task{Y}.task"
-  },
-  "defaultSettings": {
-    "testCoverageTarget": 80,
-    "performanceTargetMs": 500,
-    "reviewFrequency": "weekly"
   }
 }
 ```
 
 ---
 
-## 📚 Examples
+## 🔄 Integration
 
-### Example 1: Complete Workflow
+### Với Dev Notes System
 
-**1. Create Spec:**
-```
-/specify payment_integration
-```
+**Feature Status:** `docs/dev-notes/features/{feature}-implementation-status.md`
+- Link từ plan đến feature status
+- Track progress chi tiết hơn
 
-**2. Fill in spec with:**
-- Payment gateway options (Stripe, PayPal)
-- API requirements
-- Security requirements (PCI compliance)
-- Error handling
+**Bug Fixes:** `docs/dev-notes/bugfixes/fix-{bug}.md`
+- Link bug fixes đến related specs
 
-**3. Create Plan:**
-```
-/plan 07_payment_integration
-```
+### Với Project Documentation
 
-**4. Define phases:**
-- Phase 1: Setup Stripe SDK
-- Phase 2: Backend API
-- Phase 3: Frontend checkout flow
-- Phase 4: Testing
-- Phase 5: Documentation
+**API Docs:** `docs/API_DOCUMENTATION.md`
+- Update khi thêm endpoints mới
 
-**5. Break down Phase 2:**
-```
-/tasks 07_payment_integration 2
-```
+**Database Schema:** `docs/DATABASE_SCHEMA.md`
+- Update khi thay đổi schema
 
-**6. Implement:**
-```
-/implement 07_payment_integration_phase2_task1
-```
+**Project Manifest:** `project_manifest.json`
+- Reference specs trong manifest
 
 ---
 
-### Example 2: Existing Feature Spec
+## 🎓 Learning Path
 
-For the **Gold Prices** feature:
+### Day 1: Hiểu Hệ Thống
+1. ✅ Đọc [QUICKSTART.md](QUICKSTART.md)
+2. ✅ Xem [INDEX.md](INDEX.md)
+3. ✅ Đọc example spec: `specs/specs/06_gold_prices_tool.spec`
+4. ✅ Đọc example plan: `specs/plans/06_gold_prices_tool.plan`
 
-**Spec:** `specs/specs/05_gold_prices.spec`
-- ✅ Database schema defined
-- ✅ API endpoints documented
-- ✅ Provider system designed
-- ✅ Cron scheduler specified
+### Day 2: Practice
+1. ✅ Pick một feature nhỏ
+2. ✅ Tạo spec dùng template
+3. ✅ Tạo plan dùng template
+4. ✅ Implement Phase 1
 
-**Plan:** `specs/plans/05_gold_prices.plan`
-- ✅ Phase 1-4: Complete (85%)
-- 🚧 Phase 5: Testing (30%)
-- ⏳ Phase 6: Documentation
-- ⏳ Phase 7: Deployment
-
-**Status:** `docs/dev-notes/features/gold-implementation-status.md`
-- Backend: 100%
-- Frontend: 100% structure, charts need testing
-- Overall: 70%
+### Day 3: Deep Dive
+1. ✅ Đọc [USAGE_GUIDE.md](USAGE_GUIDE.md) đầy đủ
+2. ✅ Hiểu [config.json](config.json)
+3. ✅ Study [COMMANDS.md](COMMANDS.md) cho AI workflows
 
 ---
 
 ## ❓ FAQ
 
-### Q: When should I create a spec?
-**A:** For any new feature, major refactor, or significant change. Skip for small bug fixes.
+### Q: Khi nào cần tạo spec?
+**A:** Cho mọi feature mới, major refactor, hoặc breaking changes. Skip cho bug fixes nhỏ.
 
-### Q: How detailed should plans be?
-**A:** Detailed enough to guide implementation but flexible enough to adapt. Aim for clarity over perfection.
+### Q: Plan cần chi tiết đến đâu?
+**A:** Đủ chi tiết để guide implementation nhưng flexible để adapt. Clarity > perfection.
 
-### Q: Do I need task files for everything?
-**A:** No. Use tasks for complex phases. Simple phases can be tracked in the plan directly.
+### Q: Có cần task files cho mọi phase không?
+**A:** Không. Chỉ dùng tasks cho complex phases. Simple phases track trực tiếp trong plan.
 
-### Q: How often should I update status?
-**A:** Update specs when requirements change, plans weekly, and tasks daily when active.
+### Q: Bao lâu update status một lần?
+**A:** Update specs khi requirements change, plans hàng tuần, tasks hàng ngày khi active.
 
-### Q: Can I modify templates?
-**A:** Yes! Templates are guidelines. Adapt them to your project's needs.
-
-### Q: What if a spec changes mid-implementation?
-**A:** Update the spec, bump version, document in Review History, and adjust plan accordingly.
+### Q: Tasks folder ở đâu?
+**A:** `specs/plans/tasks/` (KHÔNG phải `specs/tasks/`). Đã restructure ngày 2025-11-13.
 
 ---
 
-## 🔄 Maintenance
+## 🔄 Changelog
 
-### Weekly Tasks
-- [ ] Review all in-progress specs
-- [ ] Update plan progress percentages
-- [ ] Check for blocked tasks
-- [ ] Update milestone dates
+### Version 1.0.1 (2025-11-13)
+- ✅ **Restructured folder:** Moved `specs/tasks/` → `specs/plans/tasks/`
+- ✅ **Created INDEX.md:** Navigation hub for all docs
+- ✅ **Created QUICKSTART.md:** 10-minute quick start guide
+- ✅ **Created USAGE_GUIDE.md:** Detailed usage instructions
+- ✅ **Simplified README.md:** Overview + links to detailed docs
+- ✅ **Updated config.json:** v1.0.1 with correct paths
 
-### Monthly Tasks
-- [ ] Archive completed specs
-- [ ] Review and update templates
-- [ ] Analyze velocity metrics
-- [ ] Update best practices
-
----
-
-## 🎓 Learning Resources
-
-### Internal Docs
-- `docs/dev-notes/README.md` - Dev notes workflow
-- `docs/CONTRIBUTING.md` - Contribution guidelines
-- `project_manifest.json` - Project structure
-
-### External Resources
-- [Specification by Example](https://example.com)
-- [Agile Planning Best Practices](https://example.com)
-- [Documentation as Code](https://example.com)
-
----
-
-## 🤝 Contributing
-
-### Adding New Templates
-1. Create template in `specs/templates/`
-2. Update `config.json` with template path
-3. Document in this README
-4. Add example usage
-
-### Improving Workflow
-1. Discuss with team
-2. Test changes on a feature
-3. Update templates and docs
-4. Share learnings
+### Version 1.0.0 (2025-11-11)
+- ✅ Initial Spec Kit setup
+- ✅ Created templates
+- ✅ Created COMMANDS.md
+- ✅ Created config.json
 
 ---
 
 ## 📞 Support
 
-**Questions?** Ask the team or check:
-- Project README: `README.md`
-- Dev Notes Guide: `docs/dev-notes/README.md`
-- Project Manifest: `project_manifest.json`
+**Questions?** Check:
+- **Quick Start:** [QUICKSTART.md](QUICKSTART.md)
+- **Detailed Guide:** [USAGE_GUIDE.md](USAGE_GUIDE.md)
+- **Navigation:** [INDEX.md](INDEX.md)
+- **AI Commands:** [COMMANDS.md](COMMANDS.md)
+- **Project Manifest:** `../project_manifest.json`
 
 ---
 
 **Happy Specifying! 🚀**
 
-*Maintained by: Development Team*  
-*Last Review: 2025-11-11*
+*Maintained by: KaDong Development Team*  
+*Version: 1.0.1*  
+*Last Updated: 2025-11-13*
