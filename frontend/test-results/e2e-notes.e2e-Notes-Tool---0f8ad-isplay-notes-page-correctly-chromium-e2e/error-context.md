@@ -12,115 +12,115 @@
           - paragraph [ref=e13]: Tiện ích cho hai chúng mình ❤️
       - generic [ref=e14]:
         - img [ref=e15]
-        - generic [ref=e17]: Made with love
-  - generic [ref=e18]:
-    - navigation "Menu công cụ chính" [ref=e19]:
-      - heading "Công cụ của chúng mình" [level=2] [ref=e20]: Công cụ của chúng mình
-      - navigation [ref=e22]:
-        - link "Mở công cụ Trang chủ" [ref=e23] [cursor=pointer]:
+        - generic [ref=e21]: Made with love
+  - generic [ref=e22]:
+    - navigation "Menu công cụ chính" [ref=e23]:
+      - heading "Công cụ của chúng mình" [level=2] [ref=e24]: Công cụ của chúng mình
+      - navigation [ref=e26]:
+        - link "Mở công cụ Trang chủ" [ref=e27] [cursor=pointer]:
           - /url: /
-          - generic [ref=e25]:
-            - generic [ref=e26]:
-              - img [ref=e28]
-              - generic [ref=e31]:
-                - heading "Trang chủ" [level=3] [ref=e32]
-                - paragraph [ref=e33]: Điểm bắt đầu
-            - img [ref=e34]
-        - link "Mở công cụ Đếm ngày" [ref=e36] [cursor=pointer]:
+          - generic [ref=e29]:
+            - generic [ref=e30]:
+              - img [ref=e32]
+              - generic [ref=e35]:
+                - heading "Trang chủ" [level=3] [ref=e36]
+                - paragraph [ref=e37]: Điểm bắt đầu
+            - img [ref=e38]
+        - link "Mở công cụ Đếm ngày" [ref=e40] [cursor=pointer]:
           - /url: /countdown
-          - generic [ref=e38]:
-            - generic [ref=e39]:
-              - img [ref=e41]
-              - generic [ref=e44]:
-                - heading "Đếm ngày" [level=3] [ref=e45]
-                - paragraph [ref=e46]: Kỷ niệm & sự kiện
-            - img [ref=e47]
-        - link "Mở công cụ Lịch" [ref=e49] [cursor=pointer]:
+          - generic [ref=e42]:
+            - generic [ref=e43]:
+              - img [ref=e45]
+              - generic [ref=e48]:
+                - heading "Đếm ngày" [level=3] [ref=e49]
+                - paragraph [ref=e50]: Kỷ niệm & sự kiện
+            - img [ref=e51]
+        - link "Mở công cụ Lịch" [ref=e53] [cursor=pointer]:
           - /url: /calendar
-          - generic [ref=e51]:
-            - generic [ref=e52]:
-              - img [ref=e54]
-              - generic [ref=e56]:
-                - heading "Lịch" [level=3] [ref=e57]
-                - paragraph [ref=e58]: Xem lịch trình
-            - img [ref=e59]
-        - link "Mở công cụ Ghi chú" [ref=e61] [cursor=pointer]:
+          - generic [ref=e55]:
+            - generic [ref=e56]:
+              - img [ref=e58]
+              - generic [ref=e60]:
+                - heading "Lịch" [level=3] [ref=e61]
+                - paragraph [ref=e62]: Xem lịch trình
+            - img [ref=e63]
+        - link "Mở công cụ Ghi chú" [ref=e65] [cursor=pointer]:
           - /url: /notes
-          - generic [ref=e63]:
-            - generic [ref=e64]:
-              - img [ref=e66]
-              - generic [ref=e69]:
-                - heading "Ghi chú" [level=3] [ref=e70]
-                - paragraph [ref=e71]: Lưu ý kiến & việc cần làm
-            - img [ref=e72]
-        - link "Mở công cụ Chuyển đổi tiền" [ref=e75] [cursor=pointer]:
+          - generic [ref=e67]:
+            - generic [ref=e68]:
+              - img [ref=e70]
+              - generic [ref=e73]:
+                - heading "Ghi chú" [level=3] [ref=e74]
+                - paragraph [ref=e75]: Lưu ý kiến & việc cần làm
+            - img [ref=e76]
+        - link "Mở công cụ Chuyển đổi tiền" [ref=e79] [cursor=pointer]:
           - /url: /currency
-          - generic [ref=e77]:
-            - generic [ref=e78]:
-              - img [ref=e80]
-              - generic [ref=e82]:
-                - heading "Chuyển đổi tiền" [level=3] [ref=e83]
-                - paragraph [ref=e84]: Tính toán tiền tệ
-            - img [ref=e85]
-        - link "Mở công cụ Phối đồ" [ref=e87] [cursor=pointer]:
+          - generic [ref=e81]:
+            - generic [ref=e82]:
+              - img [ref=e84]
+              - generic [ref=e86]:
+                - heading "Chuyển đổi tiền" [level=3] [ref=e87]
+                - paragraph [ref=e88]: Tính toán tiền tệ
+            - img [ref=e89]
+        - link "Mở công cụ Phối đồ" [ref=e91] [cursor=pointer]:
           - /url: /fashion
-          - generic [ref=e89]:
-            - generic [ref=e90]:
-              - img [ref=e92]
-              - generic [ref=e94]:
-                - heading "Phối đồ" [level=3] [ref=e95]
-                - paragraph [ref=e96]: Chọn màu trang phục
-            - img [ref=e97]
-        - link "Mở công cụ Giá vàng" [ref=e99] [cursor=pointer]:
+          - generic [ref=e93]:
+            - generic [ref=e94]:
+              - img [ref=e96]
+              - generic [ref=e98]:
+                - heading "Phối đồ" [level=3] [ref=e99]
+                - paragraph [ref=e100]: Chọn màu trang phục
+            - img [ref=e101]
+        - link "Mở công cụ Giá vàng" [ref=e103] [cursor=pointer]:
           - /url: /gold
-          - generic [ref=e101]:
-            - generic [ref=e102]:
-              - img [ref=e104]
-              - generic [ref=e107]:
-                - heading "Giá vàng" [level=3] [ref=e108]
-                - paragraph [ref=e109]: Xem giá vàng Việt Nam
-            - img [ref=e110]
-        - link "Mở công cụ Thời tiết" [ref=e112] [cursor=pointer]:
+          - generic [ref=e105]:
+            - generic [ref=e106]:
+              - img [ref=e108]
+              - generic [ref=e111]:
+                - heading "Giá vàng" [level=3] [ref=e112]
+                - paragraph [ref=e113]: Xem giá vàng Việt Nam
+            - img [ref=e114]
+        - link "Mở công cụ Thời tiết" [ref=e116] [cursor=pointer]:
           - /url: /weather
-          - generic [ref=e114]:
-            - generic [ref=e115]:
-              - img [ref=e117]
-              - generic [ref=e119]:
-                - heading "Thời tiết" [level=3] [ref=e120]
-                - paragraph [ref=e121]: Dự báo thời tiết
-            - img [ref=e122]
-        - link "Mở công cụ Wishlist" [ref=e124] [cursor=pointer]:
+          - generic [ref=e118]:
+            - generic [ref=e119]:
+              - img [ref=e121]
+              - generic [ref=e123]:
+                - heading "Thời tiết" [level=3] [ref=e124]
+                - paragraph [ref=e125]: Dự báo thời tiết
+            - img [ref=e126]
+        - link "Mở công cụ Wishlist" [ref=e128] [cursor=pointer]:
           - /url: /wishlist
-          - generic [ref=e126]:
-            - generic [ref=e127]:
-              - img [ref=e129]
-              - generic [ref=e133]:
-                - heading "Wishlist" [level=3] [ref=e134]
-                - paragraph [ref=e135]: Danh sách muốn mua
-            - img [ref=e136]
-        - link "Mở công cụ Thiệp cưới" [ref=e138] [cursor=pointer]:
+          - generic [ref=e130]:
+            - generic [ref=e131]:
+              - img [ref=e133]
+              - generic [ref=e137]:
+                - heading "Wishlist" [level=3] [ref=e138]
+                - paragraph [ref=e139]: Danh sách muốn mua
+            - img [ref=e140]
+        - link "Mở công cụ Thiệp cưới" [ref=e142] [cursor=pointer]:
           - /url: /wedding-invitation
-          - generic [ref=e140]:
-            - generic [ref=e141]:
-              - img [ref=e143]
-              - generic [ref=e146]:
-                - heading "Thiệp cưới" [level=3] [ref=e147]
-                - paragraph [ref=e148]: Tạo link thiệp cá nhân
-            - img [ref=e149]
-      - paragraph [ref=e152]: 💡 Thêm công cụ mới bất cứ lúc nào!
-    - main [ref=e153]:
-      - generic [ref=e155]:
-        - paragraph [ref=e156]: Failed to load notes
-        - button "Thử lại" [ref=e157] [cursor=pointer]
-  - contentinfo [ref=e158]:
-    - generic [ref=e160]:
-      - generic [ref=e161]:
-        - generic [ref=e162]: © 2025 KaDong Tools
-        - img [ref=e164]
-      - generic [ref=e166]:
-        - link "Gửi email liên hệ" [ref=e167] [cursor=pointer]:
+          - generic [ref=e144]:
+            - generic [ref=e145]:
+              - img [ref=e147]
+              - generic [ref=e150]:
+                - heading "Thiệp cưới" [level=3] [ref=e151]
+                - paragraph [ref=e152]: Tạo link thiệp cá nhân
+            - img [ref=e153]
+      - paragraph [ref=e156]: 💡 Thêm công cụ mới bất cứ lúc nào!
+    - main [ref=e157]:
+      - generic [ref=e159]:
+        - paragraph [ref=e160]: Failed to load notes
+        - button "Thử lại" [ref=e161] [cursor=pointer]
+  - contentinfo [ref=e162]:
+    - generic [ref=e164]:
+      - generic [ref=e165]:
+        - generic [ref=e166]: © 2025 KaDong Tools
+        - img [ref=e168]
+      - generic [ref=e170]:
+        - link "Gửi email liên hệ" [ref=e171] [cursor=pointer]:
           - /url: mailto:contact@kadong.com
           - text: Liên hệ
-        - generic [ref=e168]: "|"
-        - generic [ref=e169]: Made with 💖 for us
+        - generic [ref=e172]: "|"
+        - generic [ref=e173]: Made with 💖 for us
 ```

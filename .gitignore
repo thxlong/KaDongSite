@@ -10,3 +10,13 @@ dist/
 .idea/
 coverage/
 .cache/
+
+# Playwright test results
+test-results/
+playwright-report/
+playwright/.cache/
+
+# Test artifacts
+*.png
+*.webm
+*error-context.md

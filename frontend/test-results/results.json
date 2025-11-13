@@ -180,7 +180,7 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "failed",
-                      "duration": 14813,
+                      "duration": 12442,
                       "error": {
                         "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveTitle\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: \u001b[32m/Notes/\u001b[39m\nReceived string:  \u001b[31m\"KaDong Tools - Tiện ích cho hai chúng mình ❤️\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveTitle\" with timeout 5000ms\u001b[22m\n\u001b[2m    8 × unexpected value \"KaDong Tools - Tiện ích cho hai chúng mình ❤️\"\u001b[22m\n",
                         "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveTitle\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: \u001b[32m/Notes/\u001b[39m\nReceived string:  \u001b[31m\"KaDong Tools - Tiện ích cho hai chúng mình ❤️\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveTitle\" with timeout 5000ms\u001b[22m\n\u001b[2m    8 × unexpected value \"KaDong Tools - Tiện ích cho hai chúng mình ❤️\"\u001b[22m\n\n    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:20:24",
@@ -204,7 +204,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-11-13T02:38:08.166Z",
+                      "startTime": "2025-11-13T03:00:03.209Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -256,7 +256,7 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "timedOut",
-                      "duration": 30920,
+                      "duration": 32179,
                       "error": {
                         "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
                         "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
@@ -277,7 +277,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-11-13T02:38:08.183Z",
+                      "startTime": "2025-11-13T03:00:03.236Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -324,7 +324,7 @@
                       "workerIndex": 2,
                       "parallelIndex": 2,
                       "status": "timedOut",
-                      "duration": 31087,
+                      "duration": 31487,
                       "error": {
                         "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
                         "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
@@ -345,7 +345,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-11-13T02:38:08.263Z",
+                      "startTime": "2025-11-13T03:00:03.192Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -392,7 +392,7 @@
                       "workerIndex": 3,
                       "parallelIndex": 3,
                       "status": "timedOut",
-                      "duration": 30947,
+                      "duration": 31725,
                       "error": {
                         "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
                         "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
@@ -413,7 +413,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-11-13T02:38:08.203Z",
+                      "startTime": "2025-11-13T03:00:03.193Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -460,7 +460,7 @@
                       "workerIndex": 4,
                       "parallelIndex": 4,
                       "status": "timedOut",
-                      "duration": 31254,
+                      "duration": 32015,
                       "error": {
                         "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
                         "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
@@ -481,7 +481,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-11-13T02:38:08.413Z",
+                      "startTime": "2025-11-13T03:00:03.371Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -528,7 +528,7 @@
                       "workerIndex": 5,
                       "parallelIndex": 5,
                       "status": "timedOut",
-                      "duration": 31029,
+                      "duration": 30759,
                       "error": {
                         "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
                         "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
@@ -549,7 +549,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-11-13T02:38:08.360Z",
+                      "startTime": "2025-11-13T03:00:03.620Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -596,7 +596,7 @@
                       "workerIndex": 6,
                       "parallelIndex": 0,
                       "status": "timedOut",
-                      "duration": 31023,
+                      "duration": 31098,
                       "error": {
                         "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
                         "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
@@ -617,7 +617,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-11-13T02:38:42.310Z",
+                      "startTime": "2025-11-13T03:00:27.664Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -662,9 +662,9 @@
                   "results": [
                     {
                       "workerIndex": 7,
-                      "parallelIndex": 4,
+                      "parallelIndex": 2,
                       "status": "timedOut",
-                      "duration": 31081,
+                      "duration": 30642,
                       "error": {
                         "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
                         "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
@@ -685,7 +685,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-11-13T02:38:50.442Z",
+                      "startTime": "2025-11-13T03:00:44.192Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -730,9 +730,9 @@
                   "results": [
                     {
                       "workerIndex": 8,
-                      "parallelIndex": 1,
+                      "parallelIndex": 3,
                       "status": "timedOut",
-                      "duration": 31918,
+                      "duration": 30573,
                       "error": {
                         "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
                         "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
@@ -753,7 +753,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-11-13T02:38:50.432Z",
+                      "startTime": "2025-11-13T03:00:44.292Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -798,9 +798,9 @@
                   "results": [
                     {
                       "workerIndex": 9,
-                      "parallelIndex": 5,
+                      "parallelIndex": 1,
                       "status": "failed",
-                      "duration": 10524,
+                      "duration": 12676,
                       "error": {
                         "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeFocused\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"search-input\"]')\nExpected: focused\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeFocused\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"search-input\"]')\u001b[22m\n",
                         "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeFocused\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"search-input\"]')\nExpected: focused\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeFocused\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"search-input\"]')\u001b[22m\n\n    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:163:64",
@@ -824,7 +824,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-11-13T02:38:50.645Z",
+                      "startTime": "2025-11-13T03:00:44.934Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -874,12 +874,12 @@
                   "results": [
                     {
                       "workerIndex": 10,
-                      "parallelIndex": 3,
+                      "parallelIndex": 5,
                       "status": "failed",
-                      "duration": 28578,
+                      "duration": 51256,
                       "error": {
-                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveTitle\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: \u001b[32m/Notes/\u001b[39m\nReceived string:  \u001b[31m\"KaDong Tools - Tiện ích cho hai chúng mình ❤️\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveTitle\" with timeout 5000ms\u001b[22m\n\u001b[2m    7 × unexpected value \"KaDong Tools - Tiện ích cho hai chúng mình ❤️\"\u001b[22m\n",
-                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveTitle\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: \u001b[32m/Notes/\u001b[39m\nReceived string:  \u001b[31m\"KaDong Tools - Tiện ích cho hai chúng mình ❤️\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveTitle\" with timeout 5000ms\u001b[22m\n\u001b[2m    7 × unexpected value \"KaDong Tools - Tiện ích cho hai chúng mình ❤️\"\u001b[22m\n\n    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:20:24",
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveTitle\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: \u001b[32m/Notes/\u001b[39m\nReceived string:  \u001b[31m\"KaDong Tools - Tiện ích cho hai chúng mình ❤️\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveTitle\" with timeout 5000ms\u001b[22m\n\u001b[2m    4 × unexpected value \"KaDong Tools - Tiện ích cho hai chúng mình ❤️\"\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveTitle\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: \u001b[32m/Notes/\u001b[39m\nReceived string:  \u001b[31m\"KaDong Tools - Tiện ích cho hai chúng mình ❤️\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveTitle\" with timeout 5000ms\u001b[22m\n\u001b[2m    4 × unexpected value \"KaDong Tools - Tiện ích cho hai chúng mình ❤️\"\u001b[22m\n\n    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:20:24",
                         "location": {
                           "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
                           "column": 24,
@@ -894,29 +894,22 @@
                             "column": 24,
                             "line": 20
                           },
-                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveTitle\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: \u001b[32m/Notes/\u001b[39m\nReceived string:  \u001b[31m\"KaDong Tools - Tiện ích cho hai chúng mình ❤️\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveTitle\" with timeout 5000ms\u001b[22m\n\u001b[2m    7 × unexpected value \"KaDong Tools - Tiện ích cho hai chúng mình ❤️\"\u001b[22m\n\n\n\u001b[0m \u001b[90m 18 |\u001b[39m   test(\u001b[32m'should display notes page correctly'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 19 |\u001b[39m     \u001b[90m// Verify page title\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 20 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page)\u001b[33m.\u001b[39mtoHaveTitle(\u001b[35m/Notes/\u001b[39m)\n \u001b[90m    |\u001b[39m                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 21 |\u001b[39m     \n \u001b[90m 22 |\u001b[39m     \u001b[90m// Verify main components\u001b[39m\n \u001b[90m 23 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'h1'\u001b[39m))\u001b[33m.\u001b[39mtoContainText(\u001b[32m'Notes'\u001b[39m)\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:20:24\u001b[22m"
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveTitle\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: \u001b[32m/Notes/\u001b[39m\nReceived string:  \u001b[31m\"KaDong Tools - Tiện ích cho hai chúng mình ❤️\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveTitle\" with timeout 5000ms\u001b[22m\n\u001b[2m    4 × unexpected value \"KaDong Tools - Tiện ích cho hai chúng mình ❤️\"\u001b[22m\n\n\n\u001b[0m \u001b[90m 18 |\u001b[39m   test(\u001b[32m'should display notes page correctly'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 19 |\u001b[39m     \u001b[90m// Verify page title\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 20 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page)\u001b[33m.\u001b[39mtoHaveTitle(\u001b[35m/Notes/\u001b[39m)\n \u001b[90m    |\u001b[39m                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 21 |\u001b[39m     \n \u001b[90m 22 |\u001b[39m     \u001b[90m// Verify main components\u001b[39m\n \u001b[90m 23 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'h1'\u001b[39m))\u001b[33m.\u001b[39mtoContainText(\u001b[32m'Notes'\u001b[39m)\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:20:24\u001b[22m"
+                        },
+                        {
+                          "message": "\u001b[31mTearing down \"context\" exceeded the test timeout of 30000ms.\u001b[39m"
                         }
                       ],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-11-13T02:38:51.144Z",
+                      "startTime": "2025-11-13T03:00:45.998Z",
                       "annotations": [],
                       "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "C:\\Projects\\Personal\\KaDongSite\\frontend\\test-results\\e2e-notes.e2e-Notes-Tool---0f8ad-isplay-notes-page-correctly-firefox-e2e\\test-failed-1.png"
-                        },
                         {
                           "name": "video",
                           "contentType": "video/webm",
                           "path": "C:\\Projects\\Personal\\KaDongSite\\frontend\\test-results\\e2e-notes.e2e-Notes-Tool---0f8ad-isplay-notes-page-correctly-firefox-e2e\\video.webm"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "C:\\Projects\\Personal\\KaDongSite\\frontend\\test-results\\e2e-notes.e2e-Notes-Tool---0f8ad-isplay-notes-page-correctly-firefox-e2e\\error-context.md"
                         }
                       ],
                       "errorLocation": {
@@ -950,77 +943,9 @@
                   "results": [
                     {
                       "workerIndex": 11,
-                      "parallelIndex": 2,
+                      "parallelIndex": 4,
                       "status": "timedOut",
-                      "duration": 30779,
-                      "error": {
-                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
-                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
-                      },
-                      "errors": [
-                        {
-                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
-                        },
-                        {
-                          "location": {
-                            "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
-                            "column": 16,
-                            "line": 30
-                          },
-                          "message": "Error: page.click: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-testid=\"add-note-button\"]')\u001b[22m\n\n\n\u001b[0m \u001b[90m 28 |\u001b[39m   test(\u001b[32m'should create new note'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 29 |\u001b[39m     \u001b[90m// Click add note button\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 30 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'[data-testid=\"add-note-button\"]'\u001b[39m)\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 31 |\u001b[39m     \n \u001b[90m 32 |\u001b[39m     \u001b[90m// Fill in note form\u001b[39m\n \u001b[90m 33 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mfill(\u001b[32m'[name=\"title\"]'\u001b[39m\u001b[33m,\u001b[39m \u001b[32m'E2E Test Note'\u001b[39m)\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:30:16\u001b[22m"
-                        }
-                      ],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-11-13T02:38:53.198Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "C:\\Projects\\Personal\\KaDongSite\\frontend\\test-results\\e2e-notes.e2e-Notes-Tool---E2E-e2e-should-create-new-note-firefox-e2e\\test-failed-1.png"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Projects\\Personal\\KaDongSite\\frontend\\test-results\\e2e-notes.e2e-Notes-Tool---E2E-e2e-should-create-new-note-firefox-e2e\\video.webm"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "C:\\Projects\\Personal\\KaDongSite\\frontend\\test-results\\e2e-notes.e2e-Notes-Tool---E2E-e2e-should-create-new-note-firefox-e2e\\error-context.md"
-                        }
-                      ]
-                    }
-                  ],
-                  "status": "unexpected"
-                }
-              ],
-              "id": "ff53ee29a0197f08488a-edf5905f7ce29353cc7b",
-              "file": "e2e/notes.e2e.spec.js",
-              "line": 28,
-              "column": 3
-            },
-            {
-              "title": "should search notes",
-              "ok": false,
-              "tags": [
-                "e2e"
-              ],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox-e2e",
-                  "projectName": "firefox-e2e",
-                  "results": [
-                    {
-                      "workerIndex": 12,
-                      "parallelIndex": 5,
-                      "status": "timedOut",
-                      "duration": 33323,
+                      "duration": 57270,
                       "error": {
                         "message": "\u001b[31mTest timeout of 30000ms exceeded while running \"beforeEach\" hook.\u001b[39m",
                         "stack": "\u001b[31mTest timeout of 30000ms exceeded while running \"beforeEach\" hook.\u001b[39m\n    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:10:8",
@@ -1052,7 +977,70 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-11-13T02:39:31.345Z",
+                      "startTime": "2025-11-13T03:00:46.284Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\frontend\\test-results\\e2e-notes.e2e-Notes-Tool---E2E-e2e-should-create-new-note-firefox-e2e\\video.webm"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
+                        "column": 8,
+                        "line": 10
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "ff53ee29a0197f08488a-edf5905f7ce29353cc7b",
+              "file": "e2e/notes.e2e.spec.js",
+              "line": 28,
+              "column": 3
+            },
+            {
+              "title": "should search notes",
+              "ok": false,
+              "tags": [
+                "e2e"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox-e2e",
+                  "projectName": "firefox-e2e",
+                  "results": [
+                    {
+                      "workerIndex": 12,
+                      "parallelIndex": 1,
+                      "status": "timedOut",
+                      "duration": 31540,
+                      "error": {
+                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                      },
+                      "errors": [
+                        {
+                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                        },
+                        {
+                          "location": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
+                            "column": 16,
+                            "line": 51
+                          },
+                          "message": "Error: page.fill: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-testid=\"search-input\"]')\u001b[22m\n\n\n\u001b[0m \u001b[90m 49 |\u001b[39m   test(\u001b[32m'should search notes'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 50 |\u001b[39m     \u001b[90m// Type in search box\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 51 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mfill(\u001b[32m'[data-testid=\"search-input\"]'\u001b[39m\u001b[33m,\u001b[39m \u001b[32m'test'\u001b[39m)\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 52 |\u001b[39m     \n \u001b[90m 53 |\u001b[39m     \u001b[90m// Wait for debounce/search\u001b[39m\n \u001b[90m 54 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m500\u001b[39m)\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:51:16\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-11-13T03:01:19.625Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -1070,12 +1058,7 @@
                           "contentType": "text/markdown",
                           "path": "C:\\Projects\\Personal\\KaDongSite\\frontend\\test-results\\e2e-notes.e2e-Notes-Tool---E2E-e2e-should-search-notes-firefox-e2e\\error-context.md"
                         }
-                      ],
-                      "errorLocation": {
-                        "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
-                        "column": 8,
-                        "line": 10
-                      }
+                      ]
                     }
                   ],
                   "status": "unexpected"
@@ -1101,10 +1084,10 @@
                   "projectName": "firefox-e2e",
                   "results": [
                     {
-                      "workerIndex": 13,
-                      "parallelIndex": 4,
+                      "workerIndex": 14,
+                      "parallelIndex": 3,
                       "status": "timedOut",
-                      "duration": 33346,
+                      "duration": 31273,
                       "error": {
                         "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
                         "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
@@ -1125,7 +1108,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-11-13T02:39:41.352Z",
+                      "startTime": "2025-11-13T03:01:25.796Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -1169,34 +1152,31 @@
                   "projectName": "firefox-e2e",
                   "results": [
                     {
-                      "workerIndex": 14,
-                      "parallelIndex": 1,
+                      "workerIndex": 13,
+                      "parallelIndex": 2,
                       "status": "timedOut",
-                      "duration": 35359,
+                      "duration": 30693,
                       "error": {
-                        "message": "\u001b[31mTest timeout of 30000ms exceeded while running \"beforeEach\" hook.\u001b[39m",
-                        "stack": "\u001b[31mTest timeout of 30000ms exceeded while running \"beforeEach\" hook.\u001b[39m\n    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:10:8",
-                        "location": {
-                          "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
-                          "column": 8,
-                          "line": 10
-                        },
-                        "snippet": "\u001b[0m \u001b[90m  8 |\u001b[39m test\u001b[33m.\u001b[39mdescribe(\u001b[32m'Notes Tool - E2E @e2e'\u001b[39m\u001b[33m,\u001b[39m () \u001b[33m=>\u001b[39m {\n \u001b[90m  9 |\u001b[39m   \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 10 |\u001b[39m   test\u001b[33m.\u001b[39mbeforeEach(\u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m    |\u001b[39m        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 11 |\u001b[39m     \u001b[90m// Navigate to notes page\u001b[39m\n \u001b[90m 12 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/notes'\u001b[39m)\n \u001b[90m 13 |\u001b[39m     \u001b[0m"
+                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
                       },
                       "errors": [
                         {
+                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                        },
+                        {
                           "location": {
                             "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
-                            "column": 8,
-                            "line": 10
+                            "column": 66,
+                            "line": 88
                           },
-                          "message": "\u001b[31mTest timeout of 30000ms exceeded while running \"beforeEach\" hook.\u001b[39m\n\n\u001b[0m \u001b[90m  8 |\u001b[39m test\u001b[33m.\u001b[39mdescribe(\u001b[32m'Notes Tool - E2E @e2e'\u001b[39m\u001b[33m,\u001b[39m () \u001b[33m=>\u001b[39m {\n \u001b[90m  9 |\u001b[39m   \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 10 |\u001b[39m   test\u001b[33m.\u001b[39mbeforeEach(\u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m    |\u001b[39m        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 11 |\u001b[39m     \u001b[90m// Navigate to notes page\u001b[39m\n \u001b[90m 12 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/notes'\u001b[39m)\n \u001b[90m 13 |\u001b[39m     \u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:10:8\u001b[22m"
+                          "message": "Error: locator.textContent: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.note-card:first-child').locator('h3, .note-title')\u001b[22m\n\n\n\u001b[0m \u001b[90m 86 |\u001b[39m     \u001b[90m// Get first note title\u001b[39m\n \u001b[90m 87 |\u001b[39m     \u001b[36mconst\u001b[39m firstNote \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'.note-card:first-child'\u001b[39m)\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 88 |\u001b[39m     \u001b[36mconst\u001b[39m noteTitle \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m firstNote\u001b[33m.\u001b[39mlocator(\u001b[32m'h3, .note-title'\u001b[39m)\u001b[33m.\u001b[39mtextContent()\n \u001b[90m    |\u001b[39m                                                                  \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 89 |\u001b[39m     \n \u001b[90m 90 |\u001b[39m     \u001b[90m// Click delete button\u001b[39m\n \u001b[90m 91 |\u001b[39m     \u001b[36mawait\u001b[39m firstNote\u001b[33m.\u001b[39mlocator(\u001b[32m'[aria-label=\"Delete\"], button:has-text(\"Delete\")'\u001b[39m)\u001b[33m.\u001b[39mclick()\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:88:66\u001b[22m"
                         }
                       ],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-11-13T02:39:45.656Z",
+                      "startTime": "2025-11-13T03:01:25.793Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -1214,12 +1194,7 @@
                           "contentType": "text/markdown",
                           "path": "C:\\Projects\\Personal\\KaDongSite\\frontend\\test-results\\e2e-notes.e2e-Notes-Tool---E2E-e2e-should-delete-note-firefox-e2e\\error-context.md"
                         }
-                      ],
-                      "errorLocation": {
-                        "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
-                        "column": 8,
-                        "line": 10
-                      }
+                      ]
                     }
                   ],
                   "status": "unexpected"
@@ -1248,7 +1223,7 @@
                       "workerIndex": 15,
                       "parallelIndex": 0,
                       "status": "timedOut",
-                      "duration": 33454,
+                      "duration": 32171,
                       "error": {
                         "message": "\u001b[31mTest timeout of 30000ms exceeded while running \"beforeEach\" hook.\u001b[39m",
                         "stack": "\u001b[31mTest timeout of 30000ms exceeded while running \"beforeEach\" hook.\u001b[39m\n    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:10:8",
@@ -1280,7 +1255,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-11-13T02:39:46.317Z",
+                      "startTime": "2025-11-13T03:01:51.069Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -1330,54 +1305,48 @@
                   "results": [
                     {
                       "workerIndex": 16,
-                      "parallelIndex": 3,
+                      "parallelIndex": 4,
                       "status": "timedOut",
-                      "duration": 35842,
+                      "duration": 32105,
                       "error": {
-                        "message": "\u001b[31mTest timeout of 30000ms exceeded while running \"beforeEach\" hook.\u001b[39m",
-                        "stack": "\u001b[31mTest timeout of 30000ms exceeded while running \"beforeEach\" hook.\u001b[39m\n    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:10:8",
-                        "location": {
-                          "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
-                          "column": 8,
-                          "line": 10
-                        },
-                        "snippet": "\u001b[0m \u001b[90m  8 |\u001b[39m test\u001b[33m.\u001b[39mdescribe(\u001b[32m'Notes Tool - E2E @e2e'\u001b[39m\u001b[33m,\u001b[39m () \u001b[33m=>\u001b[39m {\n \u001b[90m  9 |\u001b[39m   \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 10 |\u001b[39m   test\u001b[33m.\u001b[39mbeforeEach(\u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m    |\u001b[39m        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 11 |\u001b[39m     \u001b[90m// Navigate to notes page\u001b[39m\n \u001b[90m 12 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/notes'\u001b[39m)\n \u001b[90m 13 |\u001b[39m     \u001b[0m"
+                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
                       },
                       "errors": [
                         {
-                          "location": {
-                            "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
-                            "column": 8,
-                            "line": 10
-                          },
-                          "message": "\u001b[31mTest timeout of 30000ms exceeded while running \"beforeEach\" hook.\u001b[39m\n\n\u001b[0m \u001b[90m  8 |\u001b[39m test\u001b[33m.\u001b[39mdescribe(\u001b[32m'Notes Tool - E2E @e2e'\u001b[39m\u001b[33m,\u001b[39m () \u001b[33m=>\u001b[39m {\n \u001b[90m  9 |\u001b[39m   \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 10 |\u001b[39m   test\u001b[33m.\u001b[39mbeforeEach(\u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m    |\u001b[39m        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 11 |\u001b[39m     \u001b[90m// Navigate to notes page\u001b[39m\n \u001b[90m 12 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/notes'\u001b[39m)\n \u001b[90m 13 |\u001b[39m     \u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:10:8\u001b[22m"
+                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
                         },
                         {
                           "location": {
                             "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
                             "column": 16,
-                            "line": 12
+                            "line": 117
                           },
-                          "message": "Error: page.goto: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/notes\", waiting until \"load\"\u001b[22m\n\n\n\u001b[0m \u001b[90m 10 |\u001b[39m   test\u001b[33m.\u001b[39mbeforeEach(\u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 11 |\u001b[39m     \u001b[90m// Navigate to notes page\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 12 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/notes'\u001b[39m)\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 13 |\u001b[39m     \n \u001b[90m 14 |\u001b[39m     \u001b[90m// Wait for page to load\u001b[39m\n \u001b[90m 15 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForLoadState(\u001b[32m'networkidle'\u001b[39m)\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:12:16\u001b[22m"
+                          "message": "Error: page.click: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-testid=\"add-note-button\"]')\u001b[22m\n\n\n\u001b[0m \u001b[90m 115 |\u001b[39m     \u001b[36mconst\u001b[39m uniqueTitle \u001b[33m=\u001b[39m \u001b[32m'Persist Test '\u001b[39m \u001b[33m+\u001b[39m \u001b[33mDate\u001b[39m\u001b[33m.\u001b[39mnow()\n \u001b[90m 116 |\u001b[39m     \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 117 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'[data-testid=\"add-note-button\"]'\u001b[39m)\n \u001b[90m     |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 118 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mfill(\u001b[32m'[name=\"title\"]'\u001b[39m\u001b[33m,\u001b[39m uniqueTitle)\n \u001b[90m 119 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mfill(\u001b[32m'[name=\"content\"]'\u001b[39m\u001b[33m,\u001b[39m \u001b[32m'Should persist'\u001b[39m)\n \u001b[90m 120 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'button:has-text(\"Save\")'\u001b[39m)\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:117:16\u001b[22m"
                         }
                       ],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-11-13T02:39:50.836Z",
+                      "startTime": "2025-11-13T03:02:10.035Z",
                       "annotations": [],
                       "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\frontend\\test-results\\e2e-notes.e2e-Notes-Tool---aa00e-d-persist-data-after-reload-firefox-e2e\\test-failed-1.png"
+                        },
                         {
                           "name": "video",
                           "contentType": "video/webm",
                           "path": "C:\\Projects\\Personal\\KaDongSite\\frontend\\test-results\\e2e-notes.e2e-Notes-Tool---aa00e-d-persist-data-after-reload-firefox-e2e\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\frontend\\test-results\\e2e-notes.e2e-Notes-Tool---aa00e-d-persist-data-after-reload-firefox-e2e\\error-context.md"
                         }
-                      ],
-                      "errorLocation": {
-                        "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js",
-                        "column": 8,
-                        "line": 10
-                      }
+                      ]
                     }
                   ],
                   "status": "unexpected"
@@ -1404,9 +1373,9 @@
                   "results": [
                     {
                       "workerIndex": 17,
-                      "parallelIndex": 2,
+                      "parallelIndex": 5,
                       "status": "timedOut",
-                      "duration": 30908,
+                      "duration": 31087,
                       "error": {
                         "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
                         "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
@@ -1427,7 +1396,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-11-13T02:40:11.594Z",
+                      "startTime": "2025-11-13T03:02:15.290Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -1472,9 +1441,9 @@
                   "results": [
                     {
                       "workerIndex": 18,
-                      "parallelIndex": 5,
+                      "parallelIndex": 1,
                       "status": "timedOut",
-                      "duration": 30725,
+                      "duration": 30538,
                       "error": {
                         "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
                         "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
@@ -1495,7 +1464,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-11-13T02:40:53.976Z",
+                      "startTime": "2025-11-13T03:02:17.522Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -1540,9 +1509,9 @@
                   "results": [
                     {
                       "workerIndex": 19,
-                      "parallelIndex": 0,
+                      "parallelIndex": 3,
                       "status": "failed",
-                      "duration": 26513,
+                      "duration": 27576,
                       "error": {
                         "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeFocused\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"search-input\"]')\nExpected: focused\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeFocused\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"search-input\"]')\u001b[22m\n",
                         "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeFocused\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"search-input\"]')\nExpected: focused\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeFocused\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"search-input\"]')\u001b[22m\n\n    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:163:64",
@@ -1566,7 +1535,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-11-13T02:40:59.234Z",
+                      "startTime": "2025-11-13T03:02:22.706Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -1616,9 +1585,9 @@
                   "results": [
                     {
                       "workerIndex": 20,
-                      "parallelIndex": 3,
+                      "parallelIndex": 2,
                       "status": "failed",
-                      "duration": 23723,
+                      "duration": 11835,
                       "error": {
                         "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveTitle\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: \u001b[32m/Notes/\u001b[39m\nReceived string:  \u001b[31m\"KaDong Tools - Tiện ích cho hai chúng mình ❤️\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveTitle\" with timeout 5000ms\u001b[22m\n\u001b[2m    8 × unexpected value \"KaDong Tools - Tiện ích cho hai chúng mình ❤️\"\u001b[22m\n",
                         "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveTitle\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: \u001b[32m/Notes/\u001b[39m\nReceived string:  \u001b[31m\"KaDong Tools - Tiện ích cho hai chúng mình ❤️\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveTitle\" with timeout 5000ms\u001b[22m\n\u001b[2m    8 × unexpected value \"KaDong Tools - Tiện ích cho hai chúng mình ❤️\"\u001b[22m\n\n    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:20:24",
@@ -1642,7 +1611,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-11-13T02:41:07.946Z",
+                      "startTime": "2025-11-13T03:02:53.986Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -1692,9 +1661,9 @@
                   "results": [
                     {
                       "workerIndex": 21,
-                      "parallelIndex": 1,
+                      "parallelIndex": 0,
                       "status": "timedOut",
-                      "duration": 31681,
+                      "duration": 31080,
                       "error": {
                         "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
                         "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
@@ -1715,7 +1684,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-11-13T02:41:07.395Z",
+                      "startTime": "2025-11-13T03:03:03.070Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -1760,9 +1729,9 @@
                   "results": [
                     {
                       "workerIndex": 22,
-                      "parallelIndex": 4,
+                      "parallelIndex": 5,
                       "status": "timedOut",
-                      "duration": 31415,
+                      "duration": 31149,
                       "error": {
                         "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
                         "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
@@ -1783,7 +1752,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-11-13T02:41:12.668Z",
+                      "startTime": "2025-11-13T03:03:05.898Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -1828,9 +1797,9 @@
                   "results": [
                     {
                       "workerIndex": 23,
-                      "parallelIndex": 2,
+                      "parallelIndex": 1,
                       "status": "timedOut",
-                      "duration": 31015,
+                      "duration": 31213,
                       "error": {
                         "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
                         "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
@@ -1851,7 +1820,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-11-13T02:41:40.385Z",
+                      "startTime": "2025-11-13T03:03:06.141Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -1896,9 +1865,9 @@
                   "results": [
                     {
                       "workerIndex": 24,
-                      "parallelIndex": 0,
+                      "parallelIndex": 4,
                       "status": "timedOut",
-                      "duration": 30965,
+                      "duration": 31023,
                       "error": {
                         "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
                         "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
@@ -1919,7 +1888,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-11-13T02:41:42.895Z",
+                      "startTime": "2025-11-13T03:03:06.373Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -1964,9 +1933,9 @@
                   "results": [
                     {
                       "workerIndex": 25,
-                      "parallelIndex": 5,
+                      "parallelIndex": 3,
                       "status": "timedOut",
-                      "duration": 30635,
+                      "duration": 30838,
                       "error": {
                         "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
                         "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
@@ -1987,7 +1956,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-11-13T02:41:43.730Z",
+                      "startTime": "2025-11-13T03:03:09.388Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -2032,9 +2001,9 @@
                   "results": [
                     {
                       "workerIndex": 26,
-                      "parallelIndex": 3,
+                      "parallelIndex": 2,
                       "status": "timedOut",
-                      "duration": 30934,
+                      "duration": 30892,
                       "error": {
                         "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
                         "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
@@ -2055,7 +2024,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-11-13T02:41:47.262Z",
+                      "startTime": "2025-11-13T03:03:16.686Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -2100,9 +2069,9 @@
                   "results": [
                     {
                       "workerIndex": 27,
-                      "parallelIndex": 4,
+                      "parallelIndex": 0,
                       "status": "timedOut",
-                      "duration": 30744,
+                      "duration": 30677,
                       "error": {
                         "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
                         "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
@@ -2123,7 +2092,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-11-13T02:41:54.822Z",
+                      "startTime": "2025-11-13T03:03:40.678Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -2168,9 +2137,9 @@
                   "results": [
                     {
                       "workerIndex": 28,
-                      "parallelIndex": 1,
+                      "parallelIndex": 5,
                       "status": "timedOut",
-                      "duration": 30773,
+                      "duration": 30443,
                       "error": {
                         "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
                         "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
@@ -2191,7 +2160,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-11-13T02:41:54.890Z",
+                      "startTime": "2025-11-13T03:03:43.533Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -2236,9 +2205,9 @@
                   "results": [
                     {
                       "workerIndex": 29,
-                      "parallelIndex": 2,
+                      "parallelIndex": 1,
                       "status": "failed",
-                      "duration": 10476,
+                      "duration": 11275,
                       "error": {
                         "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeFocused\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"search-input\"]')\nExpected: focused\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeFocused\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"search-input\"]')\u001b[22m\n",
                         "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeFocused\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"search-input\"]')\nExpected: focused\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeFocused\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"search-input\"]')\u001b[22m\n\n    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\notes.e2e.spec.js:163:64",
@@ -2262,7 +2231,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-11-13T02:42:16.186Z",
+                      "startTime": "2025-11-13T03:03:43.855Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -2303,8 +2272,8 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2025-11-13T02:38:03.388Z",
-    "duration": 263757.50700000004,
+    "startTime": "2025-11-13T02:59:58.789Z",
+    "duration": 255777.054,
     "expected": 0,
     "skipped": 0,
     "unexpected": 30,
