@@ -44,14 +44,19 @@ export default {
       max_restarts: 10,
     },
     
-    // Cron job for gold price fetching
+    // Cron job for gold price auto-update (every 5 minutes)
     {
       name: 'gold-price-cron',
-      script: './scripts/cron/fetch-gold-prices.js',
-      cron_restart: '0 */6 * * *', // Every 6 hours
-      autorestart: false,
+      script: './gold-cron.js',
+      autorestart: true, // Keep cron job running
       watch: false,
+      max_memory_restart: '500M',
+      error_file: './logs/gold-cron-error.log',
+      out_file: './logs/gold-cron-out.log',
       env: {
+        NODE_ENV: 'production',
+      },
+      env_production: {
         NODE_ENV: 'production',
       },
     },

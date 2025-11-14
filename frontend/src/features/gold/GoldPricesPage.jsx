@@ -43,13 +43,11 @@ const GoldPricesTool = () => {
       const data = await response.json()
       
       if (data.success) {
-        // Filter: Only show prices per lượng (37.5g), exclude per chỉ (3.75g)
-        const filteredPrices = data.data.filter(price => {
-          // Exclude PNJ_18K, GOLD_14K (per chỉ)
-          // Keep SJC_9999, SJC_24K, DOJI_24K (per lượng), XAU_USD (per oz)
-          return !['PNJ_18K', 'GOLD_14K', 'PNJ_24K'].includes(price.type)
-        })
-        setGoldPrices(filteredPrices)
+        // Show all gold types (per lượng and per chỉ)
+        // Includes: SJC_9999, SJC_24K, DOJI_24K (per lượng)
+        // PNJ_24K, PNJ_18K, GOLD_14K, GOLD_10K (per chỉ)
+        // XAU_USD (per troy oz)
+        setGoldPrices(data.data)
         setLastUpdate(new Date())
         setError(null)
       } else {

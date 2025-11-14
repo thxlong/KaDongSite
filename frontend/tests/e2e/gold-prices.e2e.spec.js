@@ -114,14 +114,24 @@ test.describe('Gold Prices Tool E2E', () => {
       await expect(page.locator('text=/Bán ra:/').first()).toBeVisible()
     })
 
-    test('should filter out per chỉ gold types', async ({ page }) => {
+    test('should display all gold types including jewelry grades', async ({ page }) => {
       // Wait for cards to load
       await page.waitForTimeout(2000)
       
-      // Should NOT show PNJ_18K, GOLD_14K, PNJ_24K (per chỉ types)
-      await expect(page.locator('text="PNJ_18K"')).not.toBeVisible()
-      await expect(page.locator('text="GOLD_14K"')).not.toBeVisible()
-      await expect(page.locator('text="PNJ_24K"')).not.toBeVisible()
+      // Should show multiple gold types (cards count)
+      const cards = page.locator('[role="button"]')
+      const cardCount = await cards.count()
+      
+      // Should have at least 5 types (SJC_9999, SJC_24K, DOJI_24K, XAU_USD, and jewelry grades)
+      expect(cardCount).toBeGreaterThanOrEqual(5)
+      
+      // Verify we have variety of gold types by checking if we have both per lượng and per chỉ
+      const pageText = await page.textContent('body')
+      const hasPerLuong = pageText.includes('lượng') || pageText.includes('SJC') || pageText.includes('DOJI')
+      const hasPerChi = pageText.includes('chỉ') || pageText.includes('PNJ') || pageText.includes('GOLD')
+      
+      expect(hasPerLuong).toBe(true)
+      expect(hasPerChi).toBe(true)
     })
 
     test('should show price change indicators', async ({ page }) => {

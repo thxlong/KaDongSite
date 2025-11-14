@@ -54,7 +54,14 @@ INSERT INTO gold_rates (type, source, buy_price, sell_price, mid_price, currency
 ('XAU_USD', 'mock', 2023.50, 2024.50, 2024.00, 'USD', NOW() - INTERVAL '3 hours', 
  '{"unit": "1 troy oz (31.1g)", "market": "International", "provider": "Kitco", "provider_url": "https://kitco.com"}');
 
--- 14K Gold
+-- 10K Gold (41.7% gold)
+INSERT INTO gold_rates (type, source, buy_price, sell_price, mid_price, currency, fetched_at, meta) VALUES
+('GOLD_10K', 'mock', 32500000, 33000000, 32750000, 'VND', NOW() - INTERVAL '1 hour', 
+ '{"unit": "1 chỉ (3.75g)", "location": "TP.HCM", "purity": "41.7%", "note": "Vàng trang sức phổ thông"}'),
+('GOLD_10K', 'mock', 32400000, 32900000, 32650000, 'VND', NOW() - INTERVAL '2 hours', 
+ '{"unit": "1 chỉ (3.75g)", "location": "TP.HCM", "purity": "41.7%", "note": "Vàng trang sức phổ thông"}');
+
+-- 14K Gold (58.5% gold)
 INSERT INTO gold_rates (type, source, buy_price, sell_price, mid_price, currency, fetched_at, meta) VALUES
 ('GOLD_14K', 'mock', 45600000, 46100000, 45850000, 'VND', NOW() - INTERVAL '1 hour', 
  '{"unit": "1 chỉ (3.75g)", "location": "TP.HCM", "purity": "58.5%", "note": "Vàng trang sức"}'),
@@ -90,5 +97,5 @@ BEGIN
     SELECT COUNT(*) INTO row_count FROM gold_rates;
     RAISE NOTICE '✅ Seed 002_seed_gold_rates.sql completed successfully';
     RAISE NOTICE '📊 Inserted % gold rate records', row_count;
-    RAISE NOTICE '💰 Gold types: SJC_9999, SJC_24K, PNJ_24K, PNJ_18K, DOJI_24K, XAU_USD, GOLD_14K';
+    RAISE NOTICE '💰 Gold types: SJC_9999, SJC_24K, PNJ_24K, PNJ_18K, DOJI_24K, XAU_USD, GOLD_10K, GOLD_14K';
 END $$;

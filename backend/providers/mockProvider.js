@@ -172,7 +172,7 @@ export const getProviderInfo = () => {
     ],
     update_frequency: 'Every 5 minutes',
     reliability: 'Testing only',
-    enabled: false  // Disabled - use real provider instead
+    enabled: false  // ❌ DISABLED - Use real provider instead
   }
 }
 

@@ -17,8 +17,8 @@ import realProvider from './realProvider.js'
  * Add new providers here after implementation
  */
 export const providers = {
-  real: realProvider,  // ← Real market data provider
-  mock: mockProvider,  // Keep for testing
+  real: realProvider,  // ✅ Real market data provider (ACTIVE)
+  mock: mockProvider,  // ❌ Keep for testing only (DISABLED)
   // sjc: sjcProvider,
   // pnj: pnjProvider,
   // doji: dojiProvider,

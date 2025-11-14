@@ -171,7 +171,7 @@
               "specs": [
                 {
                   "title": "should load gold prices page successfully",
-                  "ok": true,
+                  "ok": false,
                   "tags": [],
                   "tests": [
                     {
@@ -184,18 +184,58 @@
                         {
                           "workerIndex": 0,
                           "parallelIndex": 0,
-                          "status": "passed",
-                          "duration": 11277,
-                          "errors": [],
+                          "status": "failed",
+                          "duration": 5964,
+                          "error": {
+                            "message": "Error: Login failed. Current URL: http://localhost:3000/login. Check if admin credentials are correct.",
+                            "stack": "Error: Login failed. Current URL: http://localhost:3000/login. Check if admin credentials are correct.\n    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\gold-prices.e2e.spec.js:35:13",
+                            "location": {
+                              "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\gold-prices.e2e.spec.js",
+                              "column": 13,
+                              "line": 35
+                            },
+                            "snippet": "\u001b[0m \u001b[90m 33 |\u001b[39m     \u001b[90m// Check if we're still on login page (error case)\u001b[39m\n \u001b[90m 34 |\u001b[39m     \u001b[36mif\u001b[39m (page\u001b[33m.\u001b[39murl()\u001b[33m.\u001b[39mincludes(\u001b[32m'/login'\u001b[39m)) {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 35 |\u001b[39m       \u001b[36mthrow\u001b[39m \u001b[36mnew\u001b[39m \u001b[33mError\u001b[39m(\u001b[32m`Login failed. Current URL: ${page.url()}. Check if admin credentials are correct.`\u001b[39m)\n \u001b[90m    |\u001b[39m             \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 36 |\u001b[39m     }\n \u001b[90m 37 |\u001b[39m     \n \u001b[90m 38 |\u001b[39m     \u001b[90m// Wait for navigation to complete\u001b[39m\u001b[0m"
+                          },
+                          "errors": [
+                            {
+                              "location": {
+                                "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\gold-prices.e2e.spec.js",
+                                "column": 13,
+                                "line": 35
+                              },
+                              "message": "Error: Login failed. Current URL: http://localhost:3000/login. Check if admin credentials are correct.\n\n\u001b[0m \u001b[90m 33 |\u001b[39m     \u001b[90m// Check if we're still on login page (error case)\u001b[39m\n \u001b[90m 34 |\u001b[39m     \u001b[36mif\u001b[39m (page\u001b[33m.\u001b[39murl()\u001b[33m.\u001b[39mincludes(\u001b[32m'/login'\u001b[39m)) {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 35 |\u001b[39m       \u001b[36mthrow\u001b[39m \u001b[36mnew\u001b[39m \u001b[33mError\u001b[39m(\u001b[32m`Login failed. Current URL: ${page.url()}. Check if admin credentials are correct.`\u001b[39m)\n \u001b[90m    |\u001b[39m             \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 36 |\u001b[39m     }\n \u001b[90m 37 |\u001b[39m     \n \u001b[90m 38 |\u001b[39m     \u001b[90m// Wait for navigation to complete\u001b[39m\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\gold-prices.e2e.spec.js:35:13\u001b[22m"
+                            }
+                          ],
                           "stdout": [],
                           "stderr": [],
                           "retry": 0,
-                          "startTime": "2025-11-14T09:30:13.030Z",
+                          "startTime": "2025-11-14T09:43:21.279Z",
                           "annotations": [],
-                          "attachments": []
+                          "attachments": [
+                            {
+                              "name": "screenshot",
+                              "contentType": "image/png",
+                              "path": "C:\\Projects\\Personal\\KaDongSite\\frontend\\test-results\\e2e-gold-prices.e2e-Gold-P-a9cbe-ld-prices-page-successfully-chromium-e2e\\test-failed-1.png"
+                            },
+                            {
+                              "name": "video",
+                              "contentType": "video/webm",
+                              "path": "C:\\Projects\\Personal\\KaDongSite\\frontend\\test-results\\e2e-gold-prices.e2e-Gold-P-a9cbe-ld-prices-page-successfully-chromium-e2e\\video.webm"
+                            },
+                            {
+                              "name": "error-context",
+                              "contentType": "text/markdown",
+                              "path": "C:\\Projects\\Personal\\KaDongSite\\frontend\\test-results\\e2e-gold-prices.e2e-Gold-P-a9cbe-ld-prices-page-successfully-chromium-e2e\\error-context.md"
+                            }
+                          ],
+                          "errorLocation": {
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\gold-prices.e2e.spec.js",
+                            "column": 13,
+                            "line": 35
+                          }
                         }
                       ],
-                      "status": "expected"
+                      "status": "unexpected"
                     }
                   ],
                   "id": "fe053746d6c73b91643a-4ace47143fc81de7d3f6",
@@ -212,11 +252,11 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2025-11-14T09:30:09.489Z",
-    "duration": 18492.975,
-    "expected": 1,
+    "startTime": "2025-11-14T09:43:18.461Z",
+    "duration": 9415.303,
+    "expected": 0,
     "skipped": 0,
-    "unexpected": 0,
+    "unexpected": 1,
     "flaky": 0
   }
 }
