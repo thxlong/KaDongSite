@@ -42,7 +42,8 @@ const WishlistHeader = ({
   onSortChange,
   onPurchasedFilterChange,
   onAddClick,
-  itemCount = 0
+  itemCount = 0,
+  isGuest = false
 }) => {
   const [searchValue, setSearchValue] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('all')
@@ -94,11 +95,16 @@ const WishlistHeader = ({
 
           {/* Add Button - Desktop */}
           <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            whileHover={{ scale: isGuest ? 1 : 1.05 }}
+            whileTap={{ scale: isGuest ? 1 : 0.95 }}
             onClick={onAddClick}
-            className="hidden md:flex items-center gap-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-shadow"
+            className={`hidden md:flex items-center gap-2 px-6 py-3 rounded-lg font-semibold shadow-lg transition-shadow ${
+              isGuest
+                ? 'bg-gray-400 cursor-not-allowed opacity-60'
+                : 'bg-gradient-to-r from-purple-600 to-pink-600 hover:shadow-xl'
+            } text-white`}
             data-testid="add-item-button"
+            title={isGuest ? 'Đăng ký để thêm wishlist' : 'Thêm sản phẩm mới'}
           >
             <Plus size={20} />
             Thêm sản phẩm
@@ -231,10 +237,15 @@ const WishlistHeader = ({
 
       {/* FAB - Mobile Only */}
       <motion.button
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
+        whileHover={{ scale: isGuest ? 1 : 1.1 }}
+        whileTap={{ scale: isGuest ? 1 : 0.9 }}
         onClick={onAddClick}
-        className="md:hidden fixed bottom-6 right-6 bg-gradient-to-r from-purple-600 to-pink-600 text-white p-4 rounded-full shadow-2xl z-50"
+        className={`md:hidden fixed bottom-6 right-6 p-4 rounded-full shadow-2xl z-50 ${
+          isGuest
+            ? 'bg-gray-400 cursor-not-allowed opacity-60'
+            : 'bg-gradient-to-r from-purple-600 to-pink-600'
+        } text-white`}
+        title={isGuest ? 'Đăng ký để thêm wishlist' : 'Thêm sản phẩm mới'}
       >
         <Plus size={24} />
       </motion.button>

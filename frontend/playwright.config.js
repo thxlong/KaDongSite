@@ -79,10 +79,8 @@ export default defineConfig({
             '--disable-web-security', // For CORS
           ],
         },
-        contextOptions: {
-          // Clear all storage before each test
-          storageState: undefined,
-        },
+        // Clear all storage before each test
+        storageState: undefined,
       },
     },
     

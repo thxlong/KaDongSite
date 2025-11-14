@@ -146,25 +146,25 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "failed",
-                      "duration": 23617,
+                      "duration": 17459,
                       "error": {
-                        "message": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-testid=\"wishlist-stats\"], [data-testid=\"wishlist-grid\"], [data-testid=\"wishlist-empty\"]') to be visible\u001b[22m\n",
-                        "stack": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-testid=\"wishlist-stats\"], [data-testid=\"wishlist-grid\"], [data-testid=\"wishlist-empty\"]') to be visible\u001b[22m\n\n    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\wishlist.e2e.spec.js:129:18",
+                        "message": "TimeoutError: page.waitForURL: Timeout 10000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation until \"load\"\n============================================================",
+                        "stack": "TimeoutError: page.waitForURL: Timeout 10000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation until \"load\"\n============================================================\n    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\wishlist.e2e.spec.js:79:18",
                         "location": {
                           "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\wishlist.e2e.spec.js",
                           "column": 18,
-                          "line": 129
+                          "line": 79
                         },
-                        "snippet": "\u001b[0m \u001b[90m 127 |\u001b[39m     \u001b[90m// Wait for wishlist to load (either stats, grid, or empty state)\u001b[39m\n \u001b[90m 128 |\u001b[39m     \u001b[36mtry\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 129 |\u001b[39m       \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForSelector(\u001b[32m'[data-testid=\"wishlist-stats\"], [data-testid=\"wishlist-grid\"], [data-testid=\"wishlist-empty\"]'\u001b[39m\u001b[33m,\u001b[39m {\n \u001b[90m     |\u001b[39m                  \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 130 |\u001b[39m         timeout\u001b[33m:\u001b[39m \u001b[35m15000\u001b[39m\n \u001b[90m 131 |\u001b[39m       })\n \u001b[90m 132 |\u001b[39m       console\u001b[33m.\u001b[39mlog(\u001b[32m'✓ Wishlist loaded\\n'\u001b[39m)\u001b[0m"
+                        "snippet": "\u001b[0m \u001b[90m 77 |\u001b[39m     \u001b[90m// Wait for redirect to /tools\u001b[39m\n \u001b[90m 78 |\u001b[39m     \u001b[36mtry\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 79 |\u001b[39m       \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForURL(\u001b[35m/\\/tools/\u001b[39m\u001b[33m,\u001b[39m { timeout\u001b[33m:\u001b[39m \u001b[35m10000\u001b[39m })\n \u001b[90m    |\u001b[39m                  \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 80 |\u001b[39m       console\u001b[33m.\u001b[39mlog(\u001b[32m'✓ Login successful, redirected to /tools'\u001b[39m)\n \u001b[90m 81 |\u001b[39m       \n \u001b[90m 82 |\u001b[39m       \u001b[90m// Note: Auth is stored in httpOnly cookie, not localStorage at this point\u001b[39m\u001b[0m"
                       },
                       "errors": [
                         {
                           "location": {
                             "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\wishlist.e2e.spec.js",
                             "column": 18,
-                            "line": 129
+                            "line": 79
                           },
-                          "message": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-testid=\"wishlist-stats\"], [data-testid=\"wishlist-grid\"], [data-testid=\"wishlist-empty\"]') to be visible\u001b[22m\n\n\n\u001b[0m \u001b[90m 127 |\u001b[39m     \u001b[90m// Wait for wishlist to load (either stats, grid, or empty state)\u001b[39m\n \u001b[90m 128 |\u001b[39m     \u001b[36mtry\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 129 |\u001b[39m       \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForSelector(\u001b[32m'[data-testid=\"wishlist-stats\"], [data-testid=\"wishlist-grid\"], [data-testid=\"wishlist-empty\"]'\u001b[39m\u001b[33m,\u001b[39m {\n \u001b[90m     |\u001b[39m                  \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 130 |\u001b[39m         timeout\u001b[33m:\u001b[39m \u001b[35m15000\u001b[39m\n \u001b[90m 131 |\u001b[39m       })\n \u001b[90m 132 |\u001b[39m       console\u001b[33m.\u001b[39mlog(\u001b[32m'✓ Wishlist loaded\\n'\u001b[39m)\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\wishlist.e2e.spec.js:129:18\u001b[22m"
+                          "message": "TimeoutError: page.waitForURL: Timeout 10000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation until \"load\"\n============================================================\n\n\u001b[0m \u001b[90m 77 |\u001b[39m     \u001b[90m// Wait for redirect to /tools\u001b[39m\n \u001b[90m 78 |\u001b[39m     \u001b[36mtry\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 79 |\u001b[39m       \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForURL(\u001b[35m/\\/tools/\u001b[39m\u001b[33m,\u001b[39m { timeout\u001b[33m:\u001b[39m \u001b[35m10000\u001b[39m })\n \u001b[90m    |\u001b[39m                  \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 80 |\u001b[39m       console\u001b[33m.\u001b[39mlog(\u001b[32m'✓ Login successful, redirected to /tools'\u001b[39m)\n \u001b[90m 81 |\u001b[39m       \n \u001b[90m 82 |\u001b[39m       \u001b[90m// Note: Auth is stored in httpOnly cookie, not localStorage at this point\u001b[39m\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\wishlist.e2e.spec.js:79:18\u001b[22m"
                         }
                       ],
                       "stdout": [
@@ -178,127 +178,19 @@
                           "text": "🔐 Logging in with real user for E2E testing...\n"
                         },
                         {
-                          "text": "  API Response: 401 http://localhost:5000/api/auth/me\n"
-                        },
-                        {
-                          "text": "  API Response: 401 http://localhost:5000/api/auth/me\n"
-                        },
-                        {
-                          "text": "  [Browser Console] error: Get current user error: Error: Authentication token required\n    at Module.getCurrentUser (http://localhost:3000/src/shared/services/authService.js:108:13)\n    at async http://localhost:3000/src/shared/contexts/AuthContext.jsx:38:24\n"
-                        },
-                        {
-                          "text": "  [Browser Console] error: Get current user error: Error: Authentication token required\n    at Module.getCurrentUser (http://localhost:3000/src/shared/services/authService.js:108:13)\n    at async http://localhost:3000/src/shared/contexts/AuthContext.jsx:38:24\n"
-                        },
-                        {
                           "text": "📧 Filled credentials: admin@kadong.com\n"
                         },
                         {
-                          "text": "  API Response: 200 http://localhost:5000/api/auth/login\n"
+                          "text": "  [Browser Console] error: Get current user error: TypeError: Failed to fetch\n    at Module.getCurrentUser (http://localhost:3000/src/shared/services/authService.js:100:28)\n    at http://localhost:3000/src/shared/contexts/AuthContext.jsx:38:42\n    at http://localhost:3000/src/shared/contexts/AuthContext.jsx:184:5\n    at commitHookEffectListMount (http://localhost:3000/node_modules/.vite/deps/chunk-47AYDC35.js?v=3e6777cb:16915:34)\n    at commitPassiveMountOnFiber (http://localhost:3000/node_modules/.vite/deps/chunk-47AYDC35.js?v=3e6777cb:18156:19)\n    at commitPassiveMountEffects_complete (http://localhost:3000/node_modules/.vite/deps/chunk-47AYDC35.js?v=3e6777cb:18129:17)\n    at commitPassiveMountEffects_begin (http://localhost:3000/node_modules/.vite/deps/chunk-47AYDC35.js?v=3e6777cb:18119:15)\n    at commitPassiveMountEffects (http://localhost:3000/node_modules/.vite/deps/chunk-47AYDC35.js?v=3e6777cb:18109:11)\n    at flushPassiveEffectsImpl (http://localhost:3000/node_modules/.vite/deps/chunk-47AYDC35.js?v=3e6777cb:19490:11)\n    at flushPassiveEffects (http://localhost:3000/node_modules/.vite/deps/chunk-47AYDC35.js?v=3e6777cb:19447:22)\n"
                         },
                         {
-                          "text": "✓ Login successful, redirected to /tools\n"
+                          "text": "  [Browser Console] error: Login error: TypeError: Failed to fetch\n    at Module.login (http://localhost:3000/src/shared/services/authService.js:48:28)\n    at http://localhost:3000/src/shared/contexts/AuthContext.jsx:70:42\n    at handleSubmit (http://localhost:3000/src/features/auth/LoginPage.jsx:57:13)\n    at HTMLUnknownElement.callCallback2 (http://localhost:3000/node_modules/.vite/deps/chunk-47AYDC35.js?v=3e6777cb:3674:22)\n    at Object.invokeGuardedCallbackDev (http://localhost:3000/node_modules/.vite/deps/chunk-47AYDC35.js?v=3e6777cb:3699:24)\n    at invokeGuardedCallback (http://localhost:3000/node_modules/.vite/deps/chunk-47AYDC35.js?v=3e6777cb:3733:39)\n    at invokeGuardedCallbackAndCatchFirstError (http://localhost:3000/node_modules/.vite/deps/chunk-47AYDC35.js?v=3e6777cb:3736:33)\n    at executeDispatch (http://localhost:3000/node_modules/.vite/deps/chunk-47AYDC35.js?v=3e6777cb:7014:11)\n    at processDispatchQueueItemsInOrder (http://localhost:3000/node_modules/.vite/deps/chunk-47AYDC35.js?v=3e6777cb:7034:15)\n    at processDispatchQueue (http://localhost:3000/node_modules/.vite/deps/chunk-47AYDC35.js?v=3e6777cb:7043:13)\n"
                         },
                         {
-                          "text": "  (Auth stored in httpOnly cookie, will be verified on next page)\n"
+                          "text": "  [Browser Console] error: Get current user error: TypeError: Failed to fetch\n    at Module.getCurrentUser (http://localhost:3000/src/shared/services/authService.js:100:28)\n    at http://localhost:3000/src/shared/contexts/AuthContext.jsx:38:42\n    at http://localhost:3000/src/shared/contexts/AuthContext.jsx:184:5\n    at commitHookEffectListMount (http://localhost:3000/node_modules/.vite/deps/chunk-47AYDC35.js?v=3e6777cb:16915:34)\n    at invokePassiveEffectMountInDEV (http://localhost:3000/node_modules/.vite/deps/chunk-47AYDC35.js?v=3e6777cb:18324:19)\n    at invokeEffectsInDev (http://localhost:3000/node_modules/.vite/deps/chunk-47AYDC35.js?v=3e6777cb:19701:19)\n    at commitDoubleInvokeEffectsInDEV (http://localhost:3000/node_modules/.vite/deps/chunk-47AYDC35.js?v=3e6777cb:19686:15)\n    at flushPassiveEffectsImpl (http://localhost:3000/node_modules/.vite/deps/chunk-47AYDC35.js?v=3e6777cb:19503:13)\n    at flushPassiveEffects (http://localhost:3000/node_modules/.vite/deps/chunk-47AYDC35.js?v=3e6777cb:19447:22)\n    at http://localhost:3000/node_modules/.vite/deps/chunk-47AYDC35.js?v=3e6777cb:19328:17\n"
                         },
                         {
-                          "text": "📋 Navigating to wishlist...\n"
-                        },
-                        {
-                          "text": "  API Response: 200 http://localhost:5000/api/auth/me\n"
-                        },
-                        {
-                          "text": "  API Response: 200 http://localhost:5000/api/auth/me\n"
-                        },
-                        {
-                          "text": "✓ Auth loaded from cookie\n"
-                        },
-                        {
-                          "text": "  [Browser Console] warning: [WishlistService] No user found in localStorage, using default admin\n"
-                        },
-                        {
-                          "text": "  [Browser Console] warning: [WishlistService] No user found in localStorage, using default admin\n"
-                        },
-                        {
-                          "text": "  [Browser Console] warning: [WishlistService] No user found in localStorage, using default admin\n"
-                        },
-                        {
-                          "text": "  [Browser Console] warning: [WishlistService] No user found in localStorage, using default admin\n"
-                        },
-                        {
-                          "text": "✓ User injected to localStorage: admin@kadong.com (550e8400-e29b-41d4-a716-446655440000)\n"
-                        },
-                        {
-                          "text": "🔄 Reloading page to apply localStorage changes...\n"
-                        },
-                        {
-                          "text": "  [Browser Console] error: [WishlistService] Error fetching items: Error: The requested endpoint does not exist\n    at Module.getWishlistItems (http://localhost:3000/src/features/wishlist/wishlistService.js?t=1763140190933:53:13)\n    at async fetchWishlistItems (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:63:20)\n    at async Promise.all (index 0)\n    at async loadData (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:84:7)\n"
-                        },
-                        {
-                          "text": "  [Browser Console] error: [WishlistTool] Error fetching items: Error: The requested endpoint does not exist\n    at Module.getWishlistItems (http://localhost:3000/src/features/wishlist/wishlistService.js?t=1763140190933:53:13)\n    at async fetchWishlistItems (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:63:20)\n    at async Promise.all (index 0)\n    at async loadData (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:84:7)\n"
-                        },
-                        {
-                          "text": "  [Browser Console] error: [WishlistService] Error fetching stats: Error: The requested endpoint does not exist\n    at Module.getWishlistStats (http://localhost:3000/src/features/wishlist/wishlistService.js?t=1763140190933:361:13)\n    at async fetchStats (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:75:20)\n    at async Promise.all (index 1)\n    at async loadData (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:84:7)\n"
-                        },
-                        {
-                          "text": "  [Browser Console] error: [WishlistTool] Error fetching stats: Error: The requested endpoint does not exist\n    at Module.getWishlistStats (http://localhost:3000/src/features/wishlist/wishlistService.js?t=1763140190933:361:13)\n    at async fetchStats (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:75:20)\n    at async Promise.all (index 1)\n    at async loadData (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:84:7)\n"
-                        },
-                        {
-                          "text": "  [Browser Console] error: [WishlistService] Error fetching items: Error: The requested endpoint does not exist\n    at Module.getWishlistItems (http://localhost:3000/src/features/wishlist/wishlistService.js?t=1763140190933:53:13)\n    at async fetchWishlistItems (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:63:20)\n    at async Promise.all (index 0)\n    at async loadData (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:84:7)\n"
-                        },
-                        {
-                          "text": "  [Browser Console] error: [WishlistTool] Error fetching items: Error: The requested endpoint does not exist\n    at Module.getWishlistItems (http://localhost:3000/src/features/wishlist/wishlistService.js?t=1763140190933:53:13)\n    at async fetchWishlistItems (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:63:20)\n    at async Promise.all (index 0)\n    at async loadData (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:84:7)\n"
-                        },
-                        {
-                          "text": "  [Browser Console] error: [WishlistService] Error fetching stats: Error: The requested endpoint does not exist\n    at Module.getWishlistStats (http://localhost:3000/src/features/wishlist/wishlistService.js?t=1763140190933:361:13)\n    at async fetchStats (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:75:20)\n    at async Promise.all (index 1)\n    at async loadData (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:84:7)\n"
-                        },
-                        {
-                          "text": "  [Browser Console] error: [WishlistTool] Error fetching stats: Error: The requested endpoint does not exist\n    at Module.getWishlistStats (http://localhost:3000/src/features/wishlist/wishlistService.js?t=1763140190933:361:13)\n    at async fetchStats (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:75:20)\n    at async Promise.all (index 1)\n    at async loadData (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:84:7)\n"
-                        },
-                        {
-                          "text": "  API Response: 200 http://localhost:5000/api/auth/me\n"
-                        },
-                        {
-                          "text": "  API Response: 200 http://localhost:5000/api/auth/me\n"
-                        },
-                        {
-                          "text": "  [Browser Console] error: [WishlistService] Error fetching items: Error: The requested endpoint does not exist\n    at Module.getWishlistItems (http://localhost:3000/src/features/wishlist/wishlistService.js?t=1763140190933:53:13)\n    at async fetchWishlistItems (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:63:20)\n    at async Promise.all (index 0)\n    at async loadData (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:84:7)\n"
-                        },
-                        {
-                          "text": "  [Browser Console] error: [WishlistTool] Error fetching items: Error: The requested endpoint does not exist\n    at Module.getWishlistItems (http://localhost:3000/src/features/wishlist/wishlistService.js?t=1763140190933:53:13)\n    at async fetchWishlistItems (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:63:20)\n    at async Promise.all (index 0)\n    at async loadData (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:84:7)\n"
-                        },
-                        {
-                          "text": "  [Browser Console] error: [WishlistService] Error fetching stats: Error: The requested endpoint does not exist\n    at Module.getWishlistStats (http://localhost:3000/src/features/wishlist/wishlistService.js?t=1763140190933:361:13)\n    at async fetchStats (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:75:20)\n    at async Promise.all (index 1)\n    at async loadData (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:84:7)\n"
-                        },
-                        {
-                          "text": "  [Browser Console] error: [WishlistTool] Error fetching stats: Error: The requested endpoint does not exist\n    at Module.getWishlistStats (http://localhost:3000/src/features/wishlist/wishlistService.js?t=1763140190933:361:13)\n    at async fetchStats (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:75:20)\n    at async Promise.all (index 1)\n    at async loadData (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:84:7)\n"
-                        },
-                        {
-                          "text": "  [Browser Console] error: [WishlistService] Error fetching items: Error: The requested endpoint does not exist\n    at Module.getWishlistItems (http://localhost:3000/src/features/wishlist/wishlistService.js?t=1763140190933:53:13)\n    at async fetchWishlistItems (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:63:20)\n    at async Promise.all (index 0)\n    at async loadData (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:84:7)\n"
-                        },
-                        {
-                          "text": "  [Browser Console] error: [WishlistTool] Error fetching items: Error: The requested endpoint does not exist\n    at Module.getWishlistItems (http://localhost:3000/src/features/wishlist/wishlistService.js?t=1763140190933:53:13)\n    at async fetchWishlistItems (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:63:20)\n    at async Promise.all (index 0)\n    at async loadData (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:84:7)\n"
-                        },
-                        {
-                          "text": "  [Browser Console] error: [WishlistService] Error fetching stats: Error: The requested endpoint does not exist\n    at Module.getWishlistStats (http://localhost:3000/src/features/wishlist/wishlistService.js?t=1763140190933:361:13)\n    at async fetchStats (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:75:20)\n    at async Promise.all (index 1)\n    at async loadData (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:84:7)\n"
-                        },
-                        {
-                          "text": "  [Browser Console] error: [WishlistTool] Error fetching stats: Error: The requested endpoint does not exist\n    at Module.getWishlistStats (http://localhost:3000/src/features/wishlist/wishlistService.js?t=1763140190933:361:13)\n    at async fetchStats (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:75:20)\n    at async Promise.all (index 1)\n    at async loadData (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:84:7)\n"
-                        },
-                        {
-                          "text": "✓ Page reloaded with user in localStorage\n"
-                        },
-                        {
-                          "text": "  Current URL: http://localhost:3000/wishlist\n"
-                        },
-                        {
-                          "text": "  ⚠️  No wishlist testids in HTML\n"
-                        },
-                        {
-                          "text": "⚠️  Wishlist elements not found\n"
-                        },
-                        {
-                          "text": "  Page body text (first 500 chars): \n    KaDong ToolsTiện ích cho hai chúng mình ❤️Made with loveAdmin UserĐăng xuấtCông cụ của chúng mìnhTrang chủĐiểm bắt đầuĐếm ngàyKỷ niệm & sự kiệnLịchXem lịch trìnhGhi chúLưu ý kiến & việc cần làmChuyển đổi tiềnTính toán tiền tệPhối đồChọn màu trang phụcGiá vàngXem giá vàng Việt NamThời tiếtDự báo thời tiếtWishlistDanh sách muốn muaThiệp cướiTạo link thiệp cá nhân💡 Thêm công cụ mới bất cứ lúc nào!Wishlist0 sản phẩmThêm sản phẩmLọcTất cảĐiện tửThời trangNhà cửaSáchGameLàm đẹpThể thaoĐồ chơiThự\n"
+                          "text": "❌ Login failed: page.waitForURL: Timeout 10000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation until \"load\"\n============================================================\n"
                         },
                         {
                           "text": "\n🧹 Cleaning up after test...\n"
@@ -309,7 +201,7 @@
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-11-14T17:29:02.579Z",
+                      "startTime": "2025-11-14T17:49:16.423Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -331,7 +223,7 @@
                       "errorLocation": {
                         "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\wishlist.e2e.spec.js",
                         "column": 18,
-                        "line": 129
+                        "line": 79
                       }
                     }
                   ],
@@ -340,7 +232,7 @@
               ],
               "id": "f59e22c116100367ca25-593de5a4b30be42cda30",
               "file": "e2e/wishlist.e2e.spec.js",
-              "line": 162,
+              "line": 169,
               "column": 3
             }
           ]
@@ -350,8 +242,8 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2025-11-14T17:28:58.542Z",
-    "duration": 31770.21,
+    "startTime": "2025-11-14T17:49:09.705Z",
+    "duration": 26917.951999999997,
     "expected": 0,
     "skipped": 0,
     "unexpected": 1,

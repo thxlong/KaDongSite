@@ -7,7 +7,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
-import { Gift, RefreshCw } from 'lucide-react'
+import { Gift, RefreshCw, UserPlus, Lock } from 'lucide-react'
 import {
   WishlistHeader,
   WishlistStats,
@@ -16,8 +16,14 @@ import {
   WishlistEditModal
 } from './index'
 import * as wishlistService from './wishlistService'
+import { useAuth } from '../../shared/contexts/AuthContext'
+import { useNavigate } from 'react-router-dom'
 
 const WishlistTool = () => {
+  // Auth context
+  const { isGuest } = useAuth()
+  const navigate = useNavigate()
+
   // State
   const [items, setItems] = useState([])
   const [stats, setStats] = useState(null)
@@ -34,6 +40,7 @@ const WishlistTool = () => {
   // Modals
   const [showAddModal, setShowAddModal] = useState(false)
   const [showEditModal, setShowEditModal] = useState(false)
+  const [showGuestWarning, setShowGuestWarning] = useState(false)
   const [editingItem, setEditingItem] = useState(null)
 
   // Polling
@@ -239,10 +246,14 @@ const WishlistTool = () => {
   }
 
   /**
-   * Add new item
+   * Add new item - Check if Guest user
    */
   const handleAddClick = () => {
-    setShowAddModal(true)
+    if (isGuest) {
+      setShowGuestWarning(true)
+    } else {
+      setShowAddModal(true)
+    }
   }
 
   /**
@@ -284,6 +295,7 @@ const WishlistTool = () => {
         onSortChange={setSortBy}
         onAddClick={handleAddClick}
         itemCount={items.length}
+        isGuest={isGuest}
       />
 
       {/* Refresh Button */}
@@ -348,6 +360,49 @@ const WishlistTool = () => {
         onSuccess={handleItemUpdated}
         item={editingItem}
       />
+
+      {/* Guest Warning Modal */}
+      {showGuestWarning && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-md w-full p-6"
+          >
+            <div className="text-center">
+              <div className="mx-auto w-16 h-16 bg-yellow-100 dark:bg-yellow-900/30 rounded-full flex items-center justify-center mb-4">
+                <Lock size={32} className="text-yellow-600 dark:text-yellow-400" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                Tính năng chỉ dành cho thành viên
+              </h3>
+              <p className="text-gray-600 dark:text-gray-400 mb-6">
+                Bạn cần đăng ký tài khoản để lưu wishlist vào hệ thống. Chế độ Guest không hỗ trợ lưu trữ dữ liệu lâu dài.
+              </p>
+              <div className="space-y-3">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => {
+                    setShowGuestWarning(false)
+                    navigate('/register')
+                  }}
+                  className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-shadow"
+                >
+                  <UserPlus size={20} />
+                  Đăng ký tài khoản miễn phí
+                </motion.button>
+                <button
+                  onClick={() => setShowGuestWarning(false)}
+                  className="w-full px-6 py-3 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                >
+                  Đóng
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      )}
     </div>
   )
 }

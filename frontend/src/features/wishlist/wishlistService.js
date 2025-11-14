@@ -5,7 +5,7 @@
  * @created 2025-11-12
  */
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api'
+const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000'
 
 // Helper: Get user ID from localStorage (supports both regular and guest users)
 const getUserId = () => {
@@ -46,7 +46,7 @@ export const getWishlistItems = async (params = {}) => {
       ...params
     })
 
-    const response = await fetch(`${API_BASE}/wishlist?${queryParams}`)
+    const response = await fetch(`${API_BASE}/api/wishlist?${queryParams}`)
     const data = await response.json()
 
     if (!data.success) {
@@ -67,7 +67,7 @@ export const getWishlistItems = async (params = {}) => {
  */
 export const createWishlistItem = async (itemData) => {
   try {
-    const response = await fetch(`${API_BASE}/wishlist`, {
+    const response = await fetch(`${API_BASE}/api/wishlist`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -99,7 +99,7 @@ export const createWishlistItem = async (itemData) => {
  */
 export const updateWishlistItem = async (id, itemData) => {
   try {
-    const response = await fetch(`${API_BASE}/wishlist/${id}`, {
+    const response = await fetch(`${API_BASE}/api/wishlist/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
@@ -130,7 +130,7 @@ export const updateWishlistItem = async (id, itemData) => {
  */
 export const deleteWishlistItem = async (id) => {
   try {
-    const response = await fetch(`${API_BASE}/wishlist/${id}`, {
+    const response = await fetch(`${API_BASE}/api/wishlist/${id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json'
@@ -158,7 +158,7 @@ export const deleteWishlistItem = async (id) => {
  */
 export const togglePurchased = async (id) => {
   try {
-    const response = await fetch(`${API_BASE}/wishlist/${id}/purchase`, {
+    const response = await fetch(`${API_BASE}/api/wishlist/${id}/purchase`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json'
@@ -188,7 +188,7 @@ export const togglePurchased = async (id) => {
  */
 export const heartItem = async (id) => {
   try {
-    const response = await fetch(`${API_BASE}/wishlist/${id}/heart`, {
+    const response = await fetch(`${API_BASE}/api/wishlist/${id}/heart`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -219,7 +219,7 @@ export const heartItem = async (id) => {
 export const unheartItem = async (id) => {
   try {
     const response = await fetch(
-      `${API_BASE}/wishlist/${id}/heart?user_id=${getUserId()}`,
+      `${API_BASE}/api/wishlist/${id}/heart?user_id=${getUserId()}`,
       {
         method: 'DELETE'
       }
@@ -245,7 +245,7 @@ export const unheartItem = async (id) => {
  */
 export const getComments = async (id) => {
   try {
-    const response = await fetch(`${API_BASE}/wishlist/${id}/comments`)
+    const response = await fetch(`${API_BASE}/api/wishlist/${id}/comments`)
     const data = await response.json()
 
     if (!data.success) {
@@ -267,7 +267,7 @@ export const getComments = async (id) => {
  */
 export const addComment = async (id, commentText) => {
   try {
-    const response = await fetch(`${API_BASE}/wishlist/${id}/comments`, {
+    const response = await fetch(`${API_BASE}/api/wishlist/${id}/comments`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -299,7 +299,7 @@ export const addComment = async (id, commentText) => {
  */
 export const updateComment = async (commentId, commentText) => {
   try {
-    const response = await fetch(`${API_BASE}/wishlist/comments/${commentId}`, {
+    const response = await fetch(`${API_BASE}/api/wishlist/comments/${commentId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
@@ -331,7 +331,7 @@ export const updateComment = async (commentId, commentText) => {
 export const deleteComment = async (commentId) => {
   try {
     const response = await fetch(
-      `${API_BASE}/wishlist/comments/${commentId}?user_id=${getUserId()}`,
+      `${API_BASE}/api/wishlist/comments/${commentId}?user_id=${getUserId()}`,
       {
         method: 'DELETE'
       }
@@ -354,7 +354,7 @@ export const deleteComment = async (commentId) => {
  */
 export const getWishlistStats = async () => {
   try {
-    const response = await fetch(`${API_BASE}/wishlist/stats?user_id=${getUserId()}`)
+    const response = await fetch(`${API_BASE}/api/wishlist/stats?user_id=${getUserId()}`)
     const data = await response.json()
 
     if (!data.success) {
@@ -375,7 +375,7 @@ export const getWishlistStats = async () => {
  */
 export const extractMetadata = async (url) => {
   try {
-    const response = await fetch(`${API_BASE}/wishlist/extract-metadata`, {
+    const response = await fetch(`${API_BASE}/api/wishlist/extract-metadata`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

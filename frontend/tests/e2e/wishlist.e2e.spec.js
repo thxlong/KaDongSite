@@ -47,14 +47,21 @@ test.describe('Wishlist Tool E2E', () => {
       }
     })
     
+    // Log ALL requests to see what's happening
+    page.on('request', request => {
+      if (request.url().includes('/api/wishlist')) {
+        console.log(`  📤 Request: ${request.method()} ${request.url()}`)
+      }
+    })
+    
     page.on('response', async (response) => {
       if (response.url().includes('/api/wishlist') || response.url().includes('/api/auth')) {
         console.log(`  API Response: ${response.status()} ${response.url()}`)
         
-        // Log 404 errors for debugging
-        if (response.status() === 404) {
+        // Log error responses for debugging
+        if (response.status() >= 400) {
           const body = await response.text()
-          console.log(`    404 Body: ${body}`)
+          console.log(`    Error body: ${body.substring(0, 200)}`)
         }
       }
     })
