@@ -7,10 +7,31 @@
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api'
 
-// Helper: Get user ID (temporary - should come from auth context)
+// Helper: Get user ID from localStorage (supports both regular and guest users)
 const getUserId = () => {
-  // Default user: Administrator (full permissions)
-  return '550e8400-e29b-41d4-a716-446655440000'
+  try {
+    // Try to get user from localStorage
+    const userStr = localStorage.getItem('user')
+    if (userStr) {
+      const user = JSON.parse(userStr)
+      return user.id
+    }
+    
+    // Try to get guest session
+    const guestSessionStr = localStorage.getItem('guest_session')
+    if (guestSessionStr) {
+      const guestSession = JSON.parse(guestSessionStr)
+      return guestSession.user.id
+    }
+    
+    // Fallback to default admin user for development
+    console.warn('[WishlistService] No user found in localStorage, using default admin')
+    return '550e8400-e29b-41d4-a716-446655440000'
+  } catch (error) {
+    console.error('[WishlistService] Error getting user ID:', error)
+    // Fallback to default admin user
+    return '550e8400-e29b-41d4-a716-446655440000'
+  }
 }
 
 /**

@@ -38,6 +38,36 @@ User Authentication and Management
 - Database seeding
 - Session management
 
+### [WISHLIST_SUMMARY_REPORT.md](WISHLIST_SUMMARY_REPORT.md)
+Wishlist Feature Summary Report
+- Bug fix: Data không hiển thị trên UI
+- 35 backend integration tests (95% pass rate)
+- 15 frontend E2E tests
+- Complete documentation và automation
+- ✅ Production ready
+
+### [WISHLIST_BUGFIX_SUMMARY.md](WISHLIST_BUGFIX_SUMMARY.md)
+Wishlist Bug Fix & Testing Documentation (2,500+ lines)
+- Chi tiết bug root cause và solution
+- Backend test coverage (37 tests)
+- Frontend E2E test coverage (15 tests)
+- Setup instructions và commands
+- Test results và metrics
+
+### [WISHLIST_TESTING_QUICKREF.md](WISHLIST_TESTING_QUICKREF.md)
+Wishlist Testing Quick Reference
+- Quick commands cheat sheet
+- Test results summary
+- Files modified list
+- Test coverage overview
+
+### [WISHLIST_CHANGELOG.md](WISHLIST_CHANGELOG.md)
+Wishlist Version History
+- Version 1.1.0 (2025-11-14): Bug fixes, tests, documentation
+- Version 1.0.0 (2025-11-12): Initial release
+- Breaking changes tracking
+- Migration notes
+
 ---
 
 ## 🎯 All Features Overview
@@ -69,4 +99,4 @@ User Authentication and Management
 
 ---
 
-**Last Updated:** 2025-11-13
+**Last Updated:** 2025-11-14

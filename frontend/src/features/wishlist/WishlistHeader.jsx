@@ -98,6 +98,7 @@ const WishlistHeader = ({
             whileTap={{ scale: 0.95 }}
             onClick={onAddClick}
             className="hidden md:flex items-center gap-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-shadow"
+            data-testid="add-item-button"
           >
             <Plus size={20} />
             Thêm sản phẩm

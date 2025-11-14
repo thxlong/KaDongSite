@@ -6,12 +6,21 @@
 const rateLimit = require('express-rate-limit')
 
 /**
+ * Skip rate limiting if DISABLE_RATE_LIMIT env variable is set
+ * Useful for E2E tests and development
+ */
+const shouldSkipRateLimit = (req) => {
+  return process.env.DISABLE_RATE_LIMIT === 'true'
+}
+
+/**
  * Rate limiter for login endpoint
  * 5 requests per 15 minutes per IP
  */
 const loginLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 5, // Max 5 requests per window
+  skip: shouldSkipRateLimit, // Skip when DISABLE_RATE_LIMIT=true
   message: {
     success: false,
     error: {
@@ -42,6 +51,7 @@ const loginLimiter = rateLimit({
 const registerLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 3, // Max 3 requests per window
+  skip: shouldSkipRateLimit, // Skip when DISABLE_RATE_LIMIT=true
   message: {
     success: false,
     error: {
@@ -71,6 +81,7 @@ const registerLimiter = rateLimit({
 const forgotPasswordLimiter = rateLimit({
   windowMs: 60 * 60 * 1000, // 1 hour
   max: 3, // Max 3 requests per hour
+  skip: shouldSkipRateLimit, // Skip when DISABLE_RATE_LIMIT=true
   message: {
     success: false,
     error: {
@@ -100,6 +111,7 @@ const forgotPasswordLimiter = rateLimit({
 const generalLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100, // Max 100 requests per window
+  skip: shouldSkipRateLimit, // Skip when DISABLE_RATE_LIMIT=true
   message: {
     success: false,
     error: {

@@ -14,14 +14,14 @@ const pool = new pkg.Pool({
 
 const testPassword = async () => {
   try {
-    // Get user
+    // Get admin user
     const result = await pool.query(
       'SELECT email, password_hash FROM users WHERE email = $1',
-      ['user@kadong.com']
+      ['admin@kadong.com']
     )
     
     if (result.rows.length === 0) {
-      console.log('User not found')
+      console.log('Admin user not found')
       return
     }
     
@@ -29,12 +29,14 @@ const testPassword = async () => {
     console.log('Email:', user.email)
     console.log('Password hash:', user.password_hash)
     
-    // Test password
-    const testPass = 'KaDong2024!'
-    console.log('\nTesting password:', testPass)
+    // Test multiple passwords
+    const passwords = ['admin123', 'Admin123', 'KaDong2024!', 'admin']
     
-    const isMatch = await bcrypt.compare(testPass, user.password_hash)
-    console.log('Password match:', isMatch)
+    for (const testPass of passwords) {
+      console.log(`\nTesting password: "${testPass}"`)
+      const isMatch = await bcrypt.compare(testPass, user.password_hash)
+      console.log(`  Match: ${isMatch}`)
+    }
     
   } catch (error) {
     console.error('Error:', error.message)

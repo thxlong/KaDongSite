@@ -69,7 +69,9 @@ const WishlistTool = () => {
       }
 
       const data = await wishlistService.getWishlistItems(params)
-      setItems(data.items || [])
+      // API returns {items: [...], pagination: {...}}
+      const items = data?.items || []
+      setItems(items)
       setLastUpdate(new Date())
       setError(null)
     } catch (err) {

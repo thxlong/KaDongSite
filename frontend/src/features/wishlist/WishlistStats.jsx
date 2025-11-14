@@ -93,7 +93,7 @@ const WishlistStats = ({ stats, loading }) => {
   const topHearted = stats.top_hearted || []
 
   return (
-    <div className="container mx-auto px-4 py-6">
+    <div className="container mx-auto px-4 py-6" data-testid="wishlist-stats">
       {/* Main Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <StatCard

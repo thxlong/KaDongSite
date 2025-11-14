@@ -58,6 +58,12 @@ const commentLimiter = rateLimit({
 // Apply general rate limiter to all routes
 router.use(generalLimiter)
 
+// URL metadata extraction (must be before /:id routes)
+router.post('/extract-metadata', wishlistController.extractUrlMetadata)
+
+// Stats (must be before /:id routes)
+router.get('/stats', wishlistController.getStats)
+
 // Wishlist items CRUD
 router.get('/', wishlistController.getWishlistItems)
 router.post('/', wishlistController.createWishlistItem)
@@ -76,11 +82,5 @@ router.get('/:id/comments', wishlistController.getComments)
 router.post('/:id/comments', commentLimiter, wishlistController.addComment)
 router.put('/comments/:comment_id', wishlistController.updateComment)
 router.delete('/comments/:comment_id', wishlistController.deleteComment)
-
-// Stats
-router.get('/stats', wishlistController.getStats)
-
-// URL metadata extraction
-router.post('/extract-metadata', wishlistController.extractUrlMetadata)
 
 export default router

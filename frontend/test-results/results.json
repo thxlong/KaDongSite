@@ -11,7 +11,7 @@
     "grepInvert": null,
     "maxFailures": 0,
     "metadata": {
-      "actualWorkers": 6
+      "actualWorkers": 1
     },
     "preserveOutput": "always",
     "reporter": [
@@ -44,10 +44,10 @@
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 6
+          "actualWorkers": 1
         },
-        "id": "chromium-e2e",
-        "name": "chromium-e2e",
+        "id": "chrome-e2e",
+        "name": "chrome-e2e",
         "testDir": "C:/Projects/Personal/KaDongSite/frontend/tests",
         "testIgnore": [],
         "testMatch": [
@@ -60,39 +60,7 @@
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 6
-        },
-        "id": "firefox-e2e",
-        "name": "firefox-e2e",
-        "testDir": "C:/Projects/Personal/KaDongSite/frontend/tests",
-        "testIgnore": [],
-        "testMatch": [
-          "/.*\\.e2e\\.spec\\.js/"
-        ],
-        "timeout": 30000
-      },
-      {
-        "outputDir": "C:/Projects/Personal/KaDongSite/frontend/test-results",
-        "repeatEach": 1,
-        "retries": 0,
-        "metadata": {
-          "actualWorkers": 6
-        },
-        "id": "webkit-e2e",
-        "name": "webkit-e2e",
-        "testDir": "C:/Projects/Personal/KaDongSite/frontend/tests",
-        "testIgnore": [],
-        "testMatch": [
-          "/.*\\.e2e\\.spec\\.js/"
-        ],
-        "timeout": 30000
-      },
-      {
-        "outputDir": "C:/Projects/Personal/KaDongSite/frontend/test-results",
-        "repeatEach": 1,
-        "retries": 0,
-        "metadata": {
-          "actualWorkers": 6
+          "actualWorkers": 1
         },
         "id": "mobile-chrome",
         "name": "mobile-chrome",
@@ -108,7 +76,7 @@
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 6
+          "actualWorkers": 1
         },
         "id": "mobile-safari",
         "name": "mobile-safari",
@@ -124,7 +92,7 @@
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 6
+          "actualWorkers": 1
         },
         "id": "component-tests",
         "name": "component-tests",
@@ -150,20 +118,20 @@
   },
   "suites": [
     {
-      "title": "e2e\\logout-button.e2e.spec.js",
-      "file": "e2e/logout-button.e2e.spec.js",
+      "title": "e2e\\wishlist.e2e.spec.js",
+      "file": "e2e/wishlist.e2e.spec.js",
       "column": 0,
       "line": 0,
       "specs": [],
       "suites": [
         {
-          "title": "Logout Button in Header",
-          "file": "e2e/logout-button.e2e.spec.js",
-          "line": 9,
+          "title": "Wishlist Tool E2E",
+          "file": "e2e/wishlist.e2e.spec.js",
+          "line": 16,
           "column": 6,
           "specs": [
             {
-              "title": "should display logout button when authenticated",
+              "title": "should load wishlist page and display data",
               "ok": false,
               "tags": [],
               "tests": [
@@ -171,598 +139,208 @@
                   "timeout": 30000,
                   "annotations": [],
                   "expectedStatus": "passed",
-                  "projectId": "chromium-e2e",
-                  "projectName": "chromium-e2e",
+                  "projectId": "chrome-e2e",
+                  "projectName": "chrome-e2e",
                   "results": [
                     {
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "failed",
-                      "duration": 18338,
+                      "duration": 23617,
                       "error": {
-                        "message": "TimeoutError: page.waitForURL: Timeout 5000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation to \"http://localhost:3000/\" until \"load\"\n============================================================",
-                        "stack": "TimeoutError: page.waitForURL: Timeout 5000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation to \"http://localhost:3000/\" until \"load\"\n============================================================\n    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\logout-button.e2e.spec.js:18:16",
+                        "message": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-testid=\"wishlist-stats\"], [data-testid=\"wishlist-grid\"], [data-testid=\"wishlist-empty\"]') to be visible\u001b[22m\n",
+                        "stack": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-testid=\"wishlist-stats\"], [data-testid=\"wishlist-grid\"], [data-testid=\"wishlist-empty\"]') to be visible\u001b[22m\n\n    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\wishlist.e2e.spec.js:129:18",
                         "location": {
-                          "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\logout-button.e2e.spec.js",
-                          "column": 16,
-                          "line": 18
+                          "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\wishlist.e2e.spec.js",
+                          "column": 18,
+                          "line": 129
                         },
-                        "snippet": "\u001b[0m \u001b[90m 16 |\u001b[39m     \n \u001b[90m 17 |\u001b[39m     \u001b[90m// Wait for redirect to home\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 18 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForURL(\u001b[32m'http://localhost:3000/'\u001b[39m\u001b[33m,\u001b[39m { timeout\u001b[33m:\u001b[39m \u001b[35m5000\u001b[39m })\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 19 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m1000\u001b[39m) \u001b[90m// Wait for auth state to settle\u001b[39m\n \u001b[90m 20 |\u001b[39m   })\n \u001b[90m 21 |\u001b[39m\u001b[0m"
+                        "snippet": "\u001b[0m \u001b[90m 127 |\u001b[39m     \u001b[90m// Wait for wishlist to load (either stats, grid, or empty state)\u001b[39m\n \u001b[90m 128 |\u001b[39m     \u001b[36mtry\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 129 |\u001b[39m       \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForSelector(\u001b[32m'[data-testid=\"wishlist-stats\"], [data-testid=\"wishlist-grid\"], [data-testid=\"wishlist-empty\"]'\u001b[39m\u001b[33m,\u001b[39m {\n \u001b[90m     |\u001b[39m                  \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 130 |\u001b[39m         timeout\u001b[33m:\u001b[39m \u001b[35m15000\u001b[39m\n \u001b[90m 131 |\u001b[39m       })\n \u001b[90m 132 |\u001b[39m       console\u001b[33m.\u001b[39mlog(\u001b[32m'✓ Wishlist loaded\\n'\u001b[39m)\u001b[0m"
                       },
                       "errors": [
                         {
                           "location": {
-                            "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\logout-button.e2e.spec.js",
-                            "column": 16,
-                            "line": 18
+                            "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\wishlist.e2e.spec.js",
+                            "column": 18,
+                            "line": 129
                           },
-                          "message": "TimeoutError: page.waitForURL: Timeout 5000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation to \"http://localhost:3000/\" until \"load\"\n============================================================\n\n\u001b[0m \u001b[90m 16 |\u001b[39m     \n \u001b[90m 17 |\u001b[39m     \u001b[90m// Wait for redirect to home\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 18 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForURL(\u001b[32m'http://localhost:3000/'\u001b[39m\u001b[33m,\u001b[39m { timeout\u001b[33m:\u001b[39m \u001b[35m5000\u001b[39m })\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 19 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m1000\u001b[39m) \u001b[90m// Wait for auth state to settle\u001b[39m\n \u001b[90m 20 |\u001b[39m   })\n \u001b[90m 21 |\u001b[39m\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\logout-button.e2e.spec.js:18:16\u001b[22m"
+                          "message": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-testid=\"wishlist-stats\"], [data-testid=\"wishlist-grid\"], [data-testid=\"wishlist-empty\"]') to be visible\u001b[22m\n\n\n\u001b[0m \u001b[90m 127 |\u001b[39m     \u001b[90m// Wait for wishlist to load (either stats, grid, or empty state)\u001b[39m\n \u001b[90m 128 |\u001b[39m     \u001b[36mtry\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 129 |\u001b[39m       \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForSelector(\u001b[32m'[data-testid=\"wishlist-stats\"], [data-testid=\"wishlist-grid\"], [data-testid=\"wishlist-empty\"]'\u001b[39m\u001b[33m,\u001b[39m {\n \u001b[90m     |\u001b[39m                  \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 130 |\u001b[39m         timeout\u001b[33m:\u001b[39m \u001b[35m15000\u001b[39m\n \u001b[90m 131 |\u001b[39m       })\n \u001b[90m 132 |\u001b[39m       console\u001b[33m.\u001b[39mlog(\u001b[32m'✓ Wishlist loaded\\n'\u001b[39m)\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\wishlist.e2e.spec.js:129:18\u001b[22m"
                         }
                       ],
-                      "stdout": [],
+                      "stdout": [
+                        {
+                          "text": "\n🔄 Starting fresh test with new profile...\n"
+                        },
+                        {
+                          "text": "✓ Fresh profile created\n"
+                        },
+                        {
+                          "text": "🔐 Logging in with real user for E2E testing...\n"
+                        },
+                        {
+                          "text": "  API Response: 401 http://localhost:5000/api/auth/me\n"
+                        },
+                        {
+                          "text": "  API Response: 401 http://localhost:5000/api/auth/me\n"
+                        },
+                        {
+                          "text": "  [Browser Console] error: Get current user error: Error: Authentication token required\n    at Module.getCurrentUser (http://localhost:3000/src/shared/services/authService.js:108:13)\n    at async http://localhost:3000/src/shared/contexts/AuthContext.jsx:38:24\n"
+                        },
+                        {
+                          "text": "  [Browser Console] error: Get current user error: Error: Authentication token required\n    at Module.getCurrentUser (http://localhost:3000/src/shared/services/authService.js:108:13)\n    at async http://localhost:3000/src/shared/contexts/AuthContext.jsx:38:24\n"
+                        },
+                        {
+                          "text": "📧 Filled credentials: admin@kadong.com\n"
+                        },
+                        {
+                          "text": "  API Response: 200 http://localhost:5000/api/auth/login\n"
+                        },
+                        {
+                          "text": "✓ Login successful, redirected to /tools\n"
+                        },
+                        {
+                          "text": "  (Auth stored in httpOnly cookie, will be verified on next page)\n"
+                        },
+                        {
+                          "text": "📋 Navigating to wishlist...\n"
+                        },
+                        {
+                          "text": "  API Response: 200 http://localhost:5000/api/auth/me\n"
+                        },
+                        {
+                          "text": "  API Response: 200 http://localhost:5000/api/auth/me\n"
+                        },
+                        {
+                          "text": "✓ Auth loaded from cookie\n"
+                        },
+                        {
+                          "text": "  [Browser Console] warning: [WishlistService] No user found in localStorage, using default admin\n"
+                        },
+                        {
+                          "text": "  [Browser Console] warning: [WishlistService] No user found in localStorage, using default admin\n"
+                        },
+                        {
+                          "text": "  [Browser Console] warning: [WishlistService] No user found in localStorage, using default admin\n"
+                        },
+                        {
+                          "text": "  [Browser Console] warning: [WishlistService] No user found in localStorage, using default admin\n"
+                        },
+                        {
+                          "text": "✓ User injected to localStorage: admin@kadong.com (550e8400-e29b-41d4-a716-446655440000)\n"
+                        },
+                        {
+                          "text": "🔄 Reloading page to apply localStorage changes...\n"
+                        },
+                        {
+                          "text": "  [Browser Console] error: [WishlistService] Error fetching items: Error: The requested endpoint does not exist\n    at Module.getWishlistItems (http://localhost:3000/src/features/wishlist/wishlistService.js?t=1763140190933:53:13)\n    at async fetchWishlistItems (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:63:20)\n    at async Promise.all (index 0)\n    at async loadData (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:84:7)\n"
+                        },
+                        {
+                          "text": "  [Browser Console] error: [WishlistTool] Error fetching items: Error: The requested endpoint does not exist\n    at Module.getWishlistItems (http://localhost:3000/src/features/wishlist/wishlistService.js?t=1763140190933:53:13)\n    at async fetchWishlistItems (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:63:20)\n    at async Promise.all (index 0)\n    at async loadData (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:84:7)\n"
+                        },
+                        {
+                          "text": "  [Browser Console] error: [WishlistService] Error fetching stats: Error: The requested endpoint does not exist\n    at Module.getWishlistStats (http://localhost:3000/src/features/wishlist/wishlistService.js?t=1763140190933:361:13)\n    at async fetchStats (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:75:20)\n    at async Promise.all (index 1)\n    at async loadData (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:84:7)\n"
+                        },
+                        {
+                          "text": "  [Browser Console] error: [WishlistTool] Error fetching stats: Error: The requested endpoint does not exist\n    at Module.getWishlistStats (http://localhost:3000/src/features/wishlist/wishlistService.js?t=1763140190933:361:13)\n    at async fetchStats (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:75:20)\n    at async Promise.all (index 1)\n    at async loadData (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:84:7)\n"
+                        },
+                        {
+                          "text": "  [Browser Console] error: [WishlistService] Error fetching items: Error: The requested endpoint does not exist\n    at Module.getWishlistItems (http://localhost:3000/src/features/wishlist/wishlistService.js?t=1763140190933:53:13)\n    at async fetchWishlistItems (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:63:20)\n    at async Promise.all (index 0)\n    at async loadData (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:84:7)\n"
+                        },
+                        {
+                          "text": "  [Browser Console] error: [WishlistTool] Error fetching items: Error: The requested endpoint does not exist\n    at Module.getWishlistItems (http://localhost:3000/src/features/wishlist/wishlistService.js?t=1763140190933:53:13)\n    at async fetchWishlistItems (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:63:20)\n    at async Promise.all (index 0)\n    at async loadData (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:84:7)\n"
+                        },
+                        {
+                          "text": "  [Browser Console] error: [WishlistService] Error fetching stats: Error: The requested endpoint does not exist\n    at Module.getWishlistStats (http://localhost:3000/src/features/wishlist/wishlistService.js?t=1763140190933:361:13)\n    at async fetchStats (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:75:20)\n    at async Promise.all (index 1)\n    at async loadData (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:84:7)\n"
+                        },
+                        {
+                          "text": "  [Browser Console] error: [WishlistTool] Error fetching stats: Error: The requested endpoint does not exist\n    at Module.getWishlistStats (http://localhost:3000/src/features/wishlist/wishlistService.js?t=1763140190933:361:13)\n    at async fetchStats (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:75:20)\n    at async Promise.all (index 1)\n    at async loadData (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:84:7)\n"
+                        },
+                        {
+                          "text": "  API Response: 200 http://localhost:5000/api/auth/me\n"
+                        },
+                        {
+                          "text": "  API Response: 200 http://localhost:5000/api/auth/me\n"
+                        },
+                        {
+                          "text": "  [Browser Console] error: [WishlistService] Error fetching items: Error: The requested endpoint does not exist\n    at Module.getWishlistItems (http://localhost:3000/src/features/wishlist/wishlistService.js?t=1763140190933:53:13)\n    at async fetchWishlistItems (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:63:20)\n    at async Promise.all (index 0)\n    at async loadData (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:84:7)\n"
+                        },
+                        {
+                          "text": "  [Browser Console] error: [WishlistTool] Error fetching items: Error: The requested endpoint does not exist\n    at Module.getWishlistItems (http://localhost:3000/src/features/wishlist/wishlistService.js?t=1763140190933:53:13)\n    at async fetchWishlistItems (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:63:20)\n    at async Promise.all (index 0)\n    at async loadData (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:84:7)\n"
+                        },
+                        {
+                          "text": "  [Browser Console] error: [WishlistService] Error fetching stats: Error: The requested endpoint does not exist\n    at Module.getWishlistStats (http://localhost:3000/src/features/wishlist/wishlistService.js?t=1763140190933:361:13)\n    at async fetchStats (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:75:20)\n    at async Promise.all (index 1)\n    at async loadData (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:84:7)\n"
+                        },
+                        {
+                          "text": "  [Browser Console] error: [WishlistTool] Error fetching stats: Error: The requested endpoint does not exist\n    at Module.getWishlistStats (http://localhost:3000/src/features/wishlist/wishlistService.js?t=1763140190933:361:13)\n    at async fetchStats (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:75:20)\n    at async Promise.all (index 1)\n    at async loadData (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:84:7)\n"
+                        },
+                        {
+                          "text": "  [Browser Console] error: [WishlistService] Error fetching items: Error: The requested endpoint does not exist\n    at Module.getWishlistItems (http://localhost:3000/src/features/wishlist/wishlistService.js?t=1763140190933:53:13)\n    at async fetchWishlistItems (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:63:20)\n    at async Promise.all (index 0)\n    at async loadData (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:84:7)\n"
+                        },
+                        {
+                          "text": "  [Browser Console] error: [WishlistTool] Error fetching items: Error: The requested endpoint does not exist\n    at Module.getWishlistItems (http://localhost:3000/src/features/wishlist/wishlistService.js?t=1763140190933:53:13)\n    at async fetchWishlistItems (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:63:20)\n    at async Promise.all (index 0)\n    at async loadData (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:84:7)\n"
+                        },
+                        {
+                          "text": "  [Browser Console] error: [WishlistService] Error fetching stats: Error: The requested endpoint does not exist\n    at Module.getWishlistStats (http://localhost:3000/src/features/wishlist/wishlistService.js?t=1763140190933:361:13)\n    at async fetchStats (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:75:20)\n    at async Promise.all (index 1)\n    at async loadData (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:84:7)\n"
+                        },
+                        {
+                          "text": "  [Browser Console] error: [WishlistTool] Error fetching stats: Error: The requested endpoint does not exist\n    at Module.getWishlistStats (http://localhost:3000/src/features/wishlist/wishlistService.js?t=1763140190933:361:13)\n    at async fetchStats (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:75:20)\n    at async Promise.all (index 1)\n    at async loadData (http://localhost:3000/src/features/wishlist/WishlistPage.jsx?t=1763140190933:84:7)\n"
+                        },
+                        {
+                          "text": "✓ Page reloaded with user in localStorage\n"
+                        },
+                        {
+                          "text": "  Current URL: http://localhost:3000/wishlist\n"
+                        },
+                        {
+                          "text": "  ⚠️  No wishlist testids in HTML\n"
+                        },
+                        {
+                          "text": "⚠️  Wishlist elements not found\n"
+                        },
+                        {
+                          "text": "  Page body text (first 500 chars): \n    KaDong ToolsTiện ích cho hai chúng mình ❤️Made with loveAdmin UserĐăng xuấtCông cụ của chúng mìnhTrang chủĐiểm bắt đầuĐếm ngàyKỷ niệm & sự kiệnLịchXem lịch trìnhGhi chúLưu ý kiến & việc cần làmChuyển đổi tiềnTính toán tiền tệPhối đồChọn màu trang phụcGiá vàngXem giá vàng Việt NamThời tiếtDự báo thời tiếtWishlistDanh sách muốn muaThiệp cướiTạo link thiệp cá nhân💡 Thêm công cụ mới bất cứ lúc nào!Wishlist0 sản phẩmThêm sản phẩmLọcTất cảĐiện tửThời trangNhà cửaSáchGameLàm đẹpThể thaoĐồ chơiThự\n"
+                        },
+                        {
+                          "text": "\n🧹 Cleaning up after test...\n"
+                        },
+                        {
+                          "text": "✓ Cleanup complete - No session persists\n\n"
+                        }
+                      ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-11-14T10:05:15.410Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Projects\\Personal\\KaDongSite\\frontend\\test-results\\e2e-logout-button.e2e-Logo-ba9c9-t-button-when-authenticated-chromium-e2e\\video.webm"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "C:\\Projects\\Personal\\KaDongSite\\frontend\\test-results\\e2e-logout-button.e2e-Logo-ba9c9-t-button-when-authenticated-chromium-e2e\\error-context.md"
-                        }
-                      ],
-                      "errorLocation": {
-                        "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\logout-button.e2e.spec.js",
-                        "column": 16,
-                        "line": 18
-                      }
-                    }
-                  ],
-                  "status": "unexpected"
-                }
-              ],
-              "id": "79d3737f8c376b51c7a9-fa88ad7fc9af3686d3c6",
-              "file": "e2e/logout-button.e2e.spec.js",
-              "line": 22,
-              "column": 3
-            },
-            {
-              "title": "should show confirmation dialog when clicking logout",
-              "ok": false,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium-e2e",
-                  "projectName": "chromium-e2e",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
-                      "status": "failed",
-                      "duration": 12758,
-                      "error": {
-                        "message": "TimeoutError: page.waitForURL: Timeout 5000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation to \"http://localhost:3000/\" until \"load\"\n============================================================",
-                        "stack": "TimeoutError: page.waitForURL: Timeout 5000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation to \"http://localhost:3000/\" until \"load\"\n============================================================\n    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\logout-button.e2e.spec.js:18:16",
-                        "location": {
-                          "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\logout-button.e2e.spec.js",
-                          "column": 16,
-                          "line": 18
-                        },
-                        "snippet": "\u001b[0m \u001b[90m 16 |\u001b[39m     \n \u001b[90m 17 |\u001b[39m     \u001b[90m// Wait for redirect to home\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 18 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForURL(\u001b[32m'http://localhost:3000/'\u001b[39m\u001b[33m,\u001b[39m { timeout\u001b[33m:\u001b[39m \u001b[35m5000\u001b[39m })\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 19 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m1000\u001b[39m) \u001b[90m// Wait for auth state to settle\u001b[39m\n \u001b[90m 20 |\u001b[39m   })\n \u001b[90m 21 |\u001b[39m\u001b[0m"
-                      },
-                      "errors": [
-                        {
-                          "location": {
-                            "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\logout-button.e2e.spec.js",
-                            "column": 16,
-                            "line": 18
-                          },
-                          "message": "TimeoutError: page.waitForURL: Timeout 5000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation to \"http://localhost:3000/\" until \"load\"\n============================================================\n\n\u001b[0m \u001b[90m 16 |\u001b[39m     \n \u001b[90m 17 |\u001b[39m     \u001b[90m// Wait for redirect to home\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 18 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForURL(\u001b[32m'http://localhost:3000/'\u001b[39m\u001b[33m,\u001b[39m { timeout\u001b[33m:\u001b[39m \u001b[35m5000\u001b[39m })\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 19 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m1000\u001b[39m) \u001b[90m// Wait for auth state to settle\u001b[39m\n \u001b[90m 20 |\u001b[39m   })\n \u001b[90m 21 |\u001b[39m\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\logout-button.e2e.spec.js:18:16\u001b[22m"
-                        }
-                      ],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-11-14T10:05:15.499Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "C:\\Projects\\Personal\\KaDongSite\\frontend\\test-results\\e2e-logout-button.e2e-Logo-cd63f-dialog-when-clicking-logout-chromium-e2e\\test-failed-1.png"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Projects\\Personal\\KaDongSite\\frontend\\test-results\\e2e-logout-button.e2e-Logo-cd63f-dialog-when-clicking-logout-chromium-e2e\\video.webm"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "C:\\Projects\\Personal\\KaDongSite\\frontend\\test-results\\e2e-logout-button.e2e-Logo-cd63f-dialog-when-clicking-logout-chromium-e2e\\error-context.md"
-                        }
-                      ],
-                      "errorLocation": {
-                        "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\logout-button.e2e.spec.js",
-                        "column": 16,
-                        "line": 18
-                      }
-                    }
-                  ],
-                  "status": "unexpected"
-                }
-              ],
-              "id": "79d3737f8c376b51c7a9-8d5068ee4b1baf5f547e",
-              "file": "e2e/logout-button.e2e.spec.js",
-              "line": 32,
-              "column": 3
-            },
-            {
-              "title": "should cancel logout when clicking Hủy",
-              "ok": false,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium-e2e",
-                  "projectName": "chromium-e2e",
-                  "results": [
-                    {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
-                      "status": "failed",
-                      "duration": 17933,
-                      "error": {
-                        "message": "TimeoutError: page.waitForURL: Timeout 5000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation to \"http://localhost:3000/\" until \"load\"\n============================================================",
-                        "stack": "TimeoutError: page.waitForURL: Timeout 5000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation to \"http://localhost:3000/\" until \"load\"\n============================================================\n    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\logout-button.e2e.spec.js:18:16",
-                        "location": {
-                          "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\logout-button.e2e.spec.js",
-                          "column": 16,
-                          "line": 18
-                        },
-                        "snippet": "\u001b[0m \u001b[90m 16 |\u001b[39m     \n \u001b[90m 17 |\u001b[39m     \u001b[90m// Wait for redirect to home\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 18 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForURL(\u001b[32m'http://localhost:3000/'\u001b[39m\u001b[33m,\u001b[39m { timeout\u001b[33m:\u001b[39m \u001b[35m5000\u001b[39m })\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 19 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m1000\u001b[39m) \u001b[90m// Wait for auth state to settle\u001b[39m\n \u001b[90m 20 |\u001b[39m   })\n \u001b[90m 21 |\u001b[39m\u001b[0m"
-                      },
-                      "errors": [
-                        {
-                          "location": {
-                            "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\logout-button.e2e.spec.js",
-                            "column": 16,
-                            "line": 18
-                          },
-                          "message": "TimeoutError: page.waitForURL: Timeout 5000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation to \"http://localhost:3000/\" until \"load\"\n============================================================\n\n\u001b[0m \u001b[90m 16 |\u001b[39m     \n \u001b[90m 17 |\u001b[39m     \u001b[90m// Wait for redirect to home\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 18 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForURL(\u001b[32m'http://localhost:3000/'\u001b[39m\u001b[33m,\u001b[39m { timeout\u001b[33m:\u001b[39m \u001b[35m5000\u001b[39m })\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 19 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m1000\u001b[39m) \u001b[90m// Wait for auth state to settle\u001b[39m\n \u001b[90m 20 |\u001b[39m   })\n \u001b[90m 21 |\u001b[39m\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\logout-button.e2e.spec.js:18:16\u001b[22m"
-                        }
-                      ],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-11-14T10:05:15.548Z",
+                      "startTime": "2025-11-14T17:29:02.579Z",
                       "annotations": [],
                       "attachments": [
                         {
                           "name": "screenshot",
                           "contentType": "image/png",
-                          "path": "C:\\Projects\\Personal\\KaDongSite\\frontend\\test-results\\e2e-logout-button.e2e-Logo-9dc80-el-logout-when-clicking-Hủy-chromium-e2e\\test-failed-1.png"
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\frontend\\test-results\\e2e-wishlist.e2e-Wishlist--23f53-hlist-page-and-display-data-chrome-e2e\\test-failed-1.png"
                         },
                         {
                           "name": "video",
                           "contentType": "video/webm",
-                          "path": "C:\\Projects\\Personal\\KaDongSite\\frontend\\test-results\\e2e-logout-button.e2e-Logo-9dc80-el-logout-when-clicking-Hủy-chromium-e2e\\video.webm"
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\frontend\\test-results\\e2e-wishlist.e2e-Wishlist--23f53-hlist-page-and-display-data-chrome-e2e\\video.webm"
                         },
                         {
                           "name": "error-context",
                           "contentType": "text/markdown",
-                          "path": "C:\\Projects\\Personal\\KaDongSite\\frontend\\test-results\\e2e-logout-button.e2e-Logo-9dc80-el-logout-when-clicking-Hủy-chromium-e2e\\error-context.md"
+                          "path": "C:\\Projects\\Personal\\KaDongSite\\frontend\\test-results\\e2e-wishlist.e2e-Wishlist--23f53-hlist-page-and-display-data-chrome-e2e\\error-context.md"
                         }
                       ],
                       "errorLocation": {
-                        "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\logout-button.e2e.spec.js",
-                        "column": 16,
-                        "line": 18
+                        "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\wishlist.e2e.spec.js",
+                        "column": 18,
+                        "line": 129
                       }
                     }
                   ],
                   "status": "unexpected"
                 }
               ],
-              "id": "79d3737f8c376b51c7a9-8b1df46284f94e7999b9",
-              "file": "e2e/logout-button.e2e.spec.js",
-              "line": 45,
-              "column": 3
-            },
-            {
-              "title": "should logout successfully when confirming",
-              "ok": false,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium-e2e",
-                  "projectName": "chromium-e2e",
-                  "results": [
-                    {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
-                      "status": "failed",
-                      "duration": 16819,
-                      "error": {
-                        "message": "TimeoutError: page.waitForURL: Timeout 5000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation to \"http://localhost:3000/\" until \"load\"\n============================================================",
-                        "stack": "TimeoutError: page.waitForURL: Timeout 5000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation to \"http://localhost:3000/\" until \"load\"\n============================================================\n    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\logout-button.e2e.spec.js:18:16",
-                        "location": {
-                          "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\logout-button.e2e.spec.js",
-                          "column": 16,
-                          "line": 18
-                        },
-                        "snippet": "\u001b[0m \u001b[90m 16 |\u001b[39m     \n \u001b[90m 17 |\u001b[39m     \u001b[90m// Wait for redirect to home\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 18 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForURL(\u001b[32m'http://localhost:3000/'\u001b[39m\u001b[33m,\u001b[39m { timeout\u001b[33m:\u001b[39m \u001b[35m5000\u001b[39m })\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 19 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m1000\u001b[39m) \u001b[90m// Wait for auth state to settle\u001b[39m\n \u001b[90m 20 |\u001b[39m   })\n \u001b[90m 21 |\u001b[39m\u001b[0m"
-                      },
-                      "errors": [
-                        {
-                          "location": {
-                            "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\logout-button.e2e.spec.js",
-                            "column": 16,
-                            "line": 18
-                          },
-                          "message": "TimeoutError: page.waitForURL: Timeout 5000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation to \"http://localhost:3000/\" until \"load\"\n============================================================\n\n\u001b[0m \u001b[90m 16 |\u001b[39m     \n \u001b[90m 17 |\u001b[39m     \u001b[90m// Wait for redirect to home\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 18 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForURL(\u001b[32m'http://localhost:3000/'\u001b[39m\u001b[33m,\u001b[39m { timeout\u001b[33m:\u001b[39m \u001b[35m5000\u001b[39m })\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 19 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m1000\u001b[39m) \u001b[90m// Wait for auth state to settle\u001b[39m\n \u001b[90m 20 |\u001b[39m   })\n \u001b[90m 21 |\u001b[39m\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\logout-button.e2e.spec.js:18:16\u001b[22m"
-                        }
-                      ],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-11-14T10:05:15.375Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "C:\\Projects\\Personal\\KaDongSite\\frontend\\test-results\\e2e-logout-button.e2e-Logo-b6ba7-uccessfully-when-confirming-chromium-e2e\\test-failed-1.png"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Projects\\Personal\\KaDongSite\\frontend\\test-results\\e2e-logout-button.e2e-Logo-b6ba7-uccessfully-when-confirming-chromium-e2e\\video.webm"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "C:\\Projects\\Personal\\KaDongSite\\frontend\\test-results\\e2e-logout-button.e2e-Logo-b6ba7-uccessfully-when-confirming-chromium-e2e\\error-context.md"
-                        }
-                      ],
-                      "errorLocation": {
-                        "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\logout-button.e2e.spec.js",
-                        "column": 16,
-                        "line": 18
-                      }
-                    }
-                  ],
-                  "status": "unexpected"
-                }
-              ],
-              "id": "79d3737f8c376b51c7a9-ffa3e39cb3e28d62e050",
-              "file": "e2e/logout-button.e2e.spec.js",
-              "line": 63,
-              "column": 3
-            },
-            {
-              "title": "should show loading state during logout",
-              "ok": false,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium-e2e",
-                  "projectName": "chromium-e2e",
-                  "results": [
-                    {
-                      "workerIndex": 4,
-                      "parallelIndex": 4,
-                      "status": "failed",
-                      "duration": 14076,
-                      "error": {
-                        "message": "TimeoutError: page.waitForURL: Timeout 5000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation to \"http://localhost:3000/\" until \"load\"\n  navigated to \"http://localhost:3000/tools\"\n============================================================",
-                        "stack": "TimeoutError: page.waitForURL: Timeout 5000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation to \"http://localhost:3000/\" until \"load\"\n  navigated to \"http://localhost:3000/tools\"\n============================================================\n    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\logout-button.e2e.spec.js:18:16",
-                        "location": {
-                          "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\logout-button.e2e.spec.js",
-                          "column": 16,
-                          "line": 18
-                        },
-                        "snippet": "\u001b[0m \u001b[90m 16 |\u001b[39m     \n \u001b[90m 17 |\u001b[39m     \u001b[90m// Wait for redirect to home\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 18 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForURL(\u001b[32m'http://localhost:3000/'\u001b[39m\u001b[33m,\u001b[39m { timeout\u001b[33m:\u001b[39m \u001b[35m5000\u001b[39m })\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 19 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m1000\u001b[39m) \u001b[90m// Wait for auth state to settle\u001b[39m\n \u001b[90m 20 |\u001b[39m   })\n \u001b[90m 21 |\u001b[39m\u001b[0m"
-                      },
-                      "errors": [
-                        {
-                          "location": {
-                            "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\logout-button.e2e.spec.js",
-                            "column": 16,
-                            "line": 18
-                          },
-                          "message": "TimeoutError: page.waitForURL: Timeout 5000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation to \"http://localhost:3000/\" until \"load\"\n  navigated to \"http://localhost:3000/tools\"\n============================================================\n\n\u001b[0m \u001b[90m 16 |\u001b[39m     \n \u001b[90m 17 |\u001b[39m     \u001b[90m// Wait for redirect to home\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 18 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForURL(\u001b[32m'http://localhost:3000/'\u001b[39m\u001b[33m,\u001b[39m { timeout\u001b[33m:\u001b[39m \u001b[35m5000\u001b[39m })\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 19 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m1000\u001b[39m) \u001b[90m// Wait for auth state to settle\u001b[39m\n \u001b[90m 20 |\u001b[39m   })\n \u001b[90m 21 |\u001b[39m\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\logout-button.e2e.spec.js:18:16\u001b[22m"
-                        }
-                      ],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-11-14T10:05:15.503Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "C:\\Projects\\Personal\\KaDongSite\\frontend\\test-results\\e2e-logout-button.e2e-Logo-a56ad-loading-state-during-logout-chromium-e2e\\test-failed-1.png"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Projects\\Personal\\KaDongSite\\frontend\\test-results\\e2e-logout-button.e2e-Logo-a56ad-loading-state-during-logout-chromium-e2e\\video.webm"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "C:\\Projects\\Personal\\KaDongSite\\frontend\\test-results\\e2e-logout-button.e2e-Logo-a56ad-loading-state-during-logout-chromium-e2e\\error-context.md"
-                        }
-                      ],
-                      "errorLocation": {
-                        "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\logout-button.e2e.spec.js",
-                        "column": 16,
-                        "line": 18
-                      }
-                    }
-                  ],
-                  "status": "unexpected"
-                }
-              ],
-              "id": "79d3737f8c376b51c7a9-24c0cea20fa9c51c5e31",
-              "file": "e2e/logout-button.e2e.spec.js",
-              "line": 89,
-              "column": 3
-            },
-            {
-              "title": "should show Guest badge for guest users",
-              "ok": false,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium-e2e",
-                  "projectName": "chromium-e2e",
-                  "results": [
-                    {
-                      "workerIndex": 5,
-                      "parallelIndex": 5,
-                      "status": "failed",
-                      "duration": 19947,
-                      "error": {
-                        "message": "TimeoutError: page.waitForURL: Timeout 5000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation to \"http://localhost:3000/\" until \"load\"\n============================================================",
-                        "stack": "TimeoutError: page.waitForURL: Timeout 5000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation to \"http://localhost:3000/\" until \"load\"\n============================================================\n    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\logout-button.e2e.spec.js:18:16",
-                        "location": {
-                          "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\logout-button.e2e.spec.js",
-                          "column": 16,
-                          "line": 18
-                        },
-                        "snippet": "\u001b[0m \u001b[90m 16 |\u001b[39m     \n \u001b[90m 17 |\u001b[39m     \u001b[90m// Wait for redirect to home\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 18 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForURL(\u001b[32m'http://localhost:3000/'\u001b[39m\u001b[33m,\u001b[39m { timeout\u001b[33m:\u001b[39m \u001b[35m5000\u001b[39m })\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 19 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m1000\u001b[39m) \u001b[90m// Wait for auth state to settle\u001b[39m\n \u001b[90m 20 |\u001b[39m   })\n \u001b[90m 21 |\u001b[39m\u001b[0m"
-                      },
-                      "errors": [
-                        {
-                          "location": {
-                            "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\logout-button.e2e.spec.js",
-                            "column": 16,
-                            "line": 18
-                          },
-                          "message": "TimeoutError: page.waitForURL: Timeout 5000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation to \"http://localhost:3000/\" until \"load\"\n============================================================\n\n\u001b[0m \u001b[90m 16 |\u001b[39m     \n \u001b[90m 17 |\u001b[39m     \u001b[90m// Wait for redirect to home\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 18 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForURL(\u001b[32m'http://localhost:3000/'\u001b[39m\u001b[33m,\u001b[39m { timeout\u001b[33m:\u001b[39m \u001b[35m5000\u001b[39m })\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 19 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m1000\u001b[39m) \u001b[90m// Wait for auth state to settle\u001b[39m\n \u001b[90m 20 |\u001b[39m   })\n \u001b[90m 21 |\u001b[39m\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\logout-button.e2e.spec.js:18:16\u001b[22m"
-                        }
-                      ],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-11-14T10:05:15.582Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "C:\\Projects\\Personal\\KaDongSite\\frontend\\test-results\\e2e-logout-button.e2e-Logo-9bb0c-Guest-badge-for-guest-users-chromium-e2e\\test-failed-1.png"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Projects\\Personal\\KaDongSite\\frontend\\test-results\\e2e-logout-button.e2e-Logo-9bb0c-Guest-badge-for-guest-users-chromium-e2e\\video.webm"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "C:\\Projects\\Personal\\KaDongSite\\frontend\\test-results\\e2e-logout-button.e2e-Logo-9bb0c-Guest-badge-for-guest-users-chromium-e2e\\error-context.md"
-                        }
-                      ],
-                      "errorLocation": {
-                        "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\logout-button.e2e.spec.js",
-                        "column": 16,
-                        "line": 18
-                      }
-                    }
-                  ],
-                  "status": "unexpected"
-                }
-              ],
-              "id": "79d3737f8c376b51c7a9-365e6e5dcd197ff24526",
-              "file": "e2e/logout-button.e2e.spec.js",
-              "line": 107,
-              "column": 3
-            },
-            {
-              "title": "should be responsive on mobile",
-              "ok": false,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium-e2e",
-                  "projectName": "chromium-e2e",
-                  "results": [
-                    {
-                      "workerIndex": 6,
-                      "parallelIndex": 1,
-                      "status": "failed",
-                      "duration": 8980,
-                      "error": {
-                        "message": "TimeoutError: page.waitForURL: Timeout 5000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation to \"http://localhost:3000/\" until \"load\"\n============================================================",
-                        "stack": "TimeoutError: page.waitForURL: Timeout 5000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation to \"http://localhost:3000/\" until \"load\"\n============================================================\n    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\logout-button.e2e.spec.js:18:16",
-                        "location": {
-                          "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\logout-button.e2e.spec.js",
-                          "column": 16,
-                          "line": 18
-                        },
-                        "snippet": "\u001b[0m \u001b[90m 16 |\u001b[39m     \n \u001b[90m 17 |\u001b[39m     \u001b[90m// Wait for redirect to home\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 18 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForURL(\u001b[32m'http://localhost:3000/'\u001b[39m\u001b[33m,\u001b[39m { timeout\u001b[33m:\u001b[39m \u001b[35m5000\u001b[39m })\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 19 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m1000\u001b[39m) \u001b[90m// Wait for auth state to settle\u001b[39m\n \u001b[90m 20 |\u001b[39m   })\n \u001b[90m 21 |\u001b[39m\u001b[0m"
-                      },
-                      "errors": [
-                        {
-                          "location": {
-                            "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\logout-button.e2e.spec.js",
-                            "column": 16,
-                            "line": 18
-                          },
-                          "message": "TimeoutError: page.waitForURL: Timeout 5000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation to \"http://localhost:3000/\" until \"load\"\n============================================================\n\n\u001b[0m \u001b[90m 16 |\u001b[39m     \n \u001b[90m 17 |\u001b[39m     \u001b[90m// Wait for redirect to home\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 18 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForURL(\u001b[32m'http://localhost:3000/'\u001b[39m\u001b[33m,\u001b[39m { timeout\u001b[33m:\u001b[39m \u001b[35m5000\u001b[39m })\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 19 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m1000\u001b[39m) \u001b[90m// Wait for auth state to settle\u001b[39m\n \u001b[90m 20 |\u001b[39m   })\n \u001b[90m 21 |\u001b[39m\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\logout-button.e2e.spec.js:18:16\u001b[22m"
-                        }
-                      ],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-11-14T10:05:39.907Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "C:\\Projects\\Personal\\KaDongSite\\frontend\\test-results\\e2e-logout-button.e2e-Logo-06cb9-uld-be-responsive-on-mobile-chromium-e2e\\test-failed-1.png"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Projects\\Personal\\KaDongSite\\frontend\\test-results\\e2e-logout-button.e2e-Logo-06cb9-uld-be-responsive-on-mobile-chromium-e2e\\video.webm"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "C:\\Projects\\Personal\\KaDongSite\\frontend\\test-results\\e2e-logout-button.e2e-Logo-06cb9-uld-be-responsive-on-mobile-chromium-e2e\\error-context.md"
-                        }
-                      ],
-                      "errorLocation": {
-                        "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\logout-button.e2e.spec.js",
-                        "column": 16,
-                        "line": 18
-                      }
-                    }
-                  ],
-                  "status": "unexpected"
-                }
-              ],
-              "id": "79d3737f8c376b51c7a9-6383a7d66e0406e2acde",
-              "file": "e2e/logout-button.e2e.spec.js",
-              "line": 130,
-              "column": 3
-            }
-          ]
-        },
-        {
-          "title": "Logout Button - Error Handling",
-          "file": "e2e/logout-button.e2e.spec.js",
-          "line": 152,
-          "column": 6,
-          "specs": [
-            {
-              "title": "should handle API error gracefully",
-              "ok": false,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium-e2e",
-                  "projectName": "chromium-e2e",
-                  "results": [
-                    {
-                      "workerIndex": 7,
-                      "parallelIndex": 4,
-                      "status": "timedOut",
-                      "duration": 30337,
-                      "error": {
-                        "message": "\u001b[31mTest timeout of 30000ms exceeded while running \"beforeEach\" hook.\u001b[39m",
-                        "stack": "\u001b[31mTest timeout of 30000ms exceeded while running \"beforeEach\" hook.\u001b[39m\n    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\logout-button.e2e.spec.js:153:8",
-                        "location": {
-                          "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\logout-button.e2e.spec.js",
-                          "column": 8,
-                          "line": 153
-                        },
-                        "snippet": "\u001b[0m \u001b[90m 151 |\u001b[39m\n \u001b[90m 152 |\u001b[39m test\u001b[33m.\u001b[39mdescribe(\u001b[32m'Logout Button - Error Handling'\u001b[39m\u001b[33m,\u001b[39m () \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 153 |\u001b[39m   test\u001b[33m.\u001b[39mbeforeEach(\u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m     |\u001b[39m        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 154 |\u001b[39m     \u001b[90m// Login first\u001b[39m\n \u001b[90m 155 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'http://localhost:3000/login'\u001b[39m)\n \u001b[90m 156 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mfill(\u001b[32m'input[type=\"email\"]'\u001b[39m\u001b[33m,\u001b[39m \u001b[32m'admin@kadong.com'\u001b[39m)\u001b[0m"
-                      },
-                      "errors": [
-                        {
-                          "location": {
-                            "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\logout-button.e2e.spec.js",
-                            "column": 8,
-                            "line": 153
-                          },
-                          "message": "\u001b[31mTest timeout of 30000ms exceeded while running \"beforeEach\" hook.\u001b[39m\n\n\u001b[0m \u001b[90m 151 |\u001b[39m\n \u001b[90m 152 |\u001b[39m test\u001b[33m.\u001b[39mdescribe(\u001b[32m'Logout Button - Error Handling'\u001b[39m\u001b[33m,\u001b[39m () \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 153 |\u001b[39m   test\u001b[33m.\u001b[39mbeforeEach(\u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m     |\u001b[39m        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 154 |\u001b[39m     \u001b[90m// Login first\u001b[39m\n \u001b[90m 155 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'http://localhost:3000/login'\u001b[39m)\n \u001b[90m 156 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mfill(\u001b[32m'input[type=\"email\"]'\u001b[39m\u001b[33m,\u001b[39m \u001b[32m'admin@kadong.com'\u001b[39m)\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\logout-button.e2e.spec.js:153:8\u001b[22m"
-                        },
-                        {
-                          "location": {
-                            "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\logout-button.e2e.spec.js",
-                            "column": 16,
-                            "line": 159
-                          },
-                          "message": "Error: page.waitForURL: Test timeout of 30000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation to \"http://localhost:3000/\" until \"load\"\n============================================================\n\n\u001b[0m \u001b[90m 157 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mfill(\u001b[32m'input[type=\"password\"]'\u001b[39m\u001b[33m,\u001b[39m \u001b[32m'KaDong2024!'\u001b[39m)\n \u001b[90m 158 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'button[type=\"submit\"]'\u001b[39m)\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 159 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForURL(\u001b[32m'http://localhost:3000/'\u001b[39m)\n \u001b[90m     |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 160 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m1000\u001b[39m)\n \u001b[90m 161 |\u001b[39m   })\n \u001b[90m 162 |\u001b[39m\u001b[0m\n\u001b[2m    at C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\logout-button.e2e.spec.js:159:16\u001b[22m"
-                        }
-                      ],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-11-14T10:05:40.459Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "C:\\Projects\\Personal\\KaDongSite\\frontend\\test-results\\e2e-logout-button.e2e-Logo-b07cb-handle-API-error-gracefully-chromium-e2e\\test-failed-1.png"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Projects\\Personal\\KaDongSite\\frontend\\test-results\\e2e-logout-button.e2e-Logo-b07cb-handle-API-error-gracefully-chromium-e2e\\video.webm"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "C:\\Projects\\Personal\\KaDongSite\\frontend\\test-results\\e2e-logout-button.e2e-Logo-b07cb-handle-API-error-gracefully-chromium-e2e\\error-context.md"
-                        }
-                      ],
-                      "errorLocation": {
-                        "file": "C:\\Projects\\Personal\\KaDongSite\\frontend\\tests\\e2e\\logout-button.e2e.spec.js",
-                        "column": 8,
-                        "line": 153
-                      }
-                    }
-                  ],
-                  "status": "unexpected"
-                }
-              ],
-              "id": "79d3737f8c376b51c7a9-0191860eee973053fa6a",
-              "file": "e2e/logout-button.e2e.spec.js",
-              "line": 163,
+              "id": "f59e22c116100367ca25-593de5a4b30be42cda30",
+              "file": "e2e/wishlist.e2e.spec.js",
+              "line": 162,
               "column": 3
             }
           ]
@@ -772,11 +350,11 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2025-11-14T10:05:09.667Z",
-    "duration": 62428.884999999995,
+    "startTime": "2025-11-14T17:28:58.542Z",
+    "duration": 31770.21,
     "expected": 0,
     "skipped": 0,
-    "unexpected": 8,
+    "unexpected": 1,
     "flaky": 0
   }
 }

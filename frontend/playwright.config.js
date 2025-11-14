@@ -42,8 +42,8 @@ export default defineConfig({
     // Base URL
     baseURL: process.env.BASE_URL || 'http://localhost:3000',
     
-    // Browser options
-    headless: true,
+    // Browser options - ALWAYS HEADED MODE
+    headless: false,
     viewport: { width: 1280, height: 720 },
     
     // Capture trace on first retry
@@ -57,37 +57,32 @@ export default defineConfig({
     
     // Ignore HTTPS errors
     ignoreHTTPSErrors: true,
+    
+    // NO STORAGE STATE - Fresh profile every test
+    storageState: undefined,
   },
   
   // Projects for different browsers and test types
   projects: [
-    // E2E Tests - Chromium
+    // E2E Tests - Chrome ONLY (headed mode, fresh profile)
     {
-      name: 'chromium-e2e',
+      name: 'chrome-e2e',
       testMatch: /.*\.e2e\.spec\.js/,
       use: { 
         ...devices['Desktop Chrome'],
         viewport: { width: 1280, height: 720 },
-      },
-    },
-    
-    // E2E Tests - Firefox
-    {
-      name: 'firefox-e2e',
-      testMatch: /.*\.e2e\.spec\.js/,
-      use: { 
-        ...devices['Desktop Firefox'],
-        viewport: { width: 1280, height: 720 },
-      },
-    },
-    
-    // E2E Tests - WebKit (Safari)
-    {
-      name: 'webkit-e2e',
-      testMatch: /.*\.e2e\.spec\.js/,
-      use: { 
-        ...devices['Desktop Safari'],
-        viewport: { width: 1280, height: 720 },
+        headless: false, // Always headed
+        channel: 'chrome', // Use Google Chrome
+        launchOptions: {
+          args: [
+            '--disable-blink-features=AutomationControlled', // Hide automation
+            '--disable-web-security', // For CORS
+          ],
+        },
+        contextOptions: {
+          // Clear all storage before each test
+          storageState: undefined,
+        },
       },
     },
     

@@ -15,6 +15,7 @@ const EmptyState = ({ message = 'Chưa có sản phẩm nào trong wishlist' }) 
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       className="flex flex-col items-center justify-center py-20"
+      data-testid="wishlist-empty"
     >
       <div className="bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900/20 dark:to-pink-900/20 p-8 rounded-full mb-6">
         <Package size={64} className="text-purple-600 dark:text-purple-400" />
@@ -92,7 +93,7 @@ const WishlistGrid = ({
   }
 
   return (
-    <div className="container mx-auto px-4 py-6">
+    <div className="container mx-auto px-4 py-6" data-testid="wishlist-grid">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {items.map((item, index) => (
           <motion.div
