@@ -16,7 +16,7 @@ import {
   GoldProviderBadge 
 } from './index'
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api'
+const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000'
 
 const GoldPricesTool = () => {
   // State
@@ -32,7 +32,14 @@ const GoldPricesTool = () => {
   // Fetch latest gold prices
   const fetchLatestPrices = async () => {
     try {
-      const response = await fetch(`${API_BASE}/gold/latest`)
+      const response = await fetch(`${API_BASE}/api/gold/latest`, {
+        credentials: 'include' // Include cookies for auth
+      })
+      
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status} ${response.statusText}`)
+      }
+      
       const data = await response.json()
       
       if (data.success) {
@@ -50,7 +57,7 @@ const GoldPricesTool = () => {
       }
     } catch (err) {
       console.error('Error fetching gold prices:', err)
-      setError(err.message)
+      setError(err.message || String(err))
     }
   }
 
@@ -62,7 +69,7 @@ const GoldPricesTool = () => {
       try {
         // Increase limit to 100 for more data points in chart
         const response = await fetch(
-          `${API_BASE}/gold/history?type=${type}&period=${period}&limit=100`
+          `${API_BASE}/api/gold/history?type=${type}&period=${period}&limit=100`
         )
         const result = await response.json()
         

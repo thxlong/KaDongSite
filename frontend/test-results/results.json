@@ -10,7 +10,9 @@
     "grep": {},
     "grepInvert": null,
     "maxFailures": 0,
-    "metadata": {},
+    "metadata": {
+      "actualWorkers": 1
+    },
     "preserveOutput": "always",
     "reporter": [
       [
@@ -41,7 +43,9 @@
         "outputDir": "C:/Projects/Personal/KaDongSite/frontend/test-results",
         "repeatEach": 1,
         "retries": 0,
-        "metadata": {},
+        "metadata": {
+          "actualWorkers": 1
+        },
         "id": "chromium-e2e",
         "name": "chromium-e2e",
         "testDir": "C:/Projects/Personal/KaDongSite/frontend/tests",
@@ -55,7 +59,9 @@
         "outputDir": "C:/Projects/Personal/KaDongSite/frontend/test-results",
         "repeatEach": 1,
         "retries": 0,
-        "metadata": {},
+        "metadata": {
+          "actualWorkers": 1
+        },
         "id": "firefox-e2e",
         "name": "firefox-e2e",
         "testDir": "C:/Projects/Personal/KaDongSite/frontend/tests",
@@ -69,7 +75,9 @@
         "outputDir": "C:/Projects/Personal/KaDongSite/frontend/test-results",
         "repeatEach": 1,
         "retries": 0,
-        "metadata": {},
+        "metadata": {
+          "actualWorkers": 1
+        },
         "id": "webkit-e2e",
         "name": "webkit-e2e",
         "testDir": "C:/Projects/Personal/KaDongSite/frontend/tests",
@@ -83,7 +91,9 @@
         "outputDir": "C:/Projects/Personal/KaDongSite/frontend/test-results",
         "repeatEach": 1,
         "retries": 0,
-        "metadata": {},
+        "metadata": {
+          "actualWorkers": 1
+        },
         "id": "mobile-chrome",
         "name": "mobile-chrome",
         "testDir": "C:/Projects/Personal/KaDongSite/frontend/tests",
@@ -97,7 +107,9 @@
         "outputDir": "C:/Projects/Personal/KaDongSite/frontend/test-results",
         "repeatEach": 1,
         "retries": 0,
-        "metadata": {},
+        "metadata": {
+          "actualWorkers": 1
+        },
         "id": "mobile-safari",
         "name": "mobile-safari",
         "testDir": "C:/Projects/Personal/KaDongSite/frontend/tests",
@@ -111,7 +123,9 @@
         "outputDir": "C:/Projects/Personal/KaDongSite/frontend/test-results",
         "repeatEach": 1,
         "retries": 0,
-        "metadata": {},
+        "metadata": {
+          "actualWorkers": 1
+        },
         "id": "component-tests",
         "name": "component-tests",
         "testDir": "C:/Projects/Personal/KaDongSite/frontend/tests",
@@ -134,17 +148,73 @@
       "timeout": 120000
     }
   },
-  "suites": [],
-  "errors": [
+  "suites": [
     {
-      "message": "Error: No tests found.\nMake sure that arguments are regular expressions matching test files.\nYou may need to escape symbols like \"$\" or \"*\" and quote the arguments.",
-      "stack": "Error: No tests found.\nMake sure that arguments are regular expressions matching test files.\nYou may need to escape symbols like \"$\" or \"*\" and quote the arguments."
+      "title": "e2e\\gold-prices.e2e.spec.js",
+      "file": "e2e/gold-prices.e2e.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Gold Prices Tool E2E",
+          "file": "e2e/gold-prices.e2e.spec.js",
+          "line": 11,
+          "column": 6,
+          "specs": [],
+          "suites": [
+            {
+              "title": "Page Load and Initial State",
+              "file": "e2e/gold-prices.e2e.spec.js",
+              "line": 48,
+              "column": 8,
+              "specs": [
+                {
+                  "title": "should load gold prices page successfully",
+                  "ok": true,
+                  "tags": [],
+                  "tests": [
+                    {
+                      "timeout": 30000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "chromium-e2e",
+                      "projectName": "chromium-e2e",
+                      "results": [
+                        {
+                          "workerIndex": 0,
+                          "parallelIndex": 0,
+                          "status": "passed",
+                          "duration": 11277,
+                          "errors": [],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "startTime": "2025-11-14T09:30:13.030Z",
+                          "annotations": [],
+                          "attachments": []
+                        }
+                      ],
+                      "status": "expected"
+                    }
+                  ],
+                  "id": "fe053746d6c73b91643a-4ace47143fc81de7d3f6",
+                  "file": "e2e/gold-prices.e2e.spec.js",
+                  "line": 50,
+                  "column": 5
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
+  "errors": [],
   "stats": {
-    "startTime": "2025-11-13T17:49:25.768Z",
-    "duration": 52.94200000000001,
-    "expected": 0,
+    "startTime": "2025-11-14T09:30:09.489Z",
+    "duration": 18492.975,
+    "expected": 1,
     "skipped": 0,
     "unexpected": 0,
     "flaky": 0
