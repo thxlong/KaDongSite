@@ -185,13 +185,15 @@ Hiện tại, ứng dụng đang sử dụng localStorage để lưu dữ liệu
   - Password history (prevent reuse)
   - Force password change after X days
 
-- [ ] **AC21:** Logout button trong UI (ENHANCEMENT)
-  - Nút Logout hiển thị trong Header khi đã login
-  - Position: Top-right corner, dropdown menu dưới avatar/name
-  - Icon: Log out icon với text "Đăng xuất"
-  - Confirmation dialog: "Bạn có chắc muốn đăng xuất?"
-  - Loading state: Disable button + spinner khi đang logout
-  - Success: Redirect về /login với message "Đã đăng xuất thành công"
+- [x] **AC21:** Logout button trong UI (ENHANCEMENT) ✅ IMPLEMENTED
+  - ✅ Nút Logout hiển thị trong Header khi đã login
+  - ✅ Position: Top-right corner, next to user info badge
+  - ✅ Icon: Log out icon (Lucide React) với text "Đăng xuất"
+  - ✅ User info badge: Shows username/email + "Guest" badge for guest users
+  - ✅ Confirmation dialog: "Xác nhận đăng xuất" với message tùy theo isGuest
+  - ✅ Loading state: Disable button + spinner (Loader2) khi đang logout
+  - ✅ Success: Redirect về /login với state message "Đã đăng xuất thành công"
+  - ✅ Responsive: User info ẩn trên mobile (<640px), chỉ hiện logout button
 
 - [ ] **AC22:** Guest Mode - Login không cần database (ENHANCEMENT)
   - User có thể click "Tiếp tục với Guest" trên login page
@@ -257,12 +259,14 @@ Hiện tại, ứng dụng đang sử dụng localStorage để lưu dữ liệu
   - Guest migration: Register → migrate data → API call → localStorage cleared
   - Guest session expiry: After 24h → auto-logout
 
-- [ ] **T7:** Logout Button tests (NEW)
-  - Logout button visible: isAuthenticated = true → button shows
-  - Confirmation dialog: Click logout → dialog appears
-  - Cancel logout: Click "Hủy" → dialog closes, still logged in
-  - Confirm logout: Click "Đăng xuất" → logout API called → redirect
-  - Guest logout: isGuest = true → no API call → localStorage cleared
+- [ ] **T7:** Logout Button tests (NEW) - IN PROGRESS
+  - [x] Logout button visible: isAuthenticated = true → button shows in Header
+  - [x] User info badge: Shows name/email for registered, "Guest" badge for guest users
+  - [ ] Confirmation dialog: Click logout → dialog appears
+  - [ ] Cancel logout: Click "Hủy" → dialog closes, still logged in
+  - [ ] Confirm logout: Click "Đăng xuất" → logout API called → redirect
+  - [ ] Guest logout: isGuest = true → no API call → localStorage cleared
+  - [ ] E2E test: Login → see logout button → click → confirm → verify redirect
 
 ---
 
@@ -823,9 +827,10 @@ return <Outlet />
 
 ---
 
-#### 6. LogoutButton Component (NEW)
-**File:** `frontend/src/components/auth/LogoutButton.jsx`  
-**Purpose:** Logout button trong Header với confirmation
+#### 6. LogoutButton Component ✅ IMPLEMENTED
+**File:** `frontend/src/shared/components/LogoutButton.jsx`  
+**Purpose:** Logout button với confirmation dialog
+**Status:** ✅ Implemented and integrated into Header
 
 **Props:**
 ```javascript
@@ -836,27 +841,36 @@ return <Outlet />
 ```
 
 **Features:**
-- Icon: Log out icon (Lucide React: LogOut)
-- Text: "Đăng xuất"
-- Confirmation dialog:
+- ✅ Icon: Log out icon (Lucide React: LogOut)
+- ✅ Text: "Đăng xuất"
+- ✅ Confirmation dialog:
   - Title: "Xác nhận đăng xuất"
-  - Message: "Bạn có chắc muốn đăng xuất khỏi tài khoản?"
-  - Buttons: "Hủy" (secondary) + "Đăng xuất" (danger)
-- Loading state: Spinner + disabled button
-- Success: Show toast "Đã đăng xuất thành công"
+  - Message: Different for Guest vs Registered users
+    - Guest: "Bạn có chắc muốn đăng xuất khỏi chế độ Guest? ⚠️ Dữ liệu của bạn sẽ bị xóa"
+    - User: "Bạn có chắc muốn đăng xuất khỏi tài khoản?"
+  - Buttons: "Hủy" (secondary) + "Đăng xuất" (danger red)
+- ✅ Loading state: Spinner (Loader2) + disabled button
+- ✅ Error handling: Show error message in dialog nếu logout failed
+- ✅ Success: Navigate to /login với state.message "Đã đăng xuất thành công"
+- ✅ Responsive: Full modal overlay với backdrop blur
 
-**Usage:**
+**Current Usage:**
 ```jsx
-// In Header dropdown
-<DropdownMenu>
-  <DropdownMenuItem>
-    <LogoutButton variant="dropdown" />
-  </DropdownMenuItem>
-</DropdownMenu>
+// In Header (currently implemented)
+import LogoutButton from './LogoutButton'
 
-// Standalone
-<LogoutButton variant="button" onLogoutComplete={() => console.log('Logged out')} />
+{isAuthenticated && (
+  <LogoutButton variant="button" />
+)}
 ```
+
+**Implementation Details:**
+- Location: `frontend/src/shared/components/LogoutButton.jsx`
+- Integrated in: `frontend/src/shared/components/Header.jsx`
+- AuthContext integration: Uses `useAuth()` hook
+- Variants:
+  - `button`: Standalone red button with icon + text (currently used)
+  - `dropdown`: For future dropdown menu integration
 
 ---
 

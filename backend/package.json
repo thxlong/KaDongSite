@@ -64,7 +64,10 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^10.1.0",
+    "@jest/globals": "^30.2.0",
     "@playwright/test": "^1.56.1",
-    "nodemon": "^3.0.2"
+    "jest": "^30.2.0",
+    "nodemon": "^3.0.2",
+    "supertest": "^7.1.4"
   }
 }

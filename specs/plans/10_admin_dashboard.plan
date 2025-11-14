@@ -1,0 +1,980 @@
+# Admin Dashboard Implementation Plan
+
+**Plan ID:** `10_admin_dashboard`  
+**Related Spec:** `specs/10_admin_dashboard.spec`  
+**Version:** 1.0.0  
+**Status:** 📋 Planning  
+**Created:** 2025-11-14
+
+---
+
+## 🎯 Executive Summary
+
+**Objective:** Xây dựng hệ thống quản trị toàn diện cho KaDong Tools với đầy đủ chức năng user management, role-based access control (RBAC), security monitoring, và audit trail.
+
+**Duration:** 4 tuần (160 giờ)  
+**Team:** 2 Full-stack Developers  
+**Risk Level:** ⚠️ Medium-High (nhiều security concerns)
+
+---
+
+## 📊 Project Structure
+
+### Phase Breakdown
+
+| Phase | Duration | Effort | Dependencies | Risk |
+|-------|----------|--------|--------------|------|
+| Phase 1: Database Design | 3 days | 24h | Auth system complete | Low |
+| Phase 2: Admin API | 4 days | 32h | Phase 1 | Medium |
+| Phase 3: Dashboard UI | 3 days | 24h | Phase 2 | Low |
+| Phase 4: User Management | 4 days | 32h | Phase 2 | Medium |
+| Phase 5: Security Features | 3 days | 24h | Phase 2,4 | High |
+| Phase 6: Testing | 2 days | 16h | All phases | Medium |
+| Phase 7: Documentation | 1 day | 8h | All phases | Low |
+
+**Total:** 20 working days = 4 tuần
+
+---
+
+## 📅 Detailed Timeline
+
+### Week 1: Backend Foundation
+
+#### Day 1-2: Database Design & Migrations (16h)
+
+**Tasks:**
+- [ ] **T1.1** Create migration `009_admin_system.sql` (4h)
+  - Create `roles` table
+  - Create `user_roles` junction table
+  - Create `blocked_ips` table
+  - Create `admin_audit_logs` table
+  - Create `security_alerts` table
+  - Add columns to `users`: locked_at, lock_reason, last_login_at
+  - Create indexes for performance
+  
+  **File:** `backend/database/migrations/009_admin_system.sql`
+  
+  **Validation:**
+  ```sql
+  -- Test tables created
+  SELECT table_name FROM information_schema.tables 
+  WHERE table_schema = 'public' 
+  AND table_name IN ('roles', 'user_roles', 'blocked_ips', 'admin_audit_logs', 'security_alerts');
+  
+  -- Test indexes
+  SELECT indexname FROM pg_indexes WHERE tablename = 'admin_audit_logs';
+  ```
+
+- [ ] **T1.2** Create seed data `009_admin_seed.js` (2h)
+  - Seed 4 predefined roles (admin, moderator, user, guest)
+  - Assign admin role to existing admin@kadong.com
+  - Seed 10 sample users for testing
+  - Seed test security alerts
+  
+  **File:** `backend/database/seeds/009_admin_seed.js`
+  
+  **Expected Output:**
+  ```
+  ✅ Created 4 roles
+  ✅ Assigned admin role to admin@kadong.com
+  ✅ Created 10 test users
+  ✅ Created 5 security alerts
+  ```
+
+- [ ] **T1.3** Create migration runner script (2h)
+  - Script to run 009 migration
+  - Rollback support
+  - Verify script
+  
+  **Files:**
+  - `backend/scripts/database/migrate-009.js`
+  - `backend/scripts/database/rollback-009.js`
+  - `backend/scripts/database/verify-admin-tables.js`
+
+- [ ] **T1.4** Test database setup (2h)
+  - Run migrations on local dev DB
+  - Run seeds
+  - Verify foreign keys
+  - Verify indexes
+  - Performance test queries
+  
+  **Commands:**
+  ```bash
+  npm run db:migrate:009
+  npm run db:seed:009
+  npm run db:verify:admin
+  ```
+
+- [ ] **T1.5** Update database documentation (2h)
+  - Update `docs/DATABASE_SCHEMA.md`
+  - Document new tables
+  - Document relationships
+  - Add ER diagram
+  
+  **Files:** `docs/DATABASE_SCHEMA.md`
+
+- [ ] **T1.6** Create database utilities (4h)
+  - Permission checker utility
+  - Audit logger utility
+  - Security alert creator utility
+  
+  **Files:**
+  - `backend/src/utils/permissionChecker.js`
+  - `backend/src/utils/auditLogger.js`
+  - `backend/src/utils/securityAlerts.js`
+
+---
+
+#### Day 3-4: Admin Controllers (16h)
+
+- [ ] **T1.7** Create admin user controller (6h)
+  - `listUsers(req, res)` - Pagination, search, filter
+  - `getUserById(req, res)` - Detail with relations
+  - `createUser(req, res)` - Admin create user
+  - `updateUser(req, res)` - Admin update user
+  - `deleteUser(req, res)` - Soft/hard delete
+  - `resetPassword(req, res)` - Admin reset password
+  - `lockUser(req, res)` - Lock account
+  - `unlockUser(req, res)` - Unlock account
+  
+  **File:** `backend/src/api/controllers/adminUserController.js` (~500 lines)
+  
+  **Example:**
+  ```javascript
+  export const listUsers = async (req, res) => {
+    try {
+      const { 
+        page = 1, 
+        limit = 20, 
+        search, 
+        role, 
+        status,
+        sort = 'created_at',
+        order = 'desc' 
+      } = req.query;
+      
+      // Build query with filters
+      let query = db('users')
+        .leftJoin('user_roles', 'users.id', 'user_roles.user_id')
+        .leftJoin('roles', 'user_roles.role_id', 'roles.id')
+        .select('users.*')
+        .select(db.raw('ARRAY_AGG(roles.name) as roles'))
+        .groupBy('users.id');
+      
+      // Apply filters
+      if (search) {
+        query = query.where(function() {
+          this.where('email', 'ilike', `%${search}%`)
+              .orWhere('name', 'ilike', `%${search}%`);
+        });
+      }
+      
+      if (status === 'locked') {
+        query = query.whereNotNull('locked_at');
+      } else if (status === 'active') {
+        query = query.whereNull('locked_at');
+      }
+      
+      // Pagination
+      const offset = (page - 1) * limit;
+      const users = await query
+        .orderBy(sort, order)
+        .limit(limit)
+        .offset(offset);
+      
+      // Count total
+      const [{ count }] = await db('users').count();
+      
+      // Audit log
+      await logAudit(req.user.id, 'view_users', 'user', null, {
+        filters: { search, role, status }
+      });
+      
+      res.json({
+        success: true,
+        data: {
+          users,
+          pagination: {
+            current_page: page,
+            total_pages: Math.ceil(count / limit),
+            total_items: count,
+            per_page: limit
+          }
+        }
+      });
+    } catch (error) {
+      console.error('List users error:', error);
+      res.status(500).json({ 
+        success: false, 
+        error: 'Failed to fetch users' 
+      });
+    }
+  };
+  ```
+
+- [ ] **T1.8** Create admin role controller (4h)
+  - `listRoles(req, res)` - All roles với user count
+  - `getRoleById(req, res)` - Role detail với permissions
+  - `createRole(req, res)` - Create custom role
+  - `updateRole(req, res)` - Update role permissions
+  - `deleteRole(req, res)` - Delete custom role
+  - `assignRole(req, res)` - Assign role to user
+  - `revokeRole(req, res)` - Revoke role from user
+  
+  **File:** `backend/src/api/controllers/adminRoleController.js` (~400 lines)
+
+- [ ] **T1.9** Create admin security controller (6h)
+  - `getLoginAttempts(req, res)` - View login attempts với filters
+  - `resetLoginAttempts(req, res)` - Reset failed attempts
+  - `getBlockedIPs(req, res)` - List blocked IPs
+  - `blockIP(req, res)` - Block IP address
+  - `unblockIP(req, res)` - Unblock IP
+  - `getActiveSessions(req, res)` - List active sessions
+  - `terminateSession(req, res)` - Force logout
+  - `getSecurityAlerts(req, res)` - List security alerts
+  - `dismissAlert(req, res)` - Mark alert as reviewed
+  
+  **File:** `backend/src/api/controllers/adminSecurityController.js` (~450 lines)
+
+---
+
+#### Day 5: Dashboard & Audit (8h)
+
+- [ ] **T1.10** Create admin dashboard controller (4h)
+  - `getMetrics(req, res)` - Key metrics
+  - `getUserGrowthChart(req, res)` - Chart data
+  - `getLoginActivityChart(req, res)` - Chart data
+  - `getRoleDistribution(req, res)` - Chart data
+  
+  **File:** `backend/src/api/controllers/adminDashboardController.js` (~300 lines)
+
+- [ ] **T1.11** Create admin audit controller (2h)
+  - `getAuditLogs(req, res)` - Pagination, filters
+  - `getAuditLogById(req, res)` - Detail
+  - `exportAuditLogs(req, res)` - CSV export
+  
+  **File:** `backend/src/api/controllers/adminAuditController.js` (~200 lines)
+
+- [ ] **T1.12** Create audit logging middleware (2h)
+  - Auto-log all admin actions
+  - Capture before/after state
+  - Include IP, user agent
+  
+  **File:** `backend/src/api/middlewares/auditMiddleware.js` (~100 lines)
+
+---
+
+### Week 2: API Routes & Frontend Setup
+
+#### Day 6: API Routes (8h)
+
+- [ ] **T2.1** Create admin routes (6h)
+  - User management routes
+  - Role management routes
+  - Security routes
+  - Dashboard routes
+  - Audit routes
+  - Apply middlewares (auth, role, rate limit, audit)
+  
+  **Files:**
+  - `backend/src/api/routes/admin/users.js`
+  - `backend/src/api/routes/admin/roles.js`
+  - `backend/src/api/routes/admin/security.js`
+  - `backend/src/api/routes/admin/dashboard.js`
+  - `backend/src/api/routes/admin/audit.js`
+  - `backend/src/api/routes/admin/index.js` (main router)
+  
+  **Example:**
+  ```javascript
+  // backend/src/api/routes/admin/users.js
+  import express from 'express';
+  import { verifyToken } from '../../middlewares/authMiddleware.js';
+  import { requireRole } from '../../middlewares/roleMiddleware.js';
+  import { auditLog } from '../../middlewares/auditMiddleware.js';
+  import * as adminUserController from '../../controllers/adminUserController.js';
+  
+  const router = express.Router();
+  
+  // All routes require admin role
+  router.use(verifyToken, requireRole(['admin']));
+  
+  // User management
+  router.get('/', auditLog('view_users'), adminUserController.listUsers);
+  router.post('/', auditLog('create_user'), adminUserController.createUser);
+  router.get('/:id', auditLog('view_user'), adminUserController.getUserById);
+  router.put('/:id', auditLog('update_user'), adminUserController.updateUser);
+  router.delete('/:id', auditLog('delete_user'), adminUserController.deleteUser);
+  
+  // User actions
+  router.post('/:id/reset-password', auditLog('reset_password'), adminUserController.resetPassword);
+  router.post('/:id/lock', auditLog('lock_user'), adminUserController.lockUser);
+  router.post('/:id/unlock', auditLog('unlock_user'), adminUserController.unlockUser);
+  
+  export default router;
+  ```
+
+- [ ] **T2.2** Update main app.js (1h)
+  - Register admin routes at `/api/admin`
+  - Update API documentation
+  
+  **File:** `backend/src/app.js`
+
+- [ ] **T2.3** Create API tests (1h)
+  - Test script for all admin endpoints
+  - Use admin credentials
+  
+  **File:** `backend/test-admin-endpoints.js`
+
+---
+
+#### Day 7-8: Frontend Setup & Dashboard (16h)
+
+- [ ] **T2.4** Create admin folder structure (1h)
+  ```
+  frontend/src/features/admin/
+  ├── components/
+  │   ├── AdminLayout.jsx
+  │   ├── AdminSidebar.jsx
+  │   ├── MetricCard.jsx
+  │   ├── UserTable.jsx
+  │   ├── RolePermissionMatrix.jsx
+  │   ├── LoginAttemptsTable.jsx
+  │   ├── SecurityAlert.jsx
+  │   └── AuditLogViewer.jsx
+  ├── pages/
+  │   ├── DashboardPage.jsx
+  │   ├── UsersPage.jsx
+  │   ├── UserDetailPage.jsx
+  │   ├── RolesPage.jsx
+  │   ├── SecurityPage.jsx
+  │   └── AuditLogsPage.jsx
+  ├── hooks/
+  │   ├── useAdminUsers.js
+  │   ├── useAdminRoles.js
+  │   ├── useAdminSecurity.js
+  │   └── useAdminAudit.js
+  ├── services/
+  │   └── adminService.js
+  └── styles/
+      └── admin.css
+  ```
+
+- [ ] **T2.5** Create AdminLayout component (3h)
+  - Layout với sidebar
+  - Top navigation bar
+  - Breadcrumbs
+  - User info badge
+  - Logout button
+  - Responsive design
+  
+  **File:** `frontend/src/features/admin/components/AdminLayout.jsx` (~200 lines)
+
+- [ ] **T2.6** Create AdminSidebar component (2h)
+  - Navigation menu
+  - Active link highlighting
+  - Icons (lucide-react)
+  - Collapsible on mobile
+  
+  **File:** `frontend/src/features/admin/components/AdminSidebar.jsx` (~150 lines)
+
+- [ ] **T2.7** Create adminService (4h)
+  - API client for all admin endpoints
+  - Error handling
+  - Token refresh
+  
+  **File:** `frontend/src/features/admin/services/adminService.js` (~400 lines)
+  
+  **Example:**
+  ```javascript
+  // frontend/src/features/admin/services/adminService.js
+  import api from '@/shared/services/api';
+  
+  export const adminService = {
+    // Users
+    async getUsers(params) {
+      const response = await api.get('/api/admin/users', { params });
+      return response.data;
+    },
+    
+    async getUserById(id) {
+      const response = await api.get(`/api/admin/users/${id}`);
+      return response.data;
+    },
+    
+    async createUser(userData) {
+      const response = await api.post('/api/admin/users', userData);
+      return response.data;
+    },
+    
+    async updateUser(id, userData) {
+      const response = await api.put(`/api/admin/users/${id}`, userData);
+      return response.data;
+    },
+    
+    async deleteUser(id, hard = false) {
+      const response = await api.delete(`/api/admin/users/${id}`, {
+        params: { hard }
+      });
+      return response.data;
+    },
+    
+    async resetPassword(id, data) {
+      const response = await api.post(`/api/admin/users/${id}/reset-password`, data);
+      return response.data;
+    },
+    
+    async lockUser(id, reason) {
+      const response = await api.post(`/api/admin/users/${id}/lock`, { reason });
+      return response.data;
+    },
+    
+    async unlockUser(id) {
+      const response = await api.post(`/api/admin/users/${id}/unlock`);
+      return response.data;
+    },
+    
+    // Dashboard
+    async getDashboardMetrics() {
+      const response = await api.get('/api/admin/dashboard/metrics');
+      return response.data;
+    },
+    
+    async getChartData(type, from, to) {
+      const response = await api.get('/api/admin/dashboard/charts', {
+        params: { type, from, to }
+      });
+      return response.data;
+    },
+    
+    // ... more methods
+  };
+  ```
+
+- [ ] **T2.8** Create DashboardPage (6h)
+  - Metrics cards (Total users, Active users, Logins, Failed attempts)
+  - User growth chart (recharts line chart)
+  - Login activity chart (recharts bar chart)
+  - Role distribution (recharts pie chart)
+  - Security alerts panel
+  - Recent activity timeline
+  - Auto-refresh every 60 seconds
+  
+  **File:** `frontend/src/features/admin/pages/DashboardPage.jsx` (~400 lines)
+
+---
+
+### Week 3: User Management & Security UI
+
+#### Day 9-10: User Management (16h)
+
+- [ ] **T3.1** Create UsersPage (6h)
+  - User table với sorting, filtering, search
+  - Pagination controls
+  - Bulk select checkbox
+  - Action buttons (Edit, Delete, Lock, Reset)
+  - Create user button
+  - Export button
+  - Real-time search
+  
+  **File:** `frontend/src/features/admin/pages/UsersPage.jsx` (~500 lines)
+
+- [ ] **T3.2** Create UserTable component (4h)
+  - Reusable table component
+  - Column definitions
+  - Row actions dropdown
+  - Status badges (Active, Locked, Verified)
+  - Role badges
+  - Last login display
+  
+  **File:** `frontend/src/features/admin/components/UserTable.jsx` (~300 lines)
+
+- [ ] **T3.3** Create UserDetailPage (4h)
+  - User info card với inline edit
+  - Activity timeline
+  - Sessions list
+  - Login history
+  - Role management section
+  - Admin notes textarea
+  - Delete button với confirmation
+  
+  **File:** `frontend/src/features/admin/pages/UserDetailPage.jsx` (~400 lines)
+
+- [ ] **T3.4** Create user dialogs (2h)
+  - CreateUserDialog component
+  - EditUserDialog component
+  - ResetPasswordDialog component
+  - LockUserDialog component
+  - DeleteUserDialog component
+  
+  **Files:**
+  - `frontend/src/features/admin/components/CreateUserDialog.jsx`
+  - `frontend/src/features/admin/components/EditUserDialog.jsx`
+  - `frontend/src/features/admin/components/ResetPasswordDialog.jsx`
+  - `frontend/src/features/admin/components/LockUserDialog.jsx`
+  - `frontend/src/features/admin/components/DeleteUserDialog.jsx`
+
+---
+
+#### Day 11-12: Security Features (16h)
+
+- [ ] **T3.5** Create RolesPage (4h)
+  - Roles table với user count
+  - Create role button
+  - Permission matrix view
+  - Edit role button
+  - Delete role button (only custom roles)
+  
+  **File:** `frontend/src/features/admin/pages/RolesPage.jsx` (~300 lines)
+
+- [ ] **T3.6** Create RolePermissionMatrix component (3h)
+  - Checkbox grid
+  - Permission categories
+  - Select all by category
+  - Visual indicators (inherited, custom)
+  
+  **File:** `frontend/src/features/admin/components/RolePermissionMatrix.jsx` (~250 lines)
+
+- [ ] **T3.7** Create SecurityPage (6h)
+  - Tabs: Login Attempts, Blocked IPs, Active Sessions, Alerts
+  - Login attempts table với filters
+  - Reset attempts button
+  - Blocked IPs list với unblock action
+  - Block IP form
+  - Active sessions table với force logout
+  - Security alerts panel với dismiss action
+  - Auto-refresh every 30 seconds
+  
+  **File:** `frontend/src/features/admin/pages/SecurityPage.jsx` (~600 lines)
+
+- [ ] **T3.8** Create LoginAttemptsTable component (3h)
+  - Table với success/failed indicators
+  - IP address display với location lookup
+  - User agent parsing (browser, OS)
+  - Time display (relative + absolute)
+  - Filters: success/failed, date range, email, IP
+  - Export button
+  
+  **File:** `frontend/src/features/admin/components/LoginAttemptsTable.jsx` (~300 lines)
+
+---
+
+#### Day 13: Audit Logs (8h)
+
+- [ ] **T3.9** Create AuditLogsPage (4h)
+  - Timeline view
+  - Filters: admin, action, target type, date range
+  - Search: target email, action
+  - Log detail modal
+  - Export button (CSV, JSON)
+  - Auto-refresh every 30 seconds
+  
+  **File:** `frontend/src/features/admin/pages/AuditLogsPage.jsx` (~400 lines)
+
+- [ ] **T3.10** Create AuditLogViewer component (2h)
+  - Timeline item component
+  - Action icons
+  - Admin badge
+  - Target link
+  - Changes diff view (before/after)
+  - Timestamp display
+  
+  **File:** `frontend/src/features/admin/components/AuditLogViewer.jsx` (~250 lines)
+
+- [ ] **T3.11** Create custom hooks (2h)
+  - useAdminUsers hook
+  - useAdminRoles hook
+  - useAdminSecurity hook
+  - useAdminAudit hook
+  - useAdminMetrics hook
+  
+  **Files:**
+  - `frontend/src/features/admin/hooks/useAdminUsers.js`
+  - `frontend/src/features/admin/hooks/useAdminRoles.js`
+  - `frontend/src/features/admin/hooks/useAdminSecurity.js`
+  - `frontend/src/features/admin/hooks/useAdminAudit.js`
+  - `frontend/src/features/admin/hooks/useAdminMetrics.js`
+
+---
+
+### Week 4: Testing & Documentation
+
+#### Day 14-15: Testing (16h)
+
+- [ ] **T4.1** Backend unit tests (6h)
+  - Admin user controller tests
+  - Admin role controller tests
+  - Admin security controller tests
+  - Permission checker tests
+  - Audit logger tests
+  
+  **Files:**
+  - `backend/tests/unit/controllers/adminUserController.test.js`
+  - `backend/tests/unit/controllers/adminRoleController.test.js`
+  - `backend/tests/unit/controllers/adminSecurityController.test.js`
+  - `backend/tests/unit/utils/permissionChecker.test.js`
+  - `backend/tests/unit/utils/auditLogger.test.js`
+  
+  **Target:** 80% code coverage
+
+- [ ] **T4.2** API integration tests (4h)
+  - Test all admin endpoints
+  - Test authentication/authorization
+  - Test rate limiting
+  - Test audit logging
+  
+  **File:** `backend/tests/integration/admin-api.test.js`
+
+- [ ] **T4.3** Frontend E2E tests (6h)
+  - Admin login flow
+  - Dashboard load test
+  - Create/Edit/Delete user flow
+  - Assign role flow
+  - Lock/Unlock user flow
+  - Reset password flow
+  - Block IP flow
+  - View audit logs
+  
+  **Files:**
+  - `frontend/tests/e2e/admin-dashboard.e2e.spec.js`
+  - `frontend/tests/e2e/admin-users.e2e.spec.js`
+  - `frontend/tests/e2e/admin-security.e2e.spec.js`
+
+---
+
+#### Day 16: Documentation (8h)
+
+- [ ] **T4.4** Admin user guide (3h)
+  - Overview of admin dashboard
+  - How to manage users
+  - How to assign roles
+  - How to handle security issues
+  - Best practices
+  
+  **File:** `docs/admin/ADMIN_DASHBOARD_GUIDE.md`
+
+- [ ] **T4.5** Role & permission guide (2h)
+  - Understanding RBAC
+  - Predefined roles
+  - Creating custom roles
+  - Permission reference table
+  
+  **File:** `docs/admin/ROLE_PERMISSION_GUIDE.md`
+
+- [ ] **T4.6** Security management guide (2h)
+  - Monitoring login attempts
+  - Blocking suspicious IPs
+  - Managing sessions
+  - Responding to security alerts
+  
+  **File:** `docs/admin/SECURITY_GUIDE.md`
+
+- [ ] **T4.7** Admin API documentation (1h)
+  - Update `docs/api/ADMIN_API.md`
+  - All endpoints documented
+  - Request/response examples
+  - Error codes
+  
+  **File:** `docs/api/ADMIN_API.md`
+
+---
+
+## 🧪 Testing Checklist
+
+### Unit Tests
+- [ ] Admin user controller functions
+- [ ] Admin role controller functions
+- [ ] Admin security controller functions
+- [ ] Admin dashboard controller functions
+- [ ] Permission checker utility
+- [ ] Audit logger utility
+- [ ] Security alert detector
+
+### Integration Tests
+- [ ] All admin API endpoints return correct data
+- [ ] Authentication required on all admin routes
+- [ ] Authorization enforced (admin role only)
+- [ ] Rate limiting applied correctly
+- [ ] Audit logs created on all actions
+- [ ] Security alerts triggered correctly
+
+### E2E Tests
+- [ ] Admin can login and see dashboard
+- [ ] Admin can view users list
+- [ ] Admin can create new user
+- [ ] Admin can edit user
+- [ ] Admin can delete user (soft & hard)
+- [ ] Admin can reset user password
+- [ ] Admin can lock/unlock user account
+- [ ] Admin can create custom role
+- [ ] Admin can assign role to user
+- [ ] Admin can view login attempts
+- [ ] Admin can reset failed login attempts
+- [ ] Admin can block/unblock IP
+- [ ] Admin can view active sessions
+- [ ] Admin can force logout session
+- [ ] Admin can view audit logs
+- [ ] Admin can export data
+- [ ] Non-admin cannot access admin pages
+
+### Security Tests
+- [ ] Non-admin user blocked from admin endpoints
+- [ ] Admin cannot delete own account
+- [ ] Admin cannot revoke own admin role
+- [ ] Blocked IP cannot access system
+- [ ] Locked user cannot login
+- [ ] Audit logs cannot be tampered
+- [ ] Password reset logged in audit trail
+- [ ] All sensitive actions logged
+
+### Performance Tests
+- [ ] Dashboard loads in <500ms
+- [ ] User list (20 items) loads in <300ms
+- [ ] Search returns results in <200ms
+- [ ] Chart data loads in <400ms
+- [ ] Audit logs (50 items) load in <300ms
+- [ ] Export handles 10,000 users
+
+---
+
+## 🎨 UI/UX Requirements
+
+### Design System
+- **Colors:**
+  - Primary: #7C3AED (purple)
+  - Success: #10B981 (green)
+  - Warning: #F59E0B (yellow)
+  - Danger: #EF4444 (red)
+  - Info: #3B82F6 (blue)
+
+- **Typography:**
+  - Headings: Inter, bold
+  - Body: Inter, regular
+  - Code: Fira Code, monospace
+
+- **Spacing:**
+  - Base unit: 4px
+  - Common: 8px, 12px, 16px, 24px, 32px
+
+### Components
+- **Buttons:** Rounded, shadow on hover, loading state
+- **Tables:** Striped rows, hover effect, sortable headers
+- **Cards:** White background, subtle shadow, rounded corners
+- **Badges:** Rounded pill, colored by status
+- **Dialogs:** Centered modal, backdrop blur, animation
+- **Charts:** Responsive, tooltips, legend
+
+### Responsive Breakpoints
+- Mobile: < 640px
+- Tablet: 640px - 1024px
+- Desktop: > 1024px
+
+### Accessibility
+- ✅ WCAG 2.1 Level AA compliance
+- ✅ Keyboard navigation
+- ✅ Screen reader support
+- ✅ Focus indicators
+- ✅ Color contrast > 4.5:1
+- ✅ Alt text for icons
+
+---
+
+## 🔒 Security Checklist
+
+### Authentication & Authorization
+- [ ] All admin routes protected by `verifyToken` middleware
+- [ ] All admin routes require admin role
+- [ ] Token validated on every request
+- [ ] Session checked in database
+- [ ] User role verified from database (not JWT)
+
+### Input Validation
+- [ ] All inputs sanitized (prevent XSS)
+- [ ] SQL injection prevented (parameterized queries)
+- [ ] Email format validated
+- [ ] Password strength enforced
+- [ ] Role names validated (allowed values)
+- [ ] IP address format validated
+
+### Audit & Logging
+- [ ] All admin actions logged
+- [ ] Before/after state captured
+- [ ] IP address recorded
+- [ ] User agent recorded
+- [ ] Timestamp recorded
+- [ ] Logs cannot be deleted (only archived)
+
+### Rate Limiting
+- [ ] Admin endpoints: 100 requests / 15 min
+- [ ] Track by user_id (not IP)
+- [ ] Clear error message on limit exceeded
+- [ ] Log rate limit violations
+
+### Data Protection
+- [ ] Passwords never logged
+- [ ] Sensitive data encrypted at rest
+- [ ] HTTPS enforced
+- [ ] CSRF tokens used
+- [ ] httpOnly cookies
+- [ ] SameSite cookie policy
+
+---
+
+## 📦 Dependencies
+
+### Backend (New)
+```json
+{
+  "recharts": "^2.10.0",         // Charts (if using server-side rendering)
+  "csv-writer": "^1.6.0",        // CSV export
+  "geoip-lite": "^1.4.7"         // IP location lookup (optional)
+}
+```
+
+### Frontend (New)
+```json
+{
+  "recharts": "^2.10.0",         // Charts
+  "@tanstack/react-table": "^8.11.0", // Data tables
+  "date-fns": "^2.30.0",         // Date formatting
+  "react-query": "^3.39.3"       // Data fetching (if not using)
+}
+```
+
+---
+
+## 🚀 Deployment Checklist
+
+### Pre-Deployment
+- [ ] All tests passing
+- [ ] Code reviewed
+- [ ] Security audit completed
+- [ ] Performance tested
+- [ ] Documentation complete
+- [ ] Changelog updated
+
+### Database
+- [ ] Backup production database
+- [ ] Run migrations on staging
+- [ ] Verify migrations on staging
+- [ ] Run seeds on staging
+- [ ] Test on staging
+
+### Backend
+- [ ] Update environment variables
+- [ ] Deploy backend code
+- [ ] Restart server
+- [ ] Verify health check
+- [ ] Check logs for errors
+
+### Frontend
+- [ ] Build production bundle
+- [ ] Deploy to CDN
+- [ ] Clear cache
+- [ ] Verify routes work
+- [ ] Test critical paths
+
+### Post-Deployment
+- [ ] Monitor error logs
+- [ ] Monitor performance metrics
+- [ ] Test admin login
+- [ ] Test key admin functions
+- [ ] Notify team of deployment
+
+---
+
+## 📊 Success Metrics
+
+### Adoption Metrics
+- **Target:** 100% admins use dashboard within 1 week
+- **Measure:** Track dashboard logins vs. direct DB queries
+
+### Performance Metrics
+- **Target:** All pages load <500ms (p95)
+- **Measure:** Frontend performance monitoring
+
+### Security Metrics
+- **Target:** 100% admin actions logged
+- **Measure:** Compare action count vs. audit log count
+
+### User Satisfaction
+- **Target:** >4.5/5 rating from admins
+- **Measure:** Survey after 2 weeks of use
+
+---
+
+## 🐛 Risk Management
+
+### Technical Risks
+
+| Risk | Probability | Impact | Mitigation |
+|------|-------------|--------|------------|
+| Database performance with large user base | Medium | High | Add indexes, pagination, query optimization |
+| Security vulnerability | Low | Critical | Security audit, penetration testing |
+| Complex permission system bugs | Medium | Medium | Extensive unit tests, E2E tests |
+| Frontend performance with large tables | Medium | Medium | Virtual scrolling, pagination, lazy load |
+
+### Project Risks
+
+| Risk | Probability | Impact | Mitigation |
+|------|-------------|--------|------------|
+| Scope creep | High | Medium | Strict AC adherence, track changes |
+| Timeline delay | Medium | Medium | Daily standups, clear milestones |
+| Team capacity | Low | High | Buffer time, pair programming |
+| Integration issues | Low | Medium | Integration tests early |
+
+---
+
+## 📝 Notes
+
+### Assumptions
+- Existing auth system (login/logout) already working
+- PostgreSQL database already set up
+- Frontend uses React + Vite
+- Backend uses Express.js
+- Team familiar with tech stack
+
+### Constraints
+- Must use existing tech stack
+- Cannot break existing features
+- Must maintain backward compatibility
+- Must be production-ready in 4 weeks
+
+### Out of Scope
+- System configuration management
+- Database backup/restore tools
+- Server monitoring (use external tools)
+- Email service setup (stub for now)
+- OAuth integration
+- Two-factor authentication (future enhancement)
+
+---
+
+## 🔄 Review Schedule
+
+| Review | Date | Attendees | Focus |
+|--------|------|-----------|-------|
+| Kickoff | 2025-11-15 | Team | Plan review, questions |
+| Week 1 | 2025-11-18 | Team + Tech Lead | Backend progress, DB design |
+| Week 2 | 2025-11-25 | Team + Designer | UI/UX review, dashboard demo |
+| Week 3 | 2025-12-02 | Team + Security | Security review, permission model |
+| Week 4 | 2025-12-09 | Team + Product | Final demo, UAT results |
+| Retro | 2025-12-13 | Team | Lessons learned, improvements |
+
+---
+
+## ✍️ Sign-off
+
+**Plan Created By:** KaDong Development Team  
+**Reviewed By:** _[Pending]_  
+**Approved By:** _[Pending]_  
+**Date:** 2025-11-14
+
+---
+
+**Next Steps:**
+1. ✅ Spec reviewed and approved
+2. ✅ Plan created
+3. ⏳ Team kickoff meeting
+4. ⏳ Start Phase 1: Database Design
+
+**Status:** 📋 Ready to Start

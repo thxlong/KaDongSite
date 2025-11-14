@@ -39,6 +39,8 @@
 | 02 | Weather Tool | 📝 Draft | 30% | [02_weather_tool.spec](specs/02_weather_tool.spec) |
 | 05 | Currency Tool API Resilience | 📝 Draft | 20% | [05_currency_tool_api_resilience.spec](specs/05_currency_tool_api_resilience.spec) |
 | 07 | Wedding Invitation URL Encoder | 📝 Draft | 10% | [07_wedding_invitation_url_encoder.spec](specs/07_wedding_invitation_url_encoder.spec) |
+| 08 | Login System | 📝 Draft | 60% | [08_login.spec](specs/08_login.spec) |
+| 10 | Admin Dashboard | 📝 Draft | 0% | [10_admin_dashboard.spec](specs/10_admin_dashboard.spec) |
 
 ---
 
@@ -52,6 +54,7 @@
 | 04 | API Testing Plan | 🚧 In Progress | 4/7 (60%) | [04_api_testing_framework.plan](plans/04_api_testing_framework.plan) |
 | 06 | Gold Prices Plan | 🚧 In Progress | 5/9 (85%) | [06_gold_prices_tool.plan](plans/06_gold_prices_tool.plan) |
 | 07 | Wedding Invitation Plan | 📝 Planning | 0/7 (0%) | [07_wedding_invitation_url_encoder.plan](plans/07_wedding_invitation_url_encoder.plan) |
+| 10 | Admin Dashboard Plan | 📝 Planning | 0/8 (0%) | [10_admin_dashboard.plan](plans/10_admin_dashboard.plan) |
 
 ---
 
@@ -160,8 +163,8 @@ specs/
 |--------|-------|-------|-------|
 | ✅ Completed | 3 | 2 | 0 |
 | 🚧 In Progress | 1 | 2 | 0 |
-| 📝 Draft/Todo | 3 | 2 | 4 |
-| **Total** | **7** | **6** | **4** |
+| 📝 Draft/Todo | 5 | 3 | 4 |
+| **Total** | **9** | **7** | **4** |
 
 ### By Feature
 
@@ -174,6 +177,8 @@ specs/
 | Currency Resilience (05) | 📝 | ❌ | - | 20% |
 | Gold Prices (06) | ✅ | 🚧 | 4 tasks | 85% |
 | Wedding Invitation (07) | 📝 | 📝 | - | 10% |
+| Login System (08) | 📝 | ❌ | - | 60% |
+| Admin Dashboard (10) | 📝 | 📝 | - | 0% |
 
 ---
 

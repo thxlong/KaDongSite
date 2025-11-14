@@ -1,8 +1,12 @@
 import { motion } from 'framer-motion'
-import { Heart, Sparkles } from 'lucide-react'
+import { Heart, Sparkles, User, LogOut } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import { useAuth } from '../contexts/AuthContext'
+import LogoutButton from './LogoutButton'
 
 const Header = () => {
+  const { user, isAuthenticated, isGuest } = useAuth()
+
   return (
     <motion.header
       initial={{ y: -100, opacity: 0 }}
@@ -34,16 +38,40 @@ const Header = () => {
             </div>
           </Link>
 
-          <motion.div
-            animate={{ rotate: [0, 10, -10, 0] }}
-            transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
-            className="hidden md:flex items-center gap-2 bg-pastel-cream px-4 py-2 rounded-full shadow-sm"
-          >
-            <Sparkles className="w-4 h-4 text-yellow-500" />
-            <span className="text-sm font-medium text-gray-700">
-              Made with love
-            </span>
-          </motion.div>
+          <div className="flex items-center gap-4">
+            {/* Made with love badge - hidden on mobile when logged in */}
+            <motion.div
+              animate={{ rotate: [0, 10, -10, 0] }}
+              transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
+              className={`${isAuthenticated ? 'hidden lg:flex' : 'hidden md:flex'} items-center gap-2 bg-pastel-cream px-4 py-2 rounded-full shadow-sm`}
+            >
+              <Sparkles className="w-4 h-4 text-yellow-500" />
+              <span className="text-sm font-medium text-gray-700">
+                Made with love
+              </span>
+            </motion.div>
+
+            {/* User info and logout button - only show when authenticated */}
+            {isAuthenticated && (
+              <div className="flex items-center gap-3">
+                {/* User info */}
+                <div className="hidden sm:flex items-center gap-2 bg-gradient-to-r from-pastel-pink/20 to-pastel-purple/20 px-4 py-2 rounded-full">
+                  <User className="w-4 h-4 text-purple-600" />
+                  <span className="text-sm font-medium text-gray-700">
+                    {isGuest ? '👤 Guest' : user?.name || user?.email}
+                  </span>
+                  {isGuest && (
+                    <span className="ml-1 px-2 py-0.5 text-xs bg-yellow-100 text-yellow-700 rounded-full">
+                      Guest
+                    </span>
+                  )}
+                </div>
+
+                {/* Logout button */}
+                <LogoutButton variant="button" />
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </motion.header>

@@ -2,6 +2,13 @@ export default {
   // Test environment
   testEnvironment: 'node',
   
+  // Module resolution
+  moduleNameMapper: {
+    '^(\\.{1,2}/.*)\\.js$': '$1',
+    '^@/(.*)$': '<rootDir>/$1',
+    '^@tests/(.*)$': '<rootDir>/tests/$1'
+  },
+  
   // Coverage configuration
   collectCoverage: false, // Enable with --coverage flag
   collectCoverageFrom: [
@@ -28,17 +35,11 @@ export default {
     '**/__tests__/**/*.js'
   ],
   
-  // Setup files
-  setupFilesAfterEnv: ['<rootDir>/tests/helpers/setup.js'],
+  // Setup files - comment out for now to avoid ES module issues
+  // setupFilesAfterEnv: ['<rootDir>/tests/helpers/setup.js'],
   
   // Timeouts
   testTimeout: 10000,
-  
-  // Module resolution
-  moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/$1',
-    '^@tests/(.*)$': '<rootDir>/tests/$1'
-  },
   
   // Verbose output for debugging
   verbose: true,
@@ -48,7 +49,7 @@ export default {
   resetMocks: true,
   restoreMocks: true,
   
-  // Transform ES modules
+  // Transform ES modules - use node experimental loader
   transform: {},
   
   // Coverage directory
