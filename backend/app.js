@@ -15,6 +15,7 @@ import wishlistRoutes from './routes/wishlist.js'
 import currencyRoutes from './routes/currency.js'
 import weddingRoutes from './routes/wedding.js'
 import debugRoutes from './routes/debug.js'
+import adminRoutes from './src/api/routes/admin.js'
 
 // Load environment variables
 dotenv.config()
@@ -67,6 +68,7 @@ app.use('/api/weather', weatherRoutes)
 app.use('/api/wishlist', wishlistRoutes)
 app.use('/api/currency', currencyRoutes)
 app.use('/api', weddingRoutes)
+app.use('/api/admin', adminRoutes)
 
 // Debug routes (development only)
 if (process.env.NODE_ENV === 'development') {

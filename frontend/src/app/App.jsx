@@ -26,40 +26,54 @@ import RegisterPage from '../features/auth/RegisterPage'
 import ForgotPasswordPage from '../features/auth/ForgotPasswordPage'
 import ResetPasswordPage from '../features/auth/ResetPasswordPage'
 
+// Admin Pages
+import { AdminLayout, AdminDashboard, UsersPage } from '../features/admin'
+
 function App() {
   return (
     <Router>
-      <div className="min-h-screen flex flex-col">
-        <Toaster position="top-right" />
-        <Header />
-        <div className="flex flex-1 flex-col lg:flex-row">
-          <SidebarMenu />
-          <main className="flex-1 p-4 lg:p-8">
-            <AnimatePresence mode="wait">
-              <Routes>
-                {/* Public Routes */}
-                <Route path="/" element={<HomePage />} />
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/register" element={<RegisterPage />} />
-                <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-                <Route path="/reset-password" element={<ResetPasswordPage />} />
-                <Route path="/wedding-invitation" element={<WeddingPage />} />
-                
-                {/* Protected Routes - Require Authentication */}
-                <Route path="/countdown" element={<PrivateRoute><CountdownPage /></PrivateRoute>} />
-                <Route path="/calendar" element={<PrivateRoute><CalendarPage /></PrivateRoute>} />
-                <Route path="/notes" element={<PrivateRoute><NotesPage /></PrivateRoute>} />
-                <Route path="/currency" element={<PrivateRoute><CurrencyPage /></PrivateRoute>} />
-                <Route path="/fashion" element={<PrivateRoute><FashionPage /></PrivateRoute>} />
-                <Route path="/gold" element={<PrivateRoute><GoldPricesPage /></PrivateRoute>} />
-                <Route path="/weather" element={<PrivateRoute><WeatherPage /></PrivateRoute>} />
-                <Route path="/wishlist" element={<PrivateRoute><WishlistPage /></PrivateRoute>} />
-              </Routes>
-            </AnimatePresence>
-          </main>
-        </div>
-        <Footer />
-      </div>
+      <Toaster position="top-right" />
+      <Routes>
+        {/* Admin Routes - Separate Layout (No Header/Sidebar/Footer) */}
+        <Route path="/admin" element={<PrivateRoute><AdminLayout /></PrivateRoute>}>
+          <Route index element={<AdminDashboard />} />
+          <Route path="users" element={<UsersPage />} />
+        </Route>
+
+        {/* Main App Routes - With Header/Sidebar/Footer */}
+        <Route path="*" element={
+          <div className="min-h-screen flex flex-col">
+            <Header />
+            <div className="flex flex-1 flex-col lg:flex-row">
+              <SidebarMenu />
+              <main className="flex-1 p-4 lg:p-8">
+                <AnimatePresence mode="wait">
+                  <Routes>
+                    {/* Public Routes */}
+                    <Route path="/" element={<HomePage />} />
+                    <Route path="/login" element={<LoginPage />} />
+                    <Route path="/register" element={<RegisterPage />} />
+                    <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+                    <Route path="/reset-password" element={<ResetPasswordPage />} />
+                    <Route path="/wedding-invitation" element={<WeddingPage />} />
+                    
+                    {/* Protected Routes - Require Authentication */}
+                    <Route path="/countdown" element={<PrivateRoute><CountdownPage /></PrivateRoute>} />
+                    <Route path="/calendar" element={<PrivateRoute><CalendarPage /></PrivateRoute>} />
+                    <Route path="/notes" element={<PrivateRoute><NotesPage /></PrivateRoute>} />
+                    <Route path="/currency" element={<PrivateRoute><CurrencyPage /></PrivateRoute>} />
+                    <Route path="/fashion" element={<PrivateRoute><FashionPage /></PrivateRoute>} />
+                    <Route path="/gold" element={<PrivateRoute><GoldPricesPage /></PrivateRoute>} />
+                    <Route path="/weather" element={<PrivateRoute><WeatherPage /></PrivateRoute>} />
+                    <Route path="/wishlist" element={<PrivateRoute><WishlistPage /></PrivateRoute>} />
+                  </Routes>
+                </AnimatePresence>
+              </main>
+            </div>
+            <Footer />
+          </div>
+        } />
+      </Routes>
     </Router>
   )
 }
