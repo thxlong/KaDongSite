@@ -3,7 +3,10 @@
  * Handles all authentication-related API calls
  */
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000'
+// Build API base URL - add /api suffix if VITE_API_BASE_URL is set
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+  ? `${import.meta.env.VITE_API_BASE_URL}/api`
+  : 'http://localhost:5000/api'
 
 /**
  * Register a new user
@@ -14,7 +17,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000
  */
 export const register = async (email, password, name = '') => {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
+    const response = await fetch(`${API_BASE_URL}/auth/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -45,7 +48,7 @@ export const register = async (email, password, name = '') => {
  */
 export const login = async (email, password, rememberMe = false) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
+    const response = await fetch(`${API_BASE_URL}/auth/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -73,7 +76,7 @@ export const login = async (email, password, rememberMe = false) => {
  */
 export const logout = async () => {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/auth/logout`, {
+    const response = await fetch(`${API_BASE_URL}/auth/logout`, {
       method: 'POST',
       credentials: 'include'
     })
@@ -97,7 +100,7 @@ export const logout = async () => {
  */
 export const getCurrentUser = async () => {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/auth/me`, {
+    const response = await fetch(`${API_BASE_URL}/auth/me`, {
       method: 'GET',
       credentials: 'include'
     })
@@ -124,7 +127,7 @@ export const getCurrentUser = async () => {
  */
 export const refreshToken = async () => {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/auth/refresh`, {
+    const response = await fetch(`${API_BASE_URL}/auth/refresh`, {
       method: 'POST',
       credentials: 'include'
     })
@@ -149,7 +152,7 @@ export const refreshToken = async () => {
  */
 export const forgotPassword = async (email) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/auth/forgot-password`, {
+    const response = await fetch(`${API_BASE_URL}/auth/forgot-password`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -178,7 +181,7 @@ export const forgotPassword = async (email) => {
  */
 export const resetPassword = async (token, newPassword) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/auth/reset-password`, {
+    const response = await fetch(`${API_BASE_URL}/auth/reset-password`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -206,7 +209,7 @@ export const resetPassword = async (token, newPassword) => {
  */
 export const migrateGuestData = async (guestData) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/auth/migrate-guest-data`, {
+    const response = await fetch(`${API_BASE_URL}/auth/migrate-guest-data`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

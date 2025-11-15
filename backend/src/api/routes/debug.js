@@ -22,8 +22,8 @@ router.post('/seed-users', async (req, res) => {
     console.log('[DEBUG] Deleted all existing users')
     
     // Hash passwords
-    const adminPassword = await bcrypt.hash('admin123', 10)
-    const guestPassword = await bcrypt.hash('guest123', 10)
+    const adminPassword = await bcrypt.hash('Admin123!@#', 10)
+    const guestPassword = await bcrypt.hash('Admin123!@#', 10)
     
     // Insert admin user
     await query(
@@ -52,13 +52,13 @@ router.post('/seed-users', async (req, res) => {
         credentials: {
           admin: {
             email: 'admin@kadong.com',
-            password: 'admin123',
+            password: 'Admin123!@#',
             role: 'admin',
             permissions: 'Full access - Create, Read, Update, Delete'
           },
           guest: {
             email: 'guest@kadong.com',
-            password: 'guest123',
+            password: 'Admin123!@#',
             role: 'user',
             permissions: 'Read-only access'
           }

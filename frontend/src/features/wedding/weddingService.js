@@ -6,7 +6,10 @@
  * @spec specs/specs/06_wedding_invitation_url_encoder.spec
  */
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api'
+// Build API base URL - add /api suffix if VITE_API_BASE_URL is set
+const API_BASE = import.meta.env.VITE_API_BASE_URL 
+  ? `${import.meta.env.VITE_API_BASE_URL}/api`
+  : 'http://localhost:5000/api'
 
 // Helper: Get user ID (temporary - should come from auth context)
 const getUserId = () => {

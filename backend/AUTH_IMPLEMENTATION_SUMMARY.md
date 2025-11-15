@@ -221,10 +221,10 @@ All core endpoints tested!
 
 ### Test Users:
 | Email | Password | Role | Verified |
-|-------|----------|------|----------|
-| admin@kadong.com | KaDong2024! | admin | ✅ |
-| user@kadong.com | KaDong2024! | user | ✅ |
-| testuser2@kadong.com | KaDong2024! | user | ❌ |
+|-------|----------|------|---------|
+| admin@kadong.com | Admin123!@# | admin | ✅ |
+| user@kadong.com | Admin123!@# | user | ✅ |
+| testuser2@kadong.com | Admin123!@# | user | ❌ |
 
 ---
 

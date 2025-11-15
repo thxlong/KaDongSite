@@ -10,6 +10,7 @@ import express from 'express';
 const router = express.Router();
 
 // Middleware
+import { verifyToken } from '../middlewares/authMiddleware.js';
 import { requireAdmin, requirePermission, preventSelfTarget, checkAccountLocked } from '../middlewares/adminMiddleware.js';
 import { 
   logUserAction, 
@@ -27,6 +28,7 @@ import * as adminSecurityController from '../controllers/adminSecurityController
 import * as adminDashboardController from '../controllers/adminDashboardController.js';
 
 // Apply global admin middleware to all routes
+router.use(verifyToken); // Must be first - sets req.user
 router.use(checkBlockedIP);
 router.use(checkAccountLocked);
 router.use(requireAdmin);

@@ -11,7 +11,7 @@ INSERT INTO users (id, email, password_hash, name, role)
 VALUES (
     '550e8400-e29b-41d4-a716-446655440000'::UUID,
     'admin@kadong.com',
-    '$2b$10$rqZvN.xRqKLqJQPxXGZBKuN4J8P9xJ5gvKHrqvC8HWJ8xHWJ8xHWJ', -- Password: admin123
+    '$2b$10$xJpQVMwES/GwvLT11MomIuAF/LaZies1izaYpURRaDypR7wT4uFSi', -- Password: Admin123!@#
     'Administrator',
     'admin'
 );
@@ -41,7 +41,7 @@ BEGIN
     RAISE NOTICE '👑 ADMIN USER (Full permissions):';
     RAISE NOTICE '   UUID: 550e8400-e29b-41d4-a716-446655440000';
     RAISE NOTICE '   Email: admin@kadong.com';
-    RAISE NOTICE '   Password: admin123';
+    RAISE NOTICE '   Password: Admin123!@#';
     RAISE NOTICE '   Role: admin';
     RAISE NOTICE '';
     RAISE NOTICE '👤 GUEST USER (Read-only):';

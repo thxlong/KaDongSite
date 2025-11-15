@@ -24,6 +24,7 @@ import weatherRoutes from '#api/routes/weather.js'
 import wishlistRoutes from '#api/routes/wishlist.js'
 import currencyRoutes from '#api/routes/currency.js'
 import weddingRoutes from '#api/routes/wedding.js'
+import adminRoutes from '#api/routes/admin.js'
 import debugRoutes from '#api/routes/debug.js'
 
 const app = express()
@@ -72,6 +73,7 @@ app.use((req, res, next) => {
 // ============ API Routes ============
 
 app.use('/api/auth', authRoutes)
+app.use('/api/admin', adminRoutes)
 app.use('/api/tools', toolsRoutes)
 app.use('/api/notes', notesRoutes)
 app.use('/api/events', eventsRoutes)

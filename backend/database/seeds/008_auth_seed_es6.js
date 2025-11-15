@@ -22,7 +22,7 @@ const pool = new Pool({
 })
 
 const SALT_ROUNDS = 10
-const TEST_PASSWORD = 'KaDong2024!'
+const TEST_PASSWORD = 'Admin123!@#'
 
 const testUsers = [
   {

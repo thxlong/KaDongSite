@@ -1163,6 +1163,73 @@ LANG: VN
   },
   
   "aiWorkflow": {
+    "bugFixStrategy": {
+      "principle": "Fix systemically, not individually",
+      "approach": {
+        "step1": {
+          "name": "Root Cause Analysis",
+          "action": "When bug is reported, identify the root cause pattern first",
+          "example": "Wedding URL save failed → Root cause: API base URL construction inconsistency"
+        },
+        "step2": {
+          "name": "Scope Assessment",
+          "action": "Scan entire codebase for similar patterns before fixing",
+          "tools": ["grep_search", "file_search", "semantic_search"],
+          "example": "Search all service files for VITE_API_BASE_URL usage"
+        },
+        "step3": {
+          "name": "Impact Analysis",
+          "action": "List ALL affected files and quantify impact",
+          "example": "Found 3 files with same bug: weddingService, authService, wishlistService (24 endpoints)"
+        },
+        "step4": {
+          "name": "Systematic Fix",
+          "action": "Fix ALL instances in one session using multi_replace_string_in_file",
+          "reasoning": "Prevents multiple bug reports for same issue, improves code quality"
+        },
+        "step5": {
+          "name": "Documentation",
+          "action": "Document pattern, fix strategy, and prevention guidelines",
+          "location": "docs/dev-notes/bugfixes/ or docs/dev-notes/enhancements/"
+        }
+      },
+      "antiPatterns": {
+        "wrong": [
+          "❌ User reports bug → Fix only that one file",
+          "❌ Fix case-by-case as bugs are discovered",
+          "❌ No verification if other files have same issue"
+        ],
+        "correct": [
+          "✅ User reports bug → Find root cause → Scan codebase → Fix all instances",
+          "✅ Fix 3 files at once instead of 3 separate bug reports",
+          "✅ Document pattern to prevent recurrence"
+        ]
+      },
+      "realExample": {
+        "bugReport": "Wedding URL save returns 404 'endpoint does not exist'",
+        "rootCause": "VITE_API_BASE_URL from .env has no /api suffix, but service calls ${API_BASE}/api/...",
+        "scanResult": "Found 3 files: weddingService.js (3 endpoints), authService.js (8 endpoints), wishlistService.js (13 endpoints)",
+        "systematicFix": "Fixed all 3 files + 24 endpoints in one session",
+        "outcome": "Prevented 2 future bug reports (auth, wishlist would have failed later)",
+        "timesSaved": "~2-3 hours (3 bug reports → 1 comprehensive fix)",
+        "documentation": "docs/dev-notes/FRONTEND_API_BASE_URL_FIX.md"
+      },
+      "mandatorySteps": [
+        "1. Root cause analysis (don't fix symptoms)",
+        "2. Codebase scan (use grep/file/semantic search)",
+        "3. Impact quantification (list all affected files)",
+        "4. Systematic fix (all instances at once)",
+        "5. Pattern documentation (prevent recurrence)"
+      ],
+      "aiInstructions": [
+        "NEVER fix a bug individually without scanning for similar patterns",
+        "ALWAYS ask: 'Are there other files with the same issue?'",
+        "Use grep_search/file_search to find all instances before fixing",
+        "Fix all instances in one session using multi_replace_string_in_file",
+        "Document the pattern and fix strategy comprehensively",
+        "Explain time/quality benefits of systematic approach to user"
+      ]
+    },
     "manifestUpdateRules": {
       "whenAddingNewFeature": [
         "1. Add tool metadata to 'tools.available' array with complete properties",

@@ -43,7 +43,7 @@ async function getUsers(req, res) {
     }
 
     if (role) {
-      whereConditions.push(`r.name = $${paramIndex}`);
+      whereConditions.push(`u.role = $${paramIndex}`);
       queryParams.push(role);
       paramIndex++;
     }
@@ -57,45 +57,43 @@ async function getUsers(req, res) {
     const whereClause = whereConditions.join(' AND ');
 
     // Valid sort columns
-    const validSortColumns = ['created_at', 'email', 'full_name', 'last_login_at'];
-    const sortColumn = validSortColumns.includes(sortBy) ? sortBy : 'created_at';
+    const validSortColumns = ['created_at', 'email', 'name', 'full_name', 'last_login_at'];
+    // Map full_name to name for actual column
+    let sortColumn = validSortColumns.includes(sortBy) ? sortBy : 'created_at';
+    if (sortColumn === 'full_name') sortColumn = 'name';
     const sortDirection = sortOrder.toLowerCase() === 'asc' ? 'ASC' : 'DESC';
 
-    // Get total count
+    // Get total count (using legacy role column)
     const countQuery = `
       SELECT COUNT(DISTINCT u.id) 
       FROM users u
-      LEFT JOIN user_roles ur ON u.id = ur.user_id
-      LEFT JOIN roles r ON ur.role_id = r.id
       WHERE ${whereClause}
     `;
     const countResult = await pool.query(countQuery, queryParams);
     const totalUsers = parseInt(countResult.rows[0].count);
 
-    // Get users with roles
+    // Get users with roles (using legacy role column)
     const usersQuery = `
       SELECT 
         u.id,
         u.email,
-        u.full_name,
+        u.name as full_name,
         u.created_at,
         u.updated_at,
-        u.locked_at,
-        u.lock_reason,
-        u.last_login_at,
-        COALESCE(
-          json_agg(
-            DISTINCT jsonb_build_object(
-              'id', r.id,
-              'name', r.name,
-              'assigned_at', ur.assigned_at
+        u.role,
+        -- Convert legacy role to roles array format for API compatibility
+        CASE 
+          WHEN u.role IS NOT NULL THEN 
+            json_build_array(
+              json_build_object(
+                'id', u.role,
+                'name', u.role,
+                'assigned_at', u.created_at
+              )
             )
-          ) FILTER (WHERE r.id IS NOT NULL),
-          '[]'
-        ) as roles
+          ELSE '[]'::json
+        END as roles
       FROM users u
-      LEFT JOIN user_roles ur ON u.id = ur.user_id
-      LEFT JOIN roles r ON ur.role_id = r.id
       WHERE ${whereClause}
       GROUP BY u.id
       ORDER BY u.${sortColumn} ${sortDirection}
@@ -138,31 +136,27 @@ async function getUser(req, res) {
       `SELECT 
         u.id,
         u.email,
-        u.full_name,
+        u.name as full_name,
         u.created_at,
         u.updated_at,
         u.locked_at,
         u.lock_reason,
         u.last_login_at,
-        COALESCE(
-          json_agg(
-            DISTINCT jsonb_build_object(
-              'id', r.id,
-              'name', r.name,
-              'description', r.description,
-              'permissions', r.permissions,
-              'assigned_at', ur.assigned_at,
-              'assigned_by', ur.assigned_by
+        u.role,
+        CASE 
+          WHEN u.role IS NOT NULL THEN 
+            json_build_array(
+              json_build_object(
+                'id', u.role,
+                'name', u.role,
+                'assigned_at', u.created_at
+              )
             )
-          ) FILTER (WHERE r.id IS NOT NULL),
-          '[]'
-        ) as roles,
+          ELSE '[]'::json
+        END as roles,
         (SELECT COUNT(*) FROM sessions WHERE user_id = u.id AND expires_at > NOW()) as active_sessions
       FROM users u
-      LEFT JOIN user_roles ur ON u.id = ur.user_id
-      LEFT JOIN roles r ON ur.role_id = r.id
-      WHERE u.id = $1 AND u.deleted_at IS NULL
-      GROUP BY u.id`,
+      WHERE u.id = $1 AND u.deleted_at IS NULL`,
       [id]
     );
 
@@ -224,14 +218,14 @@ async function createUser(req, res) {
       await client.query('BEGIN');
 
       // Create user
-      const userResult = await client.query(
-        `INSERT INTO users (email, full_name, password)
+      const result = await pool.query(
+        `INSERT INTO users (email, name, password_hash)
          VALUES ($1, $2, $3)
-         RETURNING id, email, full_name, created_at`,
+         RETURNING id, email, name as full_name, created_at`,
         [email, full_name, hashedPassword]
       );
 
-      const newUser = userResult.rows[0];
+      const newUser = result.rows[0];
 
       // Assign roles if provided
       if (role_ids.length > 0) {
@@ -287,7 +281,7 @@ async function updateUser(req, res) {
     }
 
     if (full_name) {
-      updates.push(`full_name = $${paramIndex}`);
+      updates.push(`name = $${paramIndex}`);
       values.push(full_name);
       paramIndex++;
     }
@@ -306,7 +300,7 @@ async function updateUser(req, res) {
       `UPDATE users 
        SET ${updates.join(', ')}
        WHERE id = $${paramIndex} AND deleted_at IS NULL
-       RETURNING id, email, full_name, updated_at`,
+       RETURNING id, email, name as full_name, updated_at`,
       values
     );
 

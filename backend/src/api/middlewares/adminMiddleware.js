@@ -25,12 +25,9 @@ async function requireAdmin(req, res, next) {
 
     const userId = req.user.id;
 
-    // Query to check if user has admin or moderator role
+    // Check if user has admin or moderator role (using legacy role column)
     const result = await pool.query(
-      `SELECT r.name, r.permissions
-       FROM user_roles ur
-       JOIN roles r ON ur.role_id = r.id
-       WHERE ur.user_id = $1 AND r.name IN ('admin', 'moderator')`,
+      `SELECT role FROM users WHERE id = $1 AND role IN ('admin', 'moderator')`,
       [userId]
     );
 
@@ -41,11 +38,27 @@ async function requireAdmin(req, res, next) {
       });
     }
 
-    // Attach roles and permissions to request
-    req.adminRoles = result.rows.map(row => ({
-      name: row.name,
-      permissions: row.permissions
-    }));
+    // Attach role to request (compatible format)
+    const role = result.rows[0].role;
+    
+    // Admin role has all permissions in legacy system
+    const allPermissions = role === 'admin' ? [
+      'users.view', 'users.create', 'users.edit', 'users.delete', 'users.lock',
+      'roles.view', 'roles.create', 'roles.edit', 'roles.delete', 'roles.assign',
+      'security.view_alerts', 'security.review_alerts', 'security.block_ip', 'security.unblock_ip',
+      'audit.view', 'audit.export',
+      'dashboard.view', 'dashboard.stats'
+    ] : [
+      'users.view', 'users.lock',
+      'security.view_alerts',
+      'audit.view',
+      'dashboard.view'
+    ];
+    
+    req.adminRoles = [{
+      name: role,
+      permissions: allPermissions
+    }];
 
     next();
   } catch (error) {

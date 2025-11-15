@@ -147,6 +147,12 @@ export const register = async (req, res) => {
     const token = generateToken(user.id, user.email, user.role)
     const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // 7 days
 
+    // Delete old sessions for this user to prevent duplicate token_hash
+    await pool.query(
+      `DELETE FROM sessions WHERE user_id = $1`,
+      [user.id]
+    )
+
     // Create session
     await pool.query(
       `INSERT INTO sessions (user_id, token_hash, expires_at, ip_address, user_agent)
@@ -262,6 +268,12 @@ export const login = async (req, res) => {
     const token = generateToken(user.id, user.email, user.role, expiresIn)
     const expiresAt = new Date(
       Date.now() + (rememberMe ? 30 : 7) * 24 * 60 * 60 * 1000
+    )
+
+    // Delete old sessions for this user to prevent duplicate token_hash
+    await pool.query(
+      `DELETE FROM sessions WHERE user_id = $1`,
+      [user.id]
     )
 
     // Create session
